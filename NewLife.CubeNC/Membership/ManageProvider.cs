@@ -437,6 +437,6 @@ public static class ManagerProviderHelper
         //_ = Role.Meta.Count;
         EntityFactory.InitConnection("Membership");
         EntityFactory.InitConnection("Log");
-        EntityFactory.InitConnection("Cube");
+        EntityFactory.InitConnection("VehicleGPSVideo");
     }
 }

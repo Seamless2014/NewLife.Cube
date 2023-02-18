@@ -4,7 +4,7 @@
     <TargetFrameworks>net7.0</TargetFrameworks>
     <AssemblyName>cube</AssemblyName>
     <RootNamespace>CubeDemo</RootNamespace>
-    <AssemblyTitle>魔方演示平台</AssemblyTitle>
+    <AssemblyTitle>车载视频物联网平台</AssemblyTitle>
     <VersionPrefix>5.5</VersionPrefix>
     <VersionSuffix>$([System.DateTime]::Now.ToString(`yyyy.MMdd`))</VersionSuffix>
     <Version>$(VersionPrefix).$(VersionSuffix)</Version>
