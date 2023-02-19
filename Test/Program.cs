@@ -49,7 +49,7 @@ namespace Test
             dt = new DateTime(2023, 1, 1);
             id = snow.GetId(dt);
             XTrace.WriteLine("{0} {1} {1:X16}", dt, id);
-
+          
             dt = new DateTime(2022, 11, 11);
             for (int i = 0; i < 365; i++)
             {

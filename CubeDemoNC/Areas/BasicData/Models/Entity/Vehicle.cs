@@ -26,6 +26,7 @@ namespace NewLife.BasicData.Entity
 
         private String _plateNo;
         /// <summary>车牌号</summary>
+        [Category("基本信息")]
         [DisplayName("车牌号")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("plateNo", "车牌号", "nvarchar(255)")]
@@ -33,20 +34,23 @@ namespace NewLife.BasicData.Entity
 
         private Int32 _vehicleType;
         /// <summary>车牌类型</summary>
+        [Category("基本信息")]
         [DisplayName("车辆类型")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("vehicleType", "车牌类型", "int")]
+        [DataObjectField(false, false, true, 10)]
+        [BindColumn("vehicleType", "车辆类型", "Int32")]
         public Int32 vehicleType { get => _vehicleType; set { if (OnPropertyChanging("vehicleType", value)) { _vehicleType = value; OnPropertyChanged("vehicleType"); } } }
 
         private Int32 _plateColor;
         /// <summary>车牌颜色</summary>
+        [Category("基本信息")]
         [DisplayName("车牌颜色")]
-        [DataObjectField(false, false, true, 255)]
+        [DataObjectField(false, false, true, 10)]
         [BindColumn("plateColor", "车牌颜色", "Int32")]
         public Int32 plateColor { get => _plateColor; set { if (OnPropertyChanging("plateColor", value)) { _plateColor = value; OnPropertyChanged("plateColor"); } } }
 
         private String _Monitor;
         /// <summary>监督员</summary>
+        [Category("基本信息")]
         [DisplayName("监督员")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("Monitor", "监督员", "nvarchar(255)")]
@@ -54,6 +58,7 @@ namespace NewLife.BasicData.Entity
 
         private String _Driver;
         /// <summary>驾驶员</summary>
+        [Category("基本信息")]
         [DisplayName("驾驶员")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("Driver", "驾驶员", "nvarchar(255)")]
@@ -61,6 +66,7 @@ namespace NewLife.BasicData.Entity
 
         private Int32 _Status;
         /// <summary>服务状态</summary>
+        [Category("基本信息")]
         [DisplayName("服务状态")]
         [DataObjectField(false, false, true, 10)]
         [BindColumn("status", "服务状态", "int32")]
@@ -68,6 +74,7 @@ namespace NewLife.BasicData.Entity
 
         private Int32 _runStatus;
         /// <summary>车辆运行状态</summary>
+        [Category("基本信息")]
         [DisplayName("车辆运行状态")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("runStatus", "车辆运行状态", "Int32")]
@@ -75,6 +82,7 @@ namespace NewLife.BasicData.Entity
 
         private Double _Total;
         /// <summary>服务总天数</summary>
+        [Category("扩展信息")]
         [DisplayName("总天数")]
         [DataObjectField(false, false, true, 53)]
         [BindColumn("Total", "总天数", "float")]
@@ -82,6 +90,7 @@ namespace NewLife.BasicData.Entity
 
         private Double _Remain;
         /// <summary>剩余天数</summary>
+        [Category("扩展信息")]
         [DisplayName("剩余天数")]
         [DataObjectField(false, false, true, 53)]
         [BindColumn("Remain", "剩余天数", "float")]
@@ -89,6 +98,7 @@ namespace NewLife.BasicData.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
+        [Category("基本信息")]
         [DisplayName("删除")]
         [DataObjectField(false, false, true, 0)]
         [BindColumn("deleted", "删除", "bit")]
@@ -96,6 +106,7 @@ namespace NewLife.BasicData.Entity
 
         private DateTime _CreateDate;
         /// <summary>创建时间</summary>
+        [Category("基本信息")]
         [DisplayName("创建时间")]
         [DataObjectField(false, false, true, 3)]
         [BindColumn("CreateDate", "创建时间", "datetime", Precision = 0, Scale = 3)]
@@ -103,6 +114,7 @@ namespace NewLife.BasicData.Entity
 
         private Int32 _tenantId;
         /// <summary>租户编号</summary>
+        [Category("扩展信息")]
         [DisplayName("租户编号")]
         [DataObjectField(false, false, true, 10)]
         [BindColumn("tenantId", "租户编号", "int")]
@@ -110,6 +122,7 @@ namespace NewLife.BasicData.Entity
 
         private String _VideoDeviceId;
         /// <summary>视频设备编码</summary>
+        [Category("扩展信息")]
         [DisplayName("视频设备编码")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("VideoDeviceId", "视频设备编码", "nvarchar(255)")]
@@ -117,6 +130,7 @@ namespace NewLife.BasicData.Entity
 
         private Int32 _SortId;
         /// <summary>排序</summary>
+        [Category("扩展信息")]
         [DisplayName("排序")]
         [DataObjectField(false, false, true, 10)]
         [BindColumn("SortId", "排序", "int")]
@@ -124,6 +138,7 @@ namespace NewLife.BasicData.Entity
 
         private String _VehicleDeviceType;
         /// <summary>车辆设备类型</summary>
+        [Category("扩展信息")]
         [DisplayName("车辆设备类型")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("VehicleDeviceType", "车辆设备类型", "nvarchar(50)")]
@@ -131,6 +146,7 @@ namespace NewLife.BasicData.Entity
 
         private Boolean _DvrOnline;
         /// <summary>行车记录仪在线</summary>
+        [Category("扩展信息")]
         [DisplayName("行车记录仪在线")]
         [DataObjectField(false, false, true, 0)]
         [BindColumn("DvrOnline", "行车记录仪在线", "bit")]
@@ -138,6 +154,7 @@ namespace NewLife.BasicData.Entity
 
         private String _MotorID;
         /// <summary>车机编号</summary>
+        [Category("扩展信息")]
         [DisplayName("车机编号")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("MotorID", "车机编号", "nvarchar(50)")]
@@ -145,6 +162,7 @@ namespace NewLife.BasicData.Entity
 
         private DateTime _installDate;
         /// <summary>安装日期</summary>
+        [Category("扩展信息")]
         [DisplayName("安装日期")]
         [DataObjectField(false, false, true, 3)]
         [BindColumn("installDate", "安装日期", "datetime", Precision = 0, Scale = 3)]
@@ -152,6 +170,7 @@ namespace NewLife.BasicData.Entity
 
         private String _simNo;
         /// <summary>Sim卡号</summary>
+        [Category("基本信息")]
         [DisplayName("Sim卡号")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("simNo", "Sim卡号", "nvarchar(50)")]
@@ -159,6 +178,7 @@ namespace NewLife.BasicData.Entity
 
         private String _DVRCard;
         /// <summary>行车记录仪卡</summary>
+        [Category("扩展信息")]
         [DisplayName("行车记录仪卡")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("DVRCard", "行车记录仪卡", "nvarchar(50)")]
@@ -166,20 +186,23 @@ namespace NewLife.BasicData.Entity
 
         private String _DriverMobile;
         /// <summary>驾驶员手机号</summary>
+        [Category("扩展信息")]
         [DisplayName("驾驶员手机号")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("DriverMobile", "驾驶员手机号", "nvarchar(50)")]
         public String DriverMobile { get => _DriverMobile; set { if (OnPropertyChanging("DriverMobile", value)) { _DriverMobile = value; OnPropertyChanged("DriverMobile"); } } }
 
         private String _MonitorMobile;
-        /// <summary>监控员手机号</summary>
-        [DisplayName("监控员手机号")]
+        /// <summary>监督员手机号</summary>
+        [Category("扩展信息")]
+        [DisplayName("监督员手机号")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("MonitorMobile", "监控员手机号", "nvarchar(50)")]
+        [BindColumn("MonitorMobile", "监督员手机号", "nvarchar(50)")]
         public String MonitorMobile { get => _MonitorMobile; set { if (OnPropertyChanging("MonitorMobile", value)) { _MonitorMobile = value; OnPropertyChanged("MonitorMobile"); } } }
 
         private String _vehColor;
         /// <summary>车辆颜色</summary>
+        [Category("扩展信息")]
         [DisplayName("车辆颜色")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("vehColor", "车辆颜色", "nvarchar(50)")]
@@ -187,6 +210,7 @@ namespace NewLife.BasicData.Entity
 
         private String _operPermit;
         /// <summary>运营许可证</summary>
+        [Category("扩展信息")]
         [DisplayName("运营许可证")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("operPermit", "运营许可证", "nvarchar(50)")]
@@ -194,6 +218,7 @@ namespace NewLife.BasicData.Entity
 
         private DateTime _LastCheckTime;
         /// <summary>最后审查时间</summary>
+        [Category("扩展信息")]
         [DisplayName("最后审查时间")]
         [DataObjectField(false, false, true, 3)]
         [BindColumn("LastCheckTime", "最后审查时间", "datetime", Precision = 0, Scale = 3)]
@@ -201,6 +226,7 @@ namespace NewLife.BasicData.Entity
 
         private DateTime _buyDate;
         /// <summary>购买日期</summary>
+        [Category("扩展信息")]
         [DisplayName("购买日期")]
         [DataObjectField(false, false, true, 3)]
         [BindColumn("buyDate", "购买日期", "datetime", Precision = 0, Scale = 3)]
@@ -208,27 +234,31 @@ namespace NewLife.BasicData.Entity
 
         private String _Vendor;
         /// <summary>卖主</summary>
+        [Category("扩展信息")]
         [DisplayName("卖主")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("vendor", "卖主", "nvarchar(50)")]
         public String Vendor { get => _Vendor; set { if (OnPropertyChanging("Vendor", value)) { _Vendor = value; OnPropertyChanged("Vendor"); } } }
 
         private String _factoryNo;
-        /// <summary>工厂编号</summary>
-        [DisplayName("工厂编号")]
+        /// <summary>出厂编号</summary>
+        [Category("扩展信息")]
+        [DisplayName("出厂编号")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("factoryNo", "工厂编号", "nvarchar(50)")]
+        [BindColumn("factoryNo", "出厂编号", "nvarchar(50)")]
         public String factoryNo { get => _factoryNo; set { if (OnPropertyChanging("factoryNo", value)) { _factoryNo = value; OnPropertyChanged("factoryNo"); } } }
 
         private String _Owner;
-        /// <summary>所有者</summary>
-        [DisplayName("所有者")]
+        /// <summary>拥有者</summary>
+        [Category("扩展信息")]
+        [DisplayName("拥有者")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("owner", "所有者", "nvarchar(50)")]
+        [BindColumn("owner", "拥有者", "nvarchar(50)")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
         private String _Remark;
         /// <summary>备注</summary>
+        [Category("扩展信息")]
         [DisplayName("备注")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("remark", "备注", "nvarchar(50)")]
@@ -236,20 +266,15 @@ namespace NewLife.BasicData.Entity
 
         private Int32 _depId;
         /// <summary>部门编码</summary>
+        [Category("基本信息")]
         [DisplayName("部门编码")]
         [DataObjectField(false, false, true, 10)]
         [BindColumn("depId", "部门编码", "int")]
         public Int32 depId { get => _depId; set { if (OnPropertyChanging("depId", value)) { _depId = value; OnPropertyChanged("depId"); } } }
 
-        private String _gpsTerminalType;
-        /// <summary>GPS终端类型</summary>
-        [DisplayName("GPS终端类型")]
-        [DataObjectField(false, false, true, 50)]
-        [BindColumn("gpsTerminalType", "GPS终端类型", "nvarchar(50)")]
-        public String gpsTerminalType { get => _gpsTerminalType; set { if (OnPropertyChanging("gpsTerminalType", value)) { _gpsTerminalType = value; OnPropertyChanged("gpsTerminalType"); } } }
-
         private String _useType;
         /// <summary>使用性质</summary>
+        [Category("基本信息")]
         [DisplayName("使用性质")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("useType", "使用性质", "nvarchar(50)")]
@@ -257,6 +282,7 @@ namespace NewLife.BasicData.Entity
 
         private String _Industry;
         /// <summary>行业</summary>
+        [Category("基本信息")]
         [DisplayName("行业")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("industry", "行业", "nvarchar(50)")]
@@ -264,6 +290,7 @@ namespace NewLife.BasicData.Entity
 
         private String _Routes;
         /// <summary>路线</summary>
+        [Category("扩展信息")]
         [DisplayName("路线")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("routes", "路线", "nvarchar(50)")]
@@ -271,6 +298,7 @@ namespace NewLife.BasicData.Entity
 
         private Int32 _Region;
         /// <summary>区域</summary>
+        [Category("基本信息")]
         [DisplayName("区域")]
         [DataObjectField(false, false, true, 10)]
         [BindColumn("region", "区域", "Int32")]
@@ -278,6 +306,7 @@ namespace NewLife.BasicData.Entity
 
         private Int32 _termId;
         /// <summary>终端编号</summary>
+        [Category("扩展信息")]
         [DisplayName("终端编号")]
         [DataObjectField(false, false, true, 10)]
         [BindColumn("termId", "终端编号", "int")]
@@ -285,6 +314,7 @@ namespace NewLife.BasicData.Entity
 
         private DateTime _buyTime;
         /// <summary>购买日期</summary>
+        [Category("扩展信息")]
         [DisplayName("购买日期")]
         [DataObjectField(false, false, true, 3)]
         [BindColumn("buyTime", "购买日期", "datetime", Precision = 0, Scale = 3)]
@@ -292,6 +322,7 @@ namespace NewLife.BasicData.Entity
 
         private Int32 _memberId;
         /// <summary>成员编号</summary>
+        [Category("扩展信息")]
         [DisplayName("成员编号")]
         [DataObjectField(false, false, true, 10)]
         [BindColumn("memberId", "成员编号", "int")]
@@ -299,6 +330,7 @@ namespace NewLife.BasicData.Entity
 
         private DateTime _endDate;
         /// <summary>结束时间</summary>
+        [Category("扩展信息")]
         [DisplayName("服务结束时间")]
         [DataObjectField(false, false, true, 3)]
         [BindColumn("endDate", "服务结束时间", "datetime", Precision = 0, Scale = 3)]
@@ -306,6 +338,7 @@ namespace NewLife.BasicData.Entity
 
         private DateTime _startDate;
         /// <summary>服务开始时间</summary>
+        [Category("扩展信息")]
         [DisplayName("服务开始时间")]
         [DataObjectField(false, false, true, 3)]
         [BindColumn("startDate", "服务开始时间", "datetime", Precision = 0, Scale = 3)]
@@ -313,6 +346,7 @@ namespace NewLife.BasicData.Entity
 
         private String _Type;
         /// <summary>类型</summary>
+        [Category("扩展信息")]
         [DisplayName("类型")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("Type", "类型", "nvarchar(255)")]
@@ -320,6 +354,7 @@ namespace NewLife.BasicData.Entity
 
         private String _Unit;
         /// <summary>单位</summary>
+        [Category("扩展信息")]
         [DisplayName("单位")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("Unit", "单位", "nvarchar(255)")]
@@ -327,6 +362,7 @@ namespace NewLife.BasicData.Entity
 
         private Double _Weight;
         /// <summary>重量</summary>
+        [Category("扩展信息")]
         [DisplayName("重量")]
         [DataObjectField(false, false, true, 53)]
         [BindColumn("Weight", "重量", "float")]
@@ -334,6 +370,7 @@ namespace NewLife.BasicData.Entity
 
         private Boolean _Authorize;
         /// <summary>授权</summary>
+        [Category("扩展信息")]
         [DisplayName("授权")]
         [DataObjectField(false, false, true, 0)]
         [BindColumn("Authorize", "授权", "bit")]
@@ -341,10 +378,20 @@ namespace NewLife.BasicData.Entity
 
         private String _depName;
         /// <summary>部门名称</summary>
+        [Category("基本信息")]
         [DisplayName("部门名称")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("depName", "部门名称", "varchar(255)")]
         public String depName { get => _depName; set { if (OnPropertyChanging("depName", value)) { _depName = value; OnPropertyChanged("depName"); } } }
+
+        private Int32 _ex1;
+        /// <summary>扩展1</summary>
+        [Category("扩展信息")]
+        [DisplayName("扩展1")]
+        [DataObjectField(false, false, true, 10)]
+        [BindColumn("Ex1", "扩展1", "Int32")]
+        public Int32 Ex1 { get => _memberId; set { if (OnPropertyChanging("Ex1", value)) { _memberId = value; OnPropertyChanged("Ex1"); } } }
+
         #endregion
 
         #region 获取/设置 字段值
@@ -389,7 +436,6 @@ namespace NewLife.BasicData.Entity
                     case "Owner": return _Owner;
                     case "Remark": return _Remark;
                     case "depId": return _depId;
-                    case "gpsTerminalType": return _gpsTerminalType;
                     case "useType": return _useType;
                     case "Industry": return _Industry;
                     case "Routes": return _Routes;
@@ -404,6 +450,7 @@ namespace NewLife.BasicData.Entity
                     case "Weight": return _Weight;
                     case "Authorize": return _Authorize;
                     case "depName": return _depName;
+                    case "Ex1": return _ex1;
                     default: return base[name];
                 }
             }
@@ -443,7 +490,6 @@ namespace NewLife.BasicData.Entity
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
                     case "depId": _depId = value.ToInt(); break;
-                    case "gpsTerminalType": _gpsTerminalType = Convert.ToString(value); break;
                     case "useType": _useType = Convert.ToString(value); break;
                     case "Industry": _Industry = Convert.ToString(value); break;
                     case "Routes": _Routes = Convert.ToString(value); break;
@@ -458,6 +504,7 @@ namespace NewLife.BasicData.Entity
                     case "Weight": _Weight = value.ToDouble(); break;
                     case "Authorize": _Authorize = value.ToBoolean(); break;
                     case "depName": _depName = Convert.ToString(value); break;
+                    case "Ex1": _ex1 = value.ToInt(); break;
                     default: base[name] = value; break;
                 }
             }
@@ -565,9 +612,6 @@ namespace NewLife.BasicData.Entity
             public static readonly Field depId = FindByName("depId");
 
             /// <summary></summary>
-            public static readonly Field gpsTerminalType = FindByName("gpsTerminalType");
-
-            /// <summary></summary>
             public static readonly Field useType = FindByName("useType");
 
             /// <summary></summary>
@@ -608,6 +652,9 @@ namespace NewLife.BasicData.Entity
 
             /// <summary></summary>
             public static readonly Field depName = FindByName("depName");
+
+            /// <summary></summary>
+            public static readonly Field Ex1 = FindByName("Ex1");
 
             static Field FindByName(String name) => Meta.Table.FindByName(name);
         }
@@ -712,9 +759,6 @@ namespace NewLife.BasicData.Entity
             public const String depId = "depId";
 
             /// <summary></summary>
-            public const String gpsTerminalType = "gpsTerminalType";
-
-            /// <summary></summary>
             public const String useType = "useType";
 
             /// <summary></summary>
@@ -755,6 +799,9 @@ namespace NewLife.BasicData.Entity
 
             /// <summary></summary>
             public const String depName = "depName";
+
+            /// <summary></summary>
+            public const String Ex1 = "Ex1";
         }
         #endregion
     }
