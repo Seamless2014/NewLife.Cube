@@ -15,6 +15,7 @@ using NewLife.Data;
 using NewLife.Log;
 using NewLife.Model;
 using NewLife.Reflection;
+using NewLife.School.Entity;
 using NewLife.Threading;
 using NewLife.Web;
 using XCode;
@@ -135,20 +136,33 @@ namespace NewLife.BasicData.Entity
         #endregion
 
         #region 扩展查询
-        /// <summary>根据vehicleId查找</summary>
-        /// <param name="vehicleId">vehicleId</param>
+        /// <summary>根据plateNo查找</summary>
+        /// <param name="plateNo">plateNo</param>
         /// <returns>实体对象</returns>
-        public static Vehicle FindByvehicleId(Int32 vehicleId)
+        public static Vehicle FindByPlateNo(string plateNo)
         {
-            if (vehicleId <= 0) return null;
+            if (string.IsNullOrEmpty(plateNo)) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.vehicleId == vehicleId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.plateNo == plateNo);
 
             // 单对象缓存
-            return Meta.SingleCache[vehicleId];
+            return Meta.SingleCache[plateNo];
 
             //return Find(_.vehicleId == vehicleId);
+        }
+        /// <summary>根据deleted查找</summary>
+        /// <param name="deleted">是否删除</param>
+        /// <returns>实体对象</returns>
+        public static IList<Vehicle> FindByDeleted(bool isDeleted)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Deleted == isDeleted);
+
+            // 单对象缓存
+            //return Meta.SingleCache[id];
+
+            return FindAll(_.Deleted == isDeleted);
         }
         #endregion
 

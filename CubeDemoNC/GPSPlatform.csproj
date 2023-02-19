@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net7.0</TargetFrameworks>
-    <AssemblyName>cube</AssemblyName>
-    <RootNamespace>CubeDemo</RootNamespace>
+    <AssemblyName>GPSPlatform</AssemblyName>
+    <RootNamespace>GPSPlatform</RootNamespace>
     <AssemblyTitle>车载视频物联网平台</AssemblyTitle>
     <VersionPrefix>5.5</VersionPrefix>
     <VersionSuffix>$([System.DateTime]::Now.ToString(`yyyy.MMdd`))</VersionSuffix>
