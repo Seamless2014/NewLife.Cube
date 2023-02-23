@@ -27,6 +27,7 @@ namespace CubeDemo.Areas.BasicData.Controllers
 
             _tracer = provider?.GetService<ITracer>();
             ListFields.RemoveField("Deleted");
+            ListFields.RemoveField("DepartmentID");
             //ListFields.RemoveField("UpdateUserID");
             //FormFields
         }
