@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
-using NewLife.Cube.ViewModels;
+using GPSPlatform.ViewModels;
+using XCode.Membership;
 
-namespace NewLife.Cube.Enums
+namespace GPSPlatform.Enums
 {
     /// <summary>
     /// 公共枚举方法
@@ -33,6 +34,11 @@ namespace NewLife.Cube.Enums
                 }
             }
             return result;
+        }
+
+        public static IList<Parameter> GetDictionary(string category,int userId) 
+        {
+            return Parameter.FindAllByUserID(userId, category);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace NewLife.Cube.Enums
+﻿using System.ComponentModel;
+
+namespace GPSPlatform.Enums
 {
     /// <summary>
     /// 车辆类型
@@ -8,26 +10,32 @@
         /// <summary>
         /// 小汽车/轿车
         /// </summary>
-        Car=14,
+        [Description("轿车")]
+        轿车 = 14,
         /// <summary>
         /// 小型客车
         /// </summary>
-        SmallBus=13,
+        [Description("小型客车")]
+        小型客车 = 13,
         /// <summary>
         /// 中型客车
         /// </summary>
-        MediumBus=12,
+        [Description("中型客车")]
+        中型客车 = 12,
         /// <summary>
         /// 大型客车
         /// </summary>
-        LargeBus=11,
+        [Description("大型客车")]
+        大型客车 = 11,
         /// <summary>
         /// 普通货车
         /// </summary>
-        Truck=21,
+        [Description("普通货车")]
+        普通货车 = 21,
         /// <summary>
         /// 危险品运输车
         /// </summary>
-        DangerousVehicle = 41
+        [Description("危险品运输车")]
+        危险品运输车 = 41
     }
 }

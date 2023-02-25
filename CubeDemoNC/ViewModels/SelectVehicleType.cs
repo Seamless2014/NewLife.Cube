@@ -1,9 +1,9 @@
-﻿namespace NewLife.Cube.ViewModels
+﻿namespace GPSPlatform.ViewModels
 {
     /// <summary>
-    /// 选择车牌颜色
+    /// 车辆类型
     /// </summary>
-    public class SelectPlateColor
+    public class SelectVehicleType
     {
         /// <summary>
         /// 枚举值

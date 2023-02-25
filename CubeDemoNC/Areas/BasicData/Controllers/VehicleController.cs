@@ -26,8 +26,8 @@ namespace CubeDemo.Areas.BasicData.Controllers
             PageSetting.EnableTableDoubleClick = true;
 
             _tracer = provider?.GetService<ITracer>();
-            ListFields.RemoveField("Deleted");
             ListFields.RemoveField("DepartmentID");
+            ListFields.RemoveField("vehicleId", "Deleted");
             //ListFields.RemoveField("UpdateUserID");
             //FormFields
         }

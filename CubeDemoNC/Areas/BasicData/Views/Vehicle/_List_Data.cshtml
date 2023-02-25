@@ -1,0 +1,60 @@
+﻿@model IList<NewLife.BasicData.Entity.Vehicle>
+@using NewLife.Web;
+@using NewLife.Cube;
+@using XCode.Membership;
+@using GPSPlatform.Enums;
+@{
+    var page = ViewBag.Page as Pager;
+    var set = ViewBag.PageSetting as PageSetting ?? PageSetting.Global;
+}
+<table class="table table-bordered table-hover table-striped table-condensed">
+    <thead>
+        <tr>
+            @if (set.EnableSelect)
+            {
+                <th class="text-center" style="width:10px;"><input type="checkbox" id="chkAll" title="全选" /></th>
+            }
+            <th class="text-center hidden-md hidden-sm hidden-xs"><a href="@Html.Raw(page.GetSortUrl("PlateNo"))">车牌号</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("vehicleType"))">车辆类型</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("plateColor"))">车牌颜色</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("Status"))">服务状态</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("runStatus"))">运行状态</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("SortId"))">排序</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("simNo"))">Sim卡号</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("CreateDate"))">创建时间</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("Remark"))">备注</a></th>
+            @if (this.Has(PermissionFlags.Detail, PermissionFlags.Update, PermissionFlags.Delete))
+            {
+                <th class="text-center">操作</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entity in Model)
+        {
+            <tr>
+                @if (set.EnableSelect)
+                {
+                    <td class="text-center"><input type="checkbox" name="keys" value="@entity.vehicleId" /></td>
+                }
+                <td class="text-center">@entity.plateNo</td>
+                <td class="text-center">
+                    @(Enum.GetName(typeof(VehicleType),entity.vehicleType))
+                </td>
+                <td class="text-center">@(Enum.GetName(typeof(PlateColor), entity.plateColor))</td>
+                <td>@(Enum.GetName(typeof(ServiceStatus), entity.Status))</td>
+                <td>@(Enum.GetName(typeof(RunStatus), entity.runStatus))</td>
+                <td>@entity.SortId</td>
+                <td>@entity.simNo</td>
+                <td>@entity.CreateDate</td>
+                <td>@entity.Remark</td>
+                @if (this.Has(PermissionFlags.Detail))
+                {
+                    <td class="text-center" style="width: 90px;">
+                        @await Html.PartialAsync("_List_Data_Action", (Object)entity)
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

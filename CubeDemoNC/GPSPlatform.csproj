@@ -32,8 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\BasicData\Views\" />
+    <Folder Include="Common\" />
     <Folder Include="Views\Shared\" />
+    <Folder Include="Views\Shared\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
