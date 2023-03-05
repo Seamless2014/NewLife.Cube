@@ -1,0 +1,11 @@
+﻿@using GPSPlatform.Enums;
+@using NewLife.Web;
+@using NewLife.Cube;
+@{
+    var page = ViewBag.Page as Pager;
+    var RunStatusList = CommonEnumFunc.GetDictionary("RunStatus", 0);
+}
+<div class="form-group">
+    <label for="RunStatus" class="control-label">运营状态：</label>
+    @Html.ForDropDownList("RunStatus", RunStatusList, page["RunStatus"], "全部", true)
+</div>

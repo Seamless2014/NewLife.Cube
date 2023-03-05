@@ -32,9 +32,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\BackManagement\Views\" />
+    <Folder Include="Areas\BasicData\Views\VehicleType\" />
+    <Folder Include="Areas\BasicData\Views\SystemConfig\" />
+    <Folder Include="Areas\BasicData\Views\Terminal\" />
+    <Folder Include="Areas\BasicData\Views\TerminalParam\" />
+    <Folder Include="Areas\BasicData\Views\VehicleRegisterInfo\" />
+    <Folder Include="Areas\BasicData\Views\VehicleInfoModifyRecord\" />
+    <Folder Include="Areas\FenceManagement\Models\Entity\" />
+    <Folder Include="Areas\FenceManagement\Views\" />
+    <Folder Include="Areas\ReportStatistics\Views\" />
+    <Folder Include="Areas\RuleManagement\Controllers\" />
+    <Folder Include="Areas\RuleManagement\Models\Entity\" />
+    <Folder Include="Areas\RuleManagement\Views\" />
     <Folder Include="Common\" />
-    <Folder Include="Views\Shared\" />
-    <Folder Include="Views\Shared\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
 

@@ -1,19 +1,11 @@
 ﻿@using GPSPlatform.Enums;
 @using NewLife.Web;
-@using NewLife.Cube.ViewModels;
 @using NewLife.Cube;
 @{
     var page = ViewBag.Page as Pager;
-
-    var enumList = typeof(PlateColor).GetAllEnums();
-
-    var dic = new Dictionary<Int32, String>();
-    foreach (var item in enumList)
-    {
-        dic.Add(item.Value, item.Name);
-    }
+    var PlateColorList = CommonEnumFunc.GetDictionary("PlateColor", 0);
 }
 <div class="form-group">
     <label for="PlateColor" class="control-label">车牌颜色：</label>
-     @await Html.PartialAsync("_SelectPlateColor", new ListBoxModel("PlateColor", dic,  page["Value"], "全部", true, null))
+    @Html.ForDropDownList("PlateColor", PlateColorList, page["PlateColor"], "全部", true)
 </div>

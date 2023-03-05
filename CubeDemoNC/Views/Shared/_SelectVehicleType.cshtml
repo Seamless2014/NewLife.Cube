@@ -1,3 +1,11 @@
 ﻿@using GPSPlatform.Enums;
+@using NewLife.Web;
+@using NewLife.Cube;
 @{
+    var page = ViewBag.Page as Pager;
+    var VehicleTypeList = CommonEnumFunc.GetDictionary("VehicleType", 0);
 }
+<div class="form-group">
+    <label for="VehicleType" class="control-label">车辆类型：</label>
+    @Html.ForDropDownList("VehicleType", VehicleTypeList, page["VehicleType"], "全部", true)
+</div>

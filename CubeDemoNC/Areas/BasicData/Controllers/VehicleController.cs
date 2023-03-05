@@ -1,22 +1,16 @@
-﻿using CubeDemo.Areas.School;
-using System.ComponentModel;
-using System.Reflection;
+﻿using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
-using NewLife.School.Entity;
-using XCode.Membership;
 using NewLife.Cube;
-using NewLife.BasicData.Entity;
 using NewLife.Web;
 using NewLife.Log;
-using System;
-using XCode;
 using NewLife.Cube.Extensions;
 using NewLife;
+using GPSPlatform.BasicData.Entity;
 
-namespace CubeDemo.Areas.BasicData.Controllers
+namespace GPSPlatform.Areas.BasicData.Controllers
 {
     [BasicDataArea]
-    [DisplayName("车辆")]
+    [DisplayName("车辆信息")]
     public class VehicleController : EntityController<Vehicle>
     {
         private readonly ITracer _tracer;
@@ -24,12 +18,8 @@ namespace CubeDemo.Areas.BasicData.Controllers
         {
 
             PageSetting.EnableTableDoubleClick = true;
-
             _tracer = provider?.GetService<ITracer>();
-            ListFields.RemoveField("DepartmentID");
-            ListFields.RemoveField("vehicleId", "Deleted");
-            //ListFields.RemoveField("UpdateUserID");
-            //FormFields
+            ListFields.RemoveField("VehicleId", "Deleted", "DepartmentID","CreateUserID","UpdateUserID");
         }
 
         protected override Vehicle Find(Object key)
@@ -40,7 +30,6 @@ namespace CubeDemo.Areas.BasicData.Controllers
         protected override IEnumerable<Vehicle> Search(Pager p)
         {
             using var span = _tracer?.NewSpan(nameof(Search), p);
-
             var id = p["Deleted"].ToBoolean();
             if (!id)
             {

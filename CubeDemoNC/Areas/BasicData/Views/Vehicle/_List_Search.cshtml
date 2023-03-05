@@ -1,22 +1,3 @@
-﻿@using NewLife.Cube;
-@using NewLife.Web;
-@using GPSPlatform.Enums;
-@using XCode.Membership;
-
-@{
-    var page = ViewBag.Page as Pager;
-    var PlateColorList = CommonEnumFunc.GetDictionary("PlateColor",0);
-    var VehicleTypeList = CommonEnumFunc.GetDictionary("VehicleType", 0);
-    var ServiceStatusList = CommonEnumFunc.GetDictionary("ServiceStatus", 0);
-    var RunStatusList = CommonEnumFunc.GetDictionary("RunStatus", 0);
-}
-<div class="form-group">
-    <label for="PlateColor" class="control-label">车牌颜色：</label>
-    @Html.ForDropDownList("PlateColor", PlateColorList, page["PlateColor"], "全部", true)
-    <label for="VehicleType" class="control-label">车辆类型：</label>
-    @Html.ForDropDownList("VehicleType", VehicleTypeList, page["VehicleType"], "全部", true)
-    <label for="ServiceStatus" class="control-label">服务状态：</label>
-    @Html.ForDropDownList("ServiceStatus", ServiceStatusList, page["ServiceStatus"], "全部", true)
-    <label for="RunStatus" class="control-label">运营状态：</label>
-    @Html.ForDropDownList("RunStatus", RunStatusList, page["RunStatus"], "全部", true)
-</div>
+﻿@await Html.PartialAsync("_SelectRunStatus")
+@await Html.PartialAsync("_SelectPlateColor")
+@await Html.PartialAsync("_SelectVehicleType")

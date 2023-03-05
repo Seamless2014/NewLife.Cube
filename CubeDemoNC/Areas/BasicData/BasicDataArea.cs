@@ -2,7 +2,7 @@
 using NewLife.Cube;
 using System.ComponentModel;
 
-namespace CubeDemo.Areas.BasicData
+namespace GPSPlatform.Areas.BasicData
 {
     [DisplayName("基础数据")]
     public class BasicDataArea : AreaBase
