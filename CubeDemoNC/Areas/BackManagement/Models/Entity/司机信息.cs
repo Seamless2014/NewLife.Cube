@@ -8,7 +8,7 @@ using XCode;
 using XCode.Configuration;
 using XCode.DataAccessLayer;
 
-namespace GPSPlatform.BasicData.Entity
+namespace GPSPlatform.BackManagement.Entity
 {
     /// <summary>司机信息</summary>
     [Serializable]

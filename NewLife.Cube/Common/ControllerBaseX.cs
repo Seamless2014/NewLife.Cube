@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube.Extensions;
 using NewLife.Remoting;
 using NewLife.Serialization;
+using Stardust.Services;
 using XCode.Membership;
 
 namespace NewLife.Cube;
@@ -224,4 +225,91 @@ public class ControllerBaseX : Controller
         return new[] { area, controller, action };
     }
     #endregion
+
+    /**
+    * 存放当前在线用户信息的key
+    */
+    protected static String ONLINE_USER_KEY = "currUserInfo";
+    /// <summary>
+    /// 存放当前用户权限
+    /// </summary>
+    protected static String ONLINE_USER_PERMISSION = "user_permission";
+
+    /**
+     * 存放授权部门Id map的可以
+     */
+    protected static String SESSION_KEY_DEP = "session_key_department";
+
+    /**
+     * session中存放地图工具栏权限菜单的key
+     */
+    protected static String SESSION_MAP_TOOL_MENU = "MapToolMenu";
+
+
+    /**
+     * session中存放功能权限的key
+     */
+    protected static String SESSION_WEB_FUNC = "WebFunc";
+
+
+    /**
+     * session中存放命令工具栏权限菜单的key
+     */
+    protected static String SESSION_COMMAND_TOOL_MENU = "CommandToolMenu";
+
+    /**
+     * session中存放命令车辆树右键菜单的key
+     */
+    protected static String SESSION_RIGHT_MENU = "RightMenu";
+
+    /**
+     * session中存放快捷菜单的key
+     */
+    protected static String SESSION_SHORT_CUT_MENU = "ShortCutMenu";
+    /**
+     * session中存放主菜单的key
+     */
+    protected static String SESSION_MAIN_MENU = "MainMenu";
+
+    /// <summary>
+    /// 系统配置Key
+    /// </summary>
+    protected static String SESSION_KEY_SYSTEM_CONFIG = "systemConfig";
+    /// <summary>
+    /// 用户功能Map
+    /// </summary>
+    protected static String SESSION_KEY_FUNCTION_MAP = "userFuncMap";
+
+    /**
+     * 假删除调转名称
+     */
+    protected static String FAKE_DELETED = "fakeDeleted";
+    /// <summary>
+    /// 删除
+    /// </summary>
+    protected static String DELETED = "deleted";
+    /// <summary>
+    /// 查看
+    /// </summary>
+    protected static String VIEW = "view";
+    /// <summary>
+    /// 保存成功
+    /// </summary>
+    protected static String SAVE_SUCCESS = "save";
+    /// <summary>
+    /// 创建
+    /// </summary>
+    protected static String CREATE = "create";
+    /// <summary>
+    /// 全部
+    /// </summary>
+    protected static String LIST_ALL = "listAll";
+    /// <summary>
+    /// 消息
+    /// </summary>
+    protected String message = "";
+    /// <summary>
+    /// List
+    /// </summary>
+    protected static String LIST = "list";
 }

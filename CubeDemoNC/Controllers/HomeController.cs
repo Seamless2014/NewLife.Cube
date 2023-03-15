@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube;
+using XCode.Membership;
 
 namespace CubeDemo.Controllers
 {
@@ -7,13 +8,19 @@ namespace CubeDemo.Controllers
     //[AllowAnonymous]
     public class HomeController : ControllerBaseX
     {
+        private Microsoft.Extensions.Hosting.IHostEnvironment _hostEnvironment;
+        private static string contentRootPath = "";
+        public HomeController(IHostEnvironment hostEnvironment)
+        {
+            _hostEnvironment = hostEnvironment;
+            contentRootPath = _hostEnvironment.ContentRootPath;
+        }
         /// <summary>主页面</summary>
         /// <returns></returns>
         public ActionResult Index()
         {
-            ViewBag.Message = "主页面测试";
-
-            return View();
+            ViewBag.Message = "车载物联网平台";
+            return View("Index");
         }
     }
 }

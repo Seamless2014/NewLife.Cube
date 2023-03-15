@@ -9,8 +9,8 @@ namespace GPSPlatform.BasicData.Entity
     [Serializable]
     [DataObject]
     [Description("基础数据")]
-    [BindTable("BasicData", Description = "基础数据", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
-    public partial class BasicData
+    [BindTable("BasicInfo", Description = "基础数据", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    public partial class BasicInfo
     {
         #region 属性
         private Int32 _BaseId;

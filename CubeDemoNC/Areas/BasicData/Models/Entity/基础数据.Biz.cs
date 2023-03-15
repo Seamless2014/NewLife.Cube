@@ -26,10 +26,10 @@ using XCode.Shards;
 
 namespace GPSPlatform.BasicData.Entity
 {
-    public partial class BasicData : Entity<BasicData>
+    public partial class BasicInfo : Entity<BasicInfo>
     {
         #region 对象操作
-        static BasicData()
+        static BasicInfo()
         {
             // 累加字段，生成 Update xx Set Count=Count+1234 Where xxx
             //var df = Meta.Factory.AdditionalFields;
@@ -100,7 +100,7 @@ namespace GPSPlatform.BasicData.Entity
         /// <summary>根据基础数据编码查找</summary>
         /// <param name="baseId">基础数据编码</param>
         /// <returns>实体对象</returns>
-        public static BasicData FindByBaseId(Int32 baseId)
+        public static BasicInfo FindByBaseId(Int32 baseId)
         {
             if (baseId <= 0) return null;
 
