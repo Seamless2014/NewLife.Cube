@@ -40,6 +40,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="bootstrap - 复制.sh" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="StaticFiles\Content\image\2014053106112640_easyicon_net_24.png" />
     <Content Include="StaticFiles\Content\image\20140531061139453_easyicon_net_32.png" />
     <Content Include="StaticFiles\Content\image\20140531061210685_easyicon_net_16.png" />

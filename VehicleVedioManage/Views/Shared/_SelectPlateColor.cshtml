@@ -1,0 +1,11 @@
+﻿@using VehicleVedioManage.Enums;
+@using NewLife.Web;
+@using NewLife.Cube;
+@{
+    var page = ViewBag.Page as Pager;
+    var PlateColorList = CommonEnumFunc.GetDictionary("PlateColor", 0);
+}
+<div class="form-group">
+    <label for="PlateColor" class="control-label">车牌颜色：</label>
+    @Html.ForDropDownList("PlateColor", PlateColorList, page["PlateColor"], "全部", true)
+</div>
