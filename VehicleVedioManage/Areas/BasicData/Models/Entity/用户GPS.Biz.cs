@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using XCode;
+using XCode.Membership;
 
 namespace VehicleVedioManage.BasicData.Entity
 {

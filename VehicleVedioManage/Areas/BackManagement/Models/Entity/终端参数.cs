@@ -129,10 +129,10 @@ namespace VehicleVedioManage.BackManagement.Entity
         private String _Owner;
         /// <summary>拥有者</summary>
         [Category("基本信息")]
-        [DisplayName("拥有者")]
-        [Description("拥有者")]
+        [DisplayName("户主")]
+        [Description("户主")]
         [DataObjectField(false, false, true, 55)]
-        [BindColumn("Owner", "拥有者", "nvarchar(55)")]
+        [BindColumn("Owner", "户主", "nvarchar(55)")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
         private String _Remark;

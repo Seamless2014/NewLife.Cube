@@ -13,6 +13,7 @@ namespace VehicleVedioManage.Areas.FenceManagement.Controllers
     {
         public override ActionResult Index(Pager p = null)
         {
+            ListFields.RemoveField("AreaId", "TenantId", "Deleted", "GPSId", "Owner");
             return base.Index(p);
         }
     }

@@ -1,30 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Reflection;
+﻿using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Script.Serialization;
 using System.Xml.Serialization;
-using VehicleVedioManage.Enums;
 using NewLife;
 using NewLife.Data;
-using NewLife.Log;
-using NewLife.Model;
-using NewLife.Reflection;
-using NewLife.School.Entity;
-using NewLife.Threading;
-using NewLife.Web;
 using XCode;
 using XCode.Cache;
-using XCode.Configuration;
-using XCode.DataAccessLayer;
 using XCode.Membership;
-using XCode.Shards;
 
 namespace VehicleVedioManage.BasicData.Entity
 {

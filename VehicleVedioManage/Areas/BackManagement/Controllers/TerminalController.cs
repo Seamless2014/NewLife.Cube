@@ -19,6 +19,7 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
         public TerminalController(IServiceProvider provider)
         {
 
+            ListFields.RemoveField("TermId", "Reserve", "TenantId", "Owner", "CertPassword", "Deleted");
             PageSetting.EnableTableDoubleClick = true;
             _tracer = provider?.GetService<ITracer>();
         }

@@ -8,7 +8,7 @@ namespace CubeDemo.Controllers
     //[AllowAnonymous]
     public class HomeController : ControllerBaseX
     {
-        private Microsoft.Extensions.Hosting.IHostEnvironment _hostEnvironment;
+        private IHostEnvironment _hostEnvironment;
         private static string contentRootPath = "";
         public HomeController(IHostEnvironment hostEnvironment)
         {
@@ -19,6 +19,7 @@ namespace CubeDemo.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            PageSetting.EnableNavbar = false;
             ViewBag.Message = "车载物联网平台";
             return View("Index");
         }

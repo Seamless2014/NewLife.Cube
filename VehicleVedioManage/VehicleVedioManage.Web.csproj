@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\School\**" />
+    <Content Remove="Areas\School\**" />
+    <EmbeddedResource Remove="Areas\School\**" />
+    <None Remove="Areas\School\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\BasicData\Models\Entity\角色.Biz.cs" />
+    <Compile Remove="Areas\BasicData\Models\Entity\角色.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.4" />
+    <PackageReference Include="NewLife.Stardust.Extensions" Version="2.6.2023.301" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NewLife.Cube.AdminLTE\NewLife.Cube.AdminLTE.csproj" />
+    <ProjectReference Include="..\NewLife.Cube.Blazor\NewLife.Cube.Blazor.csproj" />
+    <ProjectReference Include="..\NewLife.Cube.ElementUI\NewLife.Cube.ElementUI.csproj" />
+    <ProjectReference Include="..\NewLife.Cube.LayuiAdmin\NewLife.Cube.LayuiAdmin.csproj" />
+    <ProjectReference Include="..\NewLife.Cube.Metronic8\NewLife.Cube.Metronic8.csproj" />
+    <ProjectReference Include="..\NewLife.Cube.Metronic\NewLife.Cube.Metronic.csproj" />
+    <ProjectReference Include="..\NewLife.Cube.Tabler\NewLife.Cube.Tabler.csproj" />
+    <ProjectReference Include="..\NewLife.CubeNC\NewLife.CubeNC.csproj" />
+    <ProjectReference Include="..\VehicleVedioManage.Utility\VehicleVedioManage.Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
+</Project>

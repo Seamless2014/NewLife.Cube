@@ -20,10 +20,10 @@ namespace VehicleVedioManage.FenceManagement.Entity
         #region 属性
         private Int32 _SegId;
         /// <summary>路段编码</summary>
-        [DisplayName("路段编码")]
-        [Description("路段编码")]
+        [DisplayName("线段编码")]
+        [Description("线段编码")]
         [DataObjectField(true, true, false, 10)]
-        [BindColumn("SegId", "路段编码", "int")]
+        [BindColumn("SegId", "线段编码", "int")]
         public Int32 SegId { get => _SegId; set { if (OnPropertyChanging("SegId", value)) { _SegId = value; OnPropertyChanged("SegId"); } } }
 
         private String _Name;

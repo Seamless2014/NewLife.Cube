@@ -114,11 +114,11 @@ namespace VehicleVedioManage.BackManagement.Entity
         public Int32 UserId { get => _UserId; set { if (OnPropertyChanging("UserId", value)) { _UserId = value; OnPropertyChanged("UserId"); } } }
 
         private Boolean _Deleted;
-        /// <summary>删除</summary>
-        [DisplayName("删除")]
-        [Description("删除")]
+        /// <summary>启用</summary>
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "启用", "bit")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private Byte _PlateColor;

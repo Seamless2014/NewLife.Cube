@@ -237,10 +237,10 @@ namespace VehicleVedioManage.BackManagement.Entity
         private String _Vendor;
         /// <summary>消失公司</summary>
         [Category("扩展信息")]
-        [DisplayName("消失公司")]
-        [Description("消失公司")]
+        [DisplayName("供应商")]
+        [Description("供应商")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Vendor", "消失公司", "nvarchar(255)")]
+        [BindColumn("Vendor", "供应商", "nvarchar(255)")]
         public String Vendor { get => _Vendor; set { if (OnPropertyChanging("Vendor", value)) { _Vendor = value; OnPropertyChanged("Vendor"); } } }
 
         private String _ModelNo;

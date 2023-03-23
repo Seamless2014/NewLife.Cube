@@ -58,29 +58,29 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("SendTime", "发送时间", "datetime", Precision = 0, Scale = 3)]
         public DateTime SendTime { get => _SendTime; set { if (OnPropertyChanging("SendTime", value)) { _SendTime = value; OnPropertyChanged("SendTime"); } } }
 
-        private Decimal _Longitude;
+        private double _Longitude;
         /// <summary>经度</summary>
         [DisplayName("经度")]
         [Description("经度")]
         [DataObjectField(false, false, true, 18)]
         [BindColumn("Longitude", "经度", "numeric(18, 6)", Precision = 0, Scale = 6)]
-        public Decimal Longitude { get => _Longitude; set { if (OnPropertyChanging("Longitude", value)) { _Longitude = value; OnPropertyChanged("Longitude"); } } }
+        public double Longitude { get => _Longitude; set { if (OnPropertyChanging("Longitude", value)) { _Longitude = value; OnPropertyChanged("Longitude"); } } }
 
-        private Decimal _Latitude;
+        private double _Latitude;
         /// <summary>纬度</summary>
         [DisplayName("纬度")]
         [Description("纬度")]
         [DataObjectField(false, false, true, 18)]
         [BindColumn("Latitude", "纬度", "numeric(18, 6)", Precision = 0, Scale = 6)]
-        public Decimal Latitude { get => _Latitude; set { if (OnPropertyChanging("Latitude", value)) { _Latitude = value; OnPropertyChanged("Latitude"); } } }
+        public double Latitude { get => _Latitude; set { if (OnPropertyChanging("Latitude", value)) { _Latitude = value; OnPropertyChanged("Latitude"); } } }
 
-        private Decimal _Velocity;
+        private double _Velocity;
         /// <summary>速度</summary>
         [DisplayName("速度")]
         [Description("速度")]
         [DataObjectField(false, false, true, 18)]
         [BindColumn("Velocity", "速度", "numeric(18, 1)", Precision = 0, Scale = 1)]
-        public Decimal Velocity { get => _Velocity; set { if (OnPropertyChanging("Velocity", value)) { _Velocity = value; OnPropertyChanged("Velocity"); } } }
+        public double Velocity { get => _Velocity; set { if (OnPropertyChanging("Velocity", value)) { _Velocity = value; OnPropertyChanged("Velocity"); } } }
 
         private Int32 _Direction;
         /// <summary>方向</summary>
@@ -106,13 +106,13 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("Gas", "油气", "numeric(18, 1)", Precision = 0, Scale = 1)]
         public Decimal Gas { get => _Gas; set { if (OnPropertyChanging("Gas", value)) { _Gas = value; OnPropertyChanged("Gas"); } } }
 
-        private Decimal _Mileage;
+        private double _Mileage;
         /// <summary>里程</summary>
         [DisplayName("里程")]
         [Description("里程")]
         [DataObjectField(false, false, true, 18)]
         [BindColumn("Mileage", "里程", "numeric(18, 1)", Precision = 0, Scale = 1)]
-        public Decimal Mileage { get => _Mileage; set { if (OnPropertyChanging("Mileage", value)) { _Mileage = value; OnPropertyChanged("Mileage"); } } }
+        public double Mileage { get => _Mileage; set { if (OnPropertyChanging("Mileage", value)) { _Mileage = value; OnPropertyChanged("Mileage"); } } }
 
         private Decimal _RecordVelocity;
         /// <summary>行车记录仪速度</summary>
@@ -392,13 +392,13 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "PlateNo": _PlateNo = Convert.ToString(value); break;
                     case "Location": _Location = Convert.ToString(value); break;
                     case "SendTime": _SendTime = value.ToDateTime(); break;
-                    case "Longitude": _Longitude = Convert.ToDecimal(value); break;
-                    case "Latitude": _Latitude = Convert.ToDecimal(value); break;
-                    case "Velocity": _Velocity = Convert.ToDecimal(value); break;
+                    case "Longitude": _Longitude = Convert.ToDouble(value); break;
+                    case "Latitude": _Latitude = Convert.ToDouble(value); break;
+                    case "Velocity": _Velocity = Convert.ToDouble(value); break;
                     case "Direction": _Direction = value.ToInt(); break;
                     case "Status": _Status = Convert.ToString(value); break;
                     case "Gas": _Gas = Convert.ToDecimal(value); break;
-                    case "Mileage": _Mileage = Convert.ToDecimal(value); break;
+                    case "Mileage": _Mileage = Convert.ToDouble(value); break;
                     case "RecordVelocity": _RecordVelocity = Convert.ToDecimal(value); break;
                     case "Remain": _Remain = value.ToDouble(); break;
                     case "Online": _Online = value.ToBoolean(); break;

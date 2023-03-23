@@ -299,10 +299,10 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Location;
         /// <summary>位置</summary>
-        [DisplayName("位置")]
-        [Description("位置")]
+        [DisplayName("企业位置")]
+        [Description("企业位置")]
         [DataObjectField(false, false, true, 32)]
-        [BindColumn("Location", "位置", "varchar(32)")]
+        [BindColumn("Location", "企业位置", "varchar(32)")]
         public String Location { get => _Location; set { if (OnPropertyChanging("Location", value)) { _Location = value; OnPropertyChanged("Location"); } } }
 
         private String _PhotoFormat;
@@ -339,10 +339,10 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
-        [DisplayName("删除")]
-        [Description("删除")]
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "启用", "bit")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private DateTime _CreateTime;

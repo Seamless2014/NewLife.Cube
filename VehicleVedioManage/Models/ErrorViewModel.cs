@@ -1,4 +1,4 @@
-namespace VehicleVedioManage.Models
+﻿namespace VehicleVedioManage.Models
 {
     public class ErrorViewModel
     {
