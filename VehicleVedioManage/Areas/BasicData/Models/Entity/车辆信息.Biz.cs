@@ -114,6 +114,26 @@ namespace VehicleVedioManage.BasicData.Entity
         [Map(nameof(ParameterID), typeof(Parameter), "ID")]
         [Category("基本信息")]
         public String VehicleTypeName => _Parameter?.Name;
+
+        /// <summary>部门</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public Department _Department => Extends.Get(nameof(Department), k => Department.FindByID(DepartmentID));
+
+        /// <summary>部门名称</summary>
+        [Map(nameof(DepartmentID), typeof(Department), "ID")]
+        [Category("基本信息")]
+        public String DepartmentName => _Department?.Name;
+
+        /// <summary>行业类型</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public IndustryType _IndustryType => Extends.Get(nameof(IndustryType), k => IndustryType.FindById(IndustryID));
+
+        /// <summary>行业类型</summary>
+        [Map(nameof(IndustryID), typeof(IndustryType), "Id")]
+        [Category("基本信息")]
+        public String IndustryTypeName => _IndustryType?.industrytype;
         #endregion
 
         #region 扩展查询
@@ -173,7 +193,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
             if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
             exp &= _.UpdateTime.Between(start, end);
-            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DepartmentName.Contains(key) | _.Region.Contains(key) | _.Industry.Contains(key) | _.UseType.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DepartmentName.Contains(key) | _.Region.Contains(key) | _.UseType.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
 
             return FindAll(exp, page);
         }

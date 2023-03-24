@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\BasicData\Views\Vehicle\_Form_Body.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.4" />
     <PackageReference Include="NewLife.Stardust.Extensions" Version="2.6.2023.301" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />

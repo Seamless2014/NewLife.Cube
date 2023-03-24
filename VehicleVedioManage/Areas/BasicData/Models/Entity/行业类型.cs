@@ -61,10 +61,10 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private String _industryType;
         /// <summary>行业类型</summary>
-        [DisplayName("行业类型")]
-        [Description("行业类型")]
+        [DisplayName("行业类型名称")]
+        [Description("行业类型名称")]
         [DataObjectField(false, false, true, 32)]
-        [BindColumn("industrytype", "行业类型", "varchar(32)")]
+        [BindColumn("industrytype", "行业类型名称", "varchar(32)")]
         public String industrytype { get => _industryType; set { if (OnPropertyChanging("industrytype", value)) { _industryType = value; OnPropertyChanged("industrytype"); } } }
         #endregion
 

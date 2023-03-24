@@ -21,6 +21,7 @@
             <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("SimNo"))">Sim卡号</a></th>
             <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("CreateTime"))">创建时间</a></th>
             <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("DepartmentName"))">部门名称</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("IndustryTypeName"))">行业类型</a></th>
             <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("Remark"))">备注</a></th>
             @if (this.Has(PermissionFlags.Detail, PermissionFlags.Update, PermissionFlags.Delete))
             {
@@ -43,6 +44,7 @@
                 <td>@entity.SimNo</td>
                 <td>@entity.CreateTime</td>
                 <td>@entity.DepartmentName</td>
+                <td>@entity.IndustryTypeName</td>
                 <td>@entity.Remark</td>
                 @if (this.Has(PermissionFlags.Detail,PermissionFlags.Delete,PermissionFlags.Update))
                 {
