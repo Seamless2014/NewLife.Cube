@@ -14,6 +14,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
     {
         public override ActionResult Index(Pager p = null)
         {
+            ListFields.RemoveField("RecorderID", "Deleted", "TenantID", "Owner", "VehicleId");
             return base.Index(p);
         }
     }

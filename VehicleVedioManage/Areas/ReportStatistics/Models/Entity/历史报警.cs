@@ -51,11 +51,11 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         public DateTime EndTime { get => _EndTime; set { if (OnPropertyChanging("EndTime", value)) { _EndTime = value; OnPropertyChanged("EndTime"); } } }
 
         private Double _TimeSpan;
-        /// <summary>时间跨度</summary>
-        [DisplayName("时间跨度")]
+        /// <summary>持续时长</summary>
+        [DisplayName("持续时长")]
         [Description("时间跨度")]
         [DataObjectField(false, false, true, 53)]
-        [BindColumn("TimeSpan", "时间跨度", "float")]
+        [BindColumn("TimeSpan", "持续时长", "float")]
         public Double TimeSpan { get => _TimeSpan; set { if (OnPropertyChanging("TimeSpan", value)) { _TimeSpan = value; OnPropertyChanged("TimeSpan"); } } }
 
         private Double _Velocity;

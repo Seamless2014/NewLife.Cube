@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace VehicleVedioManage.Areas.RuleManagement
 {
-    [DisplayName("报表统计")]
+    [DisplayName("规则管理")]
     public class RuleManagementArea : AreaBase
     {
         public RuleManagementArea() : base(nameof(RuleManagementArea).TrimEnd("Area")) { }

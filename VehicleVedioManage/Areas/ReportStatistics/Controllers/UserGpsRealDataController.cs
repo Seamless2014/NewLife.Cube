@@ -7,11 +7,12 @@ using NewLife.Web;
 namespace VehicleVedioManage.Areas.ReportStatistics.Controllers
 {
     [ReportStatisticsArea]
-    [DisplayName("用户实时数据")]
+    [DisplayName("实时用户")]
     public class UserGpsRealDataController : EntityController<UserGpsRealData>
     {
         public override ActionResult Index(Pager p = null)
         {
+            ListFields.RemoveField("ID", "UserId");
             return base.Index(p);
         }
     }

@@ -13,8 +13,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
     /// <summary>用户GPS实时数据</summary>
     [Serializable]
     [DataObject]
-    [Description("用户GPS实时数据")]
-    [BindTable("UserGpsRealData", Description = "用户GPS实时数据", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [Description("实时用户")]
+    [BindTable("UserGpsRealData", Description = "实时用户", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
     public partial class UserGpsRealData
     {
         #region 属性

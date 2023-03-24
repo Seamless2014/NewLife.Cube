@@ -13,9 +13,9 @@ namespace VehicleVedioManage.ReportStatistics.Entity
     /// <summary>燃料变化记录</summary>
     [Serializable]
     [DataObject]
-    [Description("燃料变化记录")]
+    [Description("燃料变化")]
     [BindIndex("UQ__FuelChan__95E4F54478D964FE", true, "EnclosureId")]
-    [BindTable("FuelChangeRecord", Description = "燃料变化记录", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindTable("FuelChangeRecord", Description = "燃料变化", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
     public partial class FuelChangeRecord
     {
         #region 属性

@@ -10,85 +10,94 @@ using XCode.DataAccessLayer;
 
 namespace VehicleVedioManage.BasicData.Entity
 {
-    /// <summary>车辆修改记录</summary>
+    /// <summary>车辆注册信息</summary>
     [Serializable]
     [DataObject]
-    [Description("车辆修改记录")]
-    [BindTable("VehicleInfoModifyRecord", Description = "车辆修改记录", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
-    public partial class VehicleInfoModifyRecord
+    [Description("车辆注册")]
+    [BindTable("VehicleRegisterInfo", Description = "车辆注册", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    public partial class VehicleRegisterInfo
     {
         #region 属性
-        private Int32 _ID;
-        /// <summary>编号</summary>
-        [Category("基本信息")]
-        [DisplayName("编号")]
-        [Description("编号")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("ID", "编号", "int")]
-        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
-
-        private Byte _Deleted;
-        /// <summary>是否删除</summary>
-        [Category("基本信息")]
-        [DisplayName("是否删除")]
-        [Description("是否删除")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("Deleted", "是否删除", "tinyint")]
-        public Byte Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
-
-        private String _Owner;
-        /// <summary>拥有者</summary>
-        [Category("基本信息")]
-        [DisplayName("拥有者")]
-        [Description("拥有者")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Owner", "拥有者", "varchar(255)")]
-        public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
-
-        private Int32 _TenantId;
-        /// <summary>租户</summary>
-        [Category("基本信息")]
-        [DisplayName("租户")]
-        [Description("租户")]
-        [DataObjectField(false, false, false, 10)]
-        [BindColumn("TenantId", "租户", "int")]
-        public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
-
-        private String _Detail;
-        /// <summary>详情</summary>
-        [Category("基本信息")]
-        [DisplayName("详情")]
-        [Description("详情")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Detail", "详情", "varchar(255)")]
-        public String Detail { get => _Detail; set { if (OnPropertyChanging("Detail", value)) { _Detail = value; OnPropertyChanged("Detail"); } } }
-
-        private String _Type;
-        /// <summary>类型</summary>
-        [Category("基本信息")]
-        [DisplayName("类型")]
-        [Description("类型")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Type", "类型", "varchar(255)")]
-        public String Type { get => _Type; set { if (OnPropertyChanging("Type", value)) { _Type = value; OnPropertyChanged("Type"); } } }
-
-        private String _UserName;
-        /// <summary>用户名</summary>
-        [Category("基本信息")]
-        [DisplayName("用户名")]
-        [Description("用户名")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("UserName", "用户名", "varchar(255)")]
-        public String UserName { get => _UserName; set { if (OnPropertyChanging("UserName", value)) { _UserName = value; OnPropertyChanged("UserName"); } } }
-
         private Int32 _VehicleId;
         /// <summary>车辆编码</summary>
         [Category("基本信息")]
         [DisplayName("车辆编码")]
         [Description("车辆编码")]
-        [DataObjectField(false, false, false, 10)]
+        [DataObjectField(true, true, false, 10)]
         [BindColumn("VehicleId", "车辆编码", "int")]
         public Int32 VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
+
+        private Int32 _DepId;
+        /// <summary>部门编码</summary>
+        [Category("基本信息")]
+        [DisplayName("部门编码")]
+        [Description("部门编码")]
+        [DataObjectField(false, false, false, 10)]
+        [BindColumn("DepId", "部门编码", "int")]
+        public Int32 DepId { get => _DepId; set { if (OnPropertyChanging("DepId", value)) { _DepId = value; OnPropertyChanged("DepId"); } } }
+
+        private Int32 _PlateColor;
+        /// <summary>车牌颜色</summary>
+        [Category("基本信息")]
+        [DisplayName("车牌颜色")]
+        [Description("车牌颜色")]
+        [DataObjectField(false, false, false, 10)]
+        [BindColumn("PlateColor", "车牌颜色", "int")]
+        public Int32 PlateColor { get => _PlateColor; set { if (OnPropertyChanging("PlateColor", value)) { _PlateColor = value; OnPropertyChanged("PlateColor"); } } }
+
+        private String _PlateNo;
+        /// <summary>车牌号</summary>
+        [Category("基本信息")]
+        [DisplayName("车牌号")]
+        [Description("车牌号")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("PlateNo", "车牌号", "varchar(255)")]
+        public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
+
+        private String _PlateformId;
+        /// <summary>平台编码</summary>
+        [Category("基本信息")]
+        [DisplayName("平台编码")]
+        [Description("平台编码")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("PlateformId", "平台编码", "varchar(255)")]
+        public String PlateformId { get => _PlateformId; set { if (OnPropertyChanging("PlateformId", value)) { _PlateformId = value; OnPropertyChanged("PlateformId"); } } }
+
+        private String _SimNo;
+        /// <summary>Sim卡</summary>
+        [Category("基本信息")]
+        [DisplayName("Sim卡")]
+        [Description("Sim卡")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("SimNo", "Sim卡", "varchar(255)")]
+        public String SimNo { get => _SimNo; set { if (OnPropertyChanging("SimNo", value)) { _SimNo = value; OnPropertyChanged("SimNo"); } } }
+
+        private String _TerminalId;
+        /// <summary>终端编码</summary>
+        [Category("基本信息")]
+        [DisplayName("终端编码")]
+        [Description("终端编码")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("TerminalId", "终端编码", "varchar(255)")]
+        public String TerminalId { get => _TerminalId; set { if (OnPropertyChanging("TerminalId", value)) { _TerminalId = value; OnPropertyChanged("TerminalId"); } } }
+
+        private String _TerminalModel;
+        /// <summary>终端型号</summary>
+        [Category("基本信息")]
+        [DisplayName("终端型号")]
+        [Description("终端型号")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("TerminalModel", "终端型号", "varchar(255)")]
+        public String TerminalModel { get => _TerminalModel; set { if (OnPropertyChanging("TerminalModel", value)) { _TerminalModel = value; OnPropertyChanged("TerminalModel"); } } }
+
+        private String _TerminalVendorId;
+        /// <summary>终端供应商编码</summary>
+        [Category("基本信息")]
+        [DisplayName("终端供应商编码")]
+        [Description("终端供应商编码")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("TerminalVendorId", "终端供应商编码", "varchar(255)")]
+        public String TerminalVendorId { get => _TerminalVendorId; set { if (OnPropertyChanging("TerminalVendorId", value)) { _TerminalVendorId = value; OnPropertyChanged("TerminalVendorId"); } } }
 
         private String _CreateUser;
         /// <summary>创建者</summary>
@@ -182,14 +191,15 @@ namespace VehicleVedioManage.BasicData.Entity
             {
                 switch (name)
                 {
-                    case "ID": return _ID;
-                    case "Deleted": return _Deleted;
-                    case "Owner": return _Owner;
-                    case "TenantId": return _TenantId;
-                    case "Detail": return _Detail;
-                    case "Type": return _Type;
-                    case "UserName": return _UserName;
                     case "VehicleId": return _VehicleId;
+                    case "DepId": return _DepId;
+                    case "PlateColor": return _PlateColor;
+                    case "PlateNo": return _PlateNo;
+                    case "PlateformId": return _PlateformId;
+                    case "SimNo": return _SimNo;
+                    case "TerminalId": return _TerminalId;
+                    case "TerminalModel": return _TerminalModel;
+                    case "TerminalVendorId": return _TerminalVendorId;
                     case "CreateUser": return _CreateUser;
                     case "CreateUserID": return _CreateUserID;
                     case "CreateIP": return _CreateIP;
@@ -206,14 +216,15 @@ namespace VehicleVedioManage.BasicData.Entity
             {
                 switch (name)
                 {
-                    case "ID": _ID = value.ToInt(); break;
-                    case "Deleted": _Deleted = Convert.ToByte(value); break;
-                    case "Owner": _Owner = Convert.ToString(value); break;
-                    case "TenantId": _TenantId = value.ToInt(); break;
-                    case "Detail": _Detail = Convert.ToString(value); break;
-                    case "Type": _Type = Convert.ToString(value); break;
-                    case "UserName": _UserName = Convert.ToString(value); break;
                     case "VehicleId": _VehicleId = value.ToInt(); break;
+                    case "DepId": _DepId = value.ToInt(); break;
+                    case "PlateColor": _PlateColor = value.ToInt(); break;
+                    case "PlateNo": _PlateNo = Convert.ToString(value); break;
+                    case "PlateformId": _PlateformId = Convert.ToString(value); break;
+                    case "SimNo": _SimNo = Convert.ToString(value); break;
+                    case "TerminalId": _TerminalId = Convert.ToString(value); break;
+                    case "TerminalModel": _TerminalModel = Convert.ToString(value); break;
+                    case "TerminalVendorId": _TerminalVendorId = Convert.ToString(value); break;
                     case "CreateUser": _CreateUser = Convert.ToString(value); break;
                     case "CreateUserID": _CreateUserID = value.ToInt(); break;
                     case "CreateIP": _CreateIP = Convert.ToString(value); break;
@@ -230,32 +241,35 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 字段名
-        /// <summary>取得VehicleInfoModifyRecord字段信息的快捷方式</summary>
+        /// <summary>取得VehicleRegisterInfo字段信息的快捷方式</summary>
         public partial class _
         {
-            /// <summary>编号</summary>
-            public static readonly Field ID = FindByName("ID");
-
-            /// <summary>是否删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
-
-            /// <summary>拥有者</summary>
-            public static readonly Field Owner = FindByName("Owner");
-
-            /// <summary>租户</summary>
-            public static readonly Field TenantId = FindByName("TenantId");
-
-            /// <summary>详情</summary>
-            public static readonly Field Detail = FindByName("Detail");
-
-            /// <summary>类型</summary>
-            public static readonly Field Type = FindByName("Type");
-
-            /// <summary>用户名</summary>
-            public static readonly Field UserName = FindByName("UserName");
-
             /// <summary>车辆编码</summary>
             public static readonly Field VehicleId = FindByName("VehicleId");
+
+            /// <summary>部门编码</summary>
+            public static readonly Field DepId = FindByName("DepId");
+
+            /// <summary>车牌颜色</summary>
+            public static readonly Field PlateColor = FindByName("PlateColor");
+
+            /// <summary>车牌号</summary>
+            public static readonly Field PlateNo = FindByName("PlateNo");
+
+            /// <summary>平台编码</summary>
+            public static readonly Field PlateformId = FindByName("PlateformId");
+
+            /// <summary>Sim卡</summary>
+            public static readonly Field SimNo = FindByName("SimNo");
+
+            /// <summary>终端编码</summary>
+            public static readonly Field TerminalId = FindByName("TerminalId");
+
+            /// <summary>终端型号</summary>
+            public static readonly Field TerminalModel = FindByName("TerminalModel");
+
+            /// <summary>终端供应商编码</summary>
+            public static readonly Field TerminalVendorId = FindByName("TerminalVendorId");
 
             /// <summary>创建者</summary>
             public static readonly Field CreateUser = FindByName("CreateUser");
@@ -287,32 +301,35 @@ namespace VehicleVedioManage.BasicData.Entity
             static Field FindByName(String name) => Meta.Table.FindByName(name);
         }
 
-        /// <summary>取得VehicleInfoModifyRecord字段名称的快捷方式</summary>
+        /// <summary>取得VehicleRegisterInfo字段名称的快捷方式</summary>
         public partial class __
         {
-            /// <summary>编号</summary>
-            public const String ID = "ID";
-
-            /// <summary>是否删除</summary>
-            public const String Deleted = "Deleted";
-
-            /// <summary>拥有者</summary>
-            public const String Owner = "Owner";
-
-            /// <summary>租户</summary>
-            public const String TenantId = "TenantId";
-
-            /// <summary>详情</summary>
-            public const String Detail = "Detail";
-
-            /// <summary>类型</summary>
-            public const String Type = "Type";
-
-            /// <summary>用户名</summary>
-            public const String UserName = "UserName";
-
             /// <summary>车辆编码</summary>
             public const String VehicleId = "VehicleId";
+
+            /// <summary>部门编码</summary>
+            public const String DepId = "DepId";
+
+            /// <summary>车牌颜色</summary>
+            public const String PlateColor = "PlateColor";
+
+            /// <summary>车牌号</summary>
+            public const String PlateNo = "PlateNo";
+
+            /// <summary>平台编码</summary>
+            public const String PlateformId = "PlateformId";
+
+            /// <summary>Sim卡</summary>
+            public const String SimNo = "SimNo";
+
+            /// <summary>终端编码</summary>
+            public const String TerminalId = "TerminalId";
+
+            /// <summary>终端型号</summary>
+            public const String TerminalModel = "TerminalModel";
+
+            /// <summary>终端供应商编码</summary>
+            public const String TerminalVendorId = "TerminalVendorId";
 
             /// <summary>创建者</summary>
             public const String CreateUser = "CreateUser";
