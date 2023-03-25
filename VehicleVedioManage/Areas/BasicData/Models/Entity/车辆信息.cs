@@ -131,6 +131,15 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("DepartmentID", "部门名称", "int")]
         public Int32 DepartmentID { get => _departmentID; set { if (OnPropertyChanging("DepartmentID", value)) { _departmentID = value; OnPropertyChanged("DepartmentID"); } } }
 
+        private Int32 _industryID;
+        /// <summary>行业</summary>
+        [Category("基本信息")]
+        [DisplayName("行业类型")]
+        [DataObjectField(false, false, true, 10)]
+        [BindColumn("IndustryID", "行业类型", "Int32")]
+        public Int32 IndustryID { get => _industryID; set { if (OnPropertyChanging("IndustryID", value)) { _industryID = value; OnPropertyChanged("IndustryID"); } } }
+
+
         private String _useType;
         /// <summary>使用性质</summary>
         [Category("基本信息")]
@@ -138,14 +147,6 @@ namespace VehicleVedioManage.BasicData.Entity
         [DataObjectField(false, false, true, 50)]
         [BindColumn("UseType", "使用性质", "nvarchar(50)")]
         public String UseType { get => _useType; set { if (OnPropertyChanging("UseType", value)) { _useType = value; OnPropertyChanged("UseType"); } } }
-
-        private Int32 _IndustryID;
-        /// <summary>行业</summary>
-        [Category("基本信息")]
-        [DisplayName("行业类型")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("IndustryID", "行业类型", "Int32")]
-        public Int32 IndustryID { get => _IndustryID; set { if (OnPropertyChanging("IndustryID", value)) { _IndustryID = value; OnPropertyChanged("IndustryID"); } } }
 
         private Int32 _Region;
         /// <summary>区域</summary>
@@ -261,7 +262,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "Owner": return _Owner;
                     case "DepartmentID": return _departmentID;
                     case "UseType": return _useType;
-                    case "IndustryID": return _IndustryID;
+                    case "IndustryID": return _industryID;
                     case "CreateUser": return _CreateUser;
                     case "CreateUserID": return _CreateUserID;
                     case "CreateIP": return _CreateIP;
@@ -291,7 +292,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "DepartmentID": _departmentID = value.ToInt(); break;
                     case "UseType": _useType = Convert.ToString(value); break;
-                    case "IndustryID": _IndustryID = value.ToInt(); break;
+                    case "IndustryID": _industryID = value.ToInt(); break;
                     case "CreateUser": _CreateUser = Convert.ToString(value); break;
                     case "CreateUserID": _CreateUserID = value.ToInt(); break;
                     case "CreateIP": _CreateIP = Convert.ToString(value); break;

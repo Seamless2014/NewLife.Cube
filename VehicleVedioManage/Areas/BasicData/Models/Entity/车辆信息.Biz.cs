@@ -113,7 +113,7 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>车辆类型名称</summary>
         [Map(nameof(ParameterID), typeof(Parameter), "ID")]
         [Category("基本信息")]
-        public String VehicleTypeName => _Parameter?.Name;
+        public String? VehicleTypeName => _Parameter?.Name;
 
         /// <summary>部门</summary>
         [XmlIgnore, IgnoreDataMember]
@@ -123,17 +123,17 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>部门名称</summary>
         [Map(nameof(DepartmentID), typeof(Department), "ID")]
         [Category("基本信息")]
-        public String DepartmentName => _Department?.Name;
+        public String? DepartmentName => _Department?.Name;
 
         /// <summary>行业类型</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public IndustryType _IndustryType => Extends.Get(nameof(IndustryType), k => IndustryType.FindById(IndustryID));
+        public IndustryType _IndustryType => Extends.Get(nameof(IndustryType), k => IndustryType.FindByID(IndustryID));
 
-        /// <summary>行业类型</summary>
-        [Map(nameof(IndustryID), typeof(IndustryType), "Id")]
+        /// <summary>行业类型名称</summary>
+        [Map(nameof(IndustryID), typeof(IndustryType), "ID")]
         [Category("基本信息")]
-        public String IndustryTypeName => _IndustryType?.industrytype;
+        public String? IndustryTypeName => _IndustryType?.Name;
         #endregion
 
         #region 扩展查询
@@ -159,7 +159,7 @@ namespace VehicleVedioManage.BasicData.Entity
         public static IList<Vehicle> FindAllByPlateNo(String plateNo)
         {
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.PlateNo.EqualIgnoreCase(plateNo));
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.PlateNo.EqualIgnoreCase(plateNo)&&e.Deleted==false);
 
             return FindAll(_.PlateNo == plateNo);
         }

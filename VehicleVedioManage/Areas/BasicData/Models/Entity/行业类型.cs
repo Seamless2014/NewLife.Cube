@@ -14,18 +14,18 @@ namespace VehicleVedioManage.BasicData.Entity
     [Serializable]
     [DataObject]
     [Description("行业类型")]
-    [BindIndex("PK_IndustryType", true, "Id")]
+    [BindIndex("PK_IndustryType", true, "ID")]
     [BindTable("IndustryType", Description = "行业类型", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
     public partial class IndustryType
     {
         #region 属性
-        private Int32 _Id;
+        private Int32 _ID;
         /// <summary>行业类型</summary>
         [DisplayName("行业类型")]
         [Description("行业类型")]
         [DataObjectField(true, false, false, 10)]
-        [BindColumn("Id", "行业类型", "int")]
-        public Int32 Id { get => _Id; set { if (OnPropertyChanging("Id", value)) { _Id = value; OnPropertyChanged("Id"); } } }
+        [BindColumn("ID", "行业类型", "int")]
+        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private Int32 _Amount;
         /// <summary>数量</summary>
@@ -59,13 +59,13 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("ParentCode", "上级编码", "int")]
         public Int32 ParentCode { get => _ParentCode; set { if (OnPropertyChanging("ParentCode", value)) { _ParentCode = value; OnPropertyChanged("ParentCode"); } } }
 
-        private String _industryType;
+        private String _name;
         /// <summary>行业类型</summary>
         [DisplayName("行业类型名称")]
         [Description("行业类型名称")]
         [DataObjectField(false, false, true, 32)]
-        [BindColumn("industrytype", "行业类型名称", "varchar(32)")]
-        public String industrytype { get => _industryType; set { if (OnPropertyChanging("industrytype", value)) { _industryType = value; OnPropertyChanged("industrytype"); } } }
+        [BindColumn("Name", "行业类型名称", "varchar(32)")]
+        public String Name { get => _name; set { if (OnPropertyChanging("Name", value)) { _name = value; OnPropertyChanged("Name"); } } }
         #endregion
 
         #region 获取/设置 字段值
@@ -78,12 +78,12 @@ namespace VehicleVedioManage.BasicData.Entity
             {
                 switch (name)
                 {
-                    case "Id": return _Id;
+                    case "ID": return _ID;
                     case "Amount": return _Amount;
                     case "Code": return _Code;
                     case "Description": return _Description;
                     case "ParentCode": return _ParentCode;
-                    case "industrytype": return _industryType;
+                    case "Name": return _name;
                     default: return base[name];
                 }
             }
@@ -91,12 +91,12 @@ namespace VehicleVedioManage.BasicData.Entity
             {
                 switch (name)
                 {
-                    case "Id": _Id = value.ToInt(); break;
+                    case "ID": _ID = value.ToInt(); break;
                     case "Amount": _Amount = value.ToInt(); break;
                     case "Code": _Code = value.ToInt(); break;
                     case "Description": _Description = Convert.ToString(value); break;
                     case "ParentCode": _ParentCode = value.ToInt(); break;
-                    case "industrytype": _industryType = Convert.ToString(value); break;
+                    case "Name": _name = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
             }
@@ -108,7 +108,7 @@ namespace VehicleVedioManage.BasicData.Entity
         public partial class _
         {
             /// <summary>行业类型</summary>
-            public static readonly Field Id = FindByName("Id");
+            public static readonly Field ID = FindByName("ID");
 
             /// <summary>数量</summary>
             public static readonly Field Amount = FindByName("Amount");
@@ -123,7 +123,7 @@ namespace VehicleVedioManage.BasicData.Entity
             public static readonly Field ParentCode = FindByName("ParentCode");
 
             /// <summary>行业类型</summary>
-            public static readonly Field industrytype = FindByName("industrytype");
+            public static readonly Field Name = FindByName("Name");
 
             static Field FindByName(String name) => Meta.Table.FindByName(name);
         }
@@ -132,7 +132,7 @@ namespace VehicleVedioManage.BasicData.Entity
         public partial class __
         {
             /// <summary>行业类型</summary>
-            public const String Id = "Id";
+            public const String ID = "ID";
 
             /// <summary>数量</summary>
             public const String Amount = "Amount";
@@ -147,7 +147,7 @@ namespace VehicleVedioManage.BasicData.Entity
             public const String ParentCode = "ParentCode";
 
             /// <summary>行业类型</summary>
-            public const String industrytype = "industrytype";
+            public const String Name = "Name";
         }
         #endregion
     }
