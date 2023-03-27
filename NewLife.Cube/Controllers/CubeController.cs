@@ -1,14 +1,11 @@
 ﻿using System.Buffers;
 using System.ComponentModel;
-using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Filters;
 using NewLife.Cube.Entity;
 using NewLife.Data;
-using NewLife.Log;
 using NewLife.Reflection;
 using XCode;
 using XCode.Membership;
@@ -19,10 +16,11 @@ namespace NewLife.Cube.Controllers;
 
 /// <summary>魔方前端数据接口</summary>
 [DisplayName("数据接口")]
+[Route("[controller]/[action]")]
 public class CubeController : ControllerBaseX
 {
     private readonly IList<EndpointDataSource> _sources;
- 
+
     /// <summary>构造函数</summary>
     /// <param name="sources"></param>
     public CubeController(IEnumerable<EndpointDataSource> sources)
@@ -31,23 +29,23 @@ public class CubeController : ControllerBaseX
     }
 
     #region 拦截
-    /// <summary>执行后</summary>
-    /// <param name="context"></param>
-    public override void OnActionExecuted(ActionExecutedContext context)
-    {
-        if (context.Exception != null && !context.ExceptionHandled)
-        {
-            var ex = context.Exception.GetTrue();
-            context.Result = Json(0, null, ex);
-            context.ExceptionHandled = true;
+    ///// <summary>执行后</summary>
+    ///// <param name="context"></param>
+    //public override void OnActionExecuted(ActionExecutedContext context)
+    //{
+    //    if (context.Exception != null && !context.ExceptionHandled)
+    //    {
+    //        var ex = context.Exception.GetTrue();
+    //        context.Result = Json(0, null, ex);
+    //        context.ExceptionHandled = true;
 
-            if (XTrace.Debug) XTrace.WriteException(ex);
+    //        if (XTrace.Debug) XTrace.WriteException(ex);
 
-            return;
-        }
+    //        return;
+    //    }
 
-        base.OnActionExecuted(context);
-    }
+    //    base.OnActionExecuted(context);
+    //}
     #endregion
 
     #region 服务器信息
@@ -61,6 +59,7 @@ public class CubeController : ControllerBaseX
     /// <summary>服务器信息，用户健康检测</summary>
     /// <param name="state">状态信息</param>
     /// <returns></returns>
+    [HttpGet]
     public ActionResult Info(String state)
     {
         var asmx = AssemblyX.Entry;
@@ -91,6 +90,7 @@ public class CubeController : ControllerBaseX
     #region 接口信息
     /// <summary>获取所有接口信息</summary>
     /// <returns></returns>
+    [HttpGet]
     public ActionResult Apis()
     {
         var set = new List<EndpointDataSource>();
@@ -130,7 +130,7 @@ public class CubeController : ControllerBaseX
             }
         }
 
-        return Json(eps);
+        return Json(0, null, eps);
     }
     #endregion
 
@@ -140,6 +140,7 @@ public class CubeController : ControllerBaseX
     /// <param name="departmentId"></param>
     /// <param name="key"></param>
     /// <returns></returns>
+    [HttpGet]
     public ActionResult UserSearch(Int32 roleId = 0, Int32 departmentId = 0, String key = null)
     {
         var exp = new WhereExpression();
@@ -172,6 +173,7 @@ public class CubeController : ControllerBaseX
     /// <param name="parentid"></param>
     /// <param name="key"></param>
     /// <returns></returns>
+    [HttpGet]
     public ActionResult DepartmentSearch(Int32 parentid = -1, String key = null)
     {
         var exp = new WhereExpression();
@@ -203,7 +205,8 @@ public class CubeController : ControllerBaseX
     /// <param name="id"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    public ActionResult Area(Int32 id = 0)
+    [HttpGet]
+    public ActionResult GetArea(Int32 id = 0)
     {
         var r = id <= 0 ? AreaX.Root : AreaX.FindByID(id);
         if (r == null) return Json(500, null, "找不到地区");
@@ -225,6 +228,7 @@ public class CubeController : ControllerBaseX
     /// <param name="id"></param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public ActionResult AreaChilds(Int32 id = 0)
     {
         var r = id <= 0 ? AreaX.Root : AreaX.FindByID(id);
@@ -241,6 +245,7 @@ public class CubeController : ControllerBaseX
     /// <param name="isContainSelf">是否包含查询的地区</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public ActionResult AreaParents(Int32 id = 0, Boolean isContainSelf = false)
     {
         var r = id <= 0 ? AreaX.Root : AreaX.FindByID(id);
@@ -265,6 +270,7 @@ public class CubeController : ControllerBaseX
     /// <param name="id"></param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public ActionResult AreaAllParents(Int32 id = 0)
     {
         var r = id <= 0 ? AreaX.Root : AreaX.FindByID(id);
@@ -295,6 +301,7 @@ public class CubeController : ControllerBaseX
     /// <param name="id">用户编号</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult Avatar(Int32 id)
     {
         if (id <= 0) throw new ArgumentNullException(nameof(id));
@@ -302,7 +309,7 @@ public class CubeController : ControllerBaseX
         var user = ManageProvider.Provider?.FindByID(id) as IUser;
         if (user == null) throw new Exception("用户不存在 " + id);
 
-        var set = Setting.Current;
+        var set = CubeSetting.Current;
         var av = "";
         if (!user.Avatar.IsNullOrEmpty() && !user.Avatar.StartsWith("/"))
         {
@@ -348,6 +355,7 @@ public class CubeController : ControllerBaseX
     /// <param name="name">The name.</param>
     /// <param name="value">The value.</param>
     /// <returns></returns>
+    [HttpPost]
     public ActionResult SaveLayout(Int32 userid, String category, String name, String value)
     {
         if (!category.EqualIgnoreCase("LayoutSetting"))
@@ -368,6 +376,7 @@ public class CubeController : ControllerBaseX
     /// <param name="id"></param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public async Task<ActionResult> Image(String id)
     {
         if (id.IsNullOrEmpty()) return NotFound("非法附件编号");
@@ -405,6 +414,7 @@ public class CubeController : ControllerBaseX
     /// <param name="id"></param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public async Task<ActionResult> File(String id)
     {
         if (id.IsNullOrEmpty()) return NotFound("非法附件编号");

@@ -210,6 +210,7 @@ public class UserController : EntityController<User>
     /// <summary>登录</summary>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public ActionResult Login()
     {
         var returnUrl = GetRequest("r");
@@ -229,7 +230,7 @@ public class UserController : EntityController<User>
 
         // 如果禁用本地登录，且只有一个第三方登录，直接跳转，构成单点登录
         var ms = OAuthConfig.GetValids(GrantTypes.AuthorizationCode);
-        if (ms != null && !Setting.Current.AllowLogin)
+        if (ms != null && !CubeSetting.Current.AllowLogin)
         {
             if (ms.Count == 0) throw new Exception("禁用了本地密码登录，且没有配置第三方登录");
             if (logId > 0) throw new Exception("已完成第三方登录，但无法绑定本地用户且没有开启自动注册，建议开启OAuth应用的自动注册");
@@ -270,12 +271,12 @@ public class UserController : EntityController<User>
         var model = GetViewModel(returnUrl);
         model.OAuthItems = ms.Where(e => e.Visible).ToList();
 
-        return View(model);
+        return Json(0, null, model);
     }
 
     private LoginViewModel GetViewModel(String returnUrl)
     {
-        var set = Setting.Current;
+        var set = CubeSetting.Current;
         var sys = SysConfig.Current;
         var model = new LoginViewModel
         {
@@ -313,7 +314,7 @@ public class UserController : EntityController<User>
 
     /// <summary>密码登录</summary>
     /// <returns></returns>
-    [HttpPost()]
+    [HttpPost]
     [AllowAnonymous]
     public ActionResult Login(LoginModel loginModel)
     {
@@ -327,7 +328,7 @@ public class UserController : EntityController<User>
         var ipKey = $"Login:{UserHost}";
         var ipErrors = _cache.Get<Int32>(ipKey);
 
-        var set = Setting.Current;
+        var set = CubeSetting.Current;
         var returnUrl = GetRequest("r");
         if (returnUrl.IsNullOrEmpty()) returnUrl = GetRequest("ReturnUrl");
         try
@@ -345,38 +346,8 @@ public class UserController : EntityController<User>
                 if (errors > 0) _cache.Remove(key);
                 if (ipErrors > 0) _cache.Remove(ipKey);
 
-                if (IsJsonRequest)
-                {
-                    var token = HttpContext.Items["jwtToken"];
-                    return Json(0, "ok", new { /*provider.Current.ID,*/ Token = token });
-                }
-
-                //FormsAuthentication.SetAuthCookie(username, remember ?? false);
-
-
-                // 记录在线统计
-                var stat = UserStat.GetOrAdd(DateTime.Today);
-                if (stat != null)
-                {
-                    stat.Logins++;
-                    stat.SaveAsync(5_000);
-                }
-
-                if (Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
-
-                // 不要嵌入自己
-                if (returnUrl.EndsWithIgnoreCase("/Admin", "/Admin/User/Login")) returnUrl = null;
-
-                // 登录后自动绑定
-                var logId = Session["Cube_OAuthId"].ToLong();
-                if (logId > 0)
-                {
-                    Session["Cube_OAuthId"] = null;
-                    var log = NewLife.Cube.Controllers.SsoController.Provider.BindAfterLogin(logId);
-                    if (log != null && log.Success && !log.RedirectUri.IsNullOrEmpty()) return Redirect(log.RedirectUri);
-                }
-
-                return RedirectToAction("Index", "Index", new { page = returnUrl });
+                var token = HttpContext.Items["jwtToken"];
+                return Json(0, "ok", new { /*provider.Current.ID,*/ Token = token });
             }
 
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
@@ -398,12 +369,7 @@ public class UserController : EntityController<User>
             if (errors <= 0) _cache.SetExpire(key, TimeSpan.FromSeconds(time));
             if (ipErrors <= 0) _cache.SetExpire(ipKey, TimeSpan.FromSeconds(time));
 
-            if (IsJsonRequest)
-            {
-                return Json(500, ex.Message);
-            }
-
-            ModelState.AddModelError("", ex.Message);
+            return Json(500, ex.Message);
         }
 
         ////云飞扬2019-02-15修改，密码错误后会走到这，需要给ViewBag.IsShowTip重赋值，否则抛异常
@@ -412,18 +378,19 @@ public class UserController : EntityController<User>
         var model = GetViewModel(returnUrl);
         model.OAuthItems = OAuthConfig.GetVisibles();
 
-        return View(model);
+        return Json(0, null, model);
     }
 
     /// <summary>注销</summary>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public ActionResult Logout()
     {
         var returnUrl = GetRequest("r");
         if (returnUrl.IsNullOrEmpty()) returnUrl = GetRequest("ReturnUrl");
 
-        var set = Setting.Current;
+        var set = CubeSetting.Current;
         if (set.LogoutAll)
         {
             // 如果是单点登录，则走单点登录注销
@@ -444,11 +411,7 @@ public class UserController : EntityController<User>
 
         ManageProvider.Provider.Logout();
 
-        if (IsJsonRequest) return Ok();
-
-        if (!returnUrl.IsNullOrEmpty()) return Redirect(returnUrl);
-
-        return RedirectToAction(nameof(Login));
+        return Ok();
     }
     #endregion
 
@@ -457,6 +420,7 @@ public class UserController : EntityController<User>
     /// <returns></returns>
     //[AllowAnonymous]
     [EntityAuthorize]
+    [HttpGet]
     public ActionResult Info(Int32 id)
     {
         //if (id == null || id.Value <= 0) throw new Exception("无效用户编号！");
@@ -482,12 +446,14 @@ public class UserController : EntityController<User>
             return Json(0, "ok", userInfo);
         }
 
-        // 用于显示的列
-        if (ViewBag.Fields == null) ViewBag.Fields = EditFormFields;
-        ViewBag.Factory = XCode.Membership.User.Meta.Factory;
+        //// 用于显示的列
+        //if (ViewBag.Fields == null) ViewBag.Fields = EditFormFields;
+        //ViewBag.Factory = XCode.Membership.User.Meta.Factory;
 
-        // 必须指定视图名，因为其它action会调用
-        return View("Info", user);
+        //// 必须指定视图名，因为其它action会调用
+        //return View("Info", user);
+
+        return Json(0, null, user);
     }
 
     /// <summary>更新用户资料</summary>
@@ -511,7 +477,7 @@ public class UserController : EntityController<User>
         var file = HttpContext.Request.Form.Files["avatar"];
         if (file != null)
         {
-            var set = Setting.Current;
+            var set = CubeSetting.Current;
             var fileName = user.ID + Path.GetExtension(file.FileName);
             var att = await SaveFile(user, file, set.AvatarPath, fileName);
             if (att != null) user.Avatar = att.FilePath;
@@ -531,7 +497,7 @@ public class UserController : EntityController<User>
     protected override Task<Attachment> SaveFile(User entity, IFormFile file, String uploadPath, String fileName)
     {
         // 修改保存目录和文件名
-        var set = Setting.Current;
+        var set = CubeSetting.Current;
         if (file.Name.EqualIgnoreCase("avatar")) fileName = entity.ID + Path.GetExtension(file.FileName);
 
         return base.SaveFile(entity, file, set.AvatarPath, fileName);
@@ -541,6 +507,7 @@ public class UserController : EntityController<User>
     /// <returns></returns>
     //[AllowAnonymous]
     [EntityAuthorize]
+    [HttpGet]
     public ActionResult ChangePassword()
     {
         var user = ManageProvider.User as XCode.Membership.User;
@@ -553,7 +520,7 @@ public class UserController : EntityController<User>
             SsoName = name,
         };
 
-        return View(model);
+        return Json(0, null, model);
     }
 
     /// <summary>修改密码</summary>
@@ -584,19 +551,18 @@ public class UserController : EntityController<User>
 
         var user = ManageProvider.Provider.ChangePassword(current.Name, model.NewPassword, requireOldPass ? model.OldPassword : null);
 
-        //(user as User).Update();
+        //ViewBag.StatusMessage = "修改成功！";
 
-        ViewBag.StatusMessage = "修改成功！";
+        //return Ok(ViewBag.StatusMessage);
 
-        if (IsJsonRequest) return Ok(ViewBag.StatusMessage);
-
-        return ChangePassword();
+        return Json(0, null, "修改成功！");
     }
 
     /// <summary>用户绑定</summary>
     /// <returns></returns>
     //[AllowAnonymous]
     [EntityAuthorize]
+    [HttpGet]
     public ActionResult Binds()
     {
         var user = ManageProvider.User as XCode.Membership.User;
@@ -616,9 +582,7 @@ public class UserController : EntityController<User>
             OAuthItems = ms,
         };
 
-        if (IsJsonRequest) return Ok(data: model);
-
-        return View(model);
+        return Ok(data: model);
     }
 
     /// <summary>注册</summary>
@@ -632,7 +596,7 @@ public class UserController : EntityController<User>
         var password = registerModel.Password;
         var password2 = registerModel.Password2;
 
-        var set = Setting.Current;
+        var set = CubeSetting.Current;
         if (!set.AllowRegister) throw new Exception("禁止注册！");
 
         try
@@ -674,13 +638,14 @@ public class UserController : EntityController<User>
         var model = GetViewModel(null);
         model.OAuthItems = OAuthConfig.GetVisibles();
 
-        return View("Login", model);
+        return Json(0, null, model);
     }
 
     /// <summary>清空密码</summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [EntityAuthorize(PermissionFlags.Update)]
+    [HttpPost]
     public ActionResult ClearPassword(Int32 id)
     {
         if (!ManageProvider.User.Role.IsSystem) throw new Exception("清除密码操作需要管理员权限，非法操作！");
@@ -691,42 +656,6 @@ public class UserController : EntityController<User>
         user.Password = null;
         user.SaveWithoutValid();
 
-        if (IsJsonRequest) return Ok();
-
-        return RedirectToAction("Edit", new { id });
+        return Ok();
     }
-
-    ///// <summary>批量启用</summary>
-    ///// <param name="keys"></param>
-    ///// <returns></returns>
-    //[EntityAuthorize(PermissionFlags.Update)]
-    //public ActionResult EnableSelect(String keys) => EnableOrDisableSelect();
-
-    ///// <summary>批量禁用</summary>
-    ///// <param name="keys"></param>
-    ///// <returns></returns>
-    //[EntityAuthorize(PermissionFlags.Update)]
-    //public ActionResult DisableSelect(String keys) => EnableOrDisableSelect(false);
-
-    //private ActionResult EnableOrDisableSelect(Boolean isEnable = true)
-    //{
-    //    var count = 0;
-    //    var ids = GetRequest("keys").SplitAsInt();
-    //    if (ids.Length > 0)
-    //    {
-    //        foreach (var id in ids)
-    //        {
-    //            var user = FindByID(id);
-    //            if (user != null && user.Enable != isEnable)
-    //            {
-    //                user.Enable = isEnable;
-    //                user.Update();
-
-    //                Interlocked.Increment(ref count);
-    //            }
-    //        }
-    //    }
-
-    //    return JsonRefresh($"共{(isEnable ? "启用" : "禁用")}[{count}]个用户");
-    //}
 }

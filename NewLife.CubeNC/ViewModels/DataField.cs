@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using NewLife.Collections;
+using NewLife.Reflection;
 using XCode;
 using XCode.Configuration;
 
@@ -36,13 +37,10 @@ public class DataField
     public String Category { get; set; }
 
     /// <summary>属性类型</summary>
-    [IgnoreDataMember]
+    [XmlIgnore, IgnoreDataMember]
     public Type Type { get; set; }
 
-    ///// <summary>数据类型</summary>
-    //public String DataType { get; set; }
-
-    /// <summary>元素类型。image,file,html,singleSelect,multipleSelect</summary>
+    /// <summary>元素类型。image,file-zip,html,singleSelect,multipleSelect</summary>
     public String ItemType { get; set; }
 
     /// <summary>长度</summary>
@@ -63,10 +61,8 @@ public class DataField
     /// <summary>只读</summary>
     public Boolean Readonly { get; set; }
 
-    ///// <summary>排序</summary>
-    //public Int32 Sort { get; set; }
-
     /// <summary>原始字段</summary>
+    [XmlIgnore, IgnoreDataMember]
     public FieldItem Field { get; set; }
 
     /// <summary>映射字段</summary>
@@ -77,9 +73,11 @@ public class DataField
     public MapProvider MapProvider { get; set; }
 
     /// <summary>多选数据源</summary>
+    [XmlIgnore, IgnoreDataMember]
     public DataSourceDelegate DataSource { get; set; }
 
     /// <summary>是否显示</summary>
+    [XmlIgnore, IgnoreDataMember]
     public DataVisibleDelegate DataVisible { get; set; }
 
     /// <summary>扩展属性</summary>
@@ -153,8 +151,8 @@ public class DataField
         //df.DisplayName = DisplayName;
         //df.Description = Description;
         //df.Category = Category;
+
         //df.Type = Type;
-        //df.DataType = DataType;
         //df.ItemType = ItemType;
         //df.Length = Length;
         //df.Precision = Precision;
@@ -162,10 +160,19 @@ public class DataField
         //df.Nullable = Nullable;
         //df.PrimaryKey = PrimaryKey;
         //df.Readonly = Readonly;
+
+        //df.Field = Field;
         //df.MapField = MapField;
         //df.MapProvider = MapProvider;
         //df.DataSource = DataSource;
-        //df.Properties = Properties;
+        ////df.Properties = Properties;
+
+        //foreach (var item in Properties)
+        //{
+        //    df.Properties[item.Key] = item.Value;
+        //}
+
+        //df._services = _services;
 
         //return df;
 
@@ -175,6 +182,10 @@ public class DataField
     /// <summary>是否大文本字段</summary>
     /// <returns></returns>
     public virtual Boolean IsBigText() => Type == typeof(String) && (Length < 0 || Length >= 300 || Length >= 200 && Name.EqualIgnoreCase("Remark", "Description", "Comment"));
+
+    /// <summary>是否附件列</summary>
+    /// <returns></returns>
+    public Boolean IsAttachment() => ItemType.EqualIgnoreCase("file", "image") || ItemType.StartsWithIgnoreCase("file-", "image-");
     #endregion
 
     #region 服务
