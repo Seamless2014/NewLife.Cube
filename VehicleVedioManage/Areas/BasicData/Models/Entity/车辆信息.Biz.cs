@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using NewLife;
+using NewLife.BasicData.Entity;
 using NewLife.Data;
 using XCode;
 using XCode.Cache;
@@ -105,16 +106,6 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 扩展属性
-        /// <summary>车辆类型名称</summary>
-        [XmlIgnore, IgnoreDataMember]
-        //[ScriptIgnore]
-        public Parameter _Parameter => Extends.Get(nameof(Parameter), k => Parameter.FindByID(ParameterID));
-
-        /// <summary>车辆类型名称</summary>
-        [Map(nameof(ParameterID), typeof(Parameter), "ID")]
-        [Category("基本信息")]
-        public String? VehicleTypeName => _Parameter?.Name;
-
         /// <summary>部门</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
@@ -134,6 +125,43 @@ namespace VehicleVedioManage.BasicData.Entity
         [Map(nameof(IndustryID), typeof(IndustryType), "ID")]
         [Category("基本信息")]
         public String? IndustryTypeName => _IndustryType?.Name;
+        /// <summary>车牌颜色</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public PlateColor _PlateColor => Extends.Get(nameof(PlateColor), k => PlateColor.FindByID(PlateColorID));
+
+        /// <summary>车牌颜色名称</summary>
+        [Map(nameof(PlateColorID), typeof(PlateColor), "ID")]
+        [Category("基本信息")]
+        public String? PlateColorName => _PlateColor?.Name;
+        /// <summary>车辆类型</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public VehicleType _VehicleType => Extends.Get(nameof(VehicleType), k => VehicleType.FindByID(VehicleTypeID));
+
+        /// <summary>车牌颜色名称</summary>
+        [Map(nameof(VehicleTypeID), typeof(VehicleType), "ID")]
+        [Category("基本信息")]
+        public String? VehicleTypeName => _VehicleType?.Name;
+
+        /// <summary>运营状态</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public RunStatus _RunStatus => Extends.Get(nameof(RunStatus), k => RunStatus.FindByCode(RunStatusCode));
+
+        /// <summary>运营状态名称</summary>
+        [Map(nameof(RunStatusCode), typeof(RunStatus), "Code")]
+        [Category("基本信息")]
+        public String? RunStatusName => _RunStatus?.Name;
+
+        /// <summary>使用类型</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public UseType _UserTypeCode => Extends.Get(nameof(UseType), k => UseType.FindByCode(UseTypeCode));
+        /// <summary>使用类型名称</summary>
+        [Map(nameof(UseTypeCode), typeof(UseType), "Code")]
+        [Category("基本信息")]
+        public String? UseTypeName => _UserTypeCode?.Name;
         #endregion
 
         #region 扩展查询
@@ -145,7 +173,7 @@ namespace VehicleVedioManage.BasicData.Entity
             if (vehicleId <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.VehicleID == vehicleId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ID == vehicleId);
 
             // 单对象缓存
             return Meta.SingleCache[vehicleId];
@@ -193,7 +221,31 @@ namespace VehicleVedioManage.BasicData.Entity
 
             if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
             exp &= _.UpdateTime.Between(start, end);
-            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DepartmentName.Contains(key) | _.Region.Contains(key) | _.UseType.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
+            exp &= _.Deleted == false;
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DepartmentName.Contains(key) | _.Region.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
+
+            return FindAll(exp, page);
+        }
+        /// <summary>
+        /// 高级查询
+        /// </summary>
+        /// <param name="plateNo"></param>
+        /// <param name="plateColorCode"></param>
+        /// <param name="runStatusCode"></param>
+        /// <param name="vehicleTypeCode"></param>
+        /// <param name="key"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public static IList<Vehicle> Search(String plateNo, string plateColorCode, string runStatusCode,string vehicleTypeCode, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!plateColorCode.IsNullOrEmpty()) exp &= _.PlateColorID == plateColorCode;
+            if (!runStatusCode.IsNullOrEmpty()) exp &= _.RunStatusCode == runStatusCode;
+            if (!vehicleTypeCode.IsNullOrEmpty()) exp &= _.VehicleTypeID == vehicleTypeCode;
+            exp &= _.Deleted == false;
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DepartmentName.Contains(key) | _.Region.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
 
             return FindAll(exp, page);
         }

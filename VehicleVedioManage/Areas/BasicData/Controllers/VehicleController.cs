@@ -19,7 +19,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
 
             PageSetting.EnableTableDoubleClick = true;
             _tracer = provider?.GetService<ITracer>();
-            ListFields.RemoveField("VehicleId", "Deleted", "DepartmentID","CreateUserID","UpdateUserID");
+            ListFields.RemoveField("ID", "Deleted", "DepartmentID","CreateUserID","UpdateUserID", "TenantID");
         }
 
         protected override Vehicle Find(Object key)
@@ -30,13 +30,14 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         protected override IEnumerable<Vehicle> Search(Pager p)
         {
             using var span = _tracer?.NewSpan(nameof(Search), p);
-            var id = p["Deleted"].ToBoolean();
-            if (!id)
-            {
-                var entity = Vehicle.FindByDeleted(id);
-                return entity.Count == 0 ? new List<Vehicle>() : entity;
-            }
-            return Vehicle.Search(p["Deleted"], p);
+            //var id = p["Deleted"].ToBoolean();
+            //p["PlateColor"],p["RunStatus"],p["VehicleType"]
+            //if (!id)
+            //{
+            //    var entity = Vehicle.FindByDeleted(id);
+            //    return entity.Count == 0 ? new List<Vehicle>() : entity;
+            //}
+            return Vehicle.Search(null, p["PlateColor"], p["RunStatus"], p["VehicleType"],"", p);
         }
 
         public override ActionResult Index(Pager p = null)
@@ -79,6 +80,13 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
                 return Redirect(url);
             else
             return RedirectToAction("Index");
+        }
+
+        protected override Int32 OnUpdate(Vehicle entity)
+        {
+            var rs = -1;
+            rs = base.OnUpdate(entity);
+            return rs;
         }
     }
 }

@@ -39,6 +39,7 @@ namespace VehicleVedioManage.BasicData.Entity
             Meta.Modules.Add<UserModule>();
             Meta.Modules.Add<TimeModule>();
             Meta.Modules.Add<IPModule>();
+            FindAll();
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -125,19 +126,31 @@ namespace VehicleVedioManage.BasicData.Entity
 
             //return Find(_.ID == id);
         }
+        /// <summary>根据用户查找</summary>
+        /// <param name="userId">用户</param>
+        /// <param name="category">分类</param>
+        /// <returns>实体列表</returns>
+        public static IList<PlateColor> FindAll()
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e=>e.ID>0);
+
+            return FindAll();
+        }
+
         #endregion
 
         #region 高级查询
 
         // Select Count(ID) as ID,Category From PlateColor Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
-        //static readonly FieldCache<PlateColor> _CategoryCache = new FieldCache<PlateColor>(nameof(Category))
-        //{
-        //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
-        //};
+        static readonly FieldCache<PlateColor> _CategoryCache = new FieldCache<PlateColor>(nameof(PlateColor))
+        {
+            Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
 
-        ///// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
-        ///// <returns></returns>
-        //public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
+        /// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
         #endregion
 
         #region 业务操作

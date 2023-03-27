@@ -1,39 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Script.Serialization;
-using System.Xml.Serialization;
-using NewLife;
-using NewLife.Data;
-using NewLife.Log;
-using NewLife.Model;
-using NewLife.Reflection;
-using NewLife.Threading;
-using NewLife.Web;
-using XCode;
-using XCode.Cache;
-using XCode.Configuration;
-using XCode.DataAccessLayer;
+﻿using XCode;
 using XCode.Membership;
-using XCode.Shards;
 
 namespace VehicleVedioManage.BasicData.Entity
 {
-    public partial class RunStatus : Entity<RunStatus>
+    public partial class UseType : Entity<UseType>
     {
         #region 对象操作
-        static RunStatus()
+        static UseType()
         {
             // 累加字段，生成 Update xx Set Count=Count+1234 Where xxx
             //var df = Meta.Factory.AdditionalFields;
-            //df.Add(nameof(Code));
+            //df.Add(nameof(CreateUserID));
 
             // 过滤器 UserModule、TimeModule、IPModule
             Meta.Modules.Add<UserModule>();
@@ -72,10 +49,10 @@ namespace VehicleVedioManage.BasicData.Entity
         //    // InitData一般用于当数据表没有数据时添加一些默认数据，该实体类的任何第一次数据库操作都会触发该方法，默认异步调用
         //    if (Meta.Session.Count > 0) return;
 
-        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化RunStatus[RunStatus]数据……");
+        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化UseType[使用类型]数据……");
 
-        //    var entity = new RunStatus();
-        //    entity.Code = 0;
+        //    var entity = new UseType();
+        //    entity.Code = "abc";
         //    entity.Name = "abc";
         //    entity.CreateUser = "abc";
         //    entity.CreateUserID = 0;
@@ -88,7 +65,7 @@ namespace VehicleVedioManage.BasicData.Entity
         //    entity.Remark = "abc";
         //    entity.Insert();
 
-        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化RunStatus[RunStatus]数据！");
+        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化UseType[使用类型]数据！");
         //}
 
         ///// <summary>已重载。基类先调用Valid(true)验证数据，然后在事务保护内调用OnInsert</summary>
@@ -110,10 +87,10 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 扩展查询
-        /// <summary>根据编号查找</summary>
-        /// <param name="id">编号</param>
+        /// <summary>根据ID查找</summary>
+        /// <param name="id">ID</param>
         /// <returns>实体对象</returns>
-        public static RunStatus FindByID(Int32 id)
+        public static UseType FindByID(Int32 id)
         {
             if (id <= 0) return null;
 
@@ -125,10 +102,12 @@ namespace VehicleVedioManage.BasicData.Entity
 
             //return Find(_.ID == id);
         }
-        /// <summary>根据编码查找</summary>
-        /// <param name="code">编码</param>
-        /// <returns>实体对象</returns>
-        public static RunStatus FindByCode(string code)
+        /// <summary>
+        /// 通过编码Code查找
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static UseType FindByCode(string code)
         {
             if (string.IsNullOrEmpty(code)) return null;
 
@@ -140,18 +119,13 @@ namespace VehicleVedioManage.BasicData.Entity
 
             //return Find(_.ID == id);
         }
-        /// <summary>
-        /// 是否已经存在 Code
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public static bool isExistCode(String code)
+        public static bool isExistCode(string code)
         {
             var isExist = false;
             var list = FindByCode(code);
-             if(list != null)
+            if (list != null)
             {
-                isExist=true;
+                isExist = true;
             }
             return isExist;
         }
@@ -159,8 +133,8 @@ namespace VehicleVedioManage.BasicData.Entity
 
         #region 高级查询
 
-        // Select Count(ID) as ID,Category From RunStatus Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
-        //static readonly FieldCache<RunStatus> _CategoryCache = new FieldCache<RunStatus>(nameof(Category))
+        // Select Count(ID) as ID,Category From UseType Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
+        //static readonly FieldCache<UseType> _CategoryCache = new FieldCache<UseType>(nameof(Category))
         //{
         //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
         //};

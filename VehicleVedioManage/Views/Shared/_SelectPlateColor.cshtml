@@ -1,9 +1,10 @@
-﻿@using VehicleVedioManage.Enums;
-@using NewLife.Web;
+﻿@using NewLife.Web;
 @using NewLife.Cube;
+@using VehicleVedioManage.BasicData.Entity;
+@*@using VehicleVedioManage.Enums;*@
 @{
     var page = ViewBag.Page as Pager;
-    var PlateColorList = CommonEnumFunc.GetDictionary("PlateColor", 0);
+    var PlateColorList = PlateColor.FindAll();// CommonEnumFunc.GetDictionary("PlateColor", 0);
 }
 <div class="form-group">
     <label for="PlateColor" class="control-label">车牌颜色：</label>

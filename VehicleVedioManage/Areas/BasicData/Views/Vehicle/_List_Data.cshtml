@@ -35,12 +35,12 @@
             <tr>
                 @if (set.EnableSelect)
                 {
-                    <td class="text-center"><input type="checkbox" name="keys" value="@entity.VehicleID" /></td>
+                    <td class="text-center"><input type="checkbox" name="keys" value="@entity.ID" /></td>
                 }
                 <td class="text-center">@entity.PlateNo</td>
                 <td class="text-center">@entity.VehicleTypeName</td>
-                <td>@(Enum.GetName(typeof(PlateColor), entity.PlateColor))</td>
-                <td>@(Enum.GetName(typeof(RunStatus), entity.RunStatus))</td>
+                <td>@entity.PlateColorName</td>
+                <td>@entity.RunStatusName</td>
                 <td>@entity.SimNo</td>
                 <td>@entity.CreateTime</td>
                 <td>@entity.DepartmentName</td>

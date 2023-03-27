@@ -64,7 +64,7 @@ namespace VehicleVedioManage.BasicData.Entity
         [DisplayName("行业类型名称")]
         [Description("行业类型名称")]
         [DataObjectField(false, false, true, 32)]
-        [BindColumn("Name", "行业类型名称", "varchar(32)")]
+        [BindColumn("Name", "行业类型名称", "varchar(32)", Master = true)]
         public String Name { get => _name; set { if (OnPropertyChanging("Name", value)) { _name = value; OnPropertyChanged("Name"); } } }
         #endregion
 

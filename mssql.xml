@@ -1,0 +1,1311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Tables>
+  <Table Name="AlarmConfig" Description="报警设置" DbType="SqlServer">
+    <Columns>
+      <Column Name="id" DataType="Int32" Identity="True" PrimaryKey="True" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" />
+      <Column Name="alarmType" DataType="String" Length="255" />
+      <Column Name="Enabled" DataType="Boolean" Nullable="True" />
+      <Column Name="soundEnabled" DataType="Boolean" Nullable="True" />
+      <Column Name="popupEnabled" DataType="Boolean" Nullable="True" />
+      <Column Name="alarmSource" DataType="String" />
+      <Column Name="statisticEnabled" DataType="Boolean" Nullable="True" />
+    </Columns>
+  </Table>
+  <Table Name="AlarmRecord" Description="报警记录" DbType="SqlServer">
+    <Columns>
+      <Column Name="AlarmId" DataType="Int32" Identity="True" PrimaryKey="True" Description="报警编码" />
+      <Column Name="PlateNo" DataType="String" Length="15" Description="车牌号" />
+      <Column Name="StartTime" DataType="DateTime" Scale="3" Description="起始时间" />
+      <Column Name="EndTime" DataType="DateTime" Scale="3" Description="结束时间" />
+      <Column Name="TimeSpan" DataType="Double" Nullable="True" Description="时间跨度" />
+      <Column Name="Velocity" DataType="Double" Nullable="True" Description="速度" />
+      <Column Name="Status" DataType="String" Length="55" Description="状态" />
+      <Column Name="Driver" DataType="String" Length="255" Description="驾驶员" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Location" DataType="String" Length="255" Description="位置" />
+      <Column Name="Latitude1" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Longitude1" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Location1" DataType="String" Length="255" Description="位置" />
+      <Column Name="Processed" DataType="Int32" Nullable="True" Description="处理" />
+      <Column Name="ProcessedTime" DataType="DateTime" Scale="3" Description="处理时间" />
+      <Column Name="Type" DataType="String" Length="25" Description="类型" />
+      <Column Name="ChildType" DataType="String" Length="25" Description="子类型" />
+      <Column Name="Station" DataType="Int32" Nullable="True" Description="站点" />
+      <Column Name="ValveState" DataType="String" Length="255" Description="阀门状态" />
+      <Column Name="ValveState1" DataType="String" Length="255" Description="阀门状态1" />
+      <Column Name="Gas1" DataType="Double" Nullable="True" Description="油气1" />
+      <Column Name="Gas2" DataType="Double" Nullable="True" Description="油气2" />
+      <Column Name="Mileage1" DataType="Double" Nullable="True" Description="里程1" />
+      <Column Name="Mileage2" DataType="Double" Nullable="True" Description="里程2" />
+      <Column Name="VideoFileName" DataType="String" Length="255" Description="视频文件名称" />
+      <Column Name="Flag" DataType="String" Length="255" Description="标识" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="ResponseSN" DataType="Int32" Nullable="True" Description="响应序号" />
+      <Column Name="ProcessedUserId" DataType="Int32" Nullable="True" Description="处理用户编码" />
+      <Column Name="ProcessedUserName" DataType="String" Description="处理用户名称" />
+      <Column Name="AlarmSource" DataType="String" Length="255" Description="报警源" />
+      <Column Name="AlarmType" DataType="String" Length="255" Description="报警类型" />
+    </Columns>
+  </Table>
+  <Table Name="AlarmStatic" Description="报警统计" DbType="SqlServer">
+    <Columns>
+      <Column Name="StatisticsId" DataType="Int32" Identity="True" PrimaryKey="True" Description="统计编码" />
+      <Column Name="PlateNo" DataType="String" Length="20" Description="车牌号" />
+      <Column Name="AlarmType" DataType="String" Description="报警类型" />
+      <Column Name="AlarmNum" DataType="Int32" Nullable="True" Description="报警数" />
+      <Column Name="StatisticsDate" DataType="String" RawType="nchar(10)" Length="10" Description="统计日期" />
+      <Column Name="StatisticsType" DataType="Int32" Nullable="True" Description="统计类型" />
+    </Columns>
+  </Table>
+  <Table Name="BasicData" Description="基础数据" DbType="SqlServer">
+    <Columns>
+      <Column Name="BaseId" DataType="Int32" Identity="True" PrimaryKey="True" Description="基础数据编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
+      <Column Name="Code" DataType="String" Length="255" Description="代码" />
+      <Column Name="Parent" DataType="String" Length="255" Description="上级" />
+      <Column Name="MetaData" DataType="String" Length="255" Description="元(标签)" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" />
+    </Columns>
+  </Table>
+  <Table Name="BasicInfo" Description="基础数据" DbType="SqlServer">
+    <Columns>
+      <Column Name="BaseId" DataType="Int32" Identity="True" PrimaryKey="True" Description="基础数据编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
+      <Column Name="Code" DataType="String" Length="255" Description="代码" />
+      <Column Name="Parent" DataType="String" Length="255" Description="上级" />
+      <Column Name="MetaData" DataType="String" Length="255" Description="元(标签)" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" />
+    </Columns>
+  </Table>
+  <Table Name="CheckRecord" Description="检查记录" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="Answer" DataType="String" RawType="varchar(255)" Length="255" Description="应答" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="InfoId" DataType="Int32" Description="信息编码" />
+      <Column Name="Message" DataType="String" RawType="varchar(255)" Length="255" Description="信息" />
+      <Column Name="ObjId" DataType="String" RawType="varchar(255)" Length="255" Description="对象编码" />
+      <Column Name="ObjType" DataType="Int32" Description="对象类型" />
+      <Column Name="PlatformId" DataType="Int32" Description="平台编码" />
+      <Column Name="Status" DataType="Int32" Description="状态" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+    </Columns>
+  </Table>
+  <Table Name="CustomMarker" Description="定制标记" DbType="SqlServer">
+    <Columns>
+      <Column Name="MarkerId" DataType="Int32" Identity="True" PrimaryKey="True" Description="标记编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
+      <Column Name="Code" DataType="String" Length="255" Description="代码" />
+      <Column Name="Owner" DataType="String" Length="255" Description="物主" />
+      <Column Name="Phone" DataType="String" Length="255" Description="电话" />
+      <Column Name="Mobile" DataType="String" Length="255" Description="手机号" />
+      <Column Name="Layer" DataType="String" Length="255" Description="层级" />
+      <Column Name="DepId" DataType="Int32" Nullable="True" Description="部门编码" />
+      <Column Name="Office" DataType="String" Length="255" Description="办公" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="IsEnclosure" DataType="Boolean" Nullable="True" Description="是否封闭" />
+      <Column Name="Scope" DataType="Int32" Nullable="True" Description="范围" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Fixed" DataType="Boolean" Nullable="True" Description="是否固定" />
+    </Columns>
+  </Table>
+  <Table Name="DriverInfo" Description="司机信息" DbType="SqlServer">
+    <Columns>
+      <Column Name="DriverId" DataType="Int32" Identity="True" PrimaryKey="True" Description="驾驶员编码" />
+      <Column Name="CompanyNo" DataType="String" Length="20" Description="企业编码" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="DriverCode" DataType="String" RawType="varchar(8)" Length="8" Description="驾驶员编码" />
+      <Column Name="DriverName" DataType="String" Length="32" Description="驾驶员姓名" />
+      <Column Name="Sex" DataType="String" Length="8" Description="性别" />
+      <Column Name="DriverLicence" DataType="String" Description="驾驶执照" />
+      <Column Name="IdentityCard" DataType="String" Description="身份证" />
+      <Column Name="NativePlace" DataType="String" Description="籍贯" />
+      <Column Name="Address" DataType="String" Length="64" Description="地址" />
+      <Column Name="Telephone" DataType="String" RawType="varchar(32)" Length="32" Description="电话" />
+      <Column Name="MobilePhone" DataType="String" RawType="varchar(32)" Length="32" Description="手机号" />
+      <Column Name="Birthday" DataType="DateTime" Scale="3" Description="生日" />
+      <Column Name="DrivingType" DataType="String" Length="8" Description="驱动类型" />
+      <Column Name="ExamineYear" DataType="DateTime" Scale="3" Description="检查年份" />
+      <Column Name="HarnessesAge" DataType="Byte" Nullable="True" />
+      <Column Name="Status" DataType="Int16" Nullable="True" Description="状态" />
+      <Column Name="Appointment" DataType="DateTime" Scale="3" Description="预约时间" />
+      <Column Name="BaseSalary" DataType="Single" Nullable="True" Description="基本工资" />
+      <Column Name="RoyaltiesScale" DataType="Single" Nullable="True" Description="使用规模" />
+      <Column Name="AppraisalIntegral" DataType="Single" Nullable="True" Description="评估" />
+      <Column Name="DriverRFID" DataType="String" RawType="varchar(40)" Length="40" Description="驾驶员射频卡" />
+      <Column Name="Password" DataType="String" RawType="varchar(16)" Length="16" Description="密码" />
+      <Column Name="OperatorID" DataType="Int32" Nullable="True" Description="运营商编码" />
+      <Column Name="Register" DataType="DateTime" Scale="3" Description="注册" />
+      <Column Name="Remark" DataType="String" Length="256" Description="备注" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="LicenseAgency" DataType="String" Length="64" Description="许可证机构" />
+      <Column Name="CertificationDate" DataType="DateTime" Scale="3" Description="认证日期" />
+      <Column Name="InvalidDate" DataType="DateTime" Scale="3" Description="无效期" />
+      <Column Name="Corp" DataType="String" RawType="varchar(32)" Length="32" Description="公司" />
+      <Column Name="MonitorOrg" DataType="String" RawType="varchar(32)" Length="32" Description="监控组织" />
+      <Column Name="MonitorPhone" DataType="String" RawType="varchar(32)" Length="32" Description="监控电话" />
+      <Column Name="ServiceLevel" DataType="Int32" Nullable="True" Description="服务层级" />
+      <Column Name="BgTitle" DataType="String" RawType="varchar(32)" Length="32" Description="背景标题" />
+      <Column Name="Location" DataType="String" RawType="varchar(32)" Length="32" Description="位置" />
+      <Column Name="PhotoFormat" DataType="String" RawType="varchar(4)" Length="4" Description="照片格式" />
+      <Column Name="PhotoLength" DataType="Int32" Nullable="True" Description="照片长度" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="JobCard" DataType="String" Length="20" Description="工作证" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="MainDriver" DataType="Byte" Nullable="True" Description="主驾驶员" />
+    </Columns>
+  </Table>
+  <Table Name="DriverRecord" Description="驾驶记录" DbType="SqlServer">
+    <Columns>
+      <Column Name="DriverId" DataType="Int32" Identity="True" PrimaryKey="True" Description="驾驶员编码" />
+      <Column Name="CardState" DataType="Int32" Nullable="True" Description="卡片状态" />
+      <Column Name="OperTime" DataType="DateTime" Scale="3" Description="运营时间" />
+      <Column Name="ReadResult" DataType="Int32" Nullable="True" Description="读取结果" />
+      <Column Name="DriverName" DataType="String" Length="255" Description="驾驶员姓名" />
+      <Column Name="CertificationCode" DataType="String" Length="255" Description="认证代码" />
+      <Column Name="AgencyName" DataType="String" Length="255" Description="机构名称" />
+      <Column Name="ValidateDate" DataType="String" Length="255" Description="验证日期" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+    </Columns>
+  </Table>
+  <Table Name="ElectronicFence" Description="电子围栏" DbType="SqlServer">
+    <Columns>
+      <Column Name="EnclosureId" DataType="Int32" Identity="True" PrimaryKey="True" Description="围栏编码" />
+      <Column Name="MapType" DataType="String" Length="255" Description="地图类型" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
+      <Column Name="Points" DataType="String" Length="2500" Description="点位" />
+      <Column Name="EnclosureType" DataType="String" Length="255" Description="围栏类型" />
+      <Column Name="KeyPoint" DataType="Int32" Nullable="True" Description="关键点" />
+      <Column Name="AlarmType" DataType="String" Length="255" Description="报警类型" />
+      <Column Name="StartDate" DataType="DateTime" Scale="3" Description="开始时间" />
+      <Column Name="EndDate" DataType="DateTime" Scale="3" Description="结束时间" />
+      <Column Name="Radius" DataType="Double" Nullable="True" Description="半径" />
+      <Column Name="ByTime" DataType="Boolean" Nullable="True" Description="根据时间" />
+      <Column Name="LimitSpeed" DataType="Boolean" Nullable="True" Description="限速" />
+      <Column Name="OffsetDelay" DataType="Int32" Nullable="True" Description="偏移延迟" />
+      <Column Name="Delay" DataType="Int32" Nullable="True" Description="延迟" />
+      <Column Name="MaxSpeed" DataType="Double" Nullable="True" Description="最大速度" />
+      <Column Name="DepId" DataType="Int32" Nullable="True" Description="部门编码" />
+      <Column Name="Icon" DataType="String" Length="255" Description="图标" />
+      <Column Name="Status" DataType="String" Length="255" Description="状态" />
+      <Column Name="LineWidth" DataType="Double" Nullable="True" Description="线宽" />
+      <Column Name="CenterLat" DataType="Double" Nullable="True" Description="中心纬度" />
+      <Column Name="CenterLng" DataType="Double" Nullable="True" Description="中心经度" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="255" Description="物主" />
+    </Columns>
+  </Table>
+  <Table Name="ElectronicFenceBinding" Description="围栏绑定" DbType="SqlServer">
+    <Columns>
+      <Column Name="BindId" DataType="Int32" Identity="True" PrimaryKey="True" Description="绑定编码" />
+      <Column Name="EnclosureId" DataType="Int32" Nullable="True" Description="围栏编码" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="BindType" DataType="String" Length="255" Description="绑定类型" />
+      <Column Name="CommandId" DataType="Int32" Nullable="True" Description="指令编码" />
+      <Column Name="ConfigType" DataType="Int32" Nullable="True" Description="配置类型" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="255" Description="物主" />
+    </Columns>
+  </Table>
+  <Table Name="EWayBill" Description="电子运单" DbType="SqlServer">
+    <Columns>
+      <Column Name="BillId" DataType="Int32" Identity="True" PrimaryKey="True" Description="电子运单编码" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="PlateColor" DataType="Int32" Nullable="True" Description="车牌颜色" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="EBContent" DataType="String" Length="500" Description="电子运单内容" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Remark" DataType="String" Description="备注" />
+    </Columns>
+  </Table>
+  <Table Name="FuelChangeRecord" Description="燃料变化记录" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="燃料变化记录编号" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="Fuel" DataType="Double" Nullable="True" Description="燃料" />
+      <Column Name="Type" DataType="String" Length="255" Description="燃料类型" />
+      <Column Name="HappenTime" DataType="DateTime" Scale="3" Description="发生时间" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Manual" DataType="String" Length="255" Description="手动" />
+      <Column Name="Location" DataType="String" Length="255" Description="位置" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Mileage" DataType="Double" Nullable="True" Description="里程" />
+      <Column Name="Owner" DataType="String" Length="255" Description="物主" />
+      <Column Name="Remark" DataType="String" Description="备注" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="EnclosureId" DataType="Int32" Nullable="True" Description="围栏编码" />
+    </Columns>
+    <Indexes>
+      <Index Name="UQ__FuelChan__95E4F54478D964FE" Columns="EnclosureId" Unique="True" />
+    </Indexes>
+  </Table>
+  <Table Name="FuelConsumption" Description="燃料消费" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="燃料消耗量编码" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="IntervalDescr" DataType="String" Length="255" Description="间隔描述" />
+      <Column Name="Hour" DataType="Double" Nullable="True" Description="小时" />
+      <Column Name="StatisticsDate" DataType="DateTime" Scale="3" Description="统计日期" />
+      <Column Name="Fuel" DataType="Decimal" RawType="numeric(18, 2)" Scale="2" Nullable="True" Description="燃料" />
+      <Column Name="IntervalType" DataType="Int32" Nullable="True" Description="间隔类型" />
+      <Column Name="Mileage" DataType="Decimal" RawType="numeric(18, 2)" Scale="2" Nullable="True" Description="里程" />
+      <Column Name="Gas1" DataType="Decimal" RawType="numeric(18, 2)" Scale="2" Nullable="True" Description="油气1" />
+      <Column Name="Mileage1" DataType="Decimal" RawType="numeric(18, 2)" Scale="2" Nullable="True" Description="里程1" />
+      <Column Name="Gas2" DataType="Decimal" RawType="numeric(18, 2)" Scale="2" Nullable="True" Description="油气2" />
+      <Column Name="Mileage2" DataType="Decimal" RawType="numeric(18, 2)" Scale="2" Nullable="True" Description="里程2" />
+      <Column Name="Gas" DataType="Decimal" RawType="numeric(18, 2)" Scale="2" Nullable="True" Description="油气" />
+      <Column Name="Deleted" DataType="String" RawType="char(1)" Length="1" Description="删除" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Remark" DataType="String" Description="备注" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Oil" DataType="Decimal" RawType="numeric(18, 2)" Scale="2" Nullable="True" Description="油" />
+      <Column Name="Oil1" DataType="Decimal" RawType="numeric(18, 2)" Scale="2" Nullable="True" Description="油1" />
+      <Column Name="Oil2" DataType="Decimal" RawType="numeric(18, 2)" Scale="2" Nullable="True" Description="油2" />
+    </Columns>
+  </Table>
+  <Table Name="FuelRecord" Description="燃料记录" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编码" />
+      <Column Name="VehicleId" DataType="String" Length="255" Description="车辆编码" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="CommandId" DataType="Int32" Nullable="True" Description="指令编码" />
+      <Column Name="OrderId" DataType="String" Length="255" Description="命令编码" />
+      <Column Name="SendTime" DataType="DateTime" Scale="3" Description="发送时间" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Velocity" DataType="Double" Nullable="True" Description="速度" />
+      <Column Name="Direction" DataType="Int32" Nullable="True" Description="方向" />
+      <Column Name="Status" DataType="Int32" Nullable="True" Description="状态" />
+      <Column Name="Mileage" DataType="Double" Nullable="True" Description="里程" />
+      <Column Name="Oil" DataType="Double" Nullable="True" Description="油气" />
+      <Column Name="RecordVelocity" DataType="Double" Nullable="True" Description="记录仪速度" />
+      <Column Name="Location" DataType="String" Length="255" Description="位置" />
+      <Column Name="AlarmState" DataType="String" Length="255" Description="报警状态" />
+      <Column Name="Gas" DataType="Double" Nullable="True" Description="气体" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="255" Description="物主" />
+    </Columns>
+  </Table>
+  <Table Name="FuelTank" Description="油箱" DbType="SqlServer">
+    <Columns>
+      <Column Name="TankId" DataType="Int32" Identity="True" PrimaryKey="True" Description="油箱编码" />
+      <Column Name="TankType" DataType="String" Length="255" Description="油箱类型" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="TankNo" DataType="Int32" Nullable="True" Description="油箱编号" />
+      <Column Name="Width" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="宽" />
+      <Column Name="Length" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="长" />
+      <Column Name="Height" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="高" />
+      <Column Name="SensorLength" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="传感器长度" />
+      <Column Name="Capacity" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="容量" />
+      <Column Name="Radius" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="半径" />
+      <Column Name="BlindHeight" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="盲板高度" />
+      <Column Name="NormalFuelConsum" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="正常燃料消耗" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="255" Description="物主" />
+    </Columns>
+  </Table>
+  <Table Name="FunctionModel" Description="功能模型" DbType="SqlServer">
+    <Columns>
+      <Column Name="FuncId" DataType="Int32" Identity="True" PrimaryKey="True" Description="功能编码" />
+      <Column Name="Descr" DataType="String" RawType="varchar(255)" Length="255" Description="功能描述" />
+      <Column Name="FuncType" DataType="Int32" Description="功能类型" />
+      <Column Name="ParentId" DataType="Int32" Nullable="True" Description="上级编码" />
+      <Column Name="Url" DataType="String" RawType="varchar(50)" Description="URL" />
+      <Column Name="Icon" DataType="String" Description="图标" />
+      <Column Name="MenuSort" DataType="Int32" Description="菜单排序" />
+      <Column Name="Name" DataType="String" Master="True" Description="名称" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Remark" DataType="String" Description="备注" />
+      <Column Name="Flag" DataType="Int32" Nullable="True" Description="标志" />
+    </Columns>
+  </Table>
+  <Table Name="GpsMileage" Description="GPS里程" DbType="SqlServer">
+    <Columns>
+      <Column Name="Id" DataType="Int32" Identity="True" PrimaryKey="True" Description="编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Deleted" DataType="Byte" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" RawType="varchar(255)" Length="255" Description="物主" />
+      <Column Name="Remark" DataType="String" RawType="varchar(255)" Length="255" Description="备注" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="GasLastComp" DataType="Double" Description="油气最后比较" />
+      <Column Name="GasLastDay" DataType="Double" Description="油气最后天数" />
+      <Column Name="GasLastHour" DataType="Double" Description="油气最后小时数" />
+      <Column Name="GasLastMonth" DataType="Double" Description="油气最后月数" />
+      <Column Name="LastCompTime" DataType="DateTime" Scale="3" Description="最后比较时间" />
+      <Column Name="MileageLastComp" DataType="Double" Description="最后比较里程" />
+      <Column Name="MileageLastDay" DataType="Double" Description="里程最后天数" />
+      <Column Name="MileageLastHour" DataType="Double" Description="里程最后小时数" />
+      <Column Name="MileageLastMonth" DataType="Double" Description="里程最后月数" />
+      <Column Name="PlateNo" DataType="String" RawType="varchar(255)" Length="255" Description="车牌号" />
+    </Columns>
+  </Table>
+  <Table Name="GPSRealData" Description="实时数据" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="SimNo" DataType="String" Length="255" Description="Sim卡" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="Location" DataType="String" Length="255" Description="位置" />
+      <Column Name="SendTime" DataType="DateTime" Scale="3" Description="发送时间" />
+      <Column Name="Longitude" DataType="Decimal" RawType="numeric(18, 6)" Scale="6" Nullable="True" Description="经度" />
+      <Column Name="Latitude" DataType="Decimal" RawType="numeric(18, 6)" Scale="6" Nullable="True" Description="纬度" />
+      <Column Name="Velocity" DataType="Decimal" RawType="numeric(18, 1)" Scale="1" Nullable="True" Description="速度" />
+      <Column Name="Direction" DataType="Int32" Nullable="True" Description="方向" />
+      <Column Name="Status" DataType="String" Length="255" Description="状态" />
+      <Column Name="Gas" DataType="Decimal" RawType="numeric(18, 1)" Scale="1" Nullable="True" Description="油气" />
+      <Column Name="Mileage" DataType="Decimal" RawType="numeric(18, 1)" Scale="1" Nullable="True" Description="里程" />
+      <Column Name="RecordVelocity" DataType="Decimal" RawType="numeric(18, 1)" Scale="1" Nullable="True" Description="行车记录仪速度" />
+      <Column Name="Remain" DataType="Double" Nullable="True" Description="剩余" />
+      <Column Name="Online" DataType="Boolean" Nullable="True" Description="在线" />
+      <Column Name="Signal" DataType="Int32" Nullable="True" Description="信号" />
+      <Column Name="AlarmState" DataType="String" Length="255" Description="报警状态" />
+      <Column Name="DVRStatus" DataType="String" Description="DVR状态" />
+      <Column Name="Altitude" DataType="Double" Nullable="True" Description="海拔高度" />
+      <Column Name="IsValid" DataType="Boolean" Nullable="True" Description="有效" />
+      <Column Name="DepId" DataType="Int32" Nullable="True" Description="部门" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="EnclosureId" DataType="Int32" Nullable="True" Description="围栏编码" />
+      <Column Name="EnclosureType" DataType="Int32" Nullable="True" Description="围栏类型" />
+      <Column Name="EnclosureAlarm" DataType="Int32" Nullable="True" Description="围栏报警" />
+      <Column Name="OverSpeedAreaType" DataType="Int32" Nullable="True" Description="超速区域类型" />
+      <Column Name="OverSpeedAreaId" DataType="Int32" Nullable="True" Description="超速区域编码" />
+      <Column Name="RouteSegmentId" DataType="Int32" Nullable="True" Description="路线段编码" />
+      <Column Name="RunTimeOnRoute" DataType="Int32" Nullable="True" Description="在路线上运行时间" />
+      <Column Name="RouteAlarmType" DataType="Int32" Nullable="True" Description="路线报警类型" />
+      <Column Name="OnlineDate" DataType="DateTime" Scale="3" Description="上线时间" />
+      <Column Name="FuelLevelData" DataType="String" Length="255" Description="燃料等级数据" />
+      <Column Name="FuelData" DataType="String" Length="255" Description="燃料数据" />
+      <Column Name="AreaId" DataType="Int32" Nullable="True" Description="区域编码" />
+      <Column Name="AreaAlarm" DataType="Int32" Nullable="True" Description="区域报警" />
+      <Column Name="AreaType" DataType="Int32" Nullable="True" Description="区域类型" />
+      <Column Name="PlatformId" DataType="Int32" Nullable="True" Description="平台编码" />
+    </Columns>
+  </Table>
+  <Table Name="HisAlarmRecord" Description="历史报警" DbType="SqlServer">
+    <Columns>
+      <Column Name="AlarmId" DataType="Int32" Identity="True" PrimaryKey="True" Description="报警编码" />
+      <Column Name="PlateNo" DataType="String" Length="15" Description="车牌号" />
+      <Column Name="StartTime" DataType="DateTime" Scale="3" Description="起始时间" />
+      <Column Name="EndTime" DataType="DateTime" Scale="3" Description="结束时间" />
+      <Column Name="TimeSpan" DataType="Double" Nullable="True" Description="时间跨度" />
+      <Column Name="Velocity" DataType="Double" Nullable="True" Description="速度" />
+      <Column Name="Status" DataType="String" Length="55" Description="状态" />
+      <Column Name="Driver" DataType="String" Length="255" Description="驾驶员" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Location" DataType="String" Length="255" Description="位置" />
+      <Column Name="Latitude1" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Longitude1" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Location1" DataType="String" Length="255" Description="位置" />
+      <Column Name="Processed" DataType="Int32" Nullable="True" Description="处理" />
+      <Column Name="ProcessedTime" DataType="DateTime" Scale="3" Description="处理时间" />
+      <Column Name="Type" DataType="String" Length="25" Description="类型" />
+      <Column Name="ChildType" DataType="String" Length="25" Description="子类型" />
+      <Column Name="Station" DataType="Int32" Nullable="True" Description="站点" />
+      <Column Name="ValveState" DataType="String" Length="255" Description="阀门状态" />
+      <Column Name="ValveState1" DataType="String" Length="255" Description="阀门状态1" />
+      <Column Name="Gas1" DataType="Double" Nullable="True" Description="油气1" />
+      <Column Name="Gas2" DataType="Double" Nullable="True" Description="油气2" />
+      <Column Name="Mileage1" DataType="Double" Nullable="True" Description="里程1" />
+      <Column Name="Mileage2" DataType="Double" Nullable="True" Description="里程2" />
+      <Column Name="VideoFileName" DataType="String" Length="255" Description="视频文件名称" />
+      <Column Name="Flag" DataType="String" Length="255" Description="标识" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="ResponseSN" DataType="Int32" Nullable="True" Description="响应序号" />
+      <Column Name="ProcessedUserId" DataType="Int32" Nullable="True" Description="处理用户编码" />
+      <Column Name="ProcessedUserName" DataType="String" Description="处理用户名称" />
+      <Column Name="AlarmSource" DataType="String" Length="255" Description="报警源" />
+      <Column Name="AlarmType" DataType="String" Length="255" Description="报警类型" />
+    </Columns>
+  </Table>
+  <Table Name="IndustryType" Description="行业类型" DbType="SqlServer">
+    <Columns>
+      <Column Name="Id" DataType="Int32" PrimaryKey="True" Description="行业类型" />
+      <Column Name="Amount" DataType="Int32" Nullable="True" Description="数量" />
+      <Column Name="Code" DataType="Int32" Nullable="True" Description="编码" />
+      <Column Name="Description" DataType="String" RawType="varchar(64)" Length="64" Description="描述" />
+      <Column Name="ParentCode" DataType="Int32" Nullable="True" Description="上级编码" />
+      <Column Name="Name" DataType="String" RawType="varchar(32)" Master="True" Length="32" Description="行业类型" />
+    </Columns>
+    <Indexes>
+      <Index Name="PK_IndustryType" Columns="Id" Unique="True" PrimaryKey="True" />
+    </Indexes>
+  </Table>
+  <Table Name="JT809Command" Description="809指令" DbType="SqlServer">
+    <Columns>
+      <Column Name="CmdId" DataType="Int32" Identity="True" PrimaryKey="True" Description="指令编码" />
+      <Column Name="SimNo" DataType="String" Length="255" Description="Sim卡" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="Descr" DataType="String" Length="255" Description="描述" />
+      <Column Name="Cmd" DataType="Int32" Nullable="True" Description="指令" />
+      <Column Name="CmdData" DataType="String" Length="255" Description="指令数据" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Owner" DataType="String" Length="255" Description="物主" />
+      <Column Name="Status" DataType="String" Length="255" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" />
+      <Column Name="UserId" DataType="Int32" Nullable="True" Description="用户编码" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="PlateColor" DataType="Byte" Nullable="True" Description="车牌颜色" />
+      <Column Name="SubCmd" DataType="Int32" Nullable="True" Description="子指令" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Source" DataType="String" Description="源" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="GpsId" DataType="String" Length="255" Description="GPS编码" />
+      <Column Name="Data" DataType="String" Length="255" Description="数据" />
+    </Columns>
+  </Table>
+  <Table Name="LineSegment" Description="线段" DbType="SqlServer">
+    <Columns>
+      <Column Name="SegId" DataType="Int32" Identity="True" PrimaryKey="True" Description="线段编码" />
+      <Column Name="EnclosureId" DataType="Int32" Nullable="True" Description="附件编码" />
+      <Column Name="PointId" DataType="Int32" Nullable="True" Description="点位编码" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="LineWidth" DataType="Int32" Nullable="True" Description="线宽" />
+      <Column Name="IsStation" DataType="Boolean" Nullable="True" Description="是否站点" />
+      <Column Name="LimitSpeed" DataType="Boolean" Nullable="True" Description="限速" />
+      <Column Name="ByTime" DataType="Boolean" Nullable="True" Description="按时间" />
+      <Column Name="MaxSpeed" DataType="Int32" Nullable="True" Description="最大速度" />
+      <Column Name="OverSpeedTime" DataType="Int32" Nullable="True" Description="超速时间" />
+      <Column Name="MaxTimeLimit" DataType="Int32" Nullable="True" Description="最大限制时间" />
+      <Column Name="MinTimeLimit" DataType="Int32" Nullable="True" Description="最小限制时间" />
+      <Column Name="AlarmType" DataType="String" Length="255" Description="报警类型" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Latitude1" DataType="Double" Nullable="True" Description="纬度1" />
+      <Column Name="Longitude1" DataType="Double" Nullable="True" Description="经度1" />
+      <Column Name="Latitude2" DataType="Double" Nullable="True" Description="纬度2" />
+      <Column Name="Longitude2" DataType="Double" Nullable="True" Description="经度2" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
+      <Column Name="Remark" DataType="String" Length="20" Description="备注" />
+      <Column Name="Owner" DataType="String" Length="20" Description="物主" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Station" DataType="Boolean" Nullable="True" Description="站点" />
+      <Column Name="AreaInfoId" DataType="Int32" Nullable="True" Description="区域信息编码" />
+      <Column Name="InDriver" DataType="String" Length="255" Description="进区域报警给驾驶员" />
+      <Column Name="InPlatform" DataType="String" Length="255" Description="进区域报警给平台" />
+      <Column Name="OutDriver" DataType="String" Length="255" Description="出区域报警给驾驶员" />
+      <Column Name="OutPlatform" DataType="String" Length="255" Description="出区域报警给平台" />
+      <Column Name="RouteId" DataType="Int32" Nullable="True" Description="路线编码" />
+    </Columns>
+  </Table>
+  <Table Name="MapArea" Description="地图区域" DbType="SqlServer">
+    <Columns>
+      <Column Name="AreaId" DataType="Int32" Identity="True" PrimaryKey="True" Description="区域编码" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="GPSId" DataType="String" Length="255" Description="GPS编码" />
+      <Column Name="Points" DataType="String" Length="2550" Description="点位" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名字" />
+      <Column Name="Radius" DataType="Int32" Nullable="True" Description="半径" />
+      <Column Name="Delay" DataType="Int32" Nullable="True" Description="延时" />
+      <Column Name="OffsetDelay" DataType="Int32" Nullable="True" Description="偏移延迟" />
+      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" />
+      <Column Name="AreaType" DataType="String" Length="255" Description="区域类型" />
+      <Column Name="AlarmType" DataType="String" Length="255" Description="报警类型" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="StartDate" DataType="DateTime" Scale="3" Description="开始时间" />
+      <Column Name="EndDate" DataType="DateTime" Scale="3" Description="结束时间" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="LimitSpeed" DataType="Boolean" Nullable="True" Description="限速" />
+      <Column Name="MaxSpeed" DataType="Double" Nullable="True" Description="最大速度" />
+      <Column Name="ByTime" DataType="Boolean" Nullable="True" Description="按时间" />
+      <Column Name="GatherRegion" DataType="Boolean" Nullable="True" Description="聚集区" />
+      <Column Name="SensitiveRegion" DataType="Boolean" Nullable="True" Description="敏感区" />
+      <Column Name="GatherNum" DataType="Int32" Nullable="True" Description="聚集数" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Owner" DataType="String" Length="45" Description="物主" />
+      <Column Name="Remark" DataType="String" Length="55" Description="备注" />
+      <Column Name="LineWidth" DataType="Double" Nullable="True" Description="线宽" />
+      <Column Name="Status" DataType="String" Description="状态" />
+      <Column Name="CenterLat" DataType="Double" Nullable="True" Description="中心纬度" />
+      <Column Name="CenterLng" DataType="Double" Nullable="True" Description="中心经度" />
+      <Column Name="keyPoint" DataType="Int32" Nullable="True" Description="关键点" />
+      <Column Name="MapType" DataType="String" Description="地图类型" />
+      <Column Name="DepId" DataType="Int32" Nullable="True" Description="部门编码" />
+      <Column Name="Icon" DataType="String" RawType="varchar(255)" Length="255" Description="图标" />
+      <Column Name="BusinessType" DataType="String" Length="255" Description="业务类型" />
+    </Columns>
+  </Table>
+  <Table Name="MapAreaBinding" Description="区域绑定" DbType="SqlServer">
+    <Columns>
+      <Column Name="BindId" DataType="Int32" Identity="True" PrimaryKey="True" Description="绑定编码" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="EnclosureId" DataType="Int32" Nullable="True" Description="附件编码" />
+      <Column Name="DepId" DataType="Int32" Nullable="True" Description="部门编码" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="20" Description="物主" />
+      <Column Name="Remark" DataType="String" Length="20" Description="备注" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="ConfigType" DataType="Int32" Nullable="True" Description="配置类型" />
+      <Column Name="CommandId" DataType="Int32" Nullable="True" Description="指令编码" />
+      <Column Name="BindType" DataType="String" RawType="varchar(255)" Length="255" Description="绑定类型" />
+      <Column Name="AreaId" DataType="Int32" Nullable="True" Description="区域编码" />
+    </Columns>
+  </Table>
+  <Table Name="MapLayer" Description="图层" DbType="SqlServer">
+    <Columns>
+      <Column Name="LayerId" DataType="Int32" Identity="True" PrimaryKey="True" Description="图层编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="图层名称" />
+      <Column Name="Visible" DataType="Boolean" Nullable="True" Description="可视" />
+      <Column Name="Animated" DataType="Boolean" Nullable="True" Description="动画" />
+      <Column Name="Icon" DataType="String" Length="255" Description="图标" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="MaxIconZoom" DataType="Int32" Nullable="True" Description="最大缩放图标" />
+      <Column Name="MaxLabelZoom" DataType="Int32" Nullable="True" Description="最大缩放标签" />
+      <Column Name="MinIconZoom" DataType="Int32" Nullable="True" Description="最小缩放图标" />
+      <Column Name="MinLabelZoom" DataType="Int32" Nullable="True" Description="最小缩放标签" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Creator" DataType="String" Length="255" Description="创建者" />
+      <Column Name="ForeColor" DataType="String" Length="255" Description="前景色" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+    </Columns>
+  </Table>
+  <Table Name="MediaItem" Description="多媒体" DbType="SqlServer">
+    <Columns>
+      <Column Name="MediaItemId" DataType="Int32" Identity="True" PrimaryKey="True" Description="多媒体项编码" />
+      <Column Name="CommandId" DataType="Int32" Nullable="True" Description="指令编码" />
+      <Column Name="CommandType" DataType="String" Length="255" Description="指令类型" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="SimNo" DataType="String" Length="255" Description="Sim卡号" />
+      <Column Name="SendTime" DataType="DateTime" Scale="3" Description="发送时间" />
+      <Column Name="MediaDataId" DataType="Int32" Nullable="True" Description="多媒体数据编码" />
+      <Column Name="MediaType" DataType="Byte" Nullable="True" Description="多媒体类型" />
+      <Column Name="CodeFormat" DataType="Byte" Nullable="True" Description="编码格式" />
+      <Column Name="ChannelId" DataType="Byte" Nullable="True" Description="通道编码" />
+      <Column Name="EventCode" DataType="Byte" Nullable="True" Description="事件代码" />
+      <Column Name="FileName" DataType="String" Length="255" Description="文件名称" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Speed" DataType="Double" Nullable="True" Description="速度" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="45" Description="物主" />
+      <Column Name="Remark" DataType="String" Length="55" Description="备注" />
+      <Column Name="Location" DataType="String" Description="位置" />
+      <Column Name="GPSId" DataType="String" Length="255" Description="GPS编码" />
+      <Column Name="MultimediaDataId" DataType="Int32" Nullable="True" Description="多媒体数据编码" />
+      <Column Name="MultimediaType" DataType="Byte" Nullable="True" Description="多媒体类型" />
+      <Column Name="MultidediaCodeFormat" DataType="Byte" Nullable="True" Description="多媒体编码格式" />
+    </Columns>
+  </Table>
+  <Table Name="MemberInfo" Description="会员信息" DbType="SqlServer">
+    <Columns>
+      <Column Name="Id" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="MemberNo" DataType="String" Length="16" Description="会员编码" />
+      <Column Name="MemberType" DataType="Int16" Nullable="True" Description="会员类型" />
+      <Column Name="MemberFormNo" DataType="String" Length="16" Description="会员表单编号" />
+      <Column Name="MemberTime" DataType="DateTime" Scale="3" Description="会员时间" />
+      <Column Name="Address" DataType="String" Length="16" Description="地址" />
+      <Column Name="LicenseNo" DataType="String" Length="30" Description="许可编码(许可证)" />
+      <Column Name="OrgNo" DataType="String" Length="30" Description="组织编码" />
+      <Column Name="ContactPhone" DataType="String" Length="30" Description="联系电话" />
+      <Column Name="Contact" DataType="String" Description="联系人" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="BankCode" DataType="String" Length="30" Description="银行代码" />
+      <Column Name="BusinessScope" DataType="String" Length="40" Description="业务范围" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="BankName" DataType="String" Description="银行名称" />
+      <Column Name="AccountName" DataType="String" Description="账户名" />
+      <Column Name="Name" DataType="String" Master="True" Description="名称" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+    </Columns>
+  </Table>
+  <Table Name="MileageStatistic" Description="里程统计" DbType="SqlServer">
+    <Columns>
+      <Column Name="FunctionId" DataType="Int32" Identity="True" PrimaryKey="True" Description="功能编码" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="IntervalDescr" DataType="String" Length="255" Description="间隔描述" />
+      <Column Name="Hour" DataType="Double" Nullable="True" Description="小时" />
+      <Column Name="StaticDate" DataType="DateTime" Scale="3" Description="静态日期" />
+      <Column Name="IntervalType" DataType="Int32" Nullable="True" Description="间隔类型" />
+      <Column Name="Mileage" DataType="Double" Nullable="True" Description="里程" />
+      <Column Name="Oil" DataType="Double" Nullable="True" Description="油气" />
+      <Column Name="Oil1" DataType="Double" Nullable="True" Description="油气1" />
+      <Column Name="Oil2" DataType="Double" Nullable="True" Description="油气2" />
+      <Column Name="Mileage1" DataType="Double" Nullable="True" Description="里程1" />
+      <Column Name="Mileage2" DataType="Double" Nullable="True" Description="里程2" />
+      <Column Name="DepName" DataType="String" Length="255" Description="部门名称" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="255" Description="物主" />
+    </Columns>
+  </Table>
+  <Table Name="OnlineRecord" Description="上线记录" DbType="SqlServer">
+    <Columns>
+      <Column Name="AlarmId" DataType="Int32" Identity="True" PrimaryKey="True" Description="报警编码" />
+      <Column Name="PlateNo" DataType="String" Length="15" Description="车牌号" />
+      <Column Name="StartTime" DataType="DateTime" Scale="3" Description="起始时间" />
+      <Column Name="EndTime" DataType="DateTime" Scale="3" Description="结束时间" />
+      <Column Name="TimeSpan" DataType="Double" Nullable="True" Description="时间跨度" />
+      <Column Name="Velocity" DataType="Double" Nullable="True" Description="速度" />
+      <Column Name="Status" DataType="String" Length="55" Description="状态" />
+      <Column Name="Driver" DataType="String" Length="55" Description="驾驶员" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Location" DataType="String" Length="255" Description="位置" />
+      <Column Name="Latitude1" DataType="Double" Nullable="True" Description="纬度1" />
+      <Column Name="Longitude1" DataType="Double" Nullable="True" Description="经度1" />
+      <Column Name="Location1" DataType="String" Length="255" Description="位置1" />
+      <Column Name="Processed" DataType="Int32" Nullable="True" Description="处理" />
+      <Column Name="ProcessedTime" DataType="DateTime" Scale="3" Description="处理时间" />
+      <Column Name="Type" DataType="String" Length="25" Description="类型" />
+      <Column Name="ChildType" DataType="String" Length="25" Description="子类型" />
+      <Column Name="Station" DataType="Int32" Nullable="True" Description="站点" />
+      <Column Name="Gas1" DataType="Double" Nullable="True" Description="油气1" />
+      <Column Name="Gas2" DataType="Double" Nullable="True" Description="油气2" />
+      <Column Name="Mileage1" DataType="Double" Nullable="True" Description="里程1" />
+      <Column Name="Mileage2" DataType="Double" Nullable="True" Description="里程2" />
+      <Column Name="VideoFileName" DataType="String" Length="55" Description="视频文件名称" />
+      <Column Name="Flag" DataType="String" Length="55" Description="标识" />
+      <Column Name="Remark" DataType="String" Length="55" Description="备注" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="ResponseSN" DataType="Int32" Nullable="True" Description="响应序号" />
+      <Column Name="ProcessedUserId" DataType="Int32" Nullable="True" Description="处理用户编码" />
+      <Column Name="ProcessedUserName" DataType="String" Description="处理用户名称" />
+      <Column Name="AlarmSource" DataType="String" Length="255" Description="报警源" />
+      <Column Name="AlarmType" DataType="String" Length="255" Description="报警类型" />
+    </Columns>
+  </Table>
+  <Table Name="OnlineStatic" Description="上线统计" DbType="SqlServer">
+    <Columns>
+      <Column Name="Id" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="DepId" DataType="Int32" Nullable="True" Description="部门编码" />
+      <Column Name="DepName" DataType="String" Length="255" Description="部门名称" />
+      <Column Name="OnlineNum" DataType="Int32" Nullable="True" Description="在线数" />
+      <Column Name="VehicleNum" DataType="Int32" Nullable="True" Description="车辆数" />
+      <Column Name="OnlineRate" DataType="Decimal" RawType="decimal(10, 2)" Scale="2" Nullable="True" Description="在线率" />
+      <Column Name="StatisticDate" DataType="DateTime" Scale="3" Description="统计日期" />
+      <Column Name="IntervalType" DataType="Int32" Nullable="True" Description="间隔类型" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Remark" DataType="String" Length="55" Description="备注" />
+      <Column Name="Owner" DataType="String" Length="55" Description="拥有者" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="ParentDepId" DataType="Int32" Nullable="True" Description="上级部门编码" />
+      <Column Name="StatisticTime" DataType="DateTime" Scale="3" Description="统计时间" />
+      <Column Name="Interval" DataType="Int32" Nullable="True" Description="间隔" />
+    </Columns>
+  </Table>
+  <Table Name="PlateColor" Description="车牌颜色" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="Code" DataType="Int32" Nullable="True" Description="车牌颜色编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="20" Description="车牌颜色名称" />
+      <Column Name="CreateUser" DataType="String" Description="创建者" />
+      <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />
+      <Column Name="CreateIP" DataType="String" Description="创建地址" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="UpdateUser" DataType="String" Description="更新者" />
+      <Column Name="UpdateUserID" DataType="Int32" Nullable="True" Description="更新人" />
+      <Column Name="UpdateIP" DataType="String" Description="更新地址" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+    </Columns>
+  </Table>
+  <Table Name="PlatformInfo" Description="平台信息" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Deleted" DataType="Byte" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" RawType="varchar(255)" Length="255" Description="拥有者" />
+      <Column Name="Remark" DataType="String" RawType="varchar(255)" Length="255" Description="备注" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="CheckEndTime" DataType="String" RawType="varchar(255)" Length="255" Description="检查结束时间" />
+      <Column Name="CheckInterval" DataType="Int32" Description="检查间隔" />
+      <Column Name="CheckStartTime" DataType="String" RawType="varchar(255)" Length="255" Description="检查起始时间" />
+      <Column Name="MainLinkState" DataType="String" RawType="varchar(255)" Length="255" Description="主链路状态" />
+      <Column Name="Name" DataType="String" RawType="varchar(255)" Master="True" Length="255" Description="平台名称" />
+      <Column Name="Password" DataType="String" RawType="varchar(255)" Length="255" Description="密码" />
+      <Column Name="PlatformId" DataType="Int32" Description="平台编码" />
+      <Column Name="SublinkPort" DataType="Int32" Description="从链路端口" />
+      <Column Name="SublinkServerIp" DataType="String" RawType="varchar(255)" Length="255" Description="从链路IP" />
+      <Column Name="SublinkState" DataType="String" RawType="varchar(255)" Length="255" Description="从链路状态" />
+      <Column Name="UserId" DataType="String" RawType="varchar(255)" Length="255" Description="用户编码" />
+      <Column Name="CheckQuestion" DataType="String" RawType="varchar(255)" Length="255" Description="检查问题" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+    </Columns>
+  </Table>
+  <Table Name="PlatformState" Description="平台状态" DbType="SqlServer">
+    <Columns>
+      <Column Name="StateId" DataType="Int32" Identity="True" PrimaryKey="True" Description="平台状态编码" />
+      <Column Name="MainLinkState" DataType="String" Description="主链路状态" />
+      <Column Name="MainLinkDate" DataType="DateTime" Scale="3" Description="主链路连接日期" />
+      <Column Name="SubLinkState" DataType="String" Description="从链路连接状态" />
+      <Column Name="SubLinkDate" DataType="DateTime" Scale="3" Description="从链路连接日期" />
+      <Column Name="GPSServerState" DataType="String" Description="GPS服务状态" />
+      <Column Name="GPSServerDate" DataType="DateTime" Scale="3" Description="GPS服务日期" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建日期" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="255" Description="拥有者" />
+    </Columns>
+  </Table>
+  <Table Name="ReportColumn" Description="报表列" DbType="SqlServer">
+    <Columns>
+      <Column Name="ReportColumnId" DataType="Int32" Identity="True" PrimaryKey="True" Description="报表列编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
+      <Column Name="Width" DataType="Int32" Nullable="True" Description="宽度" />
+      <Column Name="Code" DataType="String" Length="255" Description="编码" />
+      <Column Name="No" DataType="Int32" Nullable="True" Description="编号" />
+      <Column Name="ColType" DataType="String" Length="255" Description="列类型" />
+      <Column Name="BasicDataCode" DataType="String" Length="255" Description="基础数据编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Visible" DataType="Boolean" Nullable="True" Description="显示" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="255" Description="拥有者" />
+      <Column Name="ReportId" DataType="Int32" Nullable="True" Description="报表编码" />
+    </Columns>
+  </Table>
+  <Table Name="ReportModel" Description="报表模型" DbType="SqlServer">
+    <Columns>
+      <Column Name="ReportId" DataType="Int32" Identity="True" PrimaryKey="True" Description="报表编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
+      <Column Name="QueryId" DataType="String" Length="255" Description="查询编码" />
+      <Column Name="Code" DataType="String" Length="255" Description="编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="255" Description="拥有者" />
+    </Columns>
+  </Table>
+  <Table Name="RouteSegment" Description="路段" DbType="SqlServer">
+    <Columns>
+      <Column Name="SegId" DataType="Int32" Identity="True" PrimaryKey="True" Description="路段编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
+      <Column Name="RouteId" DataType="Int32" Nullable="True" Description="路线编码" />
+      <Column Name="StrPoints" DataType="String" Length="255" Description="点位" />
+      <Column Name="StartSegId" DataType="Int32" Nullable="True" Description="起始路段编码" />
+      <Column Name="EndSegId" DataType="Int32" Nullable="True" Description="结束路段编码" />
+      <Column Name="MaxSpeed" DataType="Double" Nullable="True" Description="最大速度" />
+      <Column Name="Delay" DataType="Int32" Nullable="True" Description="延时多久" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="255" Description="拥有者" />
+    </Columns>
+  </Table>
+  <Table Name="RunStatus" Description="运营状态" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="Code" DataType="String" Length="20" Description="编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="20" Description="名称" />
+      <Column Name="CreateUser" DataType="String" Description="创建者" />
+      <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />
+      <Column Name="CreateIP" DataType="String" Description="创建地址" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="UpdateUser" DataType="String" Description="更新者" />
+      <Column Name="UpdateUserID" DataType="Int32" Nullable="True" Description="更新人" />
+      <Column Name="UpdateIP" DataType="String" Description="更新地址" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+    </Columns>
+  </Table>
+  <Table Name="SpeedRecorder" Description="速度记录仪" DbType="SqlServer">
+    <Columns>
+      <Column Name="Id" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="RecorderId" DataType="Int32" Description="记录仪编码" />
+      <Column Name="Speed" DataType="Double" Nullable="True" Description="速度" />
+      <Column Name="Signal" DataType="Int32" Nullable="True" Description="信号" />
+      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" />
+      <Column Name="RecorderDate" DataType="DateTime" Scale="3" Description="记录日期" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+    </Columns>
+  </Table>
+  <Table Name="SystemConfig" Description="系统配置" DbType="SqlServer">
+    <Columns>
+      <Column Name="Id" DataType="Decimal" RawType="numeric(19, 0)" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="SystemTitle1" DataType="String" RawType="varchar(255)" Length="255" Description="系统标题1" />
+      <Column Name="InitLat" DataType="Double" Nullable="True" Description="初始纬度" />
+      <Column Name="InitLng" DataType="Double" Nullable="True" Description="初始经度" />
+      <Column Name="InitZoomLevel" DataType="Int32" Nullable="True" Description="初始层级" />
+      <Column Name="MapType" DataType="String" Description="图商类型" />
+      <Column Name="SmartKey" DataType="String" RawType="varchar(50)" Description="智能密钥" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+      <Column Name="Remark" DataType="String" Description="备注" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="MaxOfflineDays" DataType="Int32" Nullable="True" Description="最大离线天数" />
+      <Column Name="DisplayStateType" DataType="String" Description="显示状态类型" />
+      <Column Name="SystemTitle" DataType="String" RawType="varchar(255)" Length="255" Description="系统标题" />
+      <Column Name="CheckValidateCode" DataType="String" RawType="varchar(255)" Length="255" Description="有效码" />
+      <Column Name="BaiduKey" DataType="String" Length="255" Description="百度Key" />
+      <Column Name="AmapKey" DataType="String" Length="255" Description="阿里Key" />
+      <Column Name="AmapWebServiceKey" DataType="String" Length="255" Description="阿里Web服务Key" />
+      <Column Name="RefreshInterval" DataType="Int32" Nullable="True" Description="刷新间隔" />
+      <Column Name="AlarmInterval" DataType="Int32" Nullable="True" Description="报警间隔" />
+      <Column Name="ShowVehicleOnMap" DataType="String" Length="255" Description="在地图上显示车辆" />
+      <Column Name="ShowDepNameOnMap" DataType="String" Description="在地图上显示部门" />
+      <Column Name="BaiduWebServiceKey" DataType="String" Length="255" Description="百度Web服务Key" />
+    </Columns>
+  </Table>
+  <Table Name="TenantUser" Description="租户" DbType="SqlServer">
+    <Columns>
+      <Column Name="UserId" DataType="Int32" Identity="True" PrimaryKey="True" Description="用户编码" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
+      <Column Name="UserType" DataType="String" Length="255" Description="使用类型" />
+      <Column Name="Job" DataType="String" Length="255" Description="职位" />
+      <Column Name="DepartmentID" DataType="Int32" Nullable="True" Description="部门编码" />
+      <Column Name="Phone" DataType="String" Length="255" Description="电话" />
+      <Column Name="Mail" DataType="String" Length="255" Description="EMail" />
+      <Column Name="LoginName" DataType="String" Length="255" Description="登录名" />
+      <Column Name="Password" DataType="String" Length="255" Description="密码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Admin" DataType="Boolean" Nullable="True" Description="是否管理员" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+    </Columns>
+  </Table>
+  <Table Name="Terminal" Description="终端信息" DbType="SqlServer">
+    <Columns>
+      <Column Name="TermId" DataType="Int32" Identity="True" PrimaryKey="True" Description="终端编码" />
+      <Column Name="DevNo" DataType="String" Length="20" Description="开发编号" />
+      <Column Name="TermNo" DataType="String" Length="20" Nullable="False" Description="终端编号" />
+      <Column Name="VerSoftware" DataType="Int16" Description="软件版本号" />
+      <Column Name="VerHardware" DataType="Int16" Description="硬件版本号" />
+      <Column Name="VerProtocol" DataType="Int16" Description="协议版本号" />
+      <Column Name="MakeFactory" DataType="String" Length="30" Description="制造工厂" />
+      <Column Name="MakeTime" DataType="DateTime" Scale="3" Nullable="False" Description="制造时间" />
+      <Column Name="MakeNo" DataType="String" Length="10" Description="制造编号" />
+      <Column Name="State" DataType="String" Length="20" Description="状态" />
+      <Column Name="Reserve" DataType="String" Length="4" Description="预留" />
+      <Column Name="Remark" DataType="String" Length="255" Description="备注" />
+      <Column Name="InstallTime" DataType="DateTime" Scale="3" Description="安装时间" />
+      <Column Name="Waitor" DataType="String" Length="30" Description="实施员" />
+      <Column Name="InstallAddress" DataType="String" Length="80" Description="安装地址" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="TermType" DataType="String" Length="20" Description="终端类型" />
+      <Column Name="SimNo" DataType="String" Length="13" Description="Sim卡" />
+      <Column Name="Bind" DataType="Boolean" Nullable="True" Description="是否绑定" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="SeqNo" DataType="String" Description="序列号" />
+      <Column Name="Vendor" DataType="String" Length="255" Description="消失公司" />
+      <Column Name="ModelNo" DataType="String" Length="255" Description="型号" />
+      <Column Name="Imei" DataType="String" Length="255" Description="IMEI" />
+      <Column Name="CertPassword" DataType="String" Length="255" Description="认证密码" />
+      <Column Name="CertString" DataType="String" Length="255" Description="认证字符串" />
+    </Columns>
+  </Table>
+  <Table Name="TerminalCommand" Description="终端指令" DbType="SqlServer">
+    <Columns>
+      <Column Name="CmdId" DataType="Int32" Identity="True" PrimaryKey="True" Description="指令编码" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="CmdType" DataType="Int32" Description="指令类型" />
+      <Column Name="Cmd" DataType="String" Description="指令" />
+      <Column Name="CmdData" DataType="String" Length="2500" Description="指令数据" />
+      <Column Name="CreateDate" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="SimNo" DataType="String" Description="Sim卡" />
+      <Column Name="Status" DataType="String" Description="状态" />
+      <Column Name="Remark" DataType="String" Length="100" Description="备注" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+      <Column Name="UserId" DataType="Int32" Nullable="True" Description="用户编码" />
+      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="UpdateDate" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
+      <Column Name="Data" DataType="String" Length="255" Description="数据" />
+    </Columns>
+  </Table>
+  <Table Name="TerminalParam" Description="终端参数" DbType="SqlServer">
+    <Columns>
+      <Column Name="ParamId" DataType="Int32" Identity="True" PrimaryKey="True" Description="参数编码" />
+      <Column Name="SimNo" DataType="String" Length="255" Description="Sim卡" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="Code" DataType="String" Length="255" Description="代码" />
+      <Column Name="Value" DataType="String" Length="255" Description="值" />
+      <Column Name="FieldType" DataType="String" Length="255" Description="字段类型" />
+      <Column Name="CreateDate" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="UpdateDate" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="Status" DataType="String" Length="255" Description="状态" />
+      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="55" Description="拥有者" />
+      <Column Name="Remark" DataType="String" Length="55" Description="备注" />
+      <Column Name="CommandId" DataType="Int32" Nullable="True" Description="指令编码" />
+      <Column Name="GPSId" DataType="String" Length="255" Description="GPS编码" />
+    </Columns>
+  </Table>
+  <Table Name="UserData" Description="用户数据" DbType="SqlServer">
+    <Columns>
+      <Column Name="UserId" DataType="Int32" Identity="True" PrimaryKey="True" Description="用户编码" />
+      <Column Name="Uid" DataType="String" Description="UID" />
+      <Column Name="IP" DataType="String" Description="IP" />
+      <Column Name="LoginTimes" DataType="Int32" Nullable="True" Description="登录次数" />
+      <Column Name="CreateDate" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="UpdateDate" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="Name" DataType="String" Master="True" Description="名称" />
+      <Column Name="Status" DataType="String" Description="状态" />
+    </Columns>
+  </Table>
+  <Table Name="UserGpsInfo" Description="用户GPS" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="UserId" DataType="Int32" Nullable="True" Description="用户编码" />
+      <Column Name="UserName" DataType="String" Length="255" Description="用户名" />
+      <Column Name="Accuracy" DataType="Double" Nullable="True" Description="精确程度" />
+      <Column Name="Location" DataType="String" Length="255" Description="位置" />
+      <Column Name="Direction" DataType="Int32" Nullable="True" Description="方向" />
+      <Column Name="SendTime" DataType="DateTime" Scale="3" Description="发送时间" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="CreateDate" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Velocity" DataType="Double" Nullable="True" Description="速度" />
+    </Columns>
+  </Table>
+  <Table Name="UserGpsRealData" Description="用户GPS实时数据" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="UserId" DataType="Int32" Nullable="True" Description="用户编码" />
+      <Column Name="UserName" DataType="String" Length="255" Description="用户名" />
+      <Column Name="Accuracy" DataType="Double" Nullable="True" Description="精确程度" />
+      <Column Name="Location" DataType="String" Length="255" Description="位置" />
+      <Column Name="Direction" DataType="Int32" Nullable="True" Description="方向" />
+      <Column Name="SendTime" DataType="DateTime" Scale="3" Description="发送时间" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="CreateDate" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Velocity" DataType="Double" Nullable="True" Description="速度" />
+    </Columns>
+  </Table>
+  <Table Name="UserInfo" Description="用户信息" DbType="SqlServer">
+    <Columns>
+      <Column Name="userId" DataType="Int32" />
+      <Column Name="Name" DataType="String" Master="True" Nullable="False" />
+      <Column Name="loginName" DataType="String" Nullable="False" />
+      <Column Name="Password" DataType="String" Length="150" Nullable="False" />
+      <Column Name="Remark" DataType="String" Length="255" />
+      <Column Name="userState" DataType="String" />
+      <Column Name="mapCenterLat" DataType="Double" Nullable="True" />
+      <Column Name="mapCenterLng" DataType="Double" Nullable="True" />
+      <Column Name="mapLevel" DataType="Int32" Nullable="True" />
+      <Column Name="mapType" DataType="String" />
+      <Column Name="updateTime" DataType="DateTime" Scale="3" />
+      <Column Name="userFlag" DataType="Int32" Nullable="True" />
+      <Column Name="createDate" DataType="DateTime" Scale="3" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" />
+      <Column Name="tenantId" DataType="Int32" Nullable="True" />
+      <Column Name="Owner" DataType="String" />
+      <Column Name="UserType" DataType="String" Length="255" />
+      <Column Name="Job" DataType="String" Length="255" />
+      <Column Name="Department" DataType="Int32" Nullable="True" />
+      <Column Name="Phone" DataType="String" Length="255" />
+      <Column Name="Mail" DataType="String" Length="255" />
+      <Column Name="regionId" DataType="Int32" Nullable="True" />
+      <Column Name="loginTime" DataType="DateTime" Scale="3" />
+      <Column Name="phoneNo" DataType="String" />
+    </Columns>
+  </Table>
+  <Table Name="UseType" Description="使用类型" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" />
+      <Column Name="Code" DataType="String" Length="20" Description="编码" />
+      <Column Name="Name" DataType="String" Master="True" Length="20" Description="名称" />
+      <Column Name="CreateUser" DataType="String" Description="创建者" />
+      <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />
+      <Column Name="CreateIP" DataType="String" Description="创建地址" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="UpdateUser" DataType="String" Description="更新者" />
+      <Column Name="UpdateUserID" DataType="Int32" Nullable="True" Description="更新人" />
+      <Column Name="UpdateIP" DataType="String" Description="更新地址" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+    </Columns>
+  </Table>
+  <Table Name="Vehicle" Description="车辆信息" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="车辆编号" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="ParameterID" DataType="Int32" Nullable="True" Description="车辆类型" />
+      <Column Name="PlateColorID" DataType="Int32" Nullable="True" Description="车牌颜色" />
+      <Column Name="VehicleTypeID" DataType="Int32" Nullable="True" Description="车辆类型" />
+      <Column Name="RunStatusCode" DataType="String" Length="20" Description="车辆运行状态" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编号" />
+      <Column Name="InstallDate" DataType="DateTime" Scale="3" Description="安装日期" />
+      <Column Name="SimNo" DataType="String" Description="Sim卡号" />
+      <Column Name="Driver" DataType="String" Length="255" Description="驾驶员" />
+      <Column Name="DepartmentID" DataType="Int32" Nullable="True" Description="部门编码" />
+      <Column Name="DepartmentName" DataType="String" RawType="varchar(255)" Length="255" Description="部门名称" />
+      <Column Name="Region" DataType="String" Description="区域" />
+      <Column Name="IndustryID" DataType="Int32" Nullable="True" Description="行业" />
+      <Column Name="UseTypeCode" DataType="String" Description="使用性质" />
+      <Column Name="DriverMobile" DataType="String" Description="驾驶员手机号" />
+      <Column Name="BuyDate" DataType="DateTime" Scale="3" Description="购买日期" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+      <Column Name="CreateUser" DataType="String" Description="创建者" />
+      <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />
+      <Column Name="CreateIP" DataType="String" Description="创建地址" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="UpdateUser" DataType="String" Description="更新者" />
+      <Column Name="UpdateUserID" DataType="Int32" Nullable="True" Description="更新人" />
+      <Column Name="UpdateIP" DataType="String" Description="更新地址" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+    </Columns>
+    <Indexes>
+      <Index Name="IX_Vehicle" Columns="PlateNo" />
+    </Indexes>
+  </Table>
+  <Table Name="VehicleInfoModifyRecord" Description="车辆修改记录" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="Deleted" DataType="Byte" Nullable="True" Description="是否删除" />
+      <Column Name="Owner" DataType="String" RawType="varchar(255)" Length="255" Description="拥有者" />
+      <Column Name="TenantId" DataType="Int32" Description="租户" />
+      <Column Name="Detail" DataType="String" RawType="varchar(255)" Length="255" Description="详情" />
+      <Column Name="Type" DataType="String" RawType="varchar(255)" Length="255" Description="类型" />
+      <Column Name="UserName" DataType="String" RawType="varchar(255)" Length="255" Description="用户名" />
+      <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
+      <Column Name="CreateUser" DataType="String" Description="创建者" />
+      <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />
+      <Column Name="CreateIP" DataType="String" Description="创建地址" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="UpdateUser" DataType="String" Description="更新者" />
+      <Column Name="UpdateUserID" DataType="Int32" Nullable="True" Description="更新人" />
+      <Column Name="UpdateIP" DataType="String" Description="更新地址" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+    </Columns>
+  </Table>
+  <Table Name="VehicleOnlineRate" Description="车辆上线率" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="IntervalDescr" DataType="String" Length="255" Description="间隔描述" />
+      <Column Name="Hour" DataType="Double" Nullable="True" Description="小时" />
+      <Column Name="StaticDate" DataType="DateTime" Scale="3" Description="静态时间" />
+      <Column Name="OnlineTime" DataType="Decimal" RawType="decimal(18, 2)" Scale="2" Nullable="True" Description="上线时间" />
+      <Column Name="IntervalType" DataType="Int32" Nullable="True" Description="间隔类型" />
+      <Column Name="OfflineTime" DataType="Decimal" RawType="decimal(18, 2)" Scale="2" Nullable="True" Description="离线时间" />
+      <Column Name="TotalTime" DataType="Double" Nullable="True" Description="总计时间" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="Owner" DataType="String" Length="255" Description="拥有者" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="OnlineRate" DataType="Decimal" RawType="decimal(18, 2)" Scale="2" Nullable="True" Description="上线日期" />
+      <Column Name="CreateUser" DataType="String" Description="创建者" />
+      <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />
+      <Column Name="CreateIP" DataType="String" Description="创建地址" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="UpdateUser" DataType="String" Description="更新者" />
+      <Column Name="UpdateUserID" DataType="Int32" Nullable="True" Description="更新人" />
+      <Column Name="UpdateIP" DataType="String" Description="更新地址" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+    </Columns>
+  </Table>
+  <Table Name="VehicleRecorder" Description="车辆记录" DbType="SqlServer">
+    <Columns>
+      <Column Name="RecorderID" DataType="Int32" Identity="True" PrimaryKey="True" Description="车辆记录仪编码" />
+      <Column Name="CommandID" DataType="Int32" Nullable="True" Description="命令编码" />
+      <Column Name="Cmd" DataType="Int32" Nullable="True" Description="指令" />
+      <Column Name="CmdData" DataType="String" Length="255" Description="指令数据" />
+      <Column Name="DriverCode" DataType="String" Length="255" Description="驱动程序代码" />
+      <Column Name="DriverLicense" DataType="String" Length="255" Description="驱动许可证" />
+      <Column Name="VinNo" DataType="String" Length="255" Description="VIN编号" />
+      <Column Name="PlateNo" DataType="String" Length="255" Description="车牌号" />
+      <Column Name="PlateType" DataType="String" Length="255" Description="车牌类型" />
+      <Column Name="FeatureFactor" DataType="String" Length="255" Description="特征因数" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="TenantID" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="PlateColor" DataType="Byte" Nullable="True" Description="车牌颜色" />
+      <Column Name="StartTime" DataType="DateTime" Scale="3" Description="开始时间" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+      <Column Name="Speed" DataType="Double" Nullable="True" Description="速度" />
+      <Column Name="Signal" DataType="Int32" Nullable="True" Description="信号" />
+      <Column Name="SortID" DataType="Int32" Nullable="True" Description="排序" />
+      <Column Name="EndTime" DataType="DateTime" Scale="3" Description="结束时间" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="Altitude" DataType="Double" Nullable="True" Description="海拔高度" />
+      <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="Command" DataType="Int32" Nullable="True" Description="指令" />
+      <Column Name="RecorderData" DataType="String" Length="255" Description="记录仪数据" />
+      <Column Name="RecorderDate" DataType="DateTime" Scale="3" Description="记录仪日期" />
+      <Column Name="SpeedList" DataType="Int32" Nullable="True" Description="速度列表" />
+    </Columns>
+  </Table>
+  <Table Name="VehicleRegisterInfo" Description="车辆注册信息" DbType="SqlServer">
+    <Columns>
+      <Column Name="VehicleId" DataType="Int32" Identity="True" PrimaryKey="True" Description="车辆编码" />
+      <Column Name="DepId" DataType="Int32" Description="部门编码" />
+      <Column Name="PlateColor" DataType="Int32" Description="车牌颜色" />
+      <Column Name="PlateNo" DataType="String" RawType="varchar(255)" Length="255" Description="车牌号" />
+      <Column Name="PlateformId" DataType="String" RawType="varchar(255)" Length="255" Description="平台编码" />
+      <Column Name="SimNo" DataType="String" RawType="varchar(255)" Length="255" Description="Sim卡" />
+      <Column Name="TerminalId" DataType="String" RawType="varchar(255)" Length="255" Description="终端编码" />
+      <Column Name="TerminalModel" DataType="String" RawType="varchar(255)" Length="255" Description="终端型号" />
+      <Column Name="TerminalVendorId" DataType="String" RawType="varchar(255)" Length="255" Description="终端供应商编码" />
+      <Column Name="CreateUser" DataType="String" Description="创建者" />
+      <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />
+      <Column Name="CreateIP" DataType="String" Description="创建地址" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="UpdateUser" DataType="String" Description="更新者" />
+      <Column Name="UpdateUserID" DataType="Int32" Nullable="True" Description="更新人" />
+      <Column Name="UpdateIP" DataType="String" Description="更新地址" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+    </Columns>
+  </Table>
+  <Table Name="VehicleType" Description="车辆类型" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" PrimaryKey="True" Description="编号" />
+      <Column Name="Code" DataType="Int32" Nullable="True" Description="车辆类型编码" />
+      <Column Name="Description" DataType="String" RawType="varchar(64)" Length="64" Description="描述" />
+      <Column Name="ParentCode" DataType="Int32" Nullable="True" Description="父编码" />
+      <Column Name="Name" DataType="String" RawType="varchar(32)" Master="True" Length="32" Description="车辆类型名称" />
+      <Column Name="CreateUser" DataType="String" Description="创建者" />
+      <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />
+      <Column Name="CreateIP" DataType="String" Description="创建地址" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="UpdateUser" DataType="String" Description="更新者" />
+      <Column Name="UpdateUserID" DataType="Int32" Nullable="True" Description="更新人" />
+      <Column Name="UpdateIP" DataType="String" Description="更新地址" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+    </Columns>
+    <Indexes>
+      <Index Name="PK_VehicleType" Columns="ID" Unique="True" PrimaryKey="True" />
+    </Indexes>
+  </Table>
+  <Table Name="ViewGetDate" TableName="view_get_date" IsView="True" DbType="SqlServer">
+    <Columns>
+      <Column Name="Today" DataType="DateTime" Precision="3" Nullable="False" />
+    </Columns>
+  </Table>
+  <Table Name="WarnMsgInform" Description="报警信息" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Decimal" RawType="numeric(19, 0)" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="Addiinfo" DataType="String" RawType="varchar(255)" Length="255" Description="附加信息" />
+      <Column Name="Angle" DataType="Int32" Nullable="True" Description="角度" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="DataType" DataType="Int32" Nullable="True" Description="数据类型" />
+      <Column Name="DealResult" DataType="String" RawType="varchar(255)" Length="255" Description="处理结果" />
+      <Column Name="DealTime" DataType="DateTime" Scale="3" Description="处理时间" />
+      <Column Name="ExtInfo" DataType="String" RawType="varchar(255)" Length="255" Description="外部信息" />
+      <Column Name="Height" DataType="Int32" Nullable="True" Description="高度" />
+      <Column Name="InfoId" DataType="Int32" Nullable="True" Description="信息编码" />
+      <Column Name="Lat" DataType="Double" Nullable="True" Description="纬度" />
+      <Column Name="Loading" DataType="Int32" Nullable="True" Description="加载" />
+      <Column Name="Lon" DataType="Double" Nullable="True" Description="经度" />
+      <Column Name="OrgWarnId" DataType="Int32" Nullable="True" Description="原始报警编码" />
+      <Column Name="Origin" DataType="Int32" Nullable="True" Description="原始" />
+      <Column Name="RedoEndTime" DataType="DateTime" Scale="3" Description="重做结束时间" />
+      <Column Name="RedoFlag" DataType="Int32" Nullable="True" Description="重做标识" />
+      <Column Name="RedoId" DataType="Decimal" RawType="numeric(19, 0)" Nullable="True" Description="重做编码" />
+      <Column Name="RedoTime" DataType="DateTime" Scale="3" Description="重做时间" />
+      <Column Name="Result" DataType="Int32" Nullable="True" Description="结果" />
+      <Column Name="Speed" DataType="Int32" Nullable="True" Description="速度" />
+      <Column Name="Status1" DataType="Int32" Nullable="True" Description="状态1" />
+      <Column Name="Status2" DataType="Int32" Nullable="True" Description="状态2" />
+      <Column Name="Status3" DataType="Int32" Nullable="True" Description="状态3" />
+      <Column Name="SubType" DataType="Int32" Nullable="True" Description="子类型" />
+      <Column Name="Text" DataType="String" RawType="varchar(255)" Length="255" Description="文本" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Description="更新时间" />
+      <Column Name="IsValid" DataType="Byte" Nullable="True" Description="有效" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="WarnContent" DataType="String" RawType="varchar(255)" Length="255" Description="报警内容" />
+      <Column Name="WarnSrc" DataType="Int32" Nullable="True" Description="报警源" />
+      <Column Name="WarnTime" DataType="DateTime" Scale="3" Description="报警时间" />
+      <Column Name="WarnType" DataType="Int32" Nullable="True" Description="报警类型" />
+      <Column Name="DealUser" DataType="String" RawType="varchar(50)" Description="处理人" />
+      <Column Name="Mask" DataType="Int32" Nullable="True" Description="掩盖层" />
+      <Column Name="ExtId" DataType="Int32" Nullable="True" Description="外部编码" />
+    </Columns>
+  </Table>
+  <Table Name="WarnMsgUrgTodoReq" Description="报警信息响应" DbType="SqlServer">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="AckFlag" DataType="Int32" Nullable="True" Description="应答标识" />
+      <Column Name="AckTime" DataType="DateTime" Scale="3" Description="应答时间" />
+      <Column Name="CreateDate" DataType="DateTime" Scale="3" Description="创建时间" />
+      <Column Name="Origin" DataType="Int32" Nullable="True" Description="原始" />
+      <Column Name="Result" DataType="Int32" Nullable="True" Description="结果" />
+      <Column Name="SupervicsionId" DataType="Int32" Nullable="True" Description="监督编码" />
+      <Column Name="SupervisionEndTime" DataType="DateTime" Scale="3" Description="监督结束时间" />
+      <Column Name="SupervisionLevel" DataType="Int32" Nullable="True" Description="监督级别" />
+      <Column Name="Supervisor" DataType="String" RawType="varchar(255)" Length="255" Description="监督人" />
+      <Column Name="SupervisorEmail" DataType="String" RawType="varchar(255)" Length="255" Description="监督邮件" />
+      <Column Name="SupervisorTel" DataType="String" RawType="varchar(255)" Length="255" Description="监督电话" />
+      <Column Name="VehicleId" DataType="Int32" Nullable="True" Description="车辆编码" />
+      <Column Name="WarnSrc" DataType="Int32" Nullable="True" Description="报警源" />
+      <Column Name="WarnTime" DataType="DateTime" Scale="3" Description="报警时间" />
+      <Column Name="WarnType" DataType="Int32" Nullable="True" Description="报警类型" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
+      <Column Name="Owner" DataType="String" Length="10" Description="拥有者" />
+      <Column Name="Remark" DataType="String" Description="备注" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="PlateColor" DataType="String" Description="车牌颜色" />
+    </Columns>
+  </Table>
+</Tables>
