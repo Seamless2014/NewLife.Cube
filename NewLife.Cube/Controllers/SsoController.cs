@@ -43,6 +43,7 @@ using XCode.Membership;
 namespace NewLife.Cube.Controllers;
 
 /// <summary>单点登录控制器</summary>
+[Route("[controller]/[action]")]
 public class SsoController : ControllerBaseX
 {
     /// <summary>当前提供者</summary>
@@ -66,6 +67,7 @@ public class SsoController : ControllerBaseX
     /// <summary>首页</summary>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult Index() => Redirect("~/");
 
     #region 单点登录客户端
@@ -75,6 +77,7 @@ public class SsoController : ControllerBaseX
     /// <param name="name"></param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult Login(String name)
     {
         var prov = Provider;
@@ -126,6 +129,7 @@ public class SsoController : ControllerBaseX
     /// <param name="state"></param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult LoginInfo(String id, String code, String state)
     {
         if (id.IsNullOrEmpty()) throw new ArgumentNullException(nameof(id));
@@ -192,7 +196,7 @@ public class SsoController : ControllerBaseX
 
             // 短时间内不要重复拉取用户信息
             // 注意，这里可能因为没有OpenID和UserName，无法判断得到用户链接，需要GetUserInfo后方能匹配UserConnect
-            var set = Setting.Current;
+            var set = CubeSetting.Current;
             var uc = prov.GetConnect(client);
             if (uc.UpdateTime.AddSeconds(set.RefreshUserPeriod) < DateTime.Now)
             {
@@ -278,6 +282,7 @@ public class SsoController : ControllerBaseX
     /// </remarks>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult Logout()
     {
         // 先读Session，待会会清空
@@ -292,7 +297,7 @@ public class SsoController : ControllerBaseX
         var url = "";
 
         // 准备跳转到验证中心
-        var set = Setting.Current;
+        var set = CubeSetting.Current;
         if (client != null && set.LogoutAll)
         {
             if (client.LogoutUrl.IsNullOrEmpty() && name.EqualIgnoreCase("NewLife")) client.LogoutUrl = "logout?client_id={key}&redirect_uri={redirect}&state={state}";
@@ -323,6 +328,7 @@ public class SsoController : ControllerBaseX
     /// <summary>绑定</summary>
     /// <param name="id"></param>
     /// <returns></returns>
+    [HttpGet]
     public virtual ActionResult Bind(String id)
     {
         var prov = Provider;
@@ -362,6 +368,7 @@ public class SsoController : ControllerBaseX
     /// <summary>取消绑定</summary>
     /// <param name="id"></param>
     /// <returns></returns>
+    [HttpGet]
     public virtual ActionResult UnBind(String id)
     {
         var user = Provider.Current;
@@ -378,12 +385,7 @@ public class SsoController : ControllerBaseX
             }
         }
 
-        if (IsJsonRequest) return Ok();
-
-        var url = Provider.GetReturnUrl(Request, true);
-        if (url.IsNullOrEmpty()) url = "/";
-
-        return Redirect(url);
+        return Ok();
     }
     #endregion
 
@@ -401,6 +403,7 @@ public class SsoController : ControllerBaseX
     /// <param name="loginUrl">登录页。子系统请求SSO时，如果在SSO未登录则直接跳转的地址，该地址有可能属于子系统自身，适用于password模式登录等场景</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult Authorize(String client_id, String redirect_uri, String response_type = null, String scope = null, String state = null, String loginUrl = null)
     {
         // 参数不完整时，跳转到登录页面，避免爬虫抓取而导致误报告警
@@ -435,6 +438,7 @@ public class SsoController : ControllerBaseX
     /// </remarks>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult Auth2(String id)
     {
         if (id.IsNullOrEmpty()) throw new ArgumentNullException(nameof(id));
@@ -464,6 +468,7 @@ public class SsoController : ControllerBaseX
     /// <param name="grant_type">授权类型</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult Access_Token(String client_id, String client_secret, String code, String grant_type = null)
     {
         if (client_id.IsNullOrEmpty()) throw new ArgumentNullException(nameof(client_id));
@@ -518,6 +523,7 @@ public class SsoController : ControllerBaseX
     /// <param name="grant_type">授权类型</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult Token(String client_id, String client_secret, String username, String password, String refresh_token, String grant_type = null)
     {
         if (client_id.IsNullOrEmpty()) throw new ArgumentNullException(nameof(client_id));
@@ -583,6 +589,7 @@ public class SsoController : ControllerBaseX
     /// <param name="model">请求模型</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult PasswordToken([FromBody] SsoTokenModel model)
     {
         if (model.client_id.IsNullOrEmpty()) throw new ArgumentNullException(nameof(model.client_id));
@@ -629,6 +636,7 @@ public class SsoController : ControllerBaseX
     /// <param name="access_token">访问令牌</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult UserInfo(String access_token)
     {
         if (access_token.IsNullOrEmpty()) throw new ArgumentNullException(nameof(access_token));
@@ -670,6 +678,7 @@ public class SsoController : ControllerBaseX
     /// <param name="refresh_token">刷新令牌</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult Refresh_Token(String client_id, String grant_type, String refresh_token)
     {
         if (client_id.IsNullOrEmpty()) throw new ArgumentNullException(nameof(client_id));
@@ -705,6 +714,7 @@ public class SsoController : ControllerBaseX
     /// <param name="access_token">应用</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public ActionResult Auth(String access_token)
     {
         try
@@ -731,6 +741,7 @@ public class SsoController : ControllerBaseX
     /// <param name="client_secret">密钥</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public ActionResult GetKey(String client_id, String client_secret)
     {
         try
@@ -758,6 +769,7 @@ public class SsoController : ControllerBaseX
     /// <param name="redirect_uri">回调地址</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public ActionResult Verify(String access_token, String redirect_uri)
     {
         if (access_token.IsNullOrEmpty()) throw new ArgumentNullException(nameof(access_token));
@@ -770,7 +782,7 @@ public class SsoController : ControllerBaseX
         prv.Current = user ?? throw new XException("用户[{0}]不存在", username);
 
         // 过期时间
-        var set = Setting.Current;
+        var set = CubeSetting.Current;
         var expire = TimeSpan.FromMinutes(0);
         if (set.SessionTimeout > 0)
             expire = TimeSpan.FromSeconds(set.SessionTimeout);
@@ -787,6 +799,7 @@ public class SsoController : ControllerBaseX
     /// <param name="model">令牌模型</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult UserAuth([FromBody] SsoTokenModel model)
     {
         var client_id = model.client_id;
@@ -831,6 +844,7 @@ public class SsoController : ControllerBaseX
     /// <param name="id">用户编号</param>
     /// <returns></returns>
     [AllowAnonymous]
+    [HttpGet]
     public virtual ActionResult Avatar(Int32 id)
     {
         if (id <= 0) throw new ArgumentNullException(nameof(id));
@@ -841,7 +855,7 @@ public class SsoController : ControllerBaseX
         var user = ManageProvider.Provider?.FindByID(id) as IUser;
         if (user == null) throw new Exception("用户不存在 " + id);
 
-        var set = Setting.Current;
+        var set = CubeSetting.Current;
         var av = "";
         if (!user.Avatar.IsNullOrEmpty() && !user.Avatar.StartsWith("/"))
         {
@@ -862,13 +876,13 @@ public class SsoController : ControllerBaseX
         return File(vs, "image/png");
     }
 
-    private ActionResult SsoJsonOK(Object data) => Json(data);
+    private ActionResult SsoJsonOK(Object data) => Json(0, null, data);
 
     private ActionResult SsoJsonError(Exception ex)
     {
         var code = 500;
         if (ex is ApiException aex && code > 0) code = aex.Code;
-        return Json(new { errcode = code, error = ex.GetTrue().Message });
+        return Json(code, ex.GetTrue().Message);
     }
     #endregion
 }

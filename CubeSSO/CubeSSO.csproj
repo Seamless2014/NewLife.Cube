@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFramework>net7.0</TargetFramework>
     <AssemblyTitle>魔方用户中心</AssemblyTitle>
     <Description>SSO服务端，OAuth2.0服务端。</Description>
     <Company>新生命开发团队</Company>
@@ -12,7 +12,8 @@
     <FileVersion>$(Version)</FileVersion>
     <AssemblyVersion>$(VersionPrefix).*</AssemblyVersion>
     <Deterministic>false</Deterministic>
-    <OutputPath>..\BinSSO</OutputPath>
+    <OutputPath>..\Bin\SSO</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
@@ -22,8 +23,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NewLife.Core" Version="10.1.2023.221-beta0001" />
-    <PackageReference Include="NewLife.Stardust.Extensions" Version="2.6.2023.221-beta0001" />
+    <PackageReference Include="NewLife.Core" Version="10.2.2023.322-beta0150" />
+    <PackageReference Include="NewLife.Stardust.Extensions" Version="2.8.2023.318-beta0213" />
   </ItemGroup>
 
   <ItemGroup>

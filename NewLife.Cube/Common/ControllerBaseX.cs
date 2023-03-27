@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube.Extensions;
 using NewLife.Remoting;
@@ -9,7 +8,10 @@ using XCode.Membership;
 namespace NewLife.Cube;
 
 /// <summary>控制器基类</summary>
-public class ControllerBaseX : Controller
+[ApiController]
+[Produces("application/json")]
+[Route("[area]/[controller]/[action]")]
+public class ControllerBaseX : ControllerBase, IActionFilter
 {
     #region 属性
     /// <summary>临时会话扩展信息。仅限本地内存，不支持分布式共享</summary>
@@ -31,15 +33,18 @@ public class ControllerBaseX : Controller
 
     /// <summary>动作执行前</summary>
     /// <param name="context"></param>
-    public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context)
+    void IActionFilter.OnActionExecuting(Remoting.ControllerContext context)
     {
-        // 页面设置
-        ViewBag.PageSetting = PageSetting;
+        //// 页面设置
+        //ViewBag.PageSetting = PageSetting;
 
-        var ctx = context.HttpContext;
+        var ctx = HttpContext;
         Session = ctx.Items["Session"] as IDictionary<String, Object>;
         Menu = ctx.Items["CurrentMenu"] as IMenu;
-        ViewBag.Menu = Menu;
+        //ViewBag.Menu = Menu;
+
+        // 仅用于测试，跳过报错
+        Session ??= new Dictionary<String, Object>();
 
         // 没有用户时无权
         var user = ManageProvider.User;
@@ -54,13 +59,11 @@ public class ControllerBaseX : Controller
             //    PageSetting.EnableSelect = user.Has(Menu, PermissionFlags.Update, PermissionFlags.Delete);
             //}
         }
-
-        base.OnActionExecuting(context);
     }
 
     /// <summary>动作执行后</summary>
     /// <param name="context"></param>
-    public override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
+    void IActionFilter.OnActionExecuted(Remoting.ControllerContext context)
     {
         var ex = context.Exception?.GetTrue();
         if (ex != null && !context.ExceptionHandled)
@@ -70,24 +73,19 @@ public class ControllerBaseX : Controller
             WriteLog(act, false, ex.ToString());
         }
 
-        if (IsJsonRequest)
+        if (ex != null && !context.ExceptionHandled)
         {
-            if (ex != null && !context.ExceptionHandled)
+            var code = 500;
+            var message = ex.Message;
+            if (ex is ApiException aex)
             {
-                var code = 500;
-                var message = ex.Message;
-                if (ex is ApiException aex)
-                {
-                    code = aex.Code;
-                    message = aex.Message;
-                }
-
-                context.Result = Json(code, message, null);
-                context.ExceptionHandled = true;
+                code = aex.Code;
+                message = aex.Message;
             }
-        }
 
-        base.OnActionExecuted(context);
+            context.Result = Json(code, message, null);
+            context.ExceptionHandled = true;
+        }
     }
     #endregion
 
@@ -98,33 +96,11 @@ public class ControllerBaseX : Controller
     protected virtual String GetRequest(String key) => Request.GetRequestValue(key);
     #endregion
 
-    #region 权限菜单
-    /// <summary>获取可用于生成权限菜单的Action集合</summary>
-    /// <param name="menu">该控制器所在菜单</param>
-    /// <returns></returns>
-    [Obsolete("=>MenuAttribute")]
-    protected virtual IDictionary<MethodInfo, Int32> ScanActionMenu(IMenu menu) => new Dictionary<MethodInfo, Int32>();
-    #endregion
-
     #region Ajax处理
-    /// <summary>返回结果并跳转</summary>
-    /// <param name="data">结果。可以是错误文本、成功文本、其它结构化数据</param>
-    /// <param name="url">提示信息后跳转的目标地址，[refresh]表示刷新当前页</param>
-    /// <returns></returns>
-    protected virtual ActionResult JsonTips(Object data, String url = null) => Json(0, data as String, data, new { url });
-
     /// <summary>返回结果并刷新</summary>
     /// <param name="data">消息</param>
     /// <returns></returns>
     protected virtual ActionResult JsonRefresh(Object data) => Json(0, data as String, data, new { url = "[refresh]" });
-
-    /// <summary>
-    /// 返回结果并刷新
-    /// </summary>
-    /// <param name="data">消息</param>
-    /// <param name="time">延迟刷新秒数</param>
-    /// <returns></returns>
-    protected virtual ActionResult JsonRefresh(Object data, Int32 time) => Json(0, data as String, data, new { url = "[refresh]", time });
 
     /// <summary>是否Json请求</summary>
     protected virtual Boolean IsJsonRequest

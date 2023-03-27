@@ -1,28 +1,14 @@
 ﻿using System.ComponentModel;
-using System.IO.Compression;
 using System.Reflection;
-using System.Text;
-using System.Web;
-using System.Xml.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Net.Http.Headers;
 using NewLife.Common;
 using NewLife.Cube.Common;
 using NewLife.Cube.Entity;
 using NewLife.Cube.Extensions;
-using NewLife.Cube.ViewModels;
-using NewLife.Data;
-using NewLife.IO;
 using NewLife.Log;
-using NewLife.Reflection;
-using NewLife.Security;
-using NewLife.Serialization;
 using NewLife.Web;
-using NewLife.Xml;
 using XCode;
-using XCode.Configuration;
 using XCode.Membership;
 using XCode.Model;
 
@@ -58,55 +44,53 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     {
         PageSetting.IsReadOnly = true;
 
-        PageSetting.EnableTableDoubleClick = Setting.Current.EnableTableDoubleClick;
-
         SysConfig = SysConfig.Current;
     }
 
-    /// <summary>动作执行前</summary>
-    /// <param name="filterContext"></param>
-    public override void OnActionExecuting(ActionExecutingContext filterContext)
-    {
-        var title = GetType().GetDisplayName() ?? typeof(TEntity).GetDisplayName() ?? Entity<TEntity>.Meta.Table.DataTable.DisplayName;
-        ViewBag.Title = title;
+    ///// <summary>动作执行前</summary>
+    ///// <param name="filterContext"></param>
+    //public override void OnActionExecuting(Remoting.ControllerContext filterContext)
+    //{
+    //    var title = GetType().GetDisplayName() ?? typeof(TEntity).GetDisplayName() ?? Entity<TEntity>.Meta.Table.DataTable.DisplayName;
+    //    ViewBag.Title = title;
 
-        // Ajax请求不需要设置ViewBag
-        if (!Request.IsAjaxRequest())
-        {
-            // 默认加上实体工厂
-            ViewBag.Factory = Factory;
+    //    // Ajax请求不需要设置ViewBag
+    //    if (!Request.IsAjaxRequest())
+    //    {
+    //        // 默认加上实体工厂
+    //        ViewBag.Factory = Factory;
 
-            // 默认加上分页给前台
-            var ps = filterContext.ActionArguments.ToNullable();
-            var p = ps["p"] as Pager ?? new Pager();
-            ViewBag.Page = p;
+    //        // 默认加上分页给前台
+    //        var ps = filterContext.ActionArguments.ToNullable();
+    //        var p = ps["p"] as Pager ?? new Pager();
+    //        ViewBag.Page = p;
 
-            // 用于显示的列
-            if (!ps.ContainsKey("entity")) ViewBag.Fields = ListFields;
+    //        // 用于显示的列
+    //        if (!ps.ContainsKey("entity")) ViewBag.Fields = ListFields;
 
-            if (ViewBag.HeaderTitle == null) ViewBag.HeaderTitle = Entity<TEntity>.Meta.Table.Description + "管理";
+    //        if (ViewBag.HeaderTitle == null) ViewBag.HeaderTitle = Entity<TEntity>.Meta.Table.Description + "管理";
 
-            var txt = (String)ViewBag.HeaderContent;
-            if (txt.IsNullOrEmpty()) txt = Menu?.Remark;
-            if (txt.IsNullOrEmpty()) txt = GetType().GetDescription();
-            if (txt.IsNullOrEmpty()) txt = Entity<TEntity>.Meta.Table.Description;
-            //if (txt.IsNullOrEmpty() && SysConfig.Current.Develop)
-            //    txt = "这里是页头内容，来自于菜单备注，或者给控制器增加Description特性";
-            ViewBag.HeaderContent = txt;
-        }
+    //        var txt = (String)ViewBag.HeaderContent;
+    //        if (txt.IsNullOrEmpty()) txt = Menu?.Remark;
+    //        if (txt.IsNullOrEmpty()) txt = GetType().GetDescription();
+    //        if (txt.IsNullOrEmpty()) txt = Entity<TEntity>.Meta.Table.Description;
+    //        //if (txt.IsNullOrEmpty() && SysConfig.Current.Develop)
+    //        //    txt = "这里是页头内容，来自于菜单备注，或者给控制器增加Description特性";
+    //        ViewBag.HeaderContent = txt;
+    //    }
 
-        base.OnActionExecuting(filterContext);
-    }
+    //    base.OnActionExecuting(filterContext);
+    //}
 
-    /// <summary>执行后</summary>
-    /// <param name="filterContext"></param>
-    public override void OnActionExecuted(ActionExecutedContext filterContext)
-    {
-        base.OnActionExecuted(filterContext);
+    ///// <summary>执行后</summary>
+    ///// <param name="filterContext"></param>
+    //public override void OnActionExecuted(Remoting.ControllerContext filterContext)
+    //{
+    //    base.OnActionExecuted(filterContext);
 
-        var title = ViewBag.Title + "";
-        HttpContext.Items["Title"] = title;
-    }
+    //    var title = ViewBag.Title + "";
+    //    HttpContext.Items["Title"] = title;
+    //}
     #endregion
 
     #region 数据获取
@@ -389,32 +373,21 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     /// <returns></returns>
     [EntityAuthorize(PermissionFlags.Detail)]
     [DisplayName("{type}管理")]
-    //[AllowAnonymous]
-    public virtual ActionResult Index(Pager p = null)
+    [HttpGet("/[area]/[controller]")]
+    public virtual ActionResult Index()
     {
-        p ??= ViewBag.Page as Pager;
-
-        // 缓存数据，用于后续导出
-        //SetSession(CacheKey, p);
-        Session[CacheKey] = p;
-
-        return IndexView(p);
-    }
-
-    /// <summary>列表页视图。子控制器可重载，以传递更多信息给视图，比如修改要显示的列</summary>
-    /// <param name="p"></param>
-    /// <returns></returns>
-    protected virtual ActionResult IndexView(Pager p)
-    {
-        // 需要总记录数来分页
-        p.RetrieveTotalCount = true;
+        var p = new Pager(WebHelper.Params)
+        {
+            // 需要总记录数来分页
+            RetrieveTotalCount = true
+        };
 
         var list = SearchData(p);
 
         // Json输出
-        if (IsJsonRequest) return Json(0, null, EntitiesFilter(list), new { pager = p });
+        if (IsJsonRequest) return Json(0, null, EntitiesFilter(list), new { pager = p, stat = p.State });
 
-        return View("List", list);
+        return Json(0, null, list, new { pager = p, stat = p.State });
     }
 
     /// <summary>表单，查看</summary>
@@ -422,6 +395,7 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     /// <returns></returns>
     [EntityAuthorize(PermissionFlags.Detail)]
     [DisplayName("查看{type}")]
+    [HttpGet]
     public virtual ActionResult Detail(String id)
     {
         var entity = FindData(id);
@@ -433,793 +407,734 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
         // Json输出
         if (IsJsonRequest) return Json(0, null, EntityFilter(entity, ShowInForm.详情));
 
-        // 用于显示的列
-        ViewBag.Fields = DetailFields;
-
-        return View("Detail", entity);
+        return Json(0, null, entity);
     }
 
-    /// <summary>清空全表数据</summary>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("清空")]
-    public virtual ActionResult Clear()
-    {
-        var url = Request.GetReferer();
+    ///// <summary>清空全表数据</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("清空")]
+    //[HttpPost]
+    //public virtual ActionResult Clear()
+    //{
+    //    var url = Request.GetReferer();
 
-        var p = Session[CacheKey] as Pager;
-        p = new Pager(p);
-        if (p != null && p.Params.Count > 0) return Json(500, "当前带有查询参数，为免误解，禁止全表清空！");
+    //    var p = Session[CacheKey] as Pager;
+    //    p = new Pager(p);
+    //    if (p != null && p.Params.Count > 0) return Json(500, "当前带有查询参数，为免误解，禁止全表清空！");
 
-        try
-        {
-            var count = Entity<TEntity>.Meta.Session.Truncate();
+    //    try
+    //    {
+    //        var count = Entity<TEntity>.Meta.Session.Truncate();
 
-            WriteLog("清空数据", true, $"共删除{count}行数据");
+    //        WriteLog("清空数据", true, $"共删除{count}行数据");
 
-            if (Request.IsAjaxRequest())
-                return JsonRefresh($"共删除{count}行数据");
-            else if (!url.IsNullOrEmpty())
-                return Redirect(url);
-            else
-                return RedirectToAction("Index");
-        }
-        catch (Exception ex)
-        {
-            WriteLog("清空数据", false, ex.GetMessage());
+    //        if (Request.IsAjaxRequest())
+    //            return JsonRefresh($"共删除{count}行数据");
+    //        else if (!url.IsNullOrEmpty())
+    //            return Redirect(url);
+    //        else
+    //            return RedirectToAction("Index");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        WriteLog("清空数据", false, ex.GetMessage());
 
-            throw;
-        }
-    }
-
-    /// <summary>
-    /// 获取字段
-    /// </summary>
-    /// <param name="kind">字段类型：详情-Detail、编辑-EditForm、添加-AddForm、列表-List</param>
-    /// <param name="formatType">0-小驼峰，1-小写，2-保持默认</param>
-    /// <returns></returns>
-    [EntityAuthorize]
-    [Obsolete("使用GetFields")]
-    public virtual ActionResult GetEntityFields(String kind, FormatType formatType = FormatType.CamelCase)
-    {
-        var fields = kind switch
-        {
-            "Detail" => DetailFields,
-            "EditForm" => EditFormFields,
-            "AddForm" => AddFormFields,
-            "List" => ListFields,
-            _ => ListFields
-        };
-
-        var data = fields.Select(s =>
-        {
-            var fm = new FieldModel(formatType);
-
-            fm.Copy(s);
-
-            fm.TypeStr = s.Type.Name;
-
-            return fm;
-        }).ToList();
-
-        var customs = fields.Select(s =>
-        {
-            var fm = new FieldModel(formatType);
-
-            fm.Copy(s);
-
-            fm.IsCustom = true;
-
-            return fm;
-        }).ToList();
-
-        data.AddRange(customs);
-
-        return Ok(data: data);
-    }
-
+    //        throw;
+    //    }
+    //}
     #endregion
 
     #region 数据接口
-    /// <summary>页面</summary>
-    /// <param name="token">令牌</param>
-    /// <param name="p">分页</param>
-    /// <returns></returns>
-    [AllowAnonymous]
-    [DisplayName("页面")]
-    public virtual ActionResult Html(String token, Pager p)
-    {
-        try
-        {
-            var issuer = ValidToken(token);
+    ///// <summary>Json接口</summary>
+    ///// <param name="token">令牌</param>
+    ///// <param name="p">分页</param>
+    ///// <returns></returns>
+    //[AllowAnonymous]
+    //[DisplayName("Json接口")]
+    //[HttpGet]
+    //public virtual ActionResult Json(String token, Pager p)
+    //{
+    //    try
+    //    {
+    //        var issuer = ValidToken(token);
 
-            // 需要总记录数来分页
-            p.RetrieveTotalCount = true;
+    //        // 需要总记录数来分页
+    //        p.RetrieveTotalCount = true;
 
-            var list = SearchData(p);
+    //        var list = SearchData(p);
 
-            return View("List", list);
-        }
-        catch (Exception ex)
-        {
-            return Content(ex.Message);
-        }
-    }
+    //        // Json输出
+    //        return Json(0, null, list, new { issuer, pager = p });
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return Json(0, null, ex);
+    //    }
+    //}
 
-    /// <summary>Json接口</summary>
-    /// <param name="token">令牌</param>
-    /// <param name="p">分页</param>
-    /// <returns></returns>
-    [AllowAnonymous]
-    [DisplayName("Json接口")]
-    public virtual ActionResult Json(String token, Pager p)
-    {
-        try
-        {
-            var issuer = ValidToken(token);
+    ///// <summary>验证令牌是否有效</summary>
+    ///// <param name="token"></param>
+    ///// <returns></returns>
+    //protected virtual String ValidToken(String token)
+    //{
+    //    if (token.IsNullOrEmpty()) token = GetRequest("token");
+    //    if (token.IsNullOrEmpty()) token = GetRequest("key");
 
-            // 需要总记录数来分页
-            p.RetrieveTotalCount = true;
+    //    var app = App.FindBySecret(token);
+    //    if (app != null)
+    //    {
+    //        if (!app.Enable) throw new XException("非法授权！");
 
-            var list = SearchData(p);
+    //        return app?.ToString();
+    //    }
+    //    else
+    //    {
+    //        var ut = UserToken.Valid(token, UserHost);
+    //        var user = ut.User;
 
-            // Json输出
-            return Json(0, null, list, new { issuer, pager = p });
-        }
-        catch (Exception ex)
-        {
-            return Json(0, null, ex);
-        }
-    }
+    //        // 定位菜单页面
+    //        var menu = ManageProvider.Menu.FindByFullName(GetType().FullName);
 
-    /// <summary>验证令牌是否有效</summary>
-    /// <param name="token"></param>
-    /// <returns></returns>
-    protected virtual String ValidToken(String token)
-    {
-        if (token.IsNullOrEmpty()) token = GetRequest("token");
-        if (token.IsNullOrEmpty()) token = GetRequest("key");
+    //        // 判断权限
+    //        if (menu == null || !user.Has(menu, PermissionFlags.Detail)) throw new Exception($"该用户[{user}]无权访问[{menu}]");
 
-        var app = App.FindBySecret(token);
-        if (app != null)
-        {
-            if (!app.Enable) throw new XException("非法授权！");
+    //        // 锁定页面
+    //        if (!ut.Url.IsNullOrEmpty())
+    //        {
+    //            var url = ut.Url;
+    //            if (url.Contains("?")) url = url.Substring(null, "?");
+    //            if (!url.StartsWithIgnoreCase(menu.Url.TrimStart("~"))) throw new Exception($"该令牌[{user}]无权访问[{menu}]，仅限于[{url}]");
+    //        }
 
-            return app?.ToString();
-        }
-        else
-        {
-            var ut = UserToken.Valid(token, UserHost);
-            var user = ut.User;
+    //        // 设置当前用户，用于数据权限控制
+    //        HttpContext.Items["userId"] = user.ID;
+    //        HttpContext.Items["CurrentUser"] = user;
 
-            // 定位菜单页面
-            var menu = ManageProvider.Menu.FindByFullName(GetType().FullName);
+    //        return user?.ToString();
+    //    }
+    //}
 
-            // 判断权限
-            if (menu == null || !user.Has(menu, PermissionFlags.Detail)) throw new Exception($"该用户[{user}]无权访问[{menu}]");
+    ///// <summary>Xml接口</summary>
+    ///// <param name="token">令牌</param>
+    ///// <param name="p">分页</param>
+    ///// <returns></returns>
+    //[AllowAnonymous]
+    //[DisplayName("Xml接口")]
+    //[HttpGet]
+    //public virtual ActionResult Xml(String token, Pager p)
+    //{
+    //    var xml = "";
+    //    try
+    //    {
+    //        var issuer = ValidToken(token);
 
-            // 锁定页面
-            if (!ut.Url.IsNullOrEmpty())
-            {
-                var url = ut.Url;
-                if (url.Contains("?")) url = url.Substring(null, "?");
-                if (!url.StartsWithIgnoreCase(menu.Url.TrimStart("~"))) throw new Exception($"该令牌[{user}]无权访问[{menu}]，仅限于[{url}]");
-            }
+    //        // 需要总记录数来分页
+    //        p.RetrieveTotalCount = true;
 
-            // 设置当前用户，用于数据权限控制
-            HttpContext.Items["userId"] = user.ID;
-            HttpContext.Items["CurrentUser"] = user;
+    //        var list = SearchData(p) as IList<TEntity>;
 
-            return user?.ToString();
-        }
-    }
+    //        var rs = new Root { Result = false, Data = list, Pager = p, Issuer = issuer };
 
-    /// <summary>Xml接口</summary>
-    /// <param name="token">令牌</param>
-    /// <param name="p">分页</param>
-    /// <returns></returns>
-    [AllowAnonymous]
-    [DisplayName("Xml接口")]
-    public virtual ActionResult Xml(String token, Pager p)
-    {
-        var xml = "";
-        try
-        {
-            var issuer = ValidToken(token);
+    //        xml = rs.ToXml(null, false, false);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        var rs = new { result = false, data = ex.GetTrue().Message };
+    //        xml = rs.ToXml(null, false, false);
+    //    }
 
-            // 需要总记录数来分页
-            p.RetrieveTotalCount = true;
+    //    return Content(xml, "application/xml");
+    //}
 
-            var list = SearchData(p) as IList<TEntity>;
+    //private class Root
+    //{
+    //    public Boolean Result { get; set; }
+    //    public IList<TEntity> Data { get; set; }
+    //    public Pager Pager { get; set; }
+    //    public String Issuer { get; set; }
+    //}
 
-            var rs = new Root { Result = false, Data = list, Pager = p, Issuer = issuer };
+    ///// <summary>Csv接口</summary>
+    ///// <param name="token">令牌</param>
+    ///// <param name="p">分页</param>
+    ///// <returns></returns>
+    //[AllowAnonymous]
+    //[DisplayName("Excel接口")]
+    //[HttpGet]
+    //public virtual async Task<ActionResult> Csv(String token, Pager p)
+    //{
+    //    var issuer = ValidToken(token);
 
-            xml = rs.ToXml(null, false, false);
-        }
-        catch (Exception ex)
-        {
-            var rs = new { result = false, data = ex.GetTrue().Message };
-            xml = rs.ToXml(null, false, false);
-        }
+    //    //// 需要总记录数来分页
+    //    //p.RetrieveTotalCount = true;
 
-        return Content(xml, "application/xml");
-    }
+    //    var list = SearchData(p);
 
-    private class Root
-    {
-        public Boolean Result { get; set; }
-        public IList<TEntity> Data { get; set; }
-        public Pager Pager { get; set; }
-        public String Issuer { get; set; }
-    }
+    //    // 准备需要输出的列
+    //    var fs = Factory.Fields.ToList();
 
-    /// <summary>Csv接口</summary>
-    /// <param name="token">令牌</param>
-    /// <param name="p">分页</param>
-    /// <returns></returns>
-    [AllowAnonymous]
-    [DisplayName("Excel接口")]
-    public virtual async Task<ActionResult> Csv(String token, Pager p)
-    {
-        var issuer = ValidToken(token);
+    //    var rs = Response;
+    //    var headers = rs.Headers;
+    //    headers[HeaderNames.ContentEncoding] = "UTF8";
+    //    //headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
 
-        //// 需要总记录数来分页
-        //p.RetrieveTotalCount = true;
+    //    await OnExportCsv(fs, list, rs.Body);
 
-        var list = SearchData(p);
+    //    return new EmptyResult();
+    //}
 
-        // 准备需要输出的列
-        var fs = Factory.Fields.ToList();
+    ///// <summary>Csv接口</summary>
+    ///// <param name="token">令牌</param>
+    ///// <param name="p">分页</param>
+    ///// <returns></returns>
+    //[AllowAnonymous]
+    //[DisplayName("Excel接口")]
+    //[HttpGet]
+    //public virtual async Task<ActionResult> Excel(String token, Pager p)
+    //{
+    //    var issuer = ValidToken(token);
 
-        var rs = Response;
-        var headers = rs.Headers;
-        headers[HeaderNames.ContentEncoding] = "UTF8";
-        //headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
+    //    var list = SearchData(p);
 
-        await OnExportCsv(fs, list, rs.Body);
+    //    // 准备需要输出的列
+    //    var fs = new List<FieldItem>();
+    //    foreach (var fi in Factory.AllFields)
+    //    {
+    //        if (Type.GetTypeCode(fi.Type) == TypeCode.Object) continue;
+    //        if (!fi.IsDataObjectField)
+    //        {
+    //            var pi = Factory.EntityType.GetProperty(fi.Name);
+    //            if (pi != null && pi.GetCustomAttribute<XmlIgnoreAttribute>() != null) continue;
+    //        }
 
-        return new EmptyResult();
-    }
+    //        fs.Add(fi);
+    //    }
 
-    /// <summary>Csv接口</summary>
-    /// <param name="token">令牌</param>
-    /// <param name="p">分页</param>
-    /// <returns></returns>
-    [AllowAnonymous]
-    [DisplayName("Excel接口")]
-    public virtual async Task<ActionResult> Excel(String token, Pager p)
-    {
-        var issuer = ValidToken(token);
+    //    // 基本属性与扩展属性对调顺序
+    //    for (var i = 0; i < fs.Count; i++)
+    //    {
+    //        var fi = fs[i];
+    //        if (fi.OriField != null)
+    //        {
+    //            var k = fs.IndexOf(fi.OriField);
+    //            if (k >= 0)
+    //            {
+    //                fs[i] = fs[k];
+    //                fs[k] = fi;
+    //            }
+    //        }
+    //    }
 
-        var list = SearchData(p);
+    //    var rs = Response;
+    //    var headers = rs.Headers;
+    //    headers[HeaderNames.ContentEncoding] = "UTF8";
+    //    //headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
 
-        // 准备需要输出的列
-        var fs = new List<FieldItem>();
-        foreach (var fi in Factory.AllFields)
-        {
-            if (Type.GetTypeCode(fi.Type) == TypeCode.Object) continue;
-            if (!fi.IsDataObjectField)
-            {
-                var pi = Factory.EntityType.GetProperty(fi.Name);
-                if (pi != null && pi.GetCustomAttribute<XmlIgnoreAttribute>() != null) continue;
-            }
+    //    await OnExportExcel(fs, list, rs.Body);
 
-            fs.Add(fi);
-        }
-
-        // 基本属性与扩展属性对调顺序
-        for (var i = 0; i < fs.Count; i++)
-        {
-            var fi = fs[i];
-            if (fi.OriField != null)
-            {
-                var k = fs.IndexOf(fi.OriField);
-                if (k >= 0)
-                {
-                    fs[i] = fs[k];
-                    fs[k] = fi;
-                }
-            }
-        }
-
-        var rs = Response;
-        var headers = rs.Headers;
-        headers[HeaderNames.ContentEncoding] = "UTF8";
-        //headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
-
-        await OnExportExcel(fs, list, rs.Body);
-
-        return new EmptyResult();
-    }
+    //    return new EmptyResult();
+    //}
     #endregion
 
     #region 导出Xml/Json/Excel/Csv
-    /// <summary>导出Xml</summary>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("导出")]
-    public virtual ActionResult ExportXml()
-    {
-        var obj = OnExportXml();
-        var xml = "";
-        if (obj is IEntity)
-            xml = (obj as IEntity).ToXml();
-        else if (obj is IList<TEntity>)
-            xml = (obj as IList<TEntity>).ToXml();
-        else if (obj is IEnumerable<TEntity> list)
-            xml = list.ToList().ToXml();
+    ///// <summary>导出Xml</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("导出")]
+    //[HttpGet]
+    //public virtual ActionResult ExportXml()
+    //{
+    //    var obj = OnExportXml();
+    //    var xml = "";
+    //    if (obj is IEntity)
+    //        xml = (obj as IEntity).ToXml();
+    //    else if (obj is IList<TEntity>)
+    //        xml = (obj as IList<TEntity>).ToXml();
+    //    else if (obj is IEnumerable<TEntity> list)
+    //        xml = list.ToList().ToXml();
 
-        SetAttachment(null, ".xml", true);
+    //    SetAttachment(null, ".xml", true);
 
-        return Content(xml, "text/xml", Encoding.UTF8);
-    }
+    //    return Content(xml, "text/xml", Encoding.UTF8);
+    //}
 
-    /// <summary>要导出Xml的对象</summary>
-    /// <returns></returns>
-    protected virtual Object OnExportXml() => ExportData();
+    ///// <summary>要导出Xml的对象</summary>
+    ///// <returns></returns>
+    //protected virtual Object OnExportXml() => ExportData();
 
-    /// <summary>设置附件响应方式</summary>
-    /// <param name="name"></param>
-    /// <param name="ext"></param>
-    /// <param name="includeTime">包含时间戳</param>
-    protected virtual void SetAttachment(String name, String ext, Boolean includeTime)
-    {
-        if (name.IsNullOrEmpty()) name = GetType().GetDisplayName();
-        if (name.IsNullOrEmpty()) name = Factory.EntityType.GetDisplayName();
-        if (name.IsNullOrEmpty()) name = Factory.Table.DataTable.DisplayName;
-        if (name.IsNullOrEmpty()) name = GetType().Name.TrimEnd("Controller");
-        if (!ext.IsNullOrEmpty()) ext = ext.EnsureStart(".");
+    ///// <summary>设置附件响应方式</summary>
+    ///// <param name="name"></param>
+    ///// <param name="ext"></param>
+    ///// <param name="includeTime">包含时间戳</param>
+    //protected virtual void SetAttachment(String name, String ext, Boolean includeTime)
+    //{
+    //    if (name.IsNullOrEmpty()) name = GetType().GetDisplayName();
+    //    if (name.IsNullOrEmpty()) name = Factory.EntityType.GetDisplayName();
+    //    if (name.IsNullOrEmpty()) name = Factory.Table.DataTable.DisplayName;
+    //    if (name.IsNullOrEmpty()) name = GetType().Name.TrimEnd("Controller");
+    //    if (!ext.IsNullOrEmpty()) ext = ext.EnsureStart(".");
 
-        if (includeTime) name += $"_{DateTime.Now:yyyyMMddHHmmss}";
+    //    if (includeTime) name += $"_{DateTime.Now:yyyyMMddHHmmss}";
 
-        name += ext;
-        name = HttpUtility.UrlEncode(name, Encoding.UTF8);
+    //    name += ext;
+    //    name = HttpUtility.UrlEncode(name, Encoding.UTF8);
 
-        Response.Headers.Add("Content-Disposition", "Attachment;filename=" + name);
-    }
+    //    Response.Headers.Add("Content-Disposition", "Attachment;filename=" + name);
+    //}
 
-    /// <summary>导出Json</summary>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("导出")]
-    public virtual ActionResult ExportJson()
-    {
-        var json = OnExportJson().ToJson(true);
+    ///// <summary>导出Json</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("导出")]
+    //[HttpGet]
+    //public virtual ActionResult ExportJson()
+    //{
+    //    var json = OnExportJson().ToJson(true);
 
-        SetAttachment(null, ".json", true);
+    //    SetAttachment(null, ".json", true);
 
-        return Content(json, "application/json", Encoding.UTF8);
-    }
+    //    return Content(json, "application/json", Encoding.UTF8);
+    //}
 
-    /// <summary>要导出Json的对象</summary>
-    /// <returns></returns>
-    protected virtual Object OnExportJson() => ExportData().ToList();
+    ///// <summary>要导出Json的对象</summary>
+    ///// <returns></returns>
+    //protected virtual Object OnExportJson() => ExportData().ToList();
 
-    /// <summary>导出Excel</summary>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("导出")]
-    public virtual async Task<ActionResult> ExportExcel()
-    {
-        // 准备需要输出的列
-        var fs = new List<FieldItem>();
-        foreach (var fi in Factory.AllFields)
-        {
-            if (Type.GetTypeCode(fi.Type) == TypeCode.Object) continue;
-            if (!fi.IsDataObjectField)
-            {
-                var pi = Factory.EntityType.GetProperty(fi.Name);
-                if (pi != null && pi.GetCustomAttribute<XmlIgnoreAttribute>() != null) continue;
-            }
+    ///// <summary>导出Excel</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("导出")]
+    //[HttpGet]
+    //public virtual async Task<ActionResult> ExportExcel()
+    //{
+    //    // 准备需要输出的列
+    //    var fs = new List<FieldItem>();
+    //    foreach (var fi in Factory.AllFields)
+    //    {
+    //        if (Type.GetTypeCode(fi.Type) == TypeCode.Object) continue;
+    //        if (!fi.IsDataObjectField)
+    //        {
+    //            var pi = Factory.EntityType.GetProperty(fi.Name);
+    //            if (pi != null && pi.GetCustomAttribute<XmlIgnoreAttribute>() != null) continue;
+    //        }
 
-            fs.Add(fi);
-        }
+    //        fs.Add(fi);
+    //    }
 
-        // 基本属性与扩展属性对调顺序
-        for (var i = 0; i < fs.Count; i++)
-        {
-            var fi = fs[i];
-            if (fi.OriField != null)
-            {
-                var k = fs.IndexOf(fi.OriField);
-                if (k >= 0)
-                {
-                    fs[i] = fs[k];
-                    fs[k] = fi;
-                }
-            }
-        }
+    //    // 基本属性与扩展属性对调顺序
+    //    for (var i = 0; i < fs.Count; i++)
+    //    {
+    //        var fi = fs[i];
+    //        if (fi.OriField != null)
+    //        {
+    //            var k = fs.IndexOf(fi.OriField);
+    //            if (k >= 0)
+    //            {
+    //                fs[i] = fs[k];
+    //                fs[k] = fi;
+    //            }
+    //        }
+    //    }
 
-        // 要导出的数据超大时，启用流式输出
-        if (Factory.Session.Count > 100_000)
-        {
-            var p = Session[CacheKey] as Pager;
-            p = new Pager(p)
-            {
-                PageSize = 1,
-                RetrieveTotalCount = true
-            };
-            SearchData(p);
-        }
+    //    // 要导出的数据超大时，启用流式输出
+    //    if (Factory.Session.Count > 100_000)
+    //    {
+    //        var p = Session[CacheKey] as Pager;
+    //        p = new Pager(p)
+    //        {
+    //            PageSize = 1,
+    //            RetrieveTotalCount = true
+    //        };
+    //        SearchData(p);
+    //    }
 
-        SetAttachment(null, ".xls", true);
+    //    SetAttachment(null, ".xls", true);
 
-        var rs = Response;
-        var headers = rs.Headers;
-        headers[HeaderNames.ContentEncoding] = "UTF8";
-        headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
+    //    var rs = Response;
+    //    var headers = rs.Headers;
+    //    headers[HeaderNames.ContentEncoding] = "UTF8";
+    //    headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
 
-        var data = ExportData();
-        await OnExportExcel(fs, data, rs.Body);
+    //    var data = ExportData();
+    //    await OnExportExcel(fs, data, rs.Body);
 
-        return new EmptyResult();
-    }
+    //    return new EmptyResult();
+    //}
 
-    /// <summary>导出Excel模板</summary>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("导出模板")]
-    public virtual async Task<ActionResult> ExportExcelTemplate()
-    {
-        // 准备需要输出的列
-        var fs = new List<FieldItem>();
-        foreach (var fi in Factory.AllFields)
-        {
-            if (Type.GetTypeCode(fi.Type) == TypeCode.Object) continue;
-            if (!fi.IsDataObjectField)
-            {
-                var pi = Factory.EntityType.GetProperty(fi.Name);
-                if (pi != null && pi.GetCustomAttribute<XmlIgnoreAttribute>() != null) continue;
-            }
+    ///// <summary>导出Excel模板</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("导出模板")]
+    //[HttpGet]
+    //public virtual async Task<ActionResult> ExportExcelTemplate()
+    //{
+    //    // 准备需要输出的列
+    //    var fs = new List<FieldItem>();
+    //    foreach (var fi in Factory.AllFields)
+    //    {
+    //        if (Type.GetTypeCode(fi.Type) == TypeCode.Object) continue;
+    //        if (!fi.IsDataObjectField)
+    //        {
+    //            var pi = Factory.EntityType.GetProperty(fi.Name);
+    //            if (pi != null && pi.GetCustomAttribute<XmlIgnoreAttribute>() != null) continue;
+    //        }
 
-            //模板隐藏这几个字段
-            if (fi.Name.EqualIgnoreCase("CreateUserID", "CreateUser", "CreateTime", "CreateIP",
-                        "UpdateUserID", "UpdateUser", "UpdateTime", "UpdateIP", "Enable") || fi.Description.IsNullOrEmpty())
-            {
-                continue;
-            }
+    //        //模板隐藏这几个字段
+    //        if (fi.Name.EqualIgnoreCase("CreateUserID", "CreateUser", "CreateTime", "CreateIP",
+    //                    "UpdateUserID", "UpdateUser", "UpdateTime", "UpdateIP", "Enable") || fi.Description.IsNullOrEmpty())
+    //        {
+    //            continue;
+    //        }
 
-            fs.Add(fi);
-        }
+    //        fs.Add(fi);
+    //    }
 
-        // 基本属性与扩展属性对调顺序
-        for (var i = 0; i < fs.Count; i++)
-        {
-            var fi = fs[i];
-            if (fi.OriField != null)
-            {
-                var k = fs.IndexOf(fi.OriField);
-                if (k >= 0)
-                {
-                    fs[i] = fs[k];
-                    fs[k] = fi;
-                }
-            }
-        }
+    //    // 基本属性与扩展属性对调顺序
+    //    for (var i = 0; i < fs.Count; i++)
+    //    {
+    //        var fi = fs[i];
+    //        if (fi.OriField != null)
+    //        {
+    //            var k = fs.IndexOf(fi.OriField);
+    //            if (k >= 0)
+    //            {
+    //                fs[i] = fs[k];
+    //                fs[k] = fi;
+    //            }
+    //        }
+    //    }
 
-        // 要导出的数据超大时，启用流式输出
-        if (Factory.Session.Count > 100_000)
-        {
-            var p = Session[CacheKey] as Pager;
-            p = new Pager(p)
-            {
-                PageSize = 1,
-                RetrieveTotalCount = true
-            };
-            SearchData(p);
-        }
+    //    // 要导出的数据超大时，启用流式输出
+    //    if (Factory.Session.Count > 100_000)
+    //    {
+    //        var p = Session[CacheKey] as Pager;
+    //        p = new Pager(p)
+    //        {
+    //            PageSize = 1,
+    //            RetrieveTotalCount = true
+    //        };
+    //        SearchData(p);
+    //    }
 
-        SetAttachment(null, ".xls", true);
+    //    SetAttachment(null, ".xls", true);
 
-        var rs = Response;
-        var headers = rs.Headers;
-        headers[HeaderNames.ContentEncoding] = "UTF8";
-        headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
+    //    var rs = Response;
+    //    var headers = rs.Headers;
+    //    headers[HeaderNames.ContentEncoding] = "UTF8";
+    //    headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
 
-        var data = ExportData(1);
-        await OnExportExcel(fs, data, rs.Body);
+    //    var data = ExportData(1);
+    //    await OnExportExcel(fs, data, rs.Body);
 
-        return new EmptyResult();
-    }
+    //    return new EmptyResult();
+    //}
 
-    /// <summary>导出Excel，可重载修改要输出的列</summary>
-    /// <param name="fs">字段列表</param>
-    /// <param name="list">数据集</param>
-    /// <param name="output">输出流</param>
-    protected virtual async ValueTask OnExportExcel(List<FieldItem> fs, IEnumerable<TEntity> list, Stream output)
-    {
-        await using var csv = new CsvFile(output, true);
+    ///// <summary>导出Excel，可重载修改要输出的列</summary>
+    ///// <param name="fs">字段列表</param>
+    ///// <param name="list">数据集</param>
+    ///// <param name="output">输出流</param>
+    //protected virtual async ValueTask OnExportExcel(List<FieldItem> fs, IEnumerable<TEntity> list, Stream output)
+    //{
+    //    await using var csv = new CsvFile(output, true);
 
-        // 列头
-        var headers = new List<String>();
-        foreach (var fi in fs)
-        {
-            var name = fi.DisplayName;
-            if (name.IsNullOrEmpty()) name = fi.Description;
-            if (name.IsNullOrEmpty()) name = fi.Name;
+    //    // 列头
+    //    var headers = new List<String>();
+    //    foreach (var fi in fs)
+    //    {
+    //        var name = fi.DisplayName;
+    //        if (name.IsNullOrEmpty()) name = fi.Description;
+    //        if (name.IsNullOrEmpty()) name = fi.Name;
 
-            // 第一行以ID开头的csv文件，容易被识别为SYLK文件
-            if (name == "ID" && fi == fs[0]) name = "Id";
-            headers.Add(name);
-        }
-        await csv.WriteLineAsync(headers);
+    //        // 第一行以ID开头的csv文件，容易被识别为SYLK文件
+    //        if (name == "ID" && fi == fs[0]) name = "Id";
+    //        headers.Add(name);
+    //    }
+    //    await csv.WriteLineAsync(headers);
 
-        // 内容
-        foreach (var entity in list)
-        {
-            await csv.WriteLineAsync(fs.Select(e => entity[e.Name]));
-        }
-    }
+    //    // 内容
+    //    foreach (var entity in list)
+    //    {
+    //        await csv.WriteLineAsync(fs.Select(e => entity[e.Name]));
+    //    }
+    //}
 
-    /// <summary>导出Csv</summary>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("导出")]
-    public virtual async Task<ActionResult> ExportCsv()
-    {
-        // 准备需要输出的列
-        var fs = Factory.Fields.ToList();
+    ///// <summary>导出Csv</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("导出")]
+    //[HttpGet]
+    //public virtual async Task<ActionResult> ExportCsv()
+    //{
+    //    // 准备需要输出的列
+    //    var fs = Factory.Fields.ToList();
 
-        if (Factory.Session.Count > 100_000)
-        {
-            var p = Session[CacheKey] as Pager;
-            p = new Pager(p)
-            {
-                PageSize = 1,
-                RetrieveTotalCount = true
-            };
-            SearchData(p);
-        }
+    //    if (Factory.Session.Count > 100_000)
+    //    {
+    //        var p = Session[CacheKey] as Pager;
+    //        p = new Pager(p)
+    //        {
+    //            PageSize = 1,
+    //            RetrieveTotalCount = true
+    //        };
+    //        SearchData(p);
+    //    }
 
-        var name = GetType().Name.TrimEnd("Controller");
-        SetAttachment(name, ".csv", true);
+    //    var name = GetType().Name.TrimEnd("Controller");
+    //    SetAttachment(name, ".csv", true);
 
-        var rs = Response;
-        var headers = rs.Headers;
-        headers[HeaderNames.ContentEncoding] = "UTF8";
-        headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
+    //    var rs = Response;
+    //    var headers = rs.Headers;
+    //    headers[HeaderNames.ContentEncoding] = "UTF8";
+    //    headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
 
-        //// 允许同步IO，便于CsvFile刷数据Flush
-        //var ft = HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpBodyControlFeature>();
-        //if (ft != null) ft.AllowSynchronousIO = true;
+    //    //// 允许同步IO，便于CsvFile刷数据Flush
+    //    //var ft = HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpBodyControlFeature>();
+    //    //if (ft != null) ft.AllowSynchronousIO = true;
 
-        var data = ExportData();
-        await OnExportCsv(fs, data, rs.Body);
+    //    var data = ExportData();
+    //    await OnExportCsv(fs, data, rs.Body);
 
-        return new EmptyResult();
-    }
+    //    return new EmptyResult();
+    //}
 
-    /// <summary>导出Csv，可重载修改要输出的列</summary>
-    /// <param name="fs">字段列表</param>
-    /// <param name="list">数据集</param>
-    /// <param name="output">输出流</param>
-    protected virtual async ValueTask OnExportCsv(List<FieldItem> fs, IEnumerable<TEntity> list, Stream output)
-    {
-        await using var csv = new CsvFile(output, true);
+    ///// <summary>导出Csv，可重载修改要输出的列</summary>
+    ///// <param name="fs">字段列表</param>
+    ///// <param name="list">数据集</param>
+    ///// <param name="output">输出流</param>
+    //protected virtual async ValueTask OnExportCsv(List<FieldItem> fs, IEnumerable<TEntity> list, Stream output)
+    //{
+    //    await using var csv = new CsvFile(output, true);
 
-        // 列头
-        var headers = fs.Select(e => e.Name).ToArray();
-        if (headers[0] == "ID") headers[0] = "Id";
-        await csv.WriteLineAsync(headers);
+    //    // 列头
+    //    var headers = fs.Select(e => e.Name).ToArray();
+    //    if (headers[0] == "ID") headers[0] = "Id";
+    //    await csv.WriteLineAsync(headers);
 
-        // 内容
-        foreach (var entity in list)
-        {
-            await csv.WriteLineAsync(fs.Select(e => entity[e.Name]));
-        }
-    }
+    //    // 内容
+    //    foreach (var entity in list)
+    //    {
+    //        await csv.WriteLineAsync(fs.Select(e => entity[e.Name]));
+    //    }
+    //}
     #endregion
 
     #region 备份/还原/导出/分享
-    /// <summary>备份到服务器本地目录</summary>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("备份")]
-    public virtual ActionResult Backup()
-    {
-        try
-        {
-            var fact = Factory;
-            if (fact.Session.Count > 10_000_000) throw new XException($"数据量[{fact.Session.Count:n0}>10_000_000]，禁止备份！");
+    ///// <summary>备份到服务器本地目录</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("备份")]
+    //[HttpGet]
+    //public virtual ActionResult Backup()
+    //{
+    //    try
+    //    {
+    //        var fact = Factory;
+    //        if (fact.Session.Count > 10_000_000) throw new XException($"数据量[{fact.Session.Count:n0}>10_000_000]，禁止备份！");
 
-            var dal = fact.Session.Dal;
+    //        var dal = fact.Session.Dal;
 
-            var name = GetType().Name.TrimEnd("Controller");
-            var fileName = $"{name}_{DateTime.Now:yyyyMMddHHmmss}.gz";
-            var bak = NewLife.Setting.Current.BackupPath.CombinePath(fileName).GetBasePath();
-            bak.EnsureDirectory(true);
+    //        var name = GetType().Name.TrimEnd("Controller");
+    //        var fileName = $"{name}_{DateTime.Now:yyyyMMddHHmmss}.gz";
+    //        var bak = NewLife.Setting.Current.BackupPath.CombinePath(fileName).GetBasePath();
+    //        bak.EnsureDirectory(true);
 
-            var rs = dal.Backup(fact.Table.DataTable, bak);
+    //        var rs = dal.Backup(fact.Table.DataTable, bak);
 
-            WriteLog("备份", true, $"备份[{fileName}]（{rs:n0}行）成功！");
+    //        WriteLog("备份", true, $"备份[{fileName}]（{rs:n0}行）成功！");
 
-            return Json(0, $"备份[{fileName}]（{rs:n0}行）成功！");
-        }
-        catch (Exception ex)
-        {
-            XTrace.WriteException(ex);
+    //        return Json(0, $"备份[{fileName}]（{rs:n0}行）成功！");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        XTrace.WriteException(ex);
 
-            WriteLog("备份", false, ex.GetMessage());
+    //        WriteLog("备份", false, ex.GetMessage());
 
-            return Json(500, null, ex);
-        }
-    }
+    //        return Json(500, null, ex);
+    //    }
+    //}
 
-    /// <summary>备份导出</summary>
-    /// <remarks>备份并下载</remarks>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("导出")]
-    public virtual async Task<ActionResult> BackupAndExport()
-    {
-        var fact = Factory;
-        if (fact.Session.Count > 10_000_000) throw new XException($"数据量[{fact.Session.Count:n0}>10_000_000]，禁止备份！");
+    ///// <summary>备份导出</summary>
+    ///// <remarks>备份并下载</remarks>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("导出")]
+    //[HttpGet]
+    //public virtual async Task<ActionResult> BackupAndExport()
+    //{
+    //    var fact = Factory;
+    //    if (fact.Session.Count > 10_000_000) throw new XException($"数据量[{fact.Session.Count:n0}>10_000_000]，禁止备份！");
 
-        var dal = fact.Session.Dal;
+    //    var dal = fact.Session.Dal;
 
-        var name = GetType().Name.TrimEnd("Controller");
-        SetAttachment(name, ".gz", true);
+    //    var name = GetType().Name.TrimEnd("Controller");
+    //    SetAttachment(name, ".gz", true);
 
-        // 允许同步IO，便于刷数据Flush
-        var ft = HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpBodyControlFeature>();
-        if (ft != null) ft.AllowSynchronousIO = true;
+    //    // 允许同步IO，便于刷数据Flush
+    //    var ft = HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpBodyControlFeature>();
+    //    if (ft != null) ft.AllowSynchronousIO = true;
 
-        var ms = Response.Body;
-        try
-        {
-            await using var gs = new GZipStream(ms, CompressionLevel.Optimal, true);
-            var count = dal.Backup(fact.Table.DataTable, gs);
+    //    var ms = Response.Body;
+    //    try
+    //    {
+    //        await using var gs = new GZipStream(ms, CompressionLevel.Optimal, true);
+    //        var count = dal.Backup(fact.Table.DataTable, gs);
 
-            WriteLog("备份导出", true, $"备份[{name}]（{count:n0}行）成功！");
+    //        WriteLog("备份导出", true, $"备份[{name}]（{count:n0}行）成功！");
 
-            return new EmptyResult();
-        }
-        catch (Exception ex)
-        {
-            XTrace.WriteException(ex);
+    //        return new EmptyResult();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        XTrace.WriteException(ex);
 
-            WriteLog("备份导出", false, ex.GetMessage());
+    //        WriteLog("备份导出", false, ex.GetMessage());
 
-            return Json(500, null, ex);
-        }
-    }
+    //        return Json(500, null, ex);
+    //    }
+    //}
 
-    /// <summary>分享数据</summary>
-    /// <remarks>
-    /// 为当前url创建用户令牌
-    /// </remarks>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("分享{type}")]
-    public virtual ActionResult Share()
-    {
-        // 当前用户所有令牌
-        var userId = ManageProvider.User.ID;
-        var list = UserToken.Search(null, userId, true, DateTime.Now, DateTime.MinValue, null);
+    ///// <summary>分享数据</summary>
+    ///// <remarks>
+    ///// 为当前url创建用户令牌
+    ///// </remarks>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("分享{type}")]
+    //[HttpGet]
+    //public virtual ActionResult Share()
+    //{
+    //    // 当前用户所有令牌
+    //    var userId = ManageProvider.User.ID;
+    //    var list = UserToken.Search(null, userId, true, DateTime.Now, DateTime.MinValue, null);
 
-        var p = Session[CacheKey] as Pager;
-        p = new Pager(p)
-        {
-            RetrieveTotalCount = false,
-        };
+    //    var p = Session[CacheKey] as Pager;
+    //    p = new Pager(p)
+    //    {
+    //        RetrieveTotalCount = false,
+    //    };
 
-        // 构造url
-        var cs = GetControllerAction();
-        var url = cs[0].IsNullOrEmpty() ? $"/{cs[1]}" : $"/{cs[0]}/{cs[1]}";
-        var sb = p.GetBaseUrl(true, true, true);
-        if (sb.Length > 0) url += "?" + sb;
+    //    // 构造url
+    //    var cs = GetControllerAction();
+    //    var url = cs[0].IsNullOrEmpty() ? $"/{cs[1]}" : $"/{cs[0]}/{cs[1]}";
+    //    var sb = p.GetBaseUrl(true, true, true);
+    //    if (sb.Length > 0) url += "?" + sb;
 
-        // 如果该url已存在，则延长有效期
-        var ut = list.FirstOrDefault(e => e.Url.EqualIgnoreCase(url));
-        ut ??= new UserToken { UserID = userId, Url = url };
+    //    // 如果该url已存在，则延长有效期
+    //    var ut = list.FirstOrDefault(e => e.Url.EqualIgnoreCase(url));
+    //    ut ??= new UserToken { UserID = userId, Url = url };
 
-        if (ut.Token.IsNullOrEmpty()) ut.Token = Rand.NextString(8);
-        ut.Enable = true;
-        ut.Expire = DateTime.Now.AddSeconds(Setting.Current.ShareExpire);
-        ut.Save();
+    //    if (ut.Token.IsNullOrEmpty()) ut.Token = Rand.NextString(8);
+    //    ut.Enable = true;
+    //    ut.Expire = DateTime.Now.AddSeconds(Setting.Current.ShareExpire);
+    //    ut.Save();
 
-        //var url2 = $"/Admin/UserToken?q={ut.Token}";
+    //    //var url2 = $"/Admin/UserToken?q={ut.Token}";
 
-        //return Json(0, "分享成功！" + url, null, new { url = url2, time = 3 });
+    //    //return Json(0, "分享成功！" + url, null, new { url = url2, time = 3 });
 
-        return RedirectToAction("Index", "UserToken", new { area = "Admin", q = ut.Token });
-    }
+    //    return RedirectToAction("Index", "UserToken", new { area = "Admin", q = ut.Token });
+    //}
     #endregion
 
     #region 模版Action
-    /// <summary>生成列表</summary>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("生成列表")]
-    public ActionResult MakeList()
-    {
-        if (!SysConfig.Current.Develop) throw new InvalidOperationException("仅支持开发模式下使用！");
+    ///// <summary>生成列表</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("生成列表")]
+    //[HttpGet]
+    //public ActionResult MakeList()
+    //{
+    //    if (!SysConfig.Current.Develop) throw new InvalidOperationException("仅支持开发模式下使用！");
 
-        // 找到项目根目录
-        var root = GetProjectRoot();
+    //    // 找到项目根目录
+    //    var root = GetProjectRoot();
 
-        // 视图路径，Areas/区域/Views/控制器/_List_Data.cshtml
-        var cs = GetControllerAction();
-        var vpath = $"Areas/{cs[0]}/Views/{cs[1]}/_List_Data.cshtml";
-        if (!root.IsNullOrEmpty()) vpath = root.EnsureEnd("/") + vpath;
+    //    // 视图路径，Areas/区域/Views/控制器/_List_Data.cshtml
+    //    var cs = GetControllerAction();
+    //    var vpath = $"Areas/{cs[0]}/Views/{cs[1]}/_List_Data.cshtml";
+    //    if (!root.IsNullOrEmpty()) vpath = root.EnsureEnd("/") + vpath;
 
-        _ = ViewHelper.MakeListView(typeof(TEntity), vpath, ListFields);
+    //    _ = ViewHelper.MakeListView(typeof(TEntity), vpath, ListFields);
 
-        WriteLog("生成列表", true, vpath);
+    //    WriteLog("生成列表", true, vpath);
 
-        return RedirectToAction("Index");
-    }
+    //    return RedirectToAction("Index");
+    //}
 
-    /// <summary>生成表单</summary>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("生成表单")]
-    public ActionResult MakeForm()
-    {
-        if (!SysConfig.Current.Develop) throw new InvalidOperationException("仅支持开发模式下使用！");
+    ///// <summary>生成表单</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("生成表单")]
+    //[HttpGet]
+    //public ActionResult MakeForm()
+    //{
+    //    if (!SysConfig.Current.Develop) throw new InvalidOperationException("仅支持开发模式下使用！");
 
-        // 找到项目根目录
-        var root = GetProjectRoot();
+    //    // 找到项目根目录
+    //    var root = GetProjectRoot();
 
-        // 视图路径，Areas/区域/Views/控制器/_Form_Body.cshtml
-        var cs = GetControllerAction();
-        var vpath = $"Areas/{cs[0]}/Views/{cs[1]}/_Form_Body.cshtml";
-        if (!root.IsNullOrEmpty()) vpath = root.EnsureEnd("/") + vpath;
-        
-        _ = ViewHelper.MakeFormView(typeof(TEntity), vpath, EditFormFields);
+    //    // 视图路径，Areas/区域/Views/控制器/_Form_Body.cshtml
+    //    var cs = GetControllerAction();
+    //    var vpath = $"Areas/{cs[0]}/Views/{cs[1]}/_Form_Body.cshtml";
+    //    if (!root.IsNullOrEmpty()) vpath = root.EnsureEnd("/") + vpath;
 
-        WriteLog("生成表单", true, vpath);
+    //    _ = ViewHelper.MakeFormView(typeof(TEntity), vpath, EditFormFields);
 
-        return RedirectToAction("Index");
-    }
+    //    WriteLog("生成表单", true, vpath);
 
-    /// <summary>生成搜索</summary>
-    /// <returns></returns>
-    [EntityAuthorize(PermissionFlags.Detail)]
-    [DisplayName("生成搜索")]
-    public ActionResult MakeSearch()
-    {
-        if (!SysConfig.Current.Develop) throw new InvalidOperationException("仅支持开发模式下使用！");
+    //    return RedirectToAction("Index");
+    //}
 
-        // 找到项目根目录
-        var root = GetProjectRoot();
+    ///// <summary>生成搜索</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize(PermissionFlags.Detail)]
+    //[DisplayName("生成搜索")]
+    //[HttpGet]
+    //public ActionResult MakeSearch()
+    //{
+    //    if (!SysConfig.Current.Develop) throw new InvalidOperationException("仅支持开发模式下使用！");
 
-        // 视图路径，Areas/区域/Views/控制器/_List_Search.cshtml
-        var cs = GetControllerAction();
-        var vpath = $"Areas/{cs[0]}/Views/{cs[1]}/_List_Search.cshtml";
-        if (!root.IsNullOrEmpty()) vpath = root.EnsureEnd("/") + vpath;
-        
-        _ = ViewHelper.MakeSearchView(typeof(TEntity), vpath, ListFields);
+    //    // 找到项目根目录
+    //    var root = GetProjectRoot();
 
-        WriteLog("生成搜索", true, vpath);
+    //    // 视图路径，Areas/区域/Views/控制器/_List_Search.cshtml
+    //    var cs = GetControllerAction();
+    //    var vpath = $"Areas/{cs[0]}/Views/{cs[1]}/_List_Search.cshtml";
+    //    if (!root.IsNullOrEmpty()) vpath = root.EnsureEnd("/") + vpath;
 
-        return RedirectToAction("Index");
-    }
+    //    _ = ViewHelper.MakeSearchView(typeof(TEntity), vpath, ListFields);
 
-    private String GetProjectRoot()
-    {
-        var asm = GetType().Assembly;
-        var name = asm.GetName().Name;
+    //    WriteLog("生成搜索", true, vpath);
 
-        // core程序出现这种情况：bin/Debug/netcoreapp3.1
-        // 因此添加"../../../" 
-        var ps = new[] { "./", "../../", "../../" + name, "../../../", "../../../" + name };
-        String err = null;
-        foreach (var item in ps)
-        {
-            var dir = item.AsDirectory();
-            err += dir + "；";
-            if (!dir.Exists) continue;
-            var fis = dir.GetFiles("*.csproj", SearchOption.TopDirectoryOnly);
-            if (fis != null && fis.Length > 0) return item;
-        }
+    //    return RedirectToAction("Index");
+    //}
 
-        // 找不到项目根目录，就用当前目录，因为某些项目文件名和输出名可能不一致
-        return "./";
+    //private String GetProjectRoot()
+    //{
+    //    var asm = GetType().Assembly;
+    //    var name = asm.GetName().Name;
 
-        //err = $"遍历以下路径均找不到项目路径，请检查项目路径：{err}";
-        //throw new InvalidOperationException(err);
-    }
+    //    // core程序出现这种情况：bin/Debug/netcoreapp3.1
+    //    // 因此添加"../../../" 
+    //    var ps = new[] { "./", "../../", "../../" + name, "../../../", "../../../" + name };
+    //    String err = null;
+    //    foreach (var item in ps)
+    //    {
+    //        var dir = item.AsDirectory();
+    //        err += dir + "；";
+    //        if (!dir.Exists) continue;
+    //        var fis = dir.GetFiles("*.csproj", SearchOption.TopDirectoryOnly);
+    //        if (fis != null && fis.Length > 0) return item;
+    //    }
+
+    //    // 找不到项目根目录，就用当前目录，因为某些项目文件名和输出名可能不一致
+    //    return "./";
+
+    //    //err = $"遍历以下路径均找不到项目路径，请检查项目路径：{err}";
+    //    //throw new InvalidOperationException(err);
+    //}
     #endregion
 
     #region 实体操作重载
@@ -1282,14 +1197,11 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     /// <summary>表单字段过滤</summary>
     protected static FieldCollection DetailFields => _DetailFields ??= new FieldCollection(Factory, "Detail");
 
-    /// <summary>
-    /// 获取字段
-    /// </summary>
+    /// <summary>获取字段信息。支持用户重载并根据上下文定制界面</summary>
     /// <param name="kind">字段类型：详情-Detail、编辑-EditForm、添加-AddForm、列表-List</param>
-    /// <param name="formatType">Name和ColumnName的值的格式。0-小驼峰，1-小写，2-保持默认。默认0</param>
+    /// <param name="entity"></param>
     /// <returns></returns>
-    [EntityAuthorize]
-    public virtual ActionResult GetFields(String kind, FormatType formatType = FormatType.CamelCase)
+    protected virtual FieldCollection OnGetFields(String kind, TEntity entity)
     {
         var fields = kind switch
         {
@@ -1300,70 +1212,75 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
             _ => ListFields
         };
 
-        var data = fields.Select(s =>
-        {
-            var fm = new FieldModel(formatType);
-
-            fm.Copy(s);
-
-            fm.TypeStr = s.Type.Name;
-
-            return fm;
-        }).ToList();
-
-        var customs = fields.Select(s =>
-        {
-            var fm = new FieldModel(formatType);
-
-            fm.Copy(s);
-
-            fm.IsCustom = true;
-
-            return fm;
-        }).ToList();
-
-        data.AddRange(customs);
-
-        return Ok(data: data);
+        return fields.Clone();
     }
 
-    /// <summary>获取所有表</summary>
+    /// <summary>
+    /// 获取字段
+    /// </summary>
+    /// <param name="kind">字段类型：详情-Detail、编辑-EditForm、添加-AddForm、列表-List</param>
+    /// <param name="formatType">Name和ColumnName的值的格式。0-小驼峰，1-小写，2-保持默认。默认0</param>
     /// <returns></returns>
-    [EntityAuthorize]
-    public virtual ActionResult GetTables()
+    [AllowAnonymous]
+    [HttpGet]
+    public virtual ActionResult GetFields(String kind, FormatType formatType = FormatType.CamelCase)
     {
-        var tables = ModelTable.GetValids();
-        return Ok(data: tables);
+        var fields = OnGetFields(kind, null);
+
+        //return Ok(data: fields);
+
+        Object data = new { code = 0, data = fields };
+
+        //var writer = new JsonWriter
+        //{
+        //    Indented = false,
+        //    IgnoreNullValues = true,
+        //    CamelCase = true,
+        //    Int64AsString = true,
+        //};
+        //writer.Write(data);
+        //var json = writer.GetString();
+        //var json = JsonSerializer.Serialize(data, new JsonSerializerOptions { IgnoreNullValues = true });
+
+        //return Content(json, "application/json", Encoding.UTF8);
+        return new JsonResult(data);
     }
 
-    /// <summary>获取当前表所有列</summary>
-    /// <param name="formatType">Name的值的格式。0-小驼峰，1-小写，2-保持默认。默认0</param>
-    /// <returns></returns>
-    [EntityAuthorize]
-    public virtual ActionResult GetColumns(FormatType formatType = FormatType.CamelCase)
-    {
-        var tables = ModelTable.GetValids();
-        var ctrl = GetType().FullName;
-        var table = tables.FirstOrDefault(e => e.Controller == ctrl);
-        if (table == null) return Json(500, $"无法找到当前控制器[{ctrl}]的模型表信息");
+    ///// <summary>获取所有表</summary>
+    ///// <returns></returns>
+    //[EntityAuthorize]
+    //[HttpGet]
+    //public virtual ActionResult GetTables()
+    //{
+    //    var tables = ModelTable.GetValids();
+    //    return Ok(data: tables);
+    //}
 
-        var columns = ModelColumn.FindAllByTableId(table.Id);
-        columns = columns.Where(e => e.Enable).OrderBy(e => e.Sort).ToArray();
+    ///// <summary>获取当前表所有列</summary>
+    ///// <param name="formatType">Name的值的格式。0-小驼峰，1-小写，2-保持默认。默认0</param>
+    ///// <returns></returns>
+    //[EntityAuthorize]
+    //[HttpGet]
+    //public virtual ActionResult GetColumns(FormatType formatType = FormatType.CamelCase)
+    //{
+    //    var tables = ModelTable.GetValids();
+    //    var ctrl = GetType().FullName;
+    //    var table = tables.FirstOrDefault(e => e.Controller == ctrl);
+    //    if (table == null) return Json(500, $"无法找到当前控制器[{ctrl}]的模型表信息");
 
-        foreach (var item in columns)
-        {
-            item.Name = item.Name.FormatName(formatType);
-        }
+    //    var columns = ModelColumn.FindAllByTableId(table.Id);
+    //    columns = columns.Where(e => e.Enable).OrderBy(e => e.Sort).ToArray();
 
-        return Ok(data: columns);
-    }
+    //    foreach (var item in columns)
+    //    {
+    //        item.Name = item.Name.FormatName(formatType);
+    //    }
+
+    //    return Ok(data: columns);
+    //}
     #endregion
 
     #region 权限菜单
-    /// <summary>菜单顺序。扫描时会反射读取</summary>
-    [Obsolete("=>MenuAttribute")]
-    protected static Int32 MenuOrder { get; set; }
-
     /// <summary>控制器对应菜单</summary>
     protected static IMenu ThisMenu { get; set; }
 
