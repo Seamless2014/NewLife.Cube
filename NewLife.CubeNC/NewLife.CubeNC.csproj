@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <RootNamespace>NewLife.Cube</RootNamespace>
     <AssemblyName>NewLife.Cube</AssemblyName>
     <AssemblyTitle>魔方快速开发平台</AssemblyTitle>
@@ -49,15 +49,14 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NewLife.Core" Version="10.2.2023.322-beta0150" />
+    <PackageReference Include="NewLife.Core" Version="10.2.2023.401" />
     <PackageReference Include="NewLife.IP" Version="2.0.2023.203" />
-    <PackageReference Include="NewLife.Stardust" Version="2.8.2023.318-beta0213" />
-    <PackageReference Include="NewLife.XCode" Version="11.7.2023.322-beta1520" />
+    <PackageReference Include="NewLife.Stardust" Version="2.8.2023.325-beta0149" />
+    <PackageReference Include="NewLife.XCode" Version="11.8.2023.401" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Include="..\NewLife.Cube\Common\DataPermissionAttribute.cs" Link="Common\DataPermissionAttribute.cs" />
-    <Compile Include="..\NewLife.Cube\Common\FormatType.cs" Link="Common\FormatType.cs" />
     <Compile Include="..\NewLife.Cube\Common\MembershipExtensions.cs" Link="Common\MembershipExtensions.cs" />
     <Compile Include="..\NewLife.Cube\Common\NoPermissionException.cs" Link="Common\NoPermissionException.cs" />
     <Compile Include="..\NewLife.Cube\Common\PageSetting.cs" Link="Common\PageSetting.cs" />
@@ -76,10 +75,6 @@
     <Compile Include="..\NewLife.Cube\Entity\应用日志.cs" Link="Entity\应用日志.cs" />
     <Compile Include="..\NewLife.Cube\Entity\应用系统.Biz.cs" Link="Entity\应用系统.Biz.cs" />
     <Compile Include="..\NewLife.Cube\Entity\应用系统.cs" Link="Entity\应用系统.cs" />
-    <Compile Include="..\NewLife.Cube\Entity\模型列.Biz.cs" Link="Entity\模型列.Biz.cs" />
-    <Compile Include="..\NewLife.Cube\Entity\模型列.cs" Link="Entity\模型列.cs" />
-    <Compile Include="..\NewLife.Cube\Entity\模型表.Biz.cs" Link="Entity\模型表.Biz.cs" />
-    <Compile Include="..\NewLife.Cube\Entity\模型表.cs" Link="Entity\模型表.cs" />
     <Compile Include="..\NewLife.Cube\Entity\用户令牌.Biz.cs" Link="Entity\用户令牌.Biz.cs" />
     <Compile Include="..\NewLife.Cube\Entity\用户令牌.cs" Link="Entity\用户令牌.cs" />
     <Compile Include="..\NewLife.Cube\Entity\用户在线.Biz.cs" Link="Entity\用户在线.Biz.cs" />
@@ -127,6 +122,20 @@
 
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Cube\Views\ModelTable\**" />
+    <Content Remove="Areas\Cube\Views\ModelTable\**" />
+    <EmbeddedResource Remove="Areas\Cube\Views\ModelTable\**" />
+    <None Remove="Areas\Cube\Views\ModelTable\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Cube\Controllers\ModelColumnController.cs" />
+    <Compile Remove="Areas\Cube\Controllers\ModelTableController.cs" />
+    <Compile Remove="Extensions\ItemsExtend.cs" />
+    <Compile Remove="ViewModels\FieldModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
