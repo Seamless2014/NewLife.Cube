@@ -20,6 +20,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         #region 属性
         private Int32 _CmdId;
         /// <summary>指令编码</summary>
+        [Category("基本信息")]
         [DisplayName("指令编码")]
         [Description("指令编码")]
         [DataObjectField(true, true, false, 10)]
@@ -28,6 +29,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _SimNo;
         /// <summary>Sim卡</summary>
+        [Category("基本信息")]
         [DisplayName("Sim卡")]
         [Description("Sim卡")]
         [DataObjectField(false, false, true, 255)]
@@ -36,6 +38,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _PlateNo;
         /// <summary>车牌号</summary>
+        [Category("基本信息")]
         [DisplayName("车牌号")]
         [Description("车牌号")]
         [DataObjectField(false, false, true, 255)]
@@ -44,6 +47,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Descr;
         /// <summary>描述</summary>
+        [Category("基本信息")]
         [DisplayName("描述")]
         [Description("描述")]
         [DataObjectField(false, false, true, 255)]
@@ -52,6 +56,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _Cmd;
         /// <summary>指令</summary>
+        [Category("基本信息")]
         [DisplayName("指令")]
         [Description("指令")]
         [DataObjectField(false, false, true, 10)]
@@ -60,6 +65,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _CmdData;
         /// <summary>指令数据</summary>
+        [Category("基本信息")]
         [DisplayName("指令数据")]
         [Description("指令数据")]
         [DataObjectField(false, false, true, 255)]
@@ -68,6 +74,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
+        [Category("基本信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -76,6 +83,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Owner;
         /// <summary>物主</summary>
+        [Category("扩展信息")]
         [DisplayName("物主")]
         [Description("物主")]
         [DataObjectField(false, false, true, 255)]
@@ -84,6 +92,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Status;
         /// <summary></summary>
+        [Category("基本信息")]
         [DisplayName("Status")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("Status", "", "nvarchar(255)")]
@@ -91,6 +100,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Remark;
         /// <summary>备注</summary>
+        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 255)]
@@ -99,6 +109,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _SN;
         /// <summary>序号</summary>
+        [Category("扩展信息")]
         [DisplayName("序号")]
         [Description("序号")]
         [DataObjectField(false, false, true, 10)]
@@ -107,6 +118,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _UserId;
         /// <summary>用户编码</summary>
+        [Category("扩展信息")]
         [DisplayName("用户编码")]
         [Description("用户编码")]
         [DataObjectField(false, false, true, 10)]
@@ -115,6 +127,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Boolean _Deleted;
         /// <summary>启用</summary>
+        [Category("基本信息")]
         [DisplayName("启用")]
         [Description("启用")]
         [DataObjectField(false, false, true, 0)]
@@ -123,6 +136,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Byte _PlateColor;
         /// <summary>车牌颜色</summary>
+        [Category("基本信息")]
         [DisplayName("车牌颜色")]
         [Description("车牌颜色")]
         [DataObjectField(false, false, true, 3)]
@@ -131,6 +145,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _SubCmd;
         /// <summary>子指令</summary>
+        [Category("基本信息")]
         [DisplayName("子指令")]
         [Description("子指令")]
         [DataObjectField(false, false, true, 10)]
@@ -139,6 +154,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, true, 10)]
@@ -147,6 +163,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Source;
         /// <summary>源</summary>
+        [Category("扩展信息")]
         [DisplayName("源")]
         [Description("源")]
         [DataObjectField(false, false, true, 50)]
@@ -155,6 +172,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
+        [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
         [DataObjectField(false, false, true, 3)]
@@ -163,6 +181,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _GpsId;
         /// <summary>GPS编码</summary>
+        [Category("扩展信息")]
         [DisplayName("GPS编码")]
         [Description("GPS编码")]
         [DataObjectField(false, false, true, 255)]
@@ -171,6 +190,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Data;
         /// <summary>数据</summary>
+        [Category("扩展信息")]
         [DisplayName("数据")]
         [Description("数据")]
         [DataObjectField(false, false, true, 255)]

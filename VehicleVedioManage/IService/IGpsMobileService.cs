@@ -145,7 +145,7 @@ namespace VehicleVedioManage.Web.IService
         /// </summary>
         /// <param name="u"></param>
         
-        void SaveUser(UserInfo u);
+        void SaveUser(User u);
 
         /// <summary>
         /// 保存图层

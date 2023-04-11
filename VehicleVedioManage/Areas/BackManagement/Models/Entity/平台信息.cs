@@ -28,6 +28,7 @@ namespace VehicleVedioManage.BackManagementArea.Entity
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
+        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -36,6 +37,7 @@ namespace VehicleVedioManage.BackManagementArea.Entity
 
         private Byte _Deleted;
         /// <summary>删除</summary>
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 3)]
@@ -44,6 +46,7 @@ namespace VehicleVedioManage.BackManagementArea.Entity
 
         private String _Owner;
         /// <summary>拥有者</summary>
+        [Category("扩展信息")]
         [DisplayName("拥有者")]
         [Description("拥有者")]
         [DataObjectField(false, false, true, 255)]
@@ -52,6 +55,7 @@ namespace VehicleVedioManage.BackManagementArea.Entity
 
         private String _Remark;
         /// <summary>备注</summary>
+        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 255)]
@@ -60,6 +64,7 @@ namespace VehicleVedioManage.BackManagementArea.Entity
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, false, 10)]
@@ -68,6 +73,7 @@ namespace VehicleVedioManage.BackManagementArea.Entity
 
         private String _CheckEndTime;
         /// <summary>检查结束时间</summary>
+        [Category("扩展信息")]
         [DisplayName("检查结束时间")]
         [Description("检查结束时间")]
         [DataObjectField(false, false, true, 255)]
@@ -76,6 +82,7 @@ namespace VehicleVedioManage.BackManagementArea.Entity
 
         private Int32 _CheckInterval;
         /// <summary>检查间隔</summary>
+        [Category("扩展信息")]
         [DisplayName("检查间隔")]
         [Description("检查间隔")]
         [DataObjectField(false, false, false, 10)]
@@ -84,6 +91,7 @@ namespace VehicleVedioManage.BackManagementArea.Entity
 
         private String _CheckStartTime;
         /// <summary>检查起始时间</summary>
+        [Category("扩展信息")]
         [DisplayName("检查起始时间")]
         [Description("检查起始时间")]
         [DataObjectField(false, false, true, 255)]
@@ -156,6 +164,7 @@ namespace VehicleVedioManage.BackManagementArea.Entity
 
         private String _CheckQuestion;
         /// <summary>检查问题</summary>
+        [Category("扩展信息")]
         [DisplayName("检查问题")]
         [Description("检查问题")]
         [DataObjectField(false, false, true, 255)]
@@ -164,6 +173,7 @@ namespace VehicleVedioManage.BackManagementArea.Entity
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
+        [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
         [DataObjectField(false, false, true, 3)]

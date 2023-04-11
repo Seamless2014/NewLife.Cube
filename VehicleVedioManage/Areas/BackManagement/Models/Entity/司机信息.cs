@@ -20,6 +20,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         #region 属性
         private Int32 _DriverId;
         /// <summary>驾驶员编码</summary>
+        [Category("基本信息")]
         [DisplayName("驾驶员编码")]
         [Description("驾驶员编码")]
         [DataObjectField(true, true, false, 10)]
@@ -28,6 +29,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _CompanyNo;
         /// <summary>企业编码</summary>
+        [Category("基本信息")]
         [DisplayName("企业编码")]
         [Description("企业编码")]
         [DataObjectField(false, false, true, 20)]
@@ -36,6 +38,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _VehicleId;
         /// <summary>车辆编码</summary>
+        [Category("基本信息")]
         [DisplayName("车辆编码")]
         [Description("车辆编码")]
         [DataObjectField(false, false, true, 10)]
@@ -44,6 +47,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _DriverCode;
         /// <summary>驾驶员编码</summary>
+        [Category("基本信息")]
         [DisplayName("驾驶员编码")]
         [Description("驾驶员编码")]
         [DataObjectField(false, false, true, 8)]
@@ -52,6 +56,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _DriverName;
         /// <summary>驾驶员姓名</summary>
+        [Category("基本信息")]
         [DisplayName("驾驶员姓名")]
         [Description("驾驶员姓名")]
         [DataObjectField(false, false, true, 32)]
@@ -60,6 +65,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Sex;
         /// <summary>性别</summary>
+        [Category("基本信息")]
         [DisplayName("性别")]
         [Description("性别")]
         [DataObjectField(false, false, true, 8)]
@@ -68,6 +74,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _DriverLicence;
         /// <summary>驾驶执照</summary>
+        [Category("基本信息")]
         [DisplayName("驾驶执照")]
         [Description("驾驶执照")]
         [DataObjectField(false, false, true, 50)]
@@ -76,6 +83,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _IdentityCard;
         /// <summary>身份证</summary>
+        [Category("基本信息")]
         [DisplayName("身份证")]
         [Description("身份证")]
         [DataObjectField(false, false, true, 50)]
@@ -84,6 +92,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _NativePlace;
         /// <summary>籍贯</summary>
+        [Category("基本信息")]
         [DisplayName("籍贯")]
         [Description("籍贯")]
         [DataObjectField(false, false, true, 50)]
@@ -92,6 +101,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Address;
         /// <summary>地址</summary>
+        [Category("基本信息")]
         [DisplayName("地址")]
         [Description("地址")]
         [DataObjectField(false, false, true, 64)]
@@ -100,6 +110,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Telephone;
         /// <summary>电话</summary>
+        [Category("基本信息")]
         [DisplayName("电话")]
         [Description("电话")]
         [DataObjectField(false, false, true, 32)]
@@ -108,6 +119,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _MobilePhone;
         /// <summary>手机号</summary>
+        [Category("基本信息")]
         [DisplayName("手机号")]
         [Description("手机号")]
         [DataObjectField(false, false, true, 32)]
@@ -116,6 +128,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _Birthday;
         /// <summary>生日</summary>
+        [Category("基本信息")]
         [DisplayName("生日")]
         [Description("生日")]
         [DataObjectField(false, false, true, 3)]
@@ -124,6 +137,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _DrivingType;
         /// <summary>驱动类型</summary>
+        [Category("基本信息")]
         [DisplayName("驱动类型")]
         [Description("驱动类型")]
         [DataObjectField(false, false, true, 8)]
@@ -132,6 +146,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _ExamineYear;
         /// <summary>检查年份</summary>
+        [Category("基本信息")]
         [DisplayName("检查年份")]
         [Description("检查年份")]
         [DataObjectField(false, false, true, 3)]
@@ -140,6 +155,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Byte _HarnessesAge;
         /// <summary></summary>
+        [Category("基本信息")]
         [DisplayName("HarnessesAge")]
         [DataObjectField(false, false, true, 3)]
         [BindColumn("HarnessesAge", "", "tinyint")]
@@ -147,6 +163,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int16 _Status;
         /// <summary>状态</summary>
+        [Category("基本信息")]
         [DisplayName("状态")]
         [Description("状态")]
         [DataObjectField(false, false, true, 5)]
@@ -155,6 +172,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _Appointment;
         /// <summary>预约时间</summary>
+        [Category("扩展信息")]
         [DisplayName("预约时间")]
         [Description("预约时间")]
         [DataObjectField(false, false, true, 3)]
@@ -163,6 +181,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Single _BaseSalary;
         /// <summary>基本工资</summary>
+        [Category("扩展信息")]
         [DisplayName("基本工资")]
         [Description("基本工资")]
         [DataObjectField(false, false, true, 24)]
@@ -171,6 +190,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Single _RoyaltiesScale;
         /// <summary>使用规模</summary>
+        [Category("扩展信息")]
         [DisplayName("使用规模")]
         [Description("使用规模")]
         [DataObjectField(false, false, true, 24)]
@@ -179,6 +199,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Single _AppraisalIntegral;
         /// <summary>评估</summary>
+        [Category("扩展信息")]
         [DisplayName("评估")]
         [Description("评估")]
         [DataObjectField(false, false, true, 24)]
@@ -187,6 +208,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _DriverRFID;
         /// <summary>驾驶员射频卡</summary>
+        [Category("扩展信息")]
         [DisplayName("驾驶员射频卡")]
         [Description("驾驶员射频卡")]
         [DataObjectField(false, false, true, 40)]
@@ -195,6 +217,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Password;
         /// <summary>密码</summary>
+        [Category("扩展信息")]
         [DisplayName("密码")]
         [Description("密码")]
         [DataObjectField(false, false, true, 16)]
@@ -203,6 +226,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _OperatorID;
         /// <summary>运营商编码</summary>
+        [Category("扩展信息")]
         [DisplayName("运营商编码")]
         [Description("运营商编码")]
         [DataObjectField(false, false, true, 10)]
@@ -211,6 +235,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _Register;
         /// <summary>注册</summary>
+        [Category("扩展信息")]
         [DisplayName("注册")]
         [Description("注册")]
         [DataObjectField(false, false, true, 3)]
@@ -219,6 +244,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Remark;
         /// <summary>备注</summary>
+        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 256)]
@@ -227,6 +253,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
+        [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
         [DataObjectField(false, false, true, 3)]
@@ -235,6 +262,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _LicenseAgency;
         /// <summary>许可证机构</summary>
+        [Category("扩展信息")]
         [DisplayName("许可证机构")]
         [Description("许可证机构")]
         [DataObjectField(false, false, true, 64)]
@@ -243,6 +271,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _CertificationDate;
         /// <summary>认证日期</summary>
+        [Category("扩展信息")]
         [DisplayName("认证日期")]
         [Description("认证日期")]
         [DataObjectField(false, false, true, 3)]
@@ -259,6 +288,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Corp;
         /// <summary>公司</summary>
+        [Category("扩展信息")]
         [DisplayName("公司")]
         [Description("公司")]
         [DataObjectField(false, false, true, 32)]
@@ -267,6 +297,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _MonitorOrg;
         /// <summary>监控组织</summary>
+        [Category("扩展信息")]
         [DisplayName("监控组织")]
         [Description("监控组织")]
         [DataObjectField(false, false, true, 32)]
@@ -275,6 +306,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _MonitorPhone;
         /// <summary>监控电话</summary>
+        [Category("扩展信息")]
         [DisplayName("监控电话")]
         [Description("监控电话")]
         [DataObjectField(false, false, true, 32)]
@@ -283,6 +315,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _ServiceLevel;
         /// <summary>服务层级</summary>
+        [Category("扩展信息")]
         [DisplayName("服务层级")]
         [Description("服务层级")]
         [DataObjectField(false, false, true, 10)]
@@ -291,6 +324,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _BgTitle;
         /// <summary>背景标题</summary>
+        [Category("扩展信息")]
         [DisplayName("背景标题")]
         [Description("背景标题")]
         [DataObjectField(false, false, true, 32)]
@@ -299,6 +333,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Location;
         /// <summary>位置</summary>
+        [Category("扩展信息")]
         [DisplayName("企业位置")]
         [Description("企业位置")]
         [DataObjectField(false, false, true, 32)]
@@ -307,6 +342,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _PhotoFormat;
         /// <summary>照片格式</summary>
+        [Category("扩展信息")]
         [DisplayName("照片格式")]
         [Description("照片格式")]
         [DataObjectField(false, false, true, 4)]
@@ -315,6 +351,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _PhotoLength;
         /// <summary>照片长度</summary>
+        [Category("扩展信息")]
         [DisplayName("照片长度")]
         [Description("照片长度")]
         [DataObjectField(false, false, true, 10)]
@@ -323,6 +360,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Owner;
         /// <summary>物主</summary>
+        [Category("扩展信息")]
         [DisplayName("物主")]
         [Description("物主")]
         [DataObjectField(false, false, true, 50)]
@@ -331,6 +369,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _JobCard;
         /// <summary>工作证</summary>
+        [Category("扩展信息")]
         [DisplayName("工作证")]
         [Description("工作证")]
         [DataObjectField(false, false, true, 20)]
@@ -339,6 +378,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
+        [Category("扩展信息")]
         [DisplayName("启用")]
         [Description("启用")]
         [DataObjectField(false, false, true, 0)]
@@ -347,6 +387,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
+        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -355,6 +396,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, true, 10)]
@@ -363,6 +405,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Byte _MainDriver;
         /// <summary>主驾驶员</summary>
+        [Category("扩展信息")]
         [DisplayName("主驾驶员")]
         [Description("主驾驶员")]
         [DataObjectField(false, false, true, 3)]

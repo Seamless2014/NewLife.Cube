@@ -76,6 +76,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private String _Mail;
         /// <summary>EMail</summary>
+        [Category("扩展信息")]
         [DisplayName("EMail")]
         [Description("EMail")]
         [DataObjectField(false, false, true, 255)]
@@ -100,6 +101,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
+        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -108,6 +110,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private Boolean _Admin;
         /// <summary>是否管理员</summary>
+        [Category("扩展信息")]
         [DisplayName("是否管理员")]
         [Description("是否管理员")]
         [DataObjectField(false, false, true, 0)]
@@ -116,6 +119,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]

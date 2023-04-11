@@ -55,7 +55,7 @@ namespace VehicleVedioManage.IService
         /// <param name="userId"></param>
         /// <returns></returns>
         
-        UserInfo GetUser(int userId);
+        User GetUser(int userId);
         /// <summary>
         /// 获取角色
         /// </summary>
@@ -200,7 +200,7 @@ namespace VehicleVedioManage.IService
         /// </summary>
         /// <param name="u"></param>
         
-        void SaveUser(UserInfo u);
+        void SaveUser(User u);
         /// <summary>
         /// 保存图层
         /// </summary>
