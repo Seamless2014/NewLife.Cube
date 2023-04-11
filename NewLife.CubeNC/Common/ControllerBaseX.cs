@@ -1,7 +1,7 @@
-﻿using System.Reflection;
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube.Extensions;
+using NewLife.Log;
 using NewLife.Remoting;
 using NewLife.Serialization;
 using XCode.Membership;
@@ -98,14 +98,6 @@ public class ControllerBaseX : Controller
     protected virtual String GetRequest(String key) => Request.GetRequestValue(key);
     #endregion
 
-    #region 权限菜单
-    /// <summary>获取可用于生成权限菜单的Action集合</summary>
-    /// <param name="menu">该控制器所在菜单</param>
-    /// <returns></returns>
-    [Obsolete("=>MenuAttribute")]
-    protected virtual IDictionary<MethodInfo, Int32> ScanActionMenu(IMenu menu) => new Dictionary<MethodInfo, Int32>();
-    #endregion
-
     #region Ajax处理
     /// <summary>返回结果并跳转</summary>
     /// <param name="data">结果。可以是错误文本、成功文本、其它结构化数据</param>
@@ -176,7 +168,10 @@ public class ControllerBaseX : Controller
             rs = dic;
         }
 
-        return Content(OnJsonSerialize(rs), "application/json", Encoding.UTF8);
+        var json = OnJsonSerialize(rs);
+        DefaultSpan.Current?.AppendTag(json);
+
+        return Content(json, "application/json", Encoding.UTF8);
     }
 
     /// <summary>Json序列化。默认使用FastJson</summary>

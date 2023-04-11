@@ -43,6 +43,7 @@ using XCode.Membership;
 namespace NewLife.Cube.Controllers;
 
 /// <summary>单点登录控制器</summary>
+[ApiExplorerSettings(GroupName = "Basic")]
 [Route("[controller]/[action]")]
 public class SsoController : ControllerBaseX
 {
@@ -63,12 +64,6 @@ public class SsoController : ControllerBaseX
             Log = LogProvider.Provider.AsLog("OAuth")
         };
     }
-
-    /// <summary>首页</summary>
-    /// <returns></returns>
-    [AllowAnonymous]
-    [HttpGet]
-    public virtual ActionResult Index() => Redirect("~/");
 
     #region 单点登录客户端
     private String GetUserAgent() => Request.Headers["User-Agent"] + "";
@@ -130,6 +125,7 @@ public class SsoController : ControllerBaseX
     /// <returns></returns>
     [AllowAnonymous]
     [HttpGet]
+    [HttpGet("{id}")]
     public virtual ActionResult LoginInfo(String id, String code, String state)
     {
         if (id.IsNullOrEmpty()) throw new ArgumentNullException(nameof(id));
@@ -241,7 +237,7 @@ public class SsoController : ControllerBaseX
             }
 
             // 登录后自动绑定
-            var logId = Session["Cube_OAuthId"].ToLong();
+            var logId = Session.ContainsKey("Cube_OAuthId") ? Session["Cube_OAuthId"].ToLong() : 0;
             if (logId > 0 && logId != log.Id)
             {
                 Session["Cube_OAuthId"] = null;
@@ -385,7 +381,7 @@ public class SsoController : ControllerBaseX
             }
         }
 
-        return Ok();
+        return Json(0, "ok");
     }
     #endregion
 

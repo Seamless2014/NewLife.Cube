@@ -16,6 +16,7 @@ namespace NewLife.Cube.Controllers;
 
 /// <summary>魔方前端数据接口</summary>
 [DisplayName("数据接口")]
+[ApiExplorerSettings(GroupName = "Basic")]
 [Route("[controller]/[action]")]
 public class CubeController : ControllerBaseX
 {
@@ -195,7 +196,7 @@ public class CubeController : ControllerBaseX
             e.Name,
             e.FullName,
             //e.ManagerID,
-            Manager = FindByID(e.ManagerID)?.ToString(),
+            Manager = FindByID(e.ManagerId)?.ToString(),
         }).ToArray());
     }
     #endregion
@@ -344,7 +345,7 @@ public class CubeController : ControllerBaseX
     //    if(para == null) throw new ArgumentNullException(nameof(para));
     //    para.SaveAsync();
 
-    //    return Ok();
+    //    return Json(0, "ok");
     //}
 
     /// <summary>
@@ -365,7 +366,7 @@ public class CubeController : ControllerBaseX
         para.SetItem("Value", value);
         para.Save();
 
-        return Ok();
+        return Json(0, "ok");
     }
     #endregion
 

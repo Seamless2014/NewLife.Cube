@@ -7,6 +7,8 @@ using NewLife.Common;
 using NewLife.Cube.Areas.Admin.Models;
 using NewLife.Cube.Entity;
 using NewLife.Cube.Services;
+using NewLife.Cube.ViewModels;
+using NewLife.Data;
 using NewLife.Log;
 using NewLife.Reflection;
 using NewLife.Web;
@@ -22,7 +24,7 @@ namespace NewLife.Cube.Admin.Controllers;
 [Description("系统基于角色授权，每个角色对不同的功能模块具备添删改查以及自定义权限等多种权限设定。")]
 [Area("Admin")]
 [Menu(100, true, Icon = "fa-user")]
-public class UserController : EntityController<User>
+public class UserController : EntityController<User, UserModel>
 {
     /// <summary>用于防爆破登录。即使内存缓存，也有一定用处，最糟糕就是每分钟重试次数等于集群节点数的倍数</summary>
     private static readonly ICache _cache = Cache.Default ?? new MemoryCache();
@@ -87,54 +89,41 @@ public class UserController : EntityController<User>
             AddFormFields.GroupVisible = (entity, group) => (entity as User).ID == 0 && group != "扩展";
         }
     }
-    protected override FieldCollection OnGetFields(String kind, User entity)
-    {
-        switch (kind.ToLower())
-        {
-            case "addform":
-            case "editform":
-                {
-                    var CurrUser = ManageProvider.User;//理论上肯定大于0
-                    var RoleData = Role.FindAllWithCache().Where(w => w.IsSystem == false).OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
-                    if (CurrUser != null)
-                    {
-                        if (CurrUser.Role.IsSystem)
-                        {
-                            RoleData = Role.FindAllWithCache().OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
-                        }
-                    }
-                    if (kind.ToLower() == "addform")
-                    {
-                        var AddRoleIDField = AddFormFields.GetField("RoleID");
-                        if (AddRoleIDField != null)
-                        {
-                            AddRoleIDField.DataSource = entity => RoleData;
-                        }
-                        var AddRoleIDsField = AddFormFields.GetField("RoleIds");
-                        if (AddRoleIDsField != null)
-                        {
-                            AddRoleIDsField.DataSource = entity => RoleData;
-                        }
-                    }
-                    if (kind.ToLower() == "editform")
-                    {
-                        var EditRoleIDField = EditFormFields.GetField("RoleID");
-                        if (EditRoleIDField != null)
-                        {
-                            EditRoleIDField.DataSource = entity => RoleData;
-                        }
-                        var EditRoleIDsField = EditFormFields.GetField("RoleIds");
-                        if (EditRoleIDsField != null)
-                        {
-                            EditRoleIDsField.DataSource = entity => RoleData;
-                        }
-                    }
 
-                    break;
-                }
+    /// <summary>获取字段信息。支持用户重载并根据上下文定制界面</summary>
+    /// <param name="kind">字段类型：1-列表List、2-详情Detail、3-添加AddForm、4-编辑EditForm、5-搜索Search</param>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    protected override FieldCollection OnGetFields(ViewKinds kind, Object model)
+    {
+        var fields = base.OnGetFields(kind, model);
+        if (fields == null) return fields;
+
+        var user = ManageProvider.User;//理论上肯定大于0
+        var roles = Role.FindAllWithCache().Where(w => w.IsSystem == false).OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
+        if (user != null)
+        {
+            if (user.Role.IsSystem)
+            {
+                roles = Role.FindAllWithCache().OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
+            }
         }
-        return base.OnGetFields(kind, entity);
+
+        switch (kind)
+        {
+            case ViewKinds.AddForm:
+            case ViewKinds.EditForm:
+                var df = fields.GetField("RoleID");
+                if (df != null) df.DataSource = entity => roles;
+
+                var df2 = fields.GetField("RoleIds");
+                if (df2 != null) df2.DataSource = entity => roles;
+                break;
+        }
+
+        return fields;
     }
+
     /// <summary>
     /// 实例化用户控制器
     /// </summary>
@@ -400,7 +389,6 @@ public class UserController : EntityController<User>
 
                 //FormsAuthentication.SetAuthCookie(username, remember ?? false);
 
-
                 // 记录在线统计
                 var stat = UserStat.GetOrAdd(DateTime.Today);
                 if (stat != null)
@@ -408,6 +396,9 @@ public class UserController : EntityController<User>
                     stat.Logins++;
                     stat.SaveAsync(5_000);
                 }
+
+                // 设置租户
+                SetTenant(provider.Current.ID);
 
                 if (Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
 
@@ -530,8 +521,8 @@ public class UserController : EntityController<User>
         }
 
         // 用于显示的列
-        if (ViewBag.Fields == null) ViewBag.Fields = EditFormFields;
-        ViewBag.Factory = XCode.Membership.User.Meta.Factory;
+        if (ViewBag.Fields == null) ViewBag.Fields = OnGetFields(ViewKinds.EditForm, null);
+        ViewBag.Factory = Factory;
 
         // 必须指定视图名，因为其它action会调用
         return View("Info", user);
@@ -741,6 +732,21 @@ public class UserController : EntityController<User>
         if (IsJsonRequest) return Ok();
 
         return RedirectToAction("Edit", new { id });
+    }
+
+    /// <summary>设置租户</summary>
+    /// <param name="userId">当前用户编号</param>
+    private void SetTenant(Int32 userId)
+    {
+        var tenantUser = TenantUser.FindAllByUserId(userId);
+        if (tenantUser != null && tenantUser.Count == 1)
+        {
+            var entity = tenantUser.FirstOrDefault().Tenant;
+
+            if (entity == null || !entity.Enable) return;
+
+            ManagerProviderHelper.ChangeTenant(HttpContext, tenantUser.FirstOrDefault().TenantId);
+        }
     }
 
     ///// <summary>批量启用</summary>

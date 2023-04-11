@@ -10,7 +10,12 @@ namespace NewLife.Cube;
 
 /// <summary>实体树控制器基类</summary>
 /// <typeparam name="TEntity"></typeparam>
-public class EntityTreeController<TEntity> : EntityController<TEntity> where TEntity : EntityTree<TEntity>, new()
+public class EntityTreeController<TEntity> : EntityTreeController<TEntity, TEntity> where TEntity : EntityTree<TEntity>, new() { }
+
+/// <summary>实体树控制器基类</summary>
+/// <typeparam name="TEntity"></typeparam>
+/// <typeparam name="TModel">数据模型，用于接口数据传输</typeparam>
+public class EntityTreeController<TEntity, TModel> : EntityController<TEntity, TModel> where TEntity : EntityTree<TEntity>, new()
 {
     static EntityTreeController()
     {
@@ -83,7 +88,7 @@ public class EntityTreeController<TEntity> : EntityController<TEntity> where TEn
     /// <returns></returns>
     [DisplayName("上升")]
     [EntityAuthorize(PermissionFlags.Update)]
-    [HttpPost]
+    [HttpPatch]
     public ActionResult Up(Int32 id)
     {
         var menu = FindByID(id);
@@ -99,7 +104,7 @@ public class EntityTreeController<TEntity> : EntityController<TEntity> where TEn
     /// <returns></returns>
     [DisplayName("下降")]
     [EntityAuthorize(PermissionFlags.Update)]
-    [HttpPost]
+    [HttpPatch]
     public ActionResult Down(Int32 id)
     {
         var menu = FindByID(id);

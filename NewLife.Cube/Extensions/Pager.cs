@@ -9,7 +9,7 @@ using NewLife.Data;
 namespace NewLife.Web;
 
 /// <summary>分页器。包含分页排序参数，支持构造Url的功能</summary>
-public class Pager : PageParameter, IExtend3
+public class Pager : PageParameter, IExtend
 {
     #region 名称
     /// <summary>名称类。用户可根据需要修改Url参数名</summary>
@@ -224,6 +224,10 @@ public class Pager : PageParameter, IExtend3
 
         return name;
     }
+
+    /// <summary>转为分页模型</summary>
+    /// <returns></returns>
+    public PageModel ToModel() => new() { PageIndex = PageIndex, PageSize = PageSize, TotalCount = TotalCount, LongTotalCount = TotalCount.ToString() };
     #endregion
 
     #region IExtend接口
@@ -234,4 +238,24 @@ public class Pager : PageParameter, IExtend3
 
     Object IExtend.this[String key] { get => Params[key]; set => Params[key] = value == null ? null : value + ""; }
     #endregion
+}
+
+/// <summary>分页模型</summary>
+public class PageModel
+{
+    /// <summary>获取 或 设置 页面索引。从1开始，默认1</summary>
+    /// <remarks>如果设定了开始行，分页时将不再使用PageIndex</remarks>
+    public virtual Int32 PageIndex { get; set; }
+
+    /// <summary>获取 或 设置 页面大小。默认20，若为0表示不分页</summary>
+    public virtual Int32 PageSize { get; set; }
+
+    /// <summary>获取 或 设置 总记录数</summary>
+    public virtual Int64 TotalCount { get; set; }
+
+    /// <summary>获取 或 设置 总记录数，字符串类型</summary>
+    public virtual String LongTotalCount { get; set; }
+
+    ///// <summary>获取 页数</summary>
+    //public virtual Int64 PageCount { get; set; }
 }
