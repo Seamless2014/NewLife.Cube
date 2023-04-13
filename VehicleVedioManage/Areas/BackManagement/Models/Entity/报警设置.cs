@@ -20,56 +20,56 @@ namespace VehicleVedioManage.BackManagement.Entity
         #region 属性
         private Int32 _id;
         /// <summary></summary>
-        [DisplayName("id")]
+        [DisplayName("编码")]
         [DataObjectField(true, true, false, 10)]
         [BindColumn("id", "", "int")]
         public Int32 id { get => _id; set { if (OnPropertyChanging("id", value)) { _id = value; OnPropertyChanged("id"); } } }
 
         private String _Name;
         /// <summary></summary>
-        [DisplayName("Name")]
+        [DisplayName("名称")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("name", "", "nvarchar(255)", Master = true)]
         public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
 
         private String _alarmType;
         /// <summary></summary>
-        [DisplayName("alarmType")]
+        [DisplayName("类型")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("alarmType", "", "nvarchar(255)")]
         public String alarmType { get => _alarmType; set { if (OnPropertyChanging("alarmType", value)) { _alarmType = value; OnPropertyChanged("alarmType"); } } }
 
         private Boolean _Enabled;
         /// <summary></summary>
-        [DisplayName("Enabled")]
+        [DisplayName("可用")]
         [DataObjectField(false, false, true, 0)]
         [BindColumn("Enabled", "", "bit")]
         public Boolean Enabled { get => _Enabled; set { if (OnPropertyChanging("Enabled", value)) { _Enabled = value; OnPropertyChanged("Enabled"); } } }
 
         private Boolean _soundEnabled;
         /// <summary></summary>
-        [DisplayName("soundEnabled")]
+        [DisplayName("声音")]
         [DataObjectField(false, false, true, 0)]
         [BindColumn("soundEnabled", "", "bit")]
         public Boolean soundEnabled { get => _soundEnabled; set { if (OnPropertyChanging("soundEnabled", value)) { _soundEnabled = value; OnPropertyChanged("soundEnabled"); } } }
 
         private Boolean _popupEnabled;
         /// <summary></summary>
-        [DisplayName("popupEnabled")]
+        [DisplayName("弹窗")]
         [DataObjectField(false, false, true, 0)]
         [BindColumn("popupEnabled", "", "bit")]
         public Boolean popupEnabled { get => _popupEnabled; set { if (OnPropertyChanging("popupEnabled", value)) { _popupEnabled = value; OnPropertyChanged("popupEnabled"); } } }
 
         private String _alarmSource;
         /// <summary></summary>
-        [DisplayName("alarmSource")]
+        [DisplayName("报警源")]
         [DataObjectField(false, false, true, 50)]
         [BindColumn("alarmSource", "", "nvarchar(50)")]
         public String alarmSource { get => _alarmSource; set { if (OnPropertyChanging("alarmSource", value)) { _alarmSource = value; OnPropertyChanged("alarmSource"); } } }
 
         private Boolean _statisticEnabled;
         /// <summary></summary>
-        [DisplayName("statisticEnabled")]
+        [DisplayName("统计")]
         [DataObjectField(false, false, true, 0)]
         [BindColumn("statisticEnabled", "", "bit")]
         public Boolean statisticEnabled { get => _statisticEnabled; set { if (OnPropertyChanging("statisticEnabled", value)) { _statisticEnabled = value; OnPropertyChanged("statisticEnabled"); } } }

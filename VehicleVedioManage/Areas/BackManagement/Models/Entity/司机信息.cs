@@ -280,6 +280,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _InvalidDate;
         /// <summary>无效期</summary>
+        [Category("扩展信息")]
         [DisplayName("无效期")]
         [Description("无效期")]
         [DataObjectField(false, false, true, 3)]

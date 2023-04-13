@@ -31,6 +31,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private Int32 _Cmd;
         /// <summary>指令</summary>
+        [Category("扩展信息")]
         [DisplayName("指令")]
         [Description("指令")]
         [DataObjectField(false, false, true, 10)]
@@ -39,6 +40,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private String _CmdData;
         /// <summary>指令数据</summary>
+        [Category("扩展信息")]
         [DisplayName("指令数据")]
         [Description("指令数据")]
         [DataObjectField(false, false, true, 255)]
@@ -47,6 +49,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private String _DriverCode;
         /// <summary>驱动程序代码</summary>
+        [Category("扩展信息")]
         [DisplayName("驱动程序代码")]
         [Description("驱动程序代码")]
         [DataObjectField(false, false, true, 255)]
@@ -55,6 +58,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private String _DriverLicense;
         /// <summary>驱动许可证</summary>
+        [Category("扩展信息")]
         [DisplayName("驱动许可证")]
         [Description("驱动许可证")]
         [DataObjectField(false, false, true, 255)]
@@ -63,6 +67,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private String _VinNo;
         /// <summary>VIN编号</summary>
+        [Category("扩展信息")]
         [DisplayName("VIN编号")]
         [Description("VIN编号")]
         [DataObjectField(false, false, true, 255)]
@@ -77,16 +82,17 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("PlateNo", "车牌号", "nvarchar(255)")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
-        private String _PlateType;
-        /// <summary>车牌类型</summary>
-        [DisplayName("车牌类型")]
-        [Description("车牌类型")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("PlateType", "车牌类型", "nvarchar(255)")]
-        public String PlateType { get => _PlateType; set { if (OnPropertyChanging("PlateType", value)) { _PlateType = value; OnPropertyChanged("PlateType"); } } }
+        private int _PlateType;
+        /// <summary>车辆类型</summary>
+        [DisplayName("车辆类型")]
+        [Description("车辆类型")]
+        [DataObjectField(false, false, true, 10)]
+        [BindColumn("PlateType", "车辆类型", "ushort")]
+        public int PlateType { get => _PlateType; set { if (OnPropertyChanging("PlateType", value)) { _PlateType = value; OnPropertyChanged("PlateType"); } } }
 
         private String _FeatureFactor;
         /// <summary>特征因数</summary>
+        [Category("扩展信息")]
         [DisplayName("特征因数")]
         [Description("特征因数")]
         [DataObjectField(false, false, true, 255)]
@@ -95,6 +101,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
@@ -103,6 +110,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private Int32 _TenantID;
         /// <summary>租户编码</summary>
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, true, 10)]
@@ -127,6 +135,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private String _Owner;
         /// <summary>拥有者</summary>
+        [Category("扩展信息")]
         [DisplayName("拥有者")]
         [Description("拥有者")]
         [DataObjectField(false, false, true, 50)]
@@ -151,6 +160,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private Int32 _SortID;
         /// <summary>排序</summary>
+        [Category("扩展信息")]
         [DisplayName("排序")]
         [Description("排序")]
         [DataObjectField(false, false, true, 10)]
@@ -199,6 +209,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private Int32 _Command;
         /// <summary>指令</summary>
+        [Category("扩展信息")]
         [DisplayName("指令")]
         [Description("指令")]
         [DataObjectField(false, false, true, 10)]
@@ -207,6 +218,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private String _RecorderData;
         /// <summary>记录仪数据</summary>
+        [Category("扩展信息")]
         [DisplayName("记录仪数据")]
         [Description("记录仪数据")]
         [DataObjectField(false, false, true, 255)]
@@ -215,6 +227,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private DateTime _RecorderDate;
         /// <summary>记录仪日期</summary>
+        [Category("扩展信息")]
         [DisplayName("记录仪日期")]
         [Description("记录仪日期")]
         [DataObjectField(false, false, true, 3)]
@@ -282,7 +295,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "DriverLicense": _DriverLicense = Convert.ToString(value); break;
                     case "VinNo": _VinNo = Convert.ToString(value); break;
                     case "PlateNo": _PlateNo = Convert.ToString(value); break;
-                    case "PlateType": _PlateType = Convert.ToString(value); break;
+                    case "PlateType": _PlateType = value.ToInt(); break;
                     case "FeatureFactor": _FeatureFactor = Convert.ToString(value); break;
                     case "Deleted": _Deleted = value.ToBoolean(); break;
                     case "TenantID": _TenantID = value.ToInt(); break;

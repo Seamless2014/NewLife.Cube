@@ -92,6 +92,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
+        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -100,6 +101,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _Remark;
         /// <summary>备注</summary>
+        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 255)]
@@ -108,6 +110,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]

@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Xml.Serialization;
 using NewLife;
+using NewLife.BasicData.Entity;
 using NewLife.Data;
 using NewLife.Log;
 using NewLife.Model;
@@ -108,6 +109,23 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>车牌颜色</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public PlateColor __PlateColor => Extends.Get(nameof(Entity.PlateColor), k => Entity.PlateColor.FindByCode(PlateColor));
+
+        /// <summary>车牌颜色名称</summary>
+        [Map(nameof(PlateColor), typeof(PlateColor), "Code")]
+        public String? PlateColorName => __PlateColor?.Name;
+
+        /// <summary>车辆类型</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public VehicleType _VehicleType => Extends.Get(nameof(VehicleType), k => VehicleType.FindByCode(PlateType));
+
+        /// <summary>车辆类型名称</summary>
+        [Map(nameof(PlateType), typeof(VehicleType), "Code")]
+        public String? VehicleTypeName => _VehicleType?.Name;
         #endregion
 
         #region 扩展查询

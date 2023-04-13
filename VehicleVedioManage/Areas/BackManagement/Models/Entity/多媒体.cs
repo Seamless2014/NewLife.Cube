@@ -202,6 +202,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _MultimediaDataId;
         /// <summary>多媒体数据编码</summary>
+        [Category("扩展信息")]
         [DisplayName("多媒体数据编码")]
         [Description("多媒体数据编码")]
         [DataObjectField(false, false, true, 10)]
@@ -210,6 +211,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Byte _MultimediaType;
         /// <summary>多媒体类型</summary>
+        [Category("扩展信息")]
         [DisplayName("多媒体类型")]
         [Description("多媒体类型")]
         [DataObjectField(false, false, true, 3)]
@@ -218,6 +220,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Byte _MultidediaCodeFormat;
         /// <summary>多媒体编码格式</summary>
+        [Category("扩展信息")]
         [DisplayName("多媒体编码格式")]
         [Description("多媒体编码格式")]
         [DataObjectField(false, false, true, 3)]

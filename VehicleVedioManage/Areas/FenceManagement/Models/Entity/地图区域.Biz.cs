@@ -118,6 +118,14 @@ namespace VehicleVedioManage.FenceManagement.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>部门</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public Department _Department => Extends.Get(nameof(Department), k => Department.FindByID(DepId));
+
+        /// <summary>部门名称</summary>
+        [Map(nameof(DepId), typeof(Department), "ID")]
+        public String? DepartmentName => _Department?.Name;
         #endregion
 
         #region 扩展查询

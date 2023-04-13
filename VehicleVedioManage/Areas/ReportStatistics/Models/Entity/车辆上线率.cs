@@ -92,6 +92,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
@@ -100,6 +101,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _Owner;
         /// <summary>拥有者</summary>
+        [Category("扩展信息")]
         [DisplayName("拥有者")]
         [Description("拥有者")]
         [DataObjectField(false, false, true, 255)]
@@ -108,6 +110,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, true, 10)]
@@ -124,6 +127,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _CreateUser;
         /// <summary>创建者</summary>
+        [Category("扩展信息")]
         [DisplayName("创建者")]
         [Description("创建者")]
         [DataObjectField(false, false, true, 50)]
@@ -132,6 +136,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Int32 _CreateUserID;
         /// <summary>创建人</summary>
+        [Category("扩展信息")]
         [DisplayName("创建人")]
         [Description("创建人")]
         [DataObjectField(false, false, true, 10)]
@@ -140,6 +145,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _CreateIP;
         /// <summary>创建地址</summary>
+        [Category("扩展信息")]
         [DisplayName("创建地址")]
         [Description("创建地址")]
         [DataObjectField(false, false, true, 50)]
@@ -148,6 +154,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
+        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -156,6 +163,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _UpdateUser;
         /// <summary>更新者</summary>
+        [Category("扩展信息")]
         [DisplayName("更新者")]
         [Description("更新者")]
         [DataObjectField(false, false, true, 50)]
@@ -164,6 +172,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Int32 _UpdateUserID;
         /// <summary>更新人</summary>
+        [Category("扩展信息")]
         [DisplayName("更新人")]
         [Description("更新人")]
         [DataObjectField(false, false, true, 10)]
@@ -172,6 +181,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _UpdateIP;
         /// <summary>更新地址</summary>
+        [Category("扩展信息")]
         [DisplayName("更新地址")]
         [Description("更新地址")]
         [DataObjectField(false, false, true, 50)]
@@ -180,6 +190,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
+        [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
         [DataObjectField(false, false, true, 3)]
@@ -188,6 +199,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _Remark;
         /// <summary>备注</summary>
+        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 500)]

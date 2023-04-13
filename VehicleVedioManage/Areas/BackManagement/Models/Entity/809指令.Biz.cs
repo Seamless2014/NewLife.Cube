@@ -23,6 +23,7 @@ using XCode.Configuration;
 using XCode.DataAccessLayer;
 using XCode.Membership;
 using XCode.Shards;
+using PlateColor = VehicleVedioManage.BasicData.Entity.PlateColor;
 
 namespace VehicleVedioManage.BackManagement.Entity
 {
@@ -109,9 +110,20 @@ namespace VehicleVedioManage.BackManagement.Entity
         //[ScriptIgnore]
         public User User => Extends.Get(nameof(User), k => User.FindByID(UserId));
 
-        /// <summary>用户编码</summary>
+        /// <summary>用户名称</summary>
         [Map(nameof(UserId), typeof(User), "ID")]
+        [Category("基本信息")]
         public String UserName => User?.Name;
+
+        /// <summary>车牌颜色</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public PlateColor __PlateColor => Extends.Get(nameof(VehicleVedioManage.BasicData.Entity.PlateColor), k => VehicleVedioManage.BasicData.Entity.PlateColor.FindByCode(PlateColor));
+
+        /// <summary>车牌颜色名称</summary>
+        [Map(nameof(PlateColor), typeof(PlateColor), "Code")]
+        [Category("基本信息")]
+        public String? PlateColorName => __PlateColor?.Name;
 
         #endregion
 

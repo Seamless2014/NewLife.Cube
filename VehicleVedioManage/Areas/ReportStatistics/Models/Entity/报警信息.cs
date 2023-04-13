@@ -28,6 +28,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _Addiinfo;
         /// <summary>附加信息</summary>
+        [Category("扩展信息")]
         [DisplayName("附加信息")]
         [Description("附加信息")]
         [DataObjectField(false, false, true, 255)]
@@ -44,6 +45,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
+        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -60,6 +62,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _DealResult;
         /// <summary>处理结果</summary>
+        [Category("扩展信息")]
         [DisplayName("处理结果")]
         [Description("处理结果")]
         [DataObjectField(false, false, true, 255)]
@@ -68,6 +71,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private DateTime _DealTime;
         /// <summary>处理时间</summary>
+        [Category("扩展信息")]
         [DisplayName("处理时间")]
         [Description("处理时间")]
         [DataObjectField(false, false, true, 3)]
@@ -76,6 +80,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _ExtInfo;
         /// <summary>外部信息</summary>
+        [Category("扩展信息")]
         [DisplayName("外部信息")]
         [Description("外部信息")]
         [DataObjectField(false, false, true, 255)]
@@ -108,6 +113,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Int32 _Loading;
         /// <summary>加载</summary>
+        [Category("扩展信息")]
         [DisplayName("加载")]
         [Description("加载")]
         [DataObjectField(false, false, true, 10)]
@@ -140,6 +146,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private DateTime _RedoEndTime;
         /// <summary>重做结束时间</summary>
+        [Category("扩展信息")]
         [DisplayName("重做结束时间")]
         [Description("重做结束时间")]
         [DataObjectField(false, false, true, 3)]
@@ -148,6 +155,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Int32 _RedoFlag;
         /// <summary>重做标识</summary>
+        [Category("扩展信息")]
         [DisplayName("重做标识")]
         [Description("重做标识")]
         [DataObjectField(false, false, true, 10)]
@@ -156,6 +164,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Decimal _RedoId;
         /// <summary>重做编码</summary>
+        [Category("扩展信息")]
         [DisplayName("重做编码")]
         [Description("重做编码")]
         [DataObjectField(false, false, true, 19)]
@@ -164,6 +173,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private DateTime _RedoTime;
         /// <summary>重做时间</summary>
+        [Category("扩展信息")]
         [DisplayName("重做时间")]
         [Description("重做时间")]
         [DataObjectField(false, false, true, 3)]
@@ -196,6 +206,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Int32 _Status2;
         /// <summary>状态2</summary>
+        [Category("扩展信息")]
         [DisplayName("状态2")]
         [Description("状态2")]
         [DataObjectField(false, false, true, 10)]
@@ -204,6 +215,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Int32 _Status3;
         /// <summary>状态3</summary>
+        [Category("扩展信息")]
         [DisplayName("状态3")]
         [Description("状态3")]
         [DataObjectField(false, false, true, 10)]
@@ -220,6 +232,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _Text;
         /// <summary>文本</summary>
+        [Category("扩展信息")]
         [DisplayName("文本")]
         [Description("文本")]
         [DataObjectField(false, false, true, 255)]
@@ -228,6 +241,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
+        [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
         [DataObjectField(false, false, true, 3)]
@@ -284,6 +298,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _DealUser;
         /// <summary>处理人</summary>
+        [Category("扩展信息")]
         [DisplayName("处理人")]
         [Description("处理人")]
         [DataObjectField(false, false, true, 50)]

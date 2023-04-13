@@ -117,12 +117,12 @@ namespace VehicleVedioManage.BackManagement.Entity
         public Int32 SN { get => _SN; set { if (OnPropertyChanging("SN", value)) { _SN = value; OnPropertyChanged("SN"); } } }
 
         private Int32 _UserId;
-        /// <summary>用户编码</summary>
-        [Category("扩展信息")]
-        [DisplayName("用户编码")]
-        [Description("用户编码")]
+        /// <summary>用户名称</summary>
+        [Category("基本信息")]
+        [DisplayName("用户名称")]
+        [Description("用户名称")]
         [DataObjectField(false, false, true, 10)]
-        [BindColumn("UserId", "用户编码", "int")]
+        [BindColumn("UserId", "用户名称", "int")]
         public Int32 UserId { get => _UserId; set { if (OnPropertyChanging("UserId", value)) { _UserId = value; OnPropertyChanged("UserId"); } } }
 
         private Boolean _Deleted;

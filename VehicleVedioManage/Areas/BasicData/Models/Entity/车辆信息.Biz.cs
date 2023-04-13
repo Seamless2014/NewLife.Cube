@@ -125,21 +125,23 @@ namespace VehicleVedioManage.BasicData.Entity
         [Map(nameof(IndustryID), typeof(IndustryType), "ID")]
         [Category("基本信息")]
         public String? IndustryTypeName => _IndustryType?.Name;
+
         /// <summary>车牌颜色</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public PlateColor _PlateColor => Extends.Get(nameof(PlateColor), k => PlateColor.FindByID(PlateColorID));
+        public PlateColor _PlateColor => Extends.Get(nameof(PlateColor), k => PlateColor.FindByCode(PlateColorID));
 
         /// <summary>车牌颜色名称</summary>
-        [Map(nameof(PlateColorID), typeof(PlateColor), "ID")]
+        [Map(nameof(PlateColorID), typeof(PlateColor), "Code")]
         [Category("基本信息")]
         public String? PlateColorName => _PlateColor?.Name;
+
         /// <summary>车辆类型</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
         public VehicleType _VehicleType => Extends.Get(nameof(VehicleType), k => VehicleType.FindByID(VehicleTypeID));
 
-        /// <summary>车牌颜色名称</summary>
+        /// <summary>车辆类型名称</summary>
         [Map(nameof(VehicleTypeID), typeof(VehicleType), "ID")]
         [Category("基本信息")]
         public String? VehicleTypeName => _VehicleType?.Name;

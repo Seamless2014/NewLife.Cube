@@ -36,6 +36,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private String _Code;
         /// <summary>代码</summary>
+        [Category("扩展信息")]
         [DisplayName("代码")]
         [Description("代码")]
         [DataObjectField(false, false, true, 255)]
@@ -44,6 +45,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private String _Owner;
         /// <summary>物主</summary>
+        [Category("扩展信息")]
         [DisplayName("物主")]
         [Description("物主")]
         [DataObjectField(false, false, true, 255)]
@@ -52,6 +54,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private String _Phone;
         /// <summary>电话</summary>
+        [Category("扩展信息")]
         [DisplayName("电话")]
         [Description("电话")]
         [DataObjectField(false, false, true, 255)]
@@ -60,6 +63,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private String _Mobile;
         /// <summary>手机号</summary>
+        [Category("扩展信息")]
         [DisplayName("手机号")]
         [Description("手机号")]
         [DataObjectField(false, false, true, 255)]
@@ -84,6 +88,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private String _Office;
         /// <summary>办公</summary>
+        [Category("扩展信息")]
         [DisplayName("办公")]
         [Description("办公")]
         [DataObjectField(false, false, true, 255)]
@@ -108,6 +113,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
@@ -116,6 +122,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
+        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -124,6 +131,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, true, 10)]
@@ -148,10 +156,11 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private String _Remark;
         /// <summary>备注</summary>
+        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "nvarchar(500)")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Boolean _Fixed;

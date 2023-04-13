@@ -132,6 +132,21 @@ namespace NewLife.BasicData.Entity
 
             //return Find(_.ID == id);
         }
+        /// <summary>根据编码查找</summary>
+        /// <param name="id">编号</param>
+        /// <returns>实体对象</returns>
+        public static VehicleType FindByCode(Int32 code)
+        {
+            if (code <= 0) return null;
+
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Code == code);
+
+            // 单对象缓存
+            return Meta.SingleCache[code];
+
+            //return Find(_.ID == id);
+        }
         #endregion
 
         #region 高级查询

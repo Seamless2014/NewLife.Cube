@@ -113,6 +113,26 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 扩展属性
+
+        /// <summary>部门</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public Department _Department => Extends.Get(nameof(Department), k => Department.FindByID(DepId));
+
+        /// <summary>部门名称</summary>
+        [Map(nameof(DepId), typeof(Department), "ID")]
+        [Category("基本信息")]
+        public String? DepartmentName => _Department?.Name;
+
+        /// <summary>车牌颜色</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public PlateColor __PlateColor => Extends.Get(nameof(Entity.PlateColor), k => Entity.PlateColor.FindByCode(PlateColor));
+
+        /// <summary>车牌颜色名称</summary>
+        [Map(nameof(PlateColor), typeof(PlateColor), "Code")]
+        [Category("基本信息")]
+        public String? PlateColorName => __PlateColor?.Name;
         #endregion
 
         #region 扩展查询

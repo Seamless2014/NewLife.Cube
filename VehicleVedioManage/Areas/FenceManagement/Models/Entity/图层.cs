@@ -60,6 +60,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, true, 10)]
@@ -100,6 +101,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
+        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -108,6 +110,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private String _Creator;
         /// <summary>创建者</summary>
+        [Category("扩展信息")]
         [DisplayName("创建者")]
         [Description("创建者")]
         [DataObjectField(false, false, true, 255)]
@@ -124,6 +127,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]

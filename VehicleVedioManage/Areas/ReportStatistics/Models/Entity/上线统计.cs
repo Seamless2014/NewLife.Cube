@@ -34,14 +34,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("DepId", "部门编码", "int")]
         public Int32 DepId { get => _DepId; set { if (OnPropertyChanging("DepId", value)) { _DepId = value; OnPropertyChanged("DepId"); } } }
 
-        private String _DepName;
-        /// <summary>部门名称</summary>
-        [DisplayName("部门名称")]
-        [Description("部门名称")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("DepName", "部门名称", "nvarchar(255)")]
-        public String DepName { get => _DepName; set { if (OnPropertyChanging("DepName", value)) { _DepName = value; OnPropertyChanged("DepName"); } } }
-
         private Int32 _OnlineNum;
         /// <summary>在线数</summary>
         [DisplayName("在线数")]
@@ -84,6 +76,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, true, 10)]
@@ -92,6 +85,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
@@ -100,6 +94,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _Remark;
         /// <summary>备注</summary>
+        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 55)]
@@ -108,6 +103,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _Owner;
         /// <summary>拥有者</summary>
+        [Category("扩展信息")]
         [DisplayName("拥有者")]
         [Description("拥有者")]
         [DataObjectField(false, false, true, 55)]
@@ -116,6 +112,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
+        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -159,7 +156,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                 {
                     case "Id": return _Id;
                     case "DepId": return _DepId;
-                    case "DepName": return _DepName;
                     case "OnlineNum": return _OnlineNum;
                     case "VehicleNum": return _VehicleNum;
                     case "OnlineRate": return _OnlineRate;
@@ -182,7 +178,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                 {
                     case "Id": _Id = value.ToInt(); break;
                     case "DepId": _DepId = value.ToInt(); break;
-                    case "DepName": _DepName = Convert.ToString(value); break;
                     case "OnlineNum": _OnlineNum = value.ToInt(); break;
                     case "VehicleNum": _VehicleNum = value.ToInt(); break;
                     case "OnlineRate": _OnlineRate = Convert.ToDecimal(value); break;

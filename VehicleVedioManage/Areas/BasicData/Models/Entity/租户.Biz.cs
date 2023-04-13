@@ -105,6 +105,15 @@ namespace VehicleVedioManage.BasicData.Entity
         [Map(nameof(UserId), typeof(User), "ID")]
         public String UserName => User?.Name;
 
+        /// <summary>部门</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public Department _Department => Extends.Get(nameof(Department), k => Department.FindByID(DepartmentID));
+
+        /// <summary>部门名称</summary>
+        [Map(nameof(DepartmentID), typeof(Department), "ID")]
+        public String? DepartmentName => _Department?.Name;
+
         #endregion
 
         #region 扩展查询

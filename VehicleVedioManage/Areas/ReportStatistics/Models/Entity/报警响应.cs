@@ -44,6 +44,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private DateTime _CreateDate;
         /// <summary>创建时间</summary>
+        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 3)]
@@ -148,6 +149,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
@@ -156,6 +158,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, true, 10)]
@@ -164,6 +167,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _Owner;
         /// <summary>拥有者</summary>
+        [Category("扩展信息")]
         [DisplayName("拥有者")]
         [Description("拥有者")]
         [DataObjectField(false, false, true, 10)]
@@ -172,6 +176,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
         private String _Remark;
         /// <summary>备注</summary>
+        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 50)]
@@ -186,13 +191,13 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("PlateNo", "车牌号", "nvarchar(50)")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
-        private String _PlateColor;
+        private int _PlateColor;
         /// <summary>车牌颜色</summary>
         [DisplayName("车牌颜色")]
         [Description("车牌颜色")]
-        [DataObjectField(false, false, true, 50)]
-        [BindColumn("PlateColor", "车牌颜色", "nvarchar(50)")]
-        public String PlateColor { get => _PlateColor; set { if (OnPropertyChanging("PlateColor", value)) { _PlateColor = value; OnPropertyChanged("PlateColor"); } } }
+        [DataObjectField(false, false, true, 10)]
+        [BindColumn("PlateColor", "车牌颜色", "ushort")]
+        public int PlateColor { get => _PlateColor; set { if (OnPropertyChanging("PlateColor", value)) { _PlateColor = value; OnPropertyChanged("PlateColor"); } } }
         #endregion
 
         #region 获取/设置 字段值
@@ -255,7 +260,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
                     case "PlateNo": _PlateNo = Convert.ToString(value); break;
-                    case "PlateColor": _PlateColor = Convert.ToString(value); break;
+                    case "PlateColor": _PlateColor = value.ToInt(); break;
                     default: base[name] = value; break;
                 }
             }

@@ -17,6 +17,7 @@ using NewLife.Model;
 using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
+using VehicleVedioManage.BasicData.Entity;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -103,6 +104,14 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>车牌颜色</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public PlateColor __PlateColor => Extends.Get(nameof(BasicData.Entity.PlateColor), k => BasicData.Entity.PlateColor.FindByCode(PlateColor));
+
+        /// <summary>车牌颜色名称</summary>
+        [Map(nameof(PlateColor), typeof(PlateColor), "Code")]
+        public String? PlateColorName => __PlateColor?.Name;
         #endregion
 
         #region 扩展查询
