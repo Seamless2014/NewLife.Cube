@@ -123,13 +123,13 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("VehicleId", "车辆编码", "int")]
         public Int32 VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
 
-        private Int32 _WarnSrc;
+        private string _WarnSrc;
         /// <summary>报警源</summary>
         [DisplayName("报警源")]
         [Description("报警源")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("WarnSrc", "报警源", "int")]
-        public Int32 WarnSrc { get => _WarnSrc; set { if (OnPropertyChanging("WarnSrc", value)) { _WarnSrc = value; OnPropertyChanged("WarnSrc"); } } }
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("WarnSrc", "报警源", "varchar(20)")]
+        public string WarnSrc { get => _WarnSrc; set { if (OnPropertyChanging("WarnSrc", value)) { _WarnSrc = value; OnPropertyChanged("WarnSrc"); } } }
 
         private DateTime _WarnTime;
         /// <summary>报警时间</summary>
@@ -252,7 +252,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "SupervisorEmail": _SupervisorEmail = Convert.ToString(value); break;
                     case "SupervisorTel": _SupervisorTel = Convert.ToString(value); break;
                     case "VehicleId": _VehicleId = value.ToInt(); break;
-                    case "WarnSrc": _WarnSrc = value.ToInt(); break;
+                    case "WarnSrc": _WarnSrc = Convert.ToString(value); break;
                     case "WarnTime": _WarnTime = value.ToDateTime(); break;
                     case "WarnType": _WarnType = value.ToInt(); break;
                     case "Deleted": _Deleted = value.ToBoolean(); break;

@@ -17,6 +17,7 @@ using NewLife.Model;
 using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
+using VehicleVedioManage.BasicData.Entity;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -86,6 +87,13 @@ namespace VehicleVedioManage.BackManagement.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>报警源</summary>
+        [XmlIgnore, ScriptIgnore, IgnoreDataMember]
+        public AlarmSource _AlarmSource => Extends.Get(nameof(AlarmSource), k => AlarmSource.FindByCode(alarmSource));
+
+        /// <summary>报警源</summary>
+        [Map(__.alarmSource)]
+        public String AlarmSourceName => _AlarmSource?.Name;
         #endregion
 
         #region 扩展查询

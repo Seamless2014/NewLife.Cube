@@ -156,11 +156,11 @@ namespace VehicleVedioManage.BasicData.Entity
         [Category("基本信息")]
         public String? RunStatusName => _RunStatus?.Name;
 
-        /// <summary>使用类型</summary>
+        /// <summary>使用性质</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
         public UseType _UserTypeCode => Extends.Get(nameof(UseType), k => UseType.FindByCode(UseTypeCode));
-        /// <summary>使用类型名称</summary>
+        /// <summary>使用性质名称</summary>
         [Map(nameof(UseTypeCode), typeof(UseType), "Code")]
         [Category("基本信息")]
         public String? UseTypeName => _UserTypeCode?.Name;

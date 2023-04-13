@@ -5,11 +5,11 @@ using XCode.DataAccessLayer;
 
 namespace VehicleVedioManage.BasicData.Entity
 {
-    /// <summary>使用类型</summary>
+    /// <summary>使用性质</summary>
     [Serializable]
     [DataObject]
-    [Description("使用类型")]
-    [BindTable("UseType", Description = "使用类型", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [Description("使用性质")]
+    [BindTable("UseType", Description = "使用性质", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
     public partial class UseType
     {
         #region 属性

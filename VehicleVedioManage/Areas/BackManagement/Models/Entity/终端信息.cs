@@ -155,7 +155,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
-        [Category("基本信息")]
+        [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
         [DataObjectField(false, false, true, 3)]
@@ -191,7 +191,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
-        [Category("基本信息")]
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, true, 10)]
@@ -218,7 +218,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
-        [Category("基本信息")]
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
@@ -227,7 +227,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _SeqNo;
         /// <summary>序列号</summary>
-        [Category("基本信息")]
+        [Category("扩展信息")]
         [DisplayName("序列号")]
         [Description("序列号")]
         [DataObjectField(false, false, true, 50)]
@@ -263,7 +263,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _CertPassword;
         /// <summary>认证密码</summary>
-        [Category("基本信息")]
+        [Category("扩展信息")]
         [DisplayName("认证密码")]
         [Description("认证密码")]
         [DataObjectField(false, false, true, 255)]
@@ -272,7 +272,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _CertString;
         /// <summary>认证字符串</summary>
-        [Category("基本信息")]
+        [Category("扩展信息")]
         [DisplayName("认证字符串")]
         [Description("认证字符串")]
         [DataObjectField(false, false, true, 255)]
