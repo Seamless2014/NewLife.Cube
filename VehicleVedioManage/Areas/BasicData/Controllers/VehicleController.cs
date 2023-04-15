@@ -6,6 +6,7 @@ using NewLife.Log;
 using NewLife.Cube.Extensions;
 using NewLife;
 using VehicleVedioManage.BasicData.Entity;
+using NewLife.Data;
 
 namespace VehicleVedioManage.Areas.BasicData.Controllers
 {
@@ -38,6 +39,26 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
             //    return entity.Count == 0 ? new List<Vehicle>() : entity;
             //}
             return Vehicle.Search(null, p["PlateColor"], p["RunStatus"], p["VehicleType"],"", p);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="departmentId"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public ActionResult Search(Int32 departmentId, String key = null)
+        {
+            var cids = departmentId > 0 ? new[] { departmentId } : Array.Empty<Int32>();
+
+            var page = new PageParameter { PageSize = 20 };
+            var list = Vehicle.Search(cids,false, DateTime.MinValue, DateTime.MinValue, key, page);
+            return Json(0, null, list.Select(e => new
+            {
+                e.ID,
+                e.PlateNo,
+                e.PlateColorName,
+                e.DepartmentName,
+            }).ToArray());
         }
 
         public override ActionResult Index(Pager p = null)

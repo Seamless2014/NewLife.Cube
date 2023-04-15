@@ -114,7 +114,8 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>部门名称</summary>
         [Map(nameof(DepartmentID), typeof(Department), "ID")]
         [Category("基本信息")]
-        public String? DepartmentName => _Department?.Name;
+        [BindColumn("DepartmentName", "部门名称", "nvarchar(50)")]
+        public String DepartmentName => _Department?.Name;
 
         /// <summary>行业类型</summary>
         [XmlIgnore, IgnoreDataMember]
@@ -124,7 +125,7 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>行业类型名称</summary>
         [Map(nameof(IndustryID), typeof(IndustryType), "ID")]
         [Category("基本信息")]
-        public String? IndustryTypeName => _IndustryType?.Name;
+        public String IndustryTypeName => _IndustryType?.Description;
 
         /// <summary>车牌颜色</summary>
         [XmlIgnore, IgnoreDataMember]
@@ -134,7 +135,7 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>车牌颜色名称</summary>
         [Map(nameof(PlateColorID), typeof(PlateColor), "Code")]
         [Category("基本信息")]
-        public String? PlateColorName => _PlateColor?.Name;
+        public String PlateColorName => _PlateColor?.Name;
 
         /// <summary>车辆类型</summary>
         [XmlIgnore, IgnoreDataMember]
@@ -144,7 +145,7 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>车辆类型名称</summary>
         [Map(nameof(VehicleTypeID), typeof(VehicleType), "ID")]
         [Category("基本信息")]
-        public String? VehicleTypeName => _VehicleType?.Name;
+        public String VehicleTypeName => _VehicleType?.Name;
 
         /// <summary>运营状态</summary>
         [XmlIgnore, IgnoreDataMember]
@@ -154,7 +155,7 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>运营状态名称</summary>
         [Map(nameof(RunStatusCode), typeof(RunStatus), "Code")]
         [Category("基本信息")]
-        public String? RunStatusName => _RunStatus?.Name;
+        public String RunStatusName => _RunStatus?.Name;
 
         /// <summary>使用性质</summary>
         [XmlIgnore, IgnoreDataMember]
@@ -163,7 +164,7 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>使用性质名称</summary>
         [Map(nameof(UseTypeCode), typeof(UseType), "Code")]
         [Category("基本信息")]
-        public String? UseTypeName => _UserTypeCode?.Name;
+        public String UseTypeName => _UserTypeCode?.Name;
         #endregion
 
         #region 扩展查询
@@ -247,10 +248,30 @@ namespace VehicleVedioManage.BasicData.Entity
             if (!runStatusCode.IsNullOrEmpty()) exp &= _.RunStatusCode == runStatusCode;
             if (!vehicleTypeCode.IsNullOrEmpty()) exp &= _.VehicleTypeID == vehicleTypeCode;
             exp &= _.Deleted == false;
-            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DepartmentName.Contains(key) | _.Region.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
 
             return FindAll(exp, page);
         }
+        /// <summary>
+        /// 下拉车辆查询
+        /// </summary>
+        /// <param name="vehicleIds"></param>
+        /// <param name="enable"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="key"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public static IList<Vehicle> Search(IList<Int32> vehicleIds,Boolean? enable, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+            if (vehicleIds != null && vehicleIds.Count > 0) exp &= _.ID.In(vehicleIds);
+            if (enable != null) exp &= _.Deleted == enable;
+            exp &= _.UpdateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key);
+            return FindAll(exp, page);
+        }
+
 
         // Select Count(VehicleID) as VehicleID,PlateNo From Vehicle Where CreateTime>'2020-01-24 00:00:00' Group By PlateNo Order By VehicleID Desc limit 20
         static readonly FieldCache<Vehicle> _PlateNoCache = new FieldCache<Vehicle>(nameof(PlateNo))

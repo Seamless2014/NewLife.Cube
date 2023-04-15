@@ -1,0 +1,67 @@
+﻿@model SelectPlateNoModel
+@using NewLife;
+@using NewLife.Web;
+@using VehicleVedioManage.BasicData.Entity;
+@using VehicleVedioManage.Web.Models;
+@using XCode;
+@using System.Linq;
+@using NewLife.Cube.ViewModels;
+@{
+    var id = Model.Id;
+    var page = ViewBag.Page as Pager;
+
+    if (id.IsNullOrEmpty()) { id = "vehicleId"; }
+    var vehicleId = Model.VehicleId;
+    if (vehicleId <= 0) vehicleId = page[id].ToInt();
+    var showValue = Vehicle.FindByVehicleID(vehicleId)?.ToString();
+
+    var set = NewLife.Cube.Setting.Current;
+    var res = set.ResourceUrl;
+    if (String.IsNullOrEmpty(res)) res = "/Content";
+    res = res.TrimEnd('/');
+}
+
+<div class="form-group" style="position:relative">
+    <div class="col-lg-12">
+        <div class="input-group">
+            <input type="hidden" name="@id" id="@id" value="@vehicleId" />
+            <input type="text" class="form-control" id="@(id)_select" placeholder="搜索车牌号" value="@showValue">
+            <div class="input-group-btn">
+                <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="@res/bootstrap-suggest.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#@(id)_select").bsSuggest({
+            url: "/BasicData/Vehicle/Search?departmentId=@Model.DepartmentId&key=",
+            getDataMethod:"url",
+            effectiveFieldsAlias: { id: "车辆编号", plateNo: "车牌号", plateColorName: "车牌颜色", departmentName: '企业名称' },
+            ignorecase: true,
+            showHeader: true,
+            delayUntilKeyup: true, //获取数据的方式为 firstByUrl 时，延迟到有输入/获取到焦点时才请求数据
+            hideOnSelect: true,
+            idField: "id",
+            showBtn: false,
+            keyField: "name",
+            clearable: true,
+            searchingTip: '搜索中...',
+            allowNoKeyword: true,
+            delay: 500,
+            emptyTip: '无数据',
+            containerValueId: '@id',
+            fnProcessData: function (result) {
+                dt = {};
+                dt.value = result.data;
+                return dt;
+            }
+        }).on('onSetSelectValue', function (e, keyword, data) {
+            $('#@id').val(keyword.id);
+        }).on('onUnsetSelectValue', function () {
+            $('#@id').val('');
+        });
+    });
+</script>

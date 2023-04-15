@@ -51,11 +51,11 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         public Double Hour { get => _Hour; set { if (OnPropertyChanging("Hour", value)) { _Hour = value; OnPropertyChanged("Hour"); } } }
 
         private DateTime _StaticDate;
-        /// <summary>静态日期</summary>
-        [DisplayName("静态日期")]
-        [Description("静态日期")]
+        /// <summary>统计日期</summary>
+        [DisplayName("统计日期")]
+        [Description("统计日期")]
         [DataObjectField(false, false, true, 3)]
-        [BindColumn("StaticDate", "静态日期", "datetime", Precision = 0, Scale = 3)]
+        [BindColumn("StaticDate", "统计日期", "datetime", Precision = 0, Scale = 3)]
         public DateTime StaticDate { get => _StaticDate; set { if (OnPropertyChanging("StaticDate", value)) { _StaticDate = value; OnPropertyChanged("StaticDate"); } } }
 
         private Int32 _IntervalType;
@@ -243,7 +243,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             /// <summary>小时</summary>
             public static readonly Field Hour = FindByName("Hour");
 
-            /// <summary>静态日期</summary>
+            /// <summary>统计日期</summary>
             public static readonly Field StaticDate = FindByName("StaticDate");
 
             /// <summary>间隔类型</summary>
@@ -303,7 +303,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             /// <summary>小时</summary>
             public const String Hour = "Hour";
 
-            /// <summary>静态日期</summary>
+            /// <summary>统计日期</summary>
             public const String StaticDate = "StaticDate";
 
             /// <summary>间隔类型</summary>

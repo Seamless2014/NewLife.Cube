@@ -25,7 +25,7 @@ namespace VehicleVedioManage.BasicData.Entity
         [Category("基本信息")]
         [DisplayName("车牌号")]
         [DataObjectField(false, false, true, 30)]
-        [BindColumn("PlateNo", "车牌号", "nvarchar(30)")]
+        [BindColumn("PlateNo", "车牌号", "nvarchar(30)",Master =true)]
         public String PlateNo { get => _plateNo; set { if (OnPropertyChanging("PlateNo", value)) { _plateNo = value; OnPropertyChanged("PlateNo"); } } }
 
         private Int32 _vehicleTypeID;

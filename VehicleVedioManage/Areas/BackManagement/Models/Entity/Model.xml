@@ -91,19 +91,19 @@
       <Column Name="ChannelId" DataType="Byte" Nullable="True" Description="通道编码" />
       <Column Name="EventCode" DataType="Byte" Nullable="True" Description="事件代码" />
       <Column Name="FileName" DataType="String" Nullable="True" Length="255" Description="文件名称" />
-      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间"  Categate="扩展信息" />
-      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Categate="扩展信息" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Description="创建时间"  Category="扩展信息" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Category="扩展信息" />
       <Column Name="Latitude" DataType="Double" Nullable="True" Description="纬度" />
       <Column Name="Longitude" DataType="Double" Nullable="True" Description="经度" />
       <Column Name="Speed" DataType="Double" Nullable="True" Description="速度" />
-      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Categate="扩展信息" />
-      <Column Name="Owner" DataType="String" Nullable="True" Length="45" Description="物主" Categate="扩展信息" />
-      <Column Name="Remark" DataType="String" Nullable="True" Length="500" Description="备注" Categate="扩展信息" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Category="扩展信息" />
+      <Column Name="Owner" DataType="String" Nullable="True" Length="45" Description="物主" Category="扩展信息" />
+      <Column Name="Remark" DataType="String" Nullable="True" Length="500" Description="备注" Category="扩展信息" />
       <Column Name="Location" DataType="String" Nullable="True" Description="位置" />
-      <Column Name="GPSId" DataType="String" Length="255" Nullable="True" Description="GPS编码" Categate="扩展信息" />
-      <Column Name="MultimediaDataId" DataType="Int32" Nullable="True" Description="多媒体数据编码" Categate="扩展信息" />
-      <Column Name="MultimediaType" DataType="Byte" Nullable="True" Description="多媒体类型" Categate="扩展信息" />
-      <Column Name="MultidediaCodeFormat" DataType="Byte" Nullable="True" Description="多媒体编码格式" Categate="扩展信息" />
+      <Column Name="GPSId" DataType="String" Length="255" Nullable="True" Description="GPS编码" Category="扩展信息" />
+      <Column Name="MultimediaDataId" DataType="Int32" Nullable="True" Description="多媒体数据编码" Category="扩展信息" />
+      <Column Name="MultimediaType" DataType="Byte" Nullable="True" Description="多媒体类型" Category="扩展信息" />
+      <Column Name="MultidediaCodeFormat" DataType="Byte" Nullable="True" Description="多媒体编码格式" Category="扩展信息" />
     </Columns>
     <Indexes>
       <Index Columns="PlateNo" Unique="True" />
@@ -122,16 +122,16 @@
       <Column Name="DepartmentID" DataType="String" Nullable="True" Length="30" Description="部门编码" />
       <Column Name="ContactPhone" DataType="String" Nullable="True" Length="20" Description="联系电话" />
       <Column Name="Contact" DataType="String" Nullable="True" Description="联系人" />
-      <Column Name="Owner" DataType="String" Nullable="True" Description="物主" Categate="扩展信息" />
-      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Categate="扩展信息" />
-      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Categate="扩展信息" />
-      <Column Name="BankCode" DataType="String" Nullable="True" Length="30" Description="银行代码" Categate="扩展信息" />
-      <Column Name="BusinessScope" DataType="String" Nullable="True" Length="200" Description="业务范围" Categate="扩展信息" />
-      <Column Name="Remark" DataType="String" Nullable="True" Length="500" Description="备注" Categate="扩展信息" />
-      <Column Name="BankName" DataType="String" Nullable="True" Description="银行名称" Categate="扩展信息" />
-      <Column Name="AccountName" DataType="String" Nullable="True" Description="账户名" Categate="扩展信息" />
+      <Column Name="Owner" DataType="String" Nullable="True" Description="物主" Category="扩展信息" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Category="扩展信息" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Category="扩展信息" />
+      <Column Name="BankCode" DataType="String" Nullable="True" Length="30" Description="银行代码" Category="扩展信息" />
+      <Column Name="BusinessScope" DataType="String" Nullable="True" Length="200" Description="业务范围" Category="扩展信息" />
+      <Column Name="Remark" DataType="String" Nullable="True" Length="500" Description="备注" Category="扩展信息" />
+      <Column Name="BankName" DataType="String" Nullable="True" Description="银行名称" Category="扩展信息" />
+      <Column Name="AccountName" DataType="String" Nullable="True" Description="账户名" Category="扩展信息" />
       <Column Name="Name" DataType="String" Master="True" Description="名称" />
-      <Column Name="CreateTime" DataType="DateTime" Nullable="True" Scale="3" Description="创建时间" Categate="扩展信息" />
+      <Column Name="CreateTime" DataType="DateTime" Nullable="True" Scale="3" Description="创建时间" Category="扩展信息" />
     </Columns>
     <Indexes>
       <Index Columns="Name" Unique="True" />
@@ -140,11 +140,11 @@
     <Table Name="PlatformInfo" Description="平台信息。主要用于转发809信号的，涉及到主链路、从链路等信息">
     <Columns>
       <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="平台编号" />
-      <Column Name="CreateTime" DataType="DateTime" Nullable="True" Scale="3" Description="创建时间" Categate="扩展信息" />
-      <Column Name="Deleted" DataType="Byte" Nullable="True" Description="删除" Categate="扩展信息" />
-      <Column Name="Owner" DataType="String" Nullable="True" RawType="varchar(255)" Length="255" Description="拥有者" Categate="扩展信息" />
-      <Column Name="Remark" DataType="String" Nullable="True" RawType="varchar(255)" Length="255" Description="备注" Categate="扩展信息" />
-      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Categate="扩展信息" />
+      <Column Name="CreateTime" DataType="DateTime" Nullable="True" Scale="3" Description="创建时间" Category="扩展信息" />
+      <Column Name="Deleted" DataType="Byte" Nullable="True" Description="删除" Category="扩展信息" />
+      <Column Name="Owner" DataType="String" Nullable="True" RawType="varchar(255)" Length="255" Description="拥有者" Category="扩展信息" />
+      <Column Name="Remark" DataType="String" Nullable="True" RawType="varchar(255)" Length="255" Description="备注" Category="扩展信息" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Category="扩展信息" />
       <Column Name="CheckEndTime" DataType="String" Nullable="True" RawType="varchar(255)" Length="255" Description="检查结束时间" />
       <Column Name="CheckInterval" DataType="Int32" Description="检查间隔" />
       <Column Name="CheckStartTime" DataType="String" Nullable="True" RawType="varchar(255)" Length="255" Description="检查起始时间" />
@@ -156,7 +156,7 @@
       <Column Name="SublinkState" DataType="String" Nullable="True" RawType="varchar(255)" Length="255" Description="从链路状态" />
       <Column Name="UserId" DataType="String" Nullable="True" RawType="varchar(255)" Length="255" Description="用户名" />
       <Column Name="CheckQuestion" DataType="String" Nullable="True" RawType="varchar(255)" Length="255" Description="检查问题" />
-      <Column Name="UpdateTime" DataType="DateTime" Nullable="True" Scale="3" Description="更新时间" Categate="扩展信息" />
+      <Column Name="UpdateTime" DataType="DateTime" Nullable="True" Scale="3" Description="更新时间" Category="扩展信息" />
     </Columns>
       <Indexes>
         <Index Columns="Name" Unique="True" />
@@ -182,26 +182,26 @@
       <Column Name="Status" DataType="Int16" Nullable="True" Description="状态" />
       <Column Name="Appointment" DataType="DateTime" Scale="3" Nullable="True" Description="预约时间" />
       <Column Name="BaseSalary" DataType="Single" Nullable="True" Description="基本工资" />
-      <Column Name="RoyaltiesScale" DataType="Single" Nullable="True" Description="使用规模" Categate="扩展信息" />
-      <Column Name="AppraisalIntegral" DataType="Single" Nullable="True" Description="评估" Categate="扩展信息" />
-      <Column Name="DriverRFID" DataType="String" RawType="varchar(40)" Nullable="True" Length="40" Description="驾驶员Sim卡" Categate="扩展信息" />
+      <Column Name="RoyaltiesScale" DataType="Single" Nullable="True" Description="使用规模" Category="扩展信息" />
+      <Column Name="AppraisalIntegral" DataType="Single" Nullable="True" Description="评估" Category="扩展信息" />
+      <Column Name="DriverRFID" DataType="String" RawType="varchar(40)" Nullable="True" Length="40" Description="驾驶员Sim卡" Category="扩展信息" />
       <Column Name="Password" DataType="String" RawType="varchar(16)" Nullable="True" Length="16" Description="密码" />
-      <Column Name="Register" DataType="DateTime" Scale="3" Nullable="True" Description="注册" Categate="扩展信息" />
-      <Column Name="Remark" DataType="String" Length="256" Nullable="True" Description="备注" Categate="扩展信息" />
-      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Nullable="True" Description="更新时间" Categate="扩展信息" />
-      <Column Name="LicenseAgency" DataType="String" Length="64" Nullable="True" Description="许可证机构" Categate="扩展信息" />
-      <Column Name="CertificationDate" DataType="DateTime" Scale="3" Nullable="True" Description="认证日期" Categate="扩展信息" />
-      <Column Name="InvalidDate" DataType="DateTime" Scale="3" Nullable="True" Description="无效期" Categate="扩展信息" />
+      <Column Name="Register" DataType="DateTime" Scale="3" Nullable="True" Description="注册" Category="扩展信息" />
+      <Column Name="Remark" DataType="String" Length="256" Nullable="True" Description="备注" Category="扩展信息" />
+      <Column Name="UpdateTime" DataType="DateTime" Scale="3" Nullable="True" Description="更新时间" Category="扩展信息" />
+      <Column Name="LicenseAgency" DataType="String" Length="64" Nullable="True" Description="许可证机构" Category="扩展信息" />
+      <Column Name="CertificationDate" DataType="DateTime" Scale="3" Nullable="True" Description="认证日期" Category="扩展信息" />
+      <Column Name="InvalidDate" DataType="DateTime" Scale="3" Nullable="True" Description="无效期" Category="扩展信息" />
       <Column Name="ServiceLevel" DataType="Int32" Nullable="True" Description="服务层级" />
       <Column Name="BgTitle" DataType="String" RawType="varchar(32)" Nullable="True" Length="32" Description="背景标题" />
       <Column Name="Location" DataType="String" RawType="varchar(32)" Nullable="True" Length="32" Description="位置" />
       <Column Name="PhotoFormat" DataType="String" RawType="varchar(4)" Nullable="True" Length="4" Description="照片格式" />
       <Column Name="PhotoLength" DataType="Int32" Nullable="True" Description="照片长度" />
-      <Column Name="Owner" DataType="String" Description="物主" Categate="扩展信息" />
+      <Column Name="Owner" DataType="String" Description="物主" Category="扩展信息" />
       <Column Name="JobCard" DataType="String" Length="20" Description="工作证" />
-      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Categate="扩展信息" />
-      <Column Name="CreateTime" DataType="DateTime" Scale="3" Nullable="True" Description="创建时间" Categate="扩展信息" />
-      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Categate="扩展信息" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Category="扩展信息" />
+      <Column Name="CreateTime" DataType="DateTime" Scale="3" Nullable="True" Description="创建时间" Category="扩展信息" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Category="扩展信息" />
       <Column Name="MainDriver" DataType="Byte" Nullable="True" Description="主驾驶员" />
     </Columns>
     <Indexes>
@@ -218,11 +218,11 @@
       <Column Name="InitZoomLevel" DataType="Int32" Nullable="True" Description="初始层级" />
       <Column Name="MapType" DataType="String" Nullable="True" Description="图商类型" />
       <Column Name="SmartKey" DataType="String" RawType="varchar(50)" Nullable="True" Description="图商密钥" />
-      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Categate="扩展信息" />
-      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Categate="扩展信息" />
-      <Column Name="Owner" DataType="String" Nullable="True" Description="拥有者" Categate="扩展信息" />
-      <Column Name="Remark" DataType="String" Nullable="True" Length="500" Description="备注" Categate="扩展信息" />
-      <Column Name="CreateTime" DataType="DateTime" Nullable="True" Scale="3" Description="创建时间" Categate="扩展信息" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Category="扩展信息" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Category="扩展信息" />
+      <Column Name="Owner" DataType="String" Nullable="True" Description="拥有者" Category="扩展信息" />
+      <Column Name="Remark" DataType="String" Nullable="True" Length="500" Description="备注" Category="扩展信息" />
+      <Column Name="CreateTime" DataType="DateTime" Nullable="True" Scale="3" Description="创建时间" Category="扩展信息" />
       <Column Name="MaxOfflineDays" DataType="Int32" Nullable="True" Description="最大离线天数" />
       <Column Name="DisplayStateType" DataType="String" Nullable="True" Description="显示状态类型" />
       <Column Name="SystemTitle" DataType="String" RawType="varchar(255)" Length="255" Description="系统标题" />
@@ -252,9 +252,9 @@
       <Column Name="Radius" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="半径" />
       <Column Name="BlindHeight" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="盲板高度" />
       <Column Name="NormalFuelConsum" DataType="Decimal" RawType="decimal(8, 2)" Scale="2" Nullable="True" Description="正常燃料消耗" />
-      <Column Name="Remark" DataType="String" Length="255" Nullable="True" Description="备注" Categate="扩展信息" />
-      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Categate="扩展信息" />
-      <Column Name="Owner" DataType="String" Length="255" Nullable="True" Description="物主" Categate="扩展信息" />
+      <Column Name="Remark" DataType="String" Length="255" Nullable="True" Description="备注" Category="扩展信息" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Category="扩展信息" />
+      <Column Name="Owner" DataType="String" Length="255" Nullable="True" Description="物主" Category="扩展信息" />
     </Columns>
      <Indexes>
        <Index Columns="PlateNo" Unique="True" />
@@ -272,8 +272,8 @@
       <Column Name="MakeTime" DataType="DateTime" Scale="3" Nullable="False" Description="制造时间" />
       <Column Name="MakeNo" DataType="String" Length="10" Nullable="True" Description="制造编号" />
       <Column Name="State" DataType="String" Length="20" Nullable="True" Description="状态" />
-      <Column Name="Reserve" DataType="String" Length="4" Nullable="True" Description="预留" Categate="扩展信息" />
-      <Column Name="Remark" DataType="String" Length="255" Nullable="True" Description="备注" Categate="扩展信息" />
+      <Column Name="Reserve" DataType="String" Length="4" Nullable="True" Description="预留" Category="扩展信息" />
+      <Column Name="Remark" DataType="String" Length="255" Nullable="True" Description="备注" Category="扩展信息" />
       <Column Name="InstallTime" DataType="DateTime" Scale="3" Nullable="True" Description="安装时间" />
       <Column Name="Waitor" DataType="String" Length="30" Nullable="True" Description="实施员" />
       <Column Name="InstallAddress" DataType="String" Nullable="True" Length="80" Description="安装地址" />
@@ -281,16 +281,16 @@
       <Column Name="TermType" DataType="String" Length="20" Description="终端类型" />
       <Column Name="SimNo" DataType="String" Length="13" Description="Sim卡" />
       <Column Name="Bind" DataType="Boolean" Description="是否绑定" />
-      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Categate="扩展信息" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Category="扩展信息" />
       <Column Name="CreateTime" DataType="DateTime" Scale="3" Nullable="False" Description="创建时间" />
-      <Column Name="Owner" DataType="String" Nullable="True" Description="拥有者" Categate="扩展信息" />
-      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Categate="扩展信息" />
-      <Column Name="SeqNo" DataType="String" Nullable="True" Description="序列号" Categate="扩展信息" />
+      <Column Name="Owner" DataType="String" Nullable="True" Description="拥有者" Category="扩展信息" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Category="扩展信息" />
+      <Column Name="SeqNo" DataType="String" Nullable="True" Description="序列号" Category="扩展信息" />
       <Column Name="Vendor" DataType="String" Nullable="True" Length="255" Description="供应商" />
       <Column Name="ModelNo" DataType="String" Nullable="True" Length="255" Description="型号" />
       <Column Name="Imei" DataType="String" Length="255" Nullable="True" Description="IMEI" />
-      <Column Name="CertPassword" DataType="String" Nullable="True" Length="255" Description="认证密码" Categate="扩展信息" />
-      <Column Name="CertString" DataType="String" Nullable="True" Length="255" Description="认证字符串" Categate="扩展信息" />
+      <Column Name="CertPassword" DataType="String" Nullable="True" Length="255" Description="认证密码" Category="扩展信息" />
+      <Column Name="CertString" DataType="String" Nullable="True" Length="255" Description="认证字符串" Category="扩展信息" />
     </Columns>
   </Table>
   <Table Name="TerminalCommand" Description="终端指令">
@@ -301,14 +301,14 @@
       <Column Name="Cmd" DataType="String" Nullable="True" Description="指令" />
       <Column Name="CmdData" DataType="String" Length="2500" Nullable="True" Description="指令数据" />
       <Column Name="CreateDate" DataType="DateTime" Scale="3" Description="创建时间" />
-      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Categate="扩展信息" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Category="扩展信息" />
       <Column Name="SimNo" DataType="String" Description="Sim卡" />
       <Column Name="Status" DataType="String" Description="状态" />
-      <Column Name="Remark" DataType="String" Length="100" Nullable="True" Description="备注" Categate="扩展信息" />
-      <Column Name="Owner" DataType="String" Nullable="True" Description="拥有者" Categate="扩展信息" />
+      <Column Name="Remark" DataType="String" Length="100" Nullable="True" Description="备注" Category="扩展信息" />
+      <Column Name="Owner" DataType="String" Nullable="True" Description="拥有者" Category="扩展信息" />
       <Column Name="UserId" DataType="Int32" Nullable="True" Description="用户编码" />
-      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" Categate="扩展信息" />
-      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Categate="扩展信息" />
+      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" Category="扩展信息" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Category="扩展信息" />
       <Column Name="UpdateDate" DataType="DateTime" Scale="3" Nullable="True" Description="更新时间" />
       <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
       <Column Name="Data" DataType="String" Length="255" Nullable="True" Description="数据" />
@@ -328,11 +328,11 @@
       <Column Name="CreateDate" DataType="DateTime" Scale="3" Description="创建时间" />
       <Column Name="UpdateDate" DataType="DateTime" Scale="3" Nullable="True" Description="更新时间" />
       <Column Name="Status" DataType="String" Length="255" Description="状态" />
-      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" Categate="扩展信息" />
-      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Categate="扩展信息" />
-      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Categate="扩展信息" />
-      <Column Name="Owner" DataType="String" Length="55" Nullable="True" Description="拥有者" Categate="扩展信息" />
-      <Column Name="Remark" DataType="String" Length="55" Nullable="True" Description="备注" Categate="扩展信息" />
+      <Column Name="SN" DataType="Int32" Nullable="True" Description="序号" Category="扩展信息" />
+      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" Category="扩展信息" />
+      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Category="扩展信息" />
+      <Column Name="Owner" DataType="String" Length="55" Nullable="True" Description="拥有者" Category="扩展信息" />
+      <Column Name="Remark" DataType="String" Length="500" Nullable="True" Description="备注" Category="扩展信息" />
       <Column Name="CommandId" DataType="Int32" Nullable="True" Description="指令编码" />
       <Column Name="GPSId" DataType="String" Length="255" Nullable="True" Description="GPS编码" />
     </Columns>

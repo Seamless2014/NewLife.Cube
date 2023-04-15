@@ -27,14 +27,6 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("ID", "行业类型", "int")]
         public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
-        private Int32 _Amount;
-        /// <summary>数量</summary>
-        [DisplayName("数量")]
-        [Description("数量")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("Amount", "数量", "int")]
-        public Int32 Amount { get => _Amount; set { if (OnPropertyChanging("Amount", value)) { _Amount = value; OnPropertyChanged("Amount"); } } }
-
         private Int32 _Code;
         /// <summary>编码</summary>
         [DisplayName("编码")]
@@ -58,14 +50,6 @@ namespace VehicleVedioManage.BasicData.Entity
         [DataObjectField(false, false, true, 10)]
         [BindColumn("ParentCode", "上级编码", "int")]
         public Int32 ParentCode { get => _ParentCode; set { if (OnPropertyChanging("ParentCode", value)) { _ParentCode = value; OnPropertyChanged("ParentCode"); } } }
-
-        private String _name;
-        /// <summary>行业类型</summary>
-        [DisplayName("行业类型名称")]
-        [Description("行业类型名称")]
-        [DataObjectField(false, false, true, 32)]
-        [BindColumn("Name", "行业类型名称", "varchar(32)", Master = true)]
-        public String Name { get => _name; set { if (OnPropertyChanging("Name", value)) { _name = value; OnPropertyChanged("Name"); } } }
         #endregion
 
         #region 获取/设置 字段值
@@ -79,11 +63,9 @@ namespace VehicleVedioManage.BasicData.Entity
                 switch (name)
                 {
                     case "ID": return _ID;
-                    case "Amount": return _Amount;
                     case "Code": return _Code;
                     case "Description": return _Description;
                     case "ParentCode": return _ParentCode;
-                    case "Name": return _name;
                     default: return base[name];
                 }
             }
@@ -92,11 +74,9 @@ namespace VehicleVedioManage.BasicData.Entity
                 switch (name)
                 {
                     case "ID": _ID = value.ToInt(); break;
-                    case "Amount": _Amount = value.ToInt(); break;
                     case "Code": _Code = value.ToInt(); break;
                     case "Description": _Description = Convert.ToString(value); break;
                     case "ParentCode": _ParentCode = value.ToInt(); break;
-                    case "Name": _name = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
             }
@@ -110,9 +90,6 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>行业类型</summary>
             public static readonly Field ID = FindByName("ID");
 
-            /// <summary>数量</summary>
-            public static readonly Field Amount = FindByName("Amount");
-
             /// <summary>编码</summary>
             public static readonly Field Code = FindByName("Code");
 
@@ -121,9 +98,6 @@ namespace VehicleVedioManage.BasicData.Entity
 
             /// <summary>上级编码</summary>
             public static readonly Field ParentCode = FindByName("ParentCode");
-
-            /// <summary>行业类型</summary>
-            public static readonly Field Name = FindByName("Name");
 
             static Field FindByName(String name) => Meta.Table.FindByName(name);
         }
@@ -134,9 +108,6 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>行业类型</summary>
             public const String ID = "ID";
 
-            /// <summary>数量</summary>
-            public const String Amount = "Amount";
-
             /// <summary>编码</summary>
             public const String Code = "Code";
 
@@ -145,9 +116,6 @@ namespace VehicleVedioManage.BasicData.Entity
 
             /// <summary>上级编码</summary>
             public const String ParentCode = "ParentCode";
-
-            /// <summary>行业类型</summary>
-            public const String Name = "Name";
         }
         #endregion
     }
