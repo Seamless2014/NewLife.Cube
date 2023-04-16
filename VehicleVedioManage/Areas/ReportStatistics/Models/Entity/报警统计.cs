@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,7 +14,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
     [Serializable]
     [DataObject]
     [Description("报警统计")]
-    [BindTable("AlarmStatic", Description = "报警统计", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_AlarmStatic_PlateNo", true, "PlateNo")]
+    [BindTable("AlarmStatic", Description = "报警统计", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class AlarmStatic
     {
         #region 属性
@@ -22,8 +23,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>统计编码</summary>
         [DisplayName("统计编码")]
         [Description("统计编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("StatisticsId", "统计编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("StatisticsId", "统计编码", "")]
         public Int32 StatisticsId { get => _StatisticsId; set { if (OnPropertyChanging("StatisticsId", value)) { _StatisticsId = value; OnPropertyChanged("StatisticsId"); } } }
 
         private String _PlateNo;
@@ -31,7 +32,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("车牌号")]
         [Description("车牌号")]
         [DataObjectField(false, false, true, 20)]
-        [BindColumn("PlateNo", "车牌号", "nvarchar(20)")]
+        [BindColumn("PlateNo", "车牌号", "")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
         private String _AlarmType;
@@ -39,15 +40,15 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("报警类型")]
         [Description("报警类型")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("AlarmType", "报警类型", "nvarchar(50)")]
+        [BindColumn("AlarmType", "报警类型", "")]
         public String AlarmType { get => _AlarmType; set { if (OnPropertyChanging("AlarmType", value)) { _AlarmType = value; OnPropertyChanged("AlarmType"); } } }
 
         private Int32 _AlarmNum;
         /// <summary>报警数</summary>
         [DisplayName("报警数")]
         [Description("报警数")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("AlarmNum", "报警数", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("AlarmNum", "报警数", "")]
         public Int32 AlarmNum { get => _AlarmNum; set { if (OnPropertyChanging("AlarmNum", value)) { _AlarmNum = value; OnPropertyChanged("AlarmNum"); } } }
 
         private String _StatisticsDate;
@@ -62,8 +63,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>统计类型</summary>
         [DisplayName("统计类型")]
         [Description("统计类型")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("StatisticsType", "统计类型", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("StatisticsType", "统计类型", "")]
         public Int32 StatisticsType { get => _StatisticsType; set { if (OnPropertyChanging("StatisticsType", value)) { _StatisticsType = value; OnPropertyChanged("StatisticsType"); } } }
         #endregion
 

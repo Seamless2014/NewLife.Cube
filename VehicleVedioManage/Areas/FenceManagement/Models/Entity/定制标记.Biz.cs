@@ -37,6 +37,11 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
             // 过滤器 UserModule、TimeModule、IPModule
             Meta.Modules.Add<TimeModule>();
+
+            // 单对象缓存
+            var sc = Meta.SingleCache;
+            sc.FindSlaveKeyMethod = k => Find(_.Name == k);
+            sc.GetSlaveKeyMethod = e => e.Name;
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -127,9 +132,39 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
             //return Find(_.MarkerId == markerId);
         }
+        /// <summary>根据名称查找</summary>
+        /// <param name="name">名称</param>
+        /// <returns>实体对象</returns>
+        public static CustomMarker FindByName(String name)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name.EqualIgnoreCase(name));
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(name) as CustomMarker;
+
+            return Find(_.Name == name);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="name">名称</param>
+        /// <param name="start">创建时间开始</param>
+        /// <param name="end">创建时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<CustomMarker> Search(String name, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!name.IsNullOrEmpty()) exp &= _.Name == name;
+            exp &= _.CreateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.Name.Contains(key) | _.Code.Contains(key) | _.Owner.Contains(key) | _.Phone.Contains(key) | _.Mobile.Contains(key) | _.Layer.Contains(key) | _.Office.Contains(key) | _.Remark.Contains(key);
+
+            return FindAll(exp, page);
+        }
 
         // Select Count(MarkerId) as MarkerId,Category From CustomMarker Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By MarkerId Desc limit 20
         //static readonly FieldCache<CustomMarker> _CategoryCache = new FieldCache<CustomMarker>(nameof(Category))

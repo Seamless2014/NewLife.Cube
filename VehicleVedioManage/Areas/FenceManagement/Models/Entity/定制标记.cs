@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,7 +14,8 @@ namespace VehicleVedioManage.FenceManagement.Entity
     [Serializable]
     [DataObject]
     [Description("定制标记")]
-    [BindTable("CustomMarker", Description = "定制标记", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_CustomMarker_Name", true, "Name")]
+    [BindTable("CustomMarker", Description = "定制标记", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class CustomMarker
     {
         #region 属性
@@ -22,8 +23,8 @@ namespace VehicleVedioManage.FenceManagement.Entity
         /// <summary>标记编码</summary>
         [DisplayName("标记编码")]
         [Description("标记编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("MarkerId", "标记编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("MarkerId", "标记编码", "")]
         public Int32 MarkerId { get => _MarkerId; set { if (OnPropertyChanging("MarkerId", value)) { _MarkerId = value; OnPropertyChanged("MarkerId"); } } }
 
         private String _Name;
@@ -31,43 +32,39 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [DisplayName("名称")]
         [Description("名称")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Name", "名称", "nvarchar(255)", Master = true)]
+        [BindColumn("Name", "名称", "", Master = true)]
         public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
 
         private String _Code;
         /// <summary>代码</summary>
-        [Category("扩展信息")]
         [DisplayName("代码")]
         [Description("代码")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Code", "代码", "nvarchar(255)")]
+        [BindColumn("Code", "代码", "")]
         public String Code { get => _Code; set { if (OnPropertyChanging("Code", value)) { _Code = value; OnPropertyChanged("Code"); } } }
 
         private String _Owner;
         /// <summary>物主</summary>
-        [Category("扩展信息")]
         [DisplayName("物主")]
         [Description("物主")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Owner", "物主", "nvarchar(255)")]
+        [BindColumn("Owner", "物主", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
         private String _Phone;
         /// <summary>电话</summary>
-        [Category("扩展信息")]
         [DisplayName("电话")]
         [Description("电话")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Phone", "电话", "nvarchar(255)")]
+        [BindColumn("Phone", "电话", "")]
         public String Phone { get => _Phone; set { if (OnPropertyChanging("Phone", value)) { _Phone = value; OnPropertyChanged("Phone"); } } }
 
         private String _Mobile;
         /// <summary>手机号</summary>
-        [Category("扩展信息")]
         [DisplayName("手机号")]
         [Description("手机号")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Mobile", "手机号", "nvarchar(255)")]
+        [BindColumn("Mobile", "手机号", "")]
         public String Mobile { get => _Mobile; set { if (OnPropertyChanging("Mobile", value)) { _Mobile = value; OnPropertyChanged("Mobile"); } } }
 
         private String _Layer;
@@ -75,67 +72,63 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [DisplayName("层级")]
         [Description("层级")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Layer", "层级", "nvarchar(255)")]
+        [BindColumn("Layer", "层级", "")]
         public String Layer { get => _Layer; set { if (OnPropertyChanging("Layer", value)) { _Layer = value; OnPropertyChanged("Layer"); } } }
 
         private Int32 _DepId;
         /// <summary>部门编码</summary>
         [DisplayName("部门编码")]
         [Description("部门编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("DepId", "部门编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("DepId", "部门编码", "")]
         public Int32 DepId { get => _DepId; set { if (OnPropertyChanging("DepId", value)) { _DepId = value; OnPropertyChanged("DepId"); } } }
 
         private String _Office;
         /// <summary>办公</summary>
-        [Category("扩展信息")]
         [DisplayName("办公")]
         [Description("办公")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Office", "办公", "nvarchar(255)")]
+        [BindColumn("Office", "办公", "")]
         public String Office { get => _Office; set { if (OnPropertyChanging("Office", value)) { _Office = value; OnPropertyChanged("Office"); } } }
 
         private Double _Longitude;
         /// <summary>经度</summary>
         [DisplayName("经度")]
         [Description("经度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Longitude", "经度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Longitude", "经度", "")]
         public Double Longitude { get => _Longitude; set { if (OnPropertyChanging("Longitude", value)) { _Longitude = value; OnPropertyChanged("Longitude"); } } }
 
         private Double _Latitude;
         /// <summary>纬度</summary>
         [DisplayName("纬度")]
         [Description("纬度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Latitude", "纬度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Latitude", "纬度", "")]
         public Double Latitude { get => _Latitude; set { if (OnPropertyChanging("Latitude", value)) { _Latitude = value; OnPropertyChanged("Latitude"); } } }
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
-        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
-        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
-        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TenantId", "租户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
         private Boolean _IsEnclosure;
@@ -143,24 +136,23 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [DisplayName("是否封闭")]
         [Description("是否封闭")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("IsEnclosure", "是否封闭", "bit")]
+        [BindColumn("IsEnclosure", "是否封闭", "")]
         public Boolean IsEnclosure { get => _IsEnclosure; set { if (OnPropertyChanging("IsEnclosure", value)) { _IsEnclosure = value; OnPropertyChanged("IsEnclosure"); } } }
 
         private Int32 _Scope;
         /// <summary>范围</summary>
         [DisplayName("范围")]
         [Description("范围")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("Scope", "范围", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Scope", "范围", "")]
         public Int32 Scope { get => _Scope; set { if (OnPropertyChanging("Scope", value)) { _Scope = value; OnPropertyChanged("Scope"); } } }
 
         private String _Remark;
         /// <summary>备注</summary>
-        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 500)]
-        [BindColumn("Remark", "备注", "nvarchar(500)")]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Boolean _Fixed;
@@ -168,7 +160,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [DisplayName("是否固定")]
         [Description("是否固定")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Fixed", "是否固定", "bit")]
+        [BindColumn("Fixed", "是否固定", "")]
         public Boolean Fixed { get => _Fixed; set { if (OnPropertyChanging("Fixed", value)) { _Fixed = value; OnPropertyChanged("Fixed"); } } }
         #endregion
 

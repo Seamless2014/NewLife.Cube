@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,7 +14,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
     [Serializable]
     [DataObject]
     [Description("GPS里程")]
-    [BindTable("GpsMileage", Description = "GPS里程", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_GpsMileage_PlateNo", true, "PlateNo")]
+    [BindTable("GpsMileage", Description = "GPS里程", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class GpsMileage
     {
         #region 属性
@@ -22,132 +23,128 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>编码</summary>
         [DisplayName("编码")]
         [Description("编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("Id", "编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("Id", "编码", "")]
         public Int32 Id { get => _Id; set { if (OnPropertyChanging("Id", value)) { _Id = value; OnPropertyChanged("Id"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private Byte _Deleted;
         /// <summary>删除</summary>
-        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("Deleted", "删除", "tinyint")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Deleted", "删除", "")]
         public Byte Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private String _Owner;
         /// <summary>物主</summary>
-        [Category("扩展信息")]
         [DisplayName("物主")]
         [Description("物主")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Owner", "物主", "varchar(255)")]
+        [DataObjectField(false, false, true, 30)]
+        [BindColumn("Owner", "物主", "varchar(30)")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
         private String _Remark;
         /// <summary>备注</summary>
-        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "varchar(255)")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "varchar(500)")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
-        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
-        [DataObjectField(false, false, false, 10)]
-        [BindColumn("TenantId", "租户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
         private Double _GasLastComp;
         /// <summary>油气最后比较</summary>
         [DisplayName("油气最后比较")]
         [Description("油气最后比较")]
-        [DataObjectField(false, false, false, 53)]
-        [BindColumn("GasLastComp", "油气最后比较", "float")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("GasLastComp", "油气最后比较", "")]
         public Double GasLastComp { get => _GasLastComp; set { if (OnPropertyChanging("GasLastComp", value)) { _GasLastComp = value; OnPropertyChanged("GasLastComp"); } } }
 
         private Double _GasLastDay;
         /// <summary>油气最后天数</summary>
         [DisplayName("油气最后天数")]
         [Description("油气最后天数")]
-        [DataObjectField(false, false, false, 53)]
-        [BindColumn("GasLastDay", "油气最后天数", "float")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("GasLastDay", "油气最后天数", "")]
         public Double GasLastDay { get => _GasLastDay; set { if (OnPropertyChanging("GasLastDay", value)) { _GasLastDay = value; OnPropertyChanged("GasLastDay"); } } }
 
         private Double _GasLastHour;
         /// <summary>油气最后小时数</summary>
         [DisplayName("油气最后小时数")]
         [Description("油气最后小时数")]
-        [DataObjectField(false, false, false, 53)]
-        [BindColumn("GasLastHour", "油气最后小时数", "float")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("GasLastHour", "油气最后小时数", "")]
         public Double GasLastHour { get => _GasLastHour; set { if (OnPropertyChanging("GasLastHour", value)) { _GasLastHour = value; OnPropertyChanged("GasLastHour"); } } }
 
         private Double _GasLastMonth;
         /// <summary>油气最后月数</summary>
         [DisplayName("油气最后月数")]
         [Description("油气最后月数")]
-        [DataObjectField(false, false, false, 53)]
-        [BindColumn("GasLastMonth", "油气最后月数", "float")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("GasLastMonth", "油气最后月数", "")]
         public Double GasLastMonth { get => _GasLastMonth; set { if (OnPropertyChanging("GasLastMonth", value)) { _GasLastMonth = value; OnPropertyChanged("GasLastMonth"); } } }
 
         private DateTime _LastCompTime;
         /// <summary>最后比较时间</summary>
         [DisplayName("最后比较时间")]
         [Description("最后比较时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("LastCompTime", "最后比较时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("LastCompTime", "最后比较时间", "", Precision = 0, Scale = 3)]
         public DateTime LastCompTime { get => _LastCompTime; set { if (OnPropertyChanging("LastCompTime", value)) { _LastCompTime = value; OnPropertyChanged("LastCompTime"); } } }
 
         private Double _MileageLastComp;
         /// <summary>最后比较里程</summary>
         [DisplayName("最后比较里程")]
         [Description("最后比较里程")]
-        [DataObjectField(false, false, false, 53)]
-        [BindColumn("MileageLastComp", "最后比较里程", "float")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("MileageLastComp", "最后比较里程", "")]
         public Double MileageLastComp { get => _MileageLastComp; set { if (OnPropertyChanging("MileageLastComp", value)) { _MileageLastComp = value; OnPropertyChanged("MileageLastComp"); } } }
 
         private Double _MileageLastDay;
         /// <summary>里程最后天数</summary>
         [DisplayName("里程最后天数")]
         [Description("里程最后天数")]
-        [DataObjectField(false, false, false, 53)]
-        [BindColumn("MileageLastDay", "里程最后天数", "float")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("MileageLastDay", "里程最后天数", "")]
         public Double MileageLastDay { get => _MileageLastDay; set { if (OnPropertyChanging("MileageLastDay", value)) { _MileageLastDay = value; OnPropertyChanged("MileageLastDay"); } } }
 
         private Double _MileageLastHour;
         /// <summary>里程最后小时数</summary>
         [DisplayName("里程最后小时数")]
         [Description("里程最后小时数")]
-        [DataObjectField(false, false, false, 53)]
-        [BindColumn("MileageLastHour", "里程最后小时数", "float")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("MileageLastHour", "里程最后小时数", "")]
         public Double MileageLastHour { get => _MileageLastHour; set { if (OnPropertyChanging("MileageLastHour", value)) { _MileageLastHour = value; OnPropertyChanged("MileageLastHour"); } } }
 
         private Double _MileageLastMonth;
         /// <summary>里程最后月数</summary>
         [DisplayName("里程最后月数")]
         [Description("里程最后月数")]
-        [DataObjectField(false, false, false, 53)]
-        [BindColumn("MileageLastMonth", "里程最后月数", "float")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("MileageLastMonth", "里程最后月数", "")]
         public Double MileageLastMonth { get => _MileageLastMonth; set { if (OnPropertyChanging("MileageLastMonth", value)) { _MileageLastMonth = value; OnPropertyChanged("MileageLastMonth"); } } }
 
         private String _PlateNo;
         /// <summary>车牌号</summary>
         [DisplayName("车牌号")]
         [Description("车牌号")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("PlateNo", "车牌号", "varchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("PlateNo", "车牌号", "varchar(20)")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
         #endregion
 

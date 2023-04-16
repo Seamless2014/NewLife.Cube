@@ -119,19 +119,60 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             //return Find(_.FunctionId == functionId);
         }
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体对象</returns>
+        public static MileageStatistic FindByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return Find(_.PlateNo == plateNo);
+        }
+
+        /// <summary>根据部门名称、车牌号查找</summary>
+        /// <param name="depName">部门名称</param>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体列表</returns>
+        public static IList<MileageStatistic> FindAllByDepNameAndPlateNo(String depName, String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.DepName.EqualIgnoreCase(depName) && e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return FindAll(_.DepName == depName & _.PlateNo == plateNo);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="depName">部门名称</param>
+        /// <param name="start">创建时间开始</param>
+        /// <param name="end">创建时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<MileageStatistic> Search(String plateNo, String depName, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
-        // Select Count(FunctionId) as FunctionId,Category From MileageStatistic Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By FunctionId Desc limit 20
-        //static readonly FieldCache<MileageStatistic> _CategoryCache = new FieldCache<MileageStatistic>(nameof(Category))
-        //{
-        //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
-        //};
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!depName.IsNullOrEmpty()) exp &= _.DepName == depName;
+            exp &= _.CreateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.IntervalDescr.Contains(key) | _.DepName.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
 
-        ///// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
-        ///// <returns></returns>
-        //public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
+            return FindAll(exp, page);
+        }
+
+        // Select Count(FunctionId) as FunctionId,DepName From MileageStatistic Where CreateTime>'2020-01-24 00:00:00' Group By DepName Order By FunctionId Desc limit 20
+        static readonly FieldCache<MileageStatistic> _DepNameCache = new FieldCache<MileageStatistic>(nameof(DepName))
+        {
+            //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取部门名称列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetDepNameList() => _DepNameCache.FindAllName();
         #endregion
 
         #region 业务操作

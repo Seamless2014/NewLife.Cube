@@ -113,9 +113,36 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             //return Find(_.DriverId == driverId);
         }
+        /// <summary>根据驾驶员姓名查找</summary>
+        /// <param name="driverName">驾驶员姓名</param>
+        /// <returns>实体对象</returns>
+        public static DriverRecord FindByDriverName(String driverName)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.DriverName.EqualIgnoreCase(driverName));
+
+            return Find(_.DriverName == driverName);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="driverName">驾驶员姓名</param>
+        /// <param name="start">创建时间开始</param>
+        /// <param name="end">创建时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<DriverRecord> Search(String driverName, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!driverName.IsNullOrEmpty()) exp &= _.DriverName == driverName;
+            exp &= _.CreateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.DriverName.Contains(key) | _.CertificationCode.Contains(key) | _.AgencyName.Contains(key) | _.ValidateDate.Contains(key) | _.Remark.Contains(key);
+
+            return FindAll(exp, page);
+        }
 
         // Select Count(DriverId) as DriverId,Category From DriverRecord Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By DriverId Desc limit 20
         //static readonly FieldCache<DriverRecord> _CategoryCache = new FieldCache<DriverRecord>(nameof(Category))

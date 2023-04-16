@@ -10,11 +10,12 @@ using XCode.DataAccessLayer;
 
 namespace VehicleVedioManage.ReportStatistics.Entity
 {
-    /// <summary>用户GPS实时数据</summary>
+    /// <summary>实时用户</summary>
     [Serializable]
     [DataObject]
     [Description("实时用户")]
-    [BindTable("UserGpsRealData", Description = "实时用户", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_UserGpsRealData_UserName", true, "UserName")]
+    [BindTable("UserGpsRealData", Description = "实时用户", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class UserGpsRealData
     {
         #region 属性
@@ -22,80 +23,80 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>编号</summary>
         [DisplayName("编号")]
         [Description("编号")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("ID", "编号", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("ID", "编号", "")]
         public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private Int32 _UserId;
         /// <summary>用户编码</summary>
         [DisplayName("用户编码")]
         [Description("用户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("UserId", "用户编码", "int")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("UserId", "用户编码", "")]
         public Int32 UserId { get => _UserId; set { if (OnPropertyChanging("UserId", value)) { _UserId = value; OnPropertyChanged("UserId"); } } }
 
         private Double _Accuracy;
         /// <summary>精确程度</summary>
         [DisplayName("精确程度")]
         [Description("精确程度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Accuracy", "精确程度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Accuracy", "精确程度", "")]
         public Double Accuracy { get => _Accuracy; set { if (OnPropertyChanging("Accuracy", value)) { _Accuracy = value; OnPropertyChanged("Accuracy"); } } }
 
         private String _Location;
         /// <summary>位置</summary>
         [DisplayName("位置")]
         [Description("位置")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Location", "位置", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 100)]
+        [BindColumn("Location", "位置", "")]
         public String Location { get => _Location; set { if (OnPropertyChanging("Location", value)) { _Location = value; OnPropertyChanged("Location"); } } }
 
         private Int32 _Direction;
         /// <summary>方向</summary>
         [DisplayName("方向")]
         [Description("方向")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("Direction", "方向", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Direction", "方向", "")]
         public Int32 Direction { get => _Direction; set { if (OnPropertyChanging("Direction", value)) { _Direction = value; OnPropertyChanged("Direction"); } } }
 
         private DateTime _SendTime;
         /// <summary>发送时间</summary>
         [DisplayName("发送时间")]
         [Description("发送时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("SendTime", "发送时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("SendTime", "发送时间", "", Precision = 0, Scale = 3)]
         public DateTime SendTime { get => _SendTime; set { if (OnPropertyChanging("SendTime", value)) { _SendTime = value; OnPropertyChanged("SendTime"); } } }
 
         private Double _Longitude;
         /// <summary>经度</summary>
         [DisplayName("经度")]
         [Description("经度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Longitude", "经度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Longitude", "经度", "")]
         public Double Longitude { get => _Longitude; set { if (OnPropertyChanging("Longitude", value)) { _Longitude = value; OnPropertyChanged("Longitude"); } } }
 
         private Double _Latitude;
         /// <summary>纬度</summary>
         [DisplayName("纬度")]
         [Description("纬度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Latitude", "纬度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Latitude", "纬度", "")]
         public Double Latitude { get => _Latitude; set { if (OnPropertyChanging("Latitude", value)) { _Latitude = value; OnPropertyChanged("Latitude"); } } }
 
         private DateTime _CreateDate;
         /// <summary>创建时间</summary>
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateDate", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateDate", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateDate { get => _CreateDate; set { if (OnPropertyChanging("CreateDate", value)) { _CreateDate = value; OnPropertyChanged("CreateDate"); } } }
 
         private Double _Velocity;
         /// <summary>速度</summary>
         [DisplayName("速度")]
         [Description("速度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Velocity", "速度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Velocity", "速度", "")]
         public Double Velocity { get => _Velocity; set { if (OnPropertyChanging("Velocity", value)) { _Velocity = value; OnPropertyChanged("Velocity"); } } }
         #endregion
 
@@ -143,7 +144,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         #endregion
 
         #region 字段名
-        /// <summary>取得用户GPS实时数据字段信息的快捷方式</summary>
+        /// <summary>取得实时用户字段信息的快捷方式</summary>
         public partial class _
         {
             /// <summary>编号</summary>
@@ -182,7 +183,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             static Field FindByName(String name) => Meta.Table.FindByName(name);
         }
 
-        /// <summary>取得用户GPS实时数据字段名称的快捷方式</summary>
+        /// <summary>取得实时用户字段名称的快捷方式</summary>
         public partial class __
         {
             /// <summary>编号</summary>

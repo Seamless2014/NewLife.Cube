@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,16 +14,17 @@ namespace VehicleVedioManage.FenceManagement.Entity
     [Serializable]
     [DataObject]
     [Description("路段")]
-    [BindTable("RouteSegment", Description = "路段", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_RouteSegment_Name", true, "Name")]
+    [BindTable("RouteSegment", Description = "路段", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class RouteSegment
     {
         #region 属性
         private Int32 _SegId;
-        /// <summary>路段编码</summary>
-        [DisplayName("线段编码")]
-        [Description("线段编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("SegId", "线段编码", "int")]
+        /// <summary>编码</summary>
+        [DisplayName("编码")]
+        [Description("编码")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("SegId", "编码", "")]
         public Int32 SegId { get => _SegId; set { if (OnPropertyChanging("SegId", value)) { _SegId = value; OnPropertyChanged("SegId"); } } }
 
         private String _Name;
@@ -31,91 +32,87 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [DisplayName("名称")]
         [Description("名称")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Name", "名称", "nvarchar(255)", Master = true)]
+        [BindColumn("Name", "名称", "", Master = true)]
         public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
 
         private Int32 _RouteId;
         /// <summary>路线编码</summary>
         [DisplayName("路线编码")]
         [Description("路线编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("RouteId", "路线编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("RouteId", "路线编码", "")]
         public Int32 RouteId { get => _RouteId; set { if (OnPropertyChanging("RouteId", value)) { _RouteId = value; OnPropertyChanged("RouteId"); } } }
 
         private String _StrPoints;
         /// <summary>点位</summary>
         [DisplayName("点位")]
         [Description("点位")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("StrPoints", "点位", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 2550)]
+        [BindColumn("StrPoints", "点位", "")]
         public String StrPoints { get => _StrPoints; set { if (OnPropertyChanging("StrPoints", value)) { _StrPoints = value; OnPropertyChanged("StrPoints"); } } }
 
         private Int32 _StartSegId;
         /// <summary>起始路段编码</summary>
         [DisplayName("起始路段编码")]
         [Description("起始路段编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("StartSegId", "起始路段编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("StartSegId", "起始路段编码", "")]
         public Int32 StartSegId { get => _StartSegId; set { if (OnPropertyChanging("StartSegId", value)) { _StartSegId = value; OnPropertyChanged("StartSegId"); } } }
 
         private Int32 _EndSegId;
         /// <summary>结束路段编码</summary>
         [DisplayName("结束路段编码")]
         [Description("结束路段编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("EndSegId", "结束路段编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("EndSegId", "结束路段编码", "")]
         public Int32 EndSegId { get => _EndSegId; set { if (OnPropertyChanging("EndSegId", value)) { _EndSegId = value; OnPropertyChanged("EndSegId"); } } }
 
         private Double _MaxSpeed;
         /// <summary>最大速度</summary>
         [DisplayName("最大速度")]
         [Description("最大速度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("MaxSpeed", "最大速度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MaxSpeed", "最大速度", "")]
         public Double MaxSpeed { get => _MaxSpeed; set { if (OnPropertyChanging("MaxSpeed", value)) { _MaxSpeed = value; OnPropertyChanged("MaxSpeed"); } } }
 
         private Int32 _Delay;
         /// <summary>延时多久</summary>
         [DisplayName("延时多久")]
         [Description("延时多久")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("Delay", "延时多久", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Delay", "延时多久", "")]
         public Int32 Delay { get => _Delay; set { if (OnPropertyChanging("Delay", value)) { _Delay = value; OnPropertyChanged("Delay"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
-        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private String _Remark;
         /// <summary>备注</summary>
-        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "nvarchar(255)")]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
-        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private String _Owner;
         /// <summary>拥有者</summary>
-        [Category("扩展信息")]
         [DisplayName("拥有者")]
         [Description("拥有者")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Owner", "拥有者", "nvarchar(255)")]
+        [BindColumn("Owner", "拥有者", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
         #endregion
 
@@ -170,7 +167,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
         /// <summary>取得路段字段信息的快捷方式</summary>
         public partial class _
         {
-            /// <summary>路段编码</summary>
+            /// <summary>编码</summary>
             public static readonly Field SegId = FindByName("SegId");
 
             /// <summary>名称</summary>
@@ -212,7 +209,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
         /// <summary>取得路段字段名称的快捷方式</summary>
         public partial class __
         {
-            /// <summary>路段编码</summary>
+            /// <summary>编码</summary>
             public const String SegId = "SegId";
 
             /// <summary>名称</summary>

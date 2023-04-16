@@ -117,10 +117,36 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             //return Find(_.Id == id);
         }
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体对象</returns>
+        public static GpsMileage FindByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return Find(_.PlateNo == plateNo);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="start">创建时间开始</param>
+        /// <param name="end">创建时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<GpsMileage> Search(String plateNo, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            exp &= _.CreateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.Owner.Contains(key) | _.Remark.Contains(key) | _.PlateNo.Contains(key);
+
+            return FindAll(exp, page);
+        }
         // Select Count(Id) as Id,Category From GpsMileage Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By Id Desc limit 20
         //static readonly FieldCache<GpsMileage> _CategoryCache = new FieldCache<GpsMileage>(nameof(Category))
         //{

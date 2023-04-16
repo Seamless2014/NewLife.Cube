@@ -127,10 +127,36 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             //return Find(_.Id == id);
         }
+        /// <summary>根据部门名称查找</summary>
+        /// <param name="depName">部门名称</param>
+        /// <returns>实体对象</returns>
+        public static OnlineStatic FindByDepName(String depName)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.DepName.EqualIgnoreCase(depName));
+
+            return Find(_.DepName == depName);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="depName">部门名称</param>
+        /// <param name="start">创建时间开始</param>
+        /// <param name="end">创建时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<OnlineStatic> Search(String depName, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
+            if (!depName.IsNullOrEmpty()) exp &= _.DepName == depName;
+            exp &= _.CreateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.DepName.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
+
+            return FindAll(exp, page);
+        }
         // Select Count(Id) as Id,Category From OnlineStatic Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By Id Desc limit 20
         //static readonly FieldCache<OnlineStatic> _CategoryCache = new FieldCache<OnlineStatic>(nameof(Category))
         //{

@@ -37,6 +37,10 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
             // 过滤器 UserModule、TimeModule、IPModule
             Meta.Modules.Add<TimeModule>();
+            // 单对象缓存
+            var sc = Meta.SingleCache;
+            sc.FindSlaveKeyMethod = k => Find(_.Name == k);
+            sc.GetSlaveKeyMethod = e => e.Name;
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -136,19 +140,64 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
             //return Find(_.EnclosureId == enclosureId);
         }
+        /// <summary>根据名称查找</summary>
+        /// <param name="name">名称</param>
+        /// <returns>实体对象</returns>
+        public static ElectronicFence FindByName(String name)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name.EqualIgnoreCase(name));
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(name) as ElectronicFence;
+
+            return Find(_.Name == name);
+        }
+
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体列表</returns>
+        public static IList<ElectronicFence> FindAllByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return FindAll(_.PlateNo == plateNo);
+        }
         #endregion
 
         #region 高级查询
 
-        // Select Count(EnclosureId) as EnclosureId,Category From ElectronicFence Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By EnclosureId Desc limit 20
-        //static readonly FieldCache<ElectronicFence> _CategoryCache = new FieldCache<ElectronicFence>(nameof(Category))
-        //{
-        //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
-        //};
+        /// <summary>高级查询</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="name">名称</param>
+        /// <param name="endDate">结束时间</param>
+        /// <param name="start">开始时间开始</param>
+        /// <param name="end">开始时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<ElectronicFence> Search(String plateNo, String name, DateTime endDate, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
-        ///// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
-        ///// <returns></returns>
-        //public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!name.IsNullOrEmpty()) exp &= _.Name == name;
+            exp &= _.StartDate.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.MapType.Contains(key) | _.PlateNo.Contains(key) | _.Name.Contains(key) | _.Points.Contains(key) | _.EnclosureType.Contains(key) | _.AlarmType.Contains(key) | _.Icon.Contains(key) | _.Status.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
+
+            return FindAll(exp, page);
+        }
+
+        // Select Count(EnclosureId) as EnclosureId,PlateNo From ElectronicFence Where EndDate>'2020-01-24 00:00:00' Group By PlateNo Order By EnclosureId Desc limit 20
+        static readonly FieldCache<ElectronicFence> _PlateNoCache = new FieldCache<ElectronicFence>(nameof(PlateNo))
+        {
+            //Where = _.EndDate > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取车牌号列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetPlateNoList() => _PlateNoCache.FindAllName();
         #endregion
 
         #region 业务操作

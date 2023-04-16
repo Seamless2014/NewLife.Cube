@@ -147,19 +147,49 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             //return Find(_.AlarmId == alarmId);
         }
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体列表</returns>
+        public static IList<AlarmRecord> FindAllByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return FindAll(_.PlateNo == plateNo);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="endTime">结束时间</param>
+        /// <param name="alarmType">报警类型</param>
+        /// <param name="start">起始时间开始</param>
+        /// <param name="end">起始时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<AlarmRecord> Search(String plateNo, DateTime endTime, String alarmType, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
-        // Select Count(AlarmId) as AlarmId,Category From AlarmRecord Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By AlarmId Desc limit 20
-        //static readonly FieldCache<AlarmRecord> _CategoryCache = new FieldCache<AlarmRecord>(nameof(Category))
-        //{
-        //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
-        //};
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!alarmType.IsNullOrEmpty()) exp &= _.AlarmType == alarmType;
+            exp &= _.StartTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.Status.Contains(key) | _.Driver.Contains(key) | _.Location.Contains(key) | _.Location1.Contains(key) | _.Type.Contains(key) | _.ChildType.Contains(key) | _.ValveState.Contains(key) | _.ValveState1.Contains(key) | _.VideoFileName.Contains(key) | _.Flag.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key) | _.ProcessedUserName.Contains(key) | _.AlarmSource.Contains(key) | _.AlarmType.Contains(key);
 
-        ///// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
-        ///// <returns></returns>
-        //public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
+            return FindAll(exp, page);
+        }
+
+        // Select Count(AlarmId) as AlarmId,PlateNo From AlarmRecord Where EndTime>'2020-01-24 00:00:00' Group By PlateNo Order By AlarmId Desc limit 20
+        static readonly FieldCache<AlarmRecord> _PlateNoCache = new FieldCache<AlarmRecord>(nameof(PlateNo))
+        {
+            //Where = _.EndTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取车牌号列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetPlateNoList() => _PlateNoCache.FindAllName();
         #endregion
 
         #region 业务操作

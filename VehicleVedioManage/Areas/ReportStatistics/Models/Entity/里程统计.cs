@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,112 +14,114 @@ namespace VehicleVedioManage.ReportStatistics.Entity
     [Serializable]
     [DataObject]
     [Description("里程统计")]
-    [BindTable("MileageStatistic", Description = "里程统计", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_MileageStatistic_PlateNo", true, "PlateNo")]
+    [BindIndex("IX_MileageStatistic_DepName_PlateNo", false, "DepName,PlateNo")]
+    [BindTable("MileageStatistic", Description = "里程统计", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class MileageStatistic
     {
         #region 属性
         private Int32 _FunctionId;
-        /// <summary>功能编码</summary>
-        [DisplayName("功能编码")]
-        [Description("功能编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("FunctionId", "功能编码", "int")]
+        /// <summary>编码</summary>
+        [DisplayName("编码")]
+        [Description("编码")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("FunctionId", "编码", "")]
         public Int32 FunctionId { get => _FunctionId; set { if (OnPropertyChanging("FunctionId", value)) { _FunctionId = value; OnPropertyChanged("FunctionId"); } } }
 
         private String _PlateNo;
         /// <summary>车牌号</summary>
         [DisplayName("车牌号")]
         [Description("车牌号")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("PlateNo", "车牌号", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("PlateNo", "车牌号", "")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
         private String _IntervalDescr;
         /// <summary>间隔描述</summary>
         [DisplayName("间隔描述")]
         [Description("间隔描述")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("IntervalDescr", "间隔描述", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 50)]
+        [BindColumn("IntervalDescr", "间隔描述", "")]
         public String IntervalDescr { get => _IntervalDescr; set { if (OnPropertyChanging("IntervalDescr", value)) { _IntervalDescr = value; OnPropertyChanged("IntervalDescr"); } } }
 
         private Double _Hour;
         /// <summary>小时</summary>
         [DisplayName("小时")]
         [Description("小时")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Hour", "小时", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Hour", "小时", "")]
         public Double Hour { get => _Hour; set { if (OnPropertyChanging("Hour", value)) { _Hour = value; OnPropertyChanged("Hour"); } } }
 
         private DateTime _StaticDate;
         /// <summary>统计日期</summary>
         [DisplayName("统计日期")]
         [Description("统计日期")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("StaticDate", "统计日期", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("StaticDate", "统计日期", "", Precision = 0, Scale = 3)]
         public DateTime StaticDate { get => _StaticDate; set { if (OnPropertyChanging("StaticDate", value)) { _StaticDate = value; OnPropertyChanged("StaticDate"); } } }
 
         private Int32 _IntervalType;
         /// <summary>间隔类型</summary>
         [DisplayName("间隔类型")]
         [Description("间隔类型")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("IntervalType", "间隔类型", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("IntervalType", "间隔类型", "")]
         public Int32 IntervalType { get => _IntervalType; set { if (OnPropertyChanging("IntervalType", value)) { _IntervalType = value; OnPropertyChanged("IntervalType"); } } }
 
         private Double _Mileage;
         /// <summary>里程</summary>
         [DisplayName("里程")]
         [Description("里程")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Mileage", "里程", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Mileage", "里程", "")]
         public Double Mileage { get => _Mileage; set { if (OnPropertyChanging("Mileage", value)) { _Mileage = value; OnPropertyChanged("Mileage"); } } }
 
         private Double _Oil;
         /// <summary>油气</summary>
         [DisplayName("油气")]
         [Description("油气")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Oil", "油气", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Oil", "油气", "")]
         public Double Oil { get => _Oil; set { if (OnPropertyChanging("Oil", value)) { _Oil = value; OnPropertyChanged("Oil"); } } }
 
         private Double _Oil1;
         /// <summary>油气1</summary>
         [DisplayName("油气1")]
         [Description("油气1")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Oil1", "油气1", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Oil1", "油气1", "")]
         public Double Oil1 { get => _Oil1; set { if (OnPropertyChanging("Oil1", value)) { _Oil1 = value; OnPropertyChanged("Oil1"); } } }
 
         private Double _Oil2;
         /// <summary>油气2</summary>
         [DisplayName("油气2")]
         [Description("油气2")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Oil2", "油气2", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Oil2", "油气2", "")]
         public Double Oil2 { get => _Oil2; set { if (OnPropertyChanging("Oil2", value)) { _Oil2 = value; OnPropertyChanged("Oil2"); } } }
 
         private Double _Mileage1;
         /// <summary>里程1</summary>
         [DisplayName("里程1")]
         [Description("里程1")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Mileage1", "里程1", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Mileage1", "里程1", "")]
         public Double Mileage1 { get => _Mileage1; set { if (OnPropertyChanging("Mileage1", value)) { _Mileage1 = value; OnPropertyChanged("Mileage1"); } } }
 
         private Double _Mileage2;
         /// <summary>里程2</summary>
         [DisplayName("里程2")]
         [Description("里程2")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Mileage2", "里程2", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Mileage2", "里程2", "")]
         public Double Mileage2 { get => _Mileage2; set { if (OnPropertyChanging("Mileage2", value)) { _Mileage2 = value; OnPropertyChanged("Mileage2"); } } }
 
         private String _DepName;
         /// <summary>部门名称</summary>
         [DisplayName("部门名称")]
         [Description("部门名称")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("DepName", "部门名称", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 50)]
+        [BindColumn("DepName", "部门名称", "")]
         public String DepName { get => _DepName; set { if (OnPropertyChanging("DepName", value)) { _DepName = value; OnPropertyChanged("DepName"); } } }
 
         private Int32 _TenantId;
@@ -127,8 +129,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TenantId", "租户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
         private DateTime _CreateTime;
@@ -136,8 +138,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private String _Remark;
@@ -145,8 +147,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Boolean _Deleted;
@@ -155,7 +157,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private String _Owner;
@@ -163,8 +165,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [Category("扩展信息")]
         [DisplayName("物主")]
         [Description("物主")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Owner", "物主", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("Owner", "物主", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
         #endregion
 
@@ -231,7 +233,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>取得里程统计字段信息的快捷方式</summary>
         public partial class _
         {
-            /// <summary>功能编码</summary>
+            /// <summary>编码</summary>
             public static readonly Field FunctionId = FindByName("FunctionId");
 
             /// <summary>车牌号</summary>
@@ -291,7 +293,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>取得里程统计字段名称的快捷方式</summary>
         public partial class __
         {
-            /// <summary>功能编码</summary>
+            /// <summary>编码</summary>
             public const String FunctionId = "FunctionId";
 
             /// <summary>车牌号</summary>

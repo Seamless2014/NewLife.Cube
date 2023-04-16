@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,7 +14,9 @@ namespace VehicleVedioManage.ReportStatistics.Entity
     [Serializable]
     [DataObject]
     [Description("实时数据")]
-    [BindTable("GPSRealData", Description = "实时数据", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_GPSRealData_PlateNo", true, "PlateNo")]
+    [BindIndex("IX_GPSRealData_PlateNo_SendTime", false, "PlateNo,SendTime")]
+    [BindTable("GPSRealData", Description = "实时数据", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class GPSRealData
     {
         #region 属性
@@ -22,103 +24,103 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>编号</summary>
         [DisplayName("编号")]
         [Description("编号")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("ID", "编号", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("ID", "编号", "")]
         public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private String _SimNo;
         /// <summary>Sim卡</summary>
         [DisplayName("Sim卡")]
         [Description("Sim卡")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("SimNo", "Sim卡", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("SimNo", "Sim卡", "")]
         public String SimNo { get => _SimNo; set { if (OnPropertyChanging("SimNo", value)) { _SimNo = value; OnPropertyChanged("SimNo"); } } }
 
         private String _PlateNo;
         /// <summary>车牌号</summary>
         [DisplayName("车牌号")]
         [Description("车牌号")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("PlateNo", "车牌号", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("PlateNo", "车牌号", "")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
         private String _Location;
         /// <summary>位置</summary>
         [DisplayName("位置")]
         [Description("位置")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Location", "位置", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 100)]
+        [BindColumn("Location", "位置", "")]
         public String Location { get => _Location; set { if (OnPropertyChanging("Location", value)) { _Location = value; OnPropertyChanged("Location"); } } }
 
         private DateTime _SendTime;
         /// <summary>发送时间</summary>
         [DisplayName("发送时间")]
         [Description("发送时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("SendTime", "发送时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("SendTime", "发送时间", "", Precision = 0, Scale = 3)]
         public DateTime SendTime { get => _SendTime; set { if (OnPropertyChanging("SendTime", value)) { _SendTime = value; OnPropertyChanged("SendTime"); } } }
 
-        private double _Longitude;
+        private Decimal _Longitude;
         /// <summary>经度</summary>
         [DisplayName("经度")]
         [Description("经度")]
-        [DataObjectField(false, false, true, 18)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("Longitude", "经度", "numeric(18, 6)", Precision = 0, Scale = 6)]
-        public double Longitude { get => _Longitude; set { if (OnPropertyChanging("Longitude", value)) { _Longitude = value; OnPropertyChanged("Longitude"); } } }
+        public Decimal Longitude { get => _Longitude; set { if (OnPropertyChanging("Longitude", value)) { _Longitude = value; OnPropertyChanged("Longitude"); } } }
 
-        private double _Latitude;
+        private Decimal _Latitude;
         /// <summary>纬度</summary>
         [DisplayName("纬度")]
         [Description("纬度")]
-        [DataObjectField(false, false, true, 18)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("Latitude", "纬度", "numeric(18, 6)", Precision = 0, Scale = 6)]
-        public double Latitude { get => _Latitude; set { if (OnPropertyChanging("Latitude", value)) { _Latitude = value; OnPropertyChanged("Latitude"); } } }
+        public Decimal Latitude { get => _Latitude; set { if (OnPropertyChanging("Latitude", value)) { _Latitude = value; OnPropertyChanged("Latitude"); } } }
 
-        private double _Velocity;
+        private Decimal _Velocity;
         /// <summary>速度</summary>
         [DisplayName("速度")]
         [Description("速度")]
-        [DataObjectField(false, false, true, 18)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("Velocity", "速度", "numeric(18, 1)", Precision = 0, Scale = 1)]
-        public double Velocity { get => _Velocity; set { if (OnPropertyChanging("Velocity", value)) { _Velocity = value; OnPropertyChanged("Velocity"); } } }
+        public Decimal Velocity { get => _Velocity; set { if (OnPropertyChanging("Velocity", value)) { _Velocity = value; OnPropertyChanged("Velocity"); } } }
 
         private Int32 _Direction;
         /// <summary>方向</summary>
         [DisplayName("方向")]
         [Description("方向")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("Direction", "方向", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Direction", "方向", "")]
         public Int32 Direction { get => _Direction; set { if (OnPropertyChanging("Direction", value)) { _Direction = value; OnPropertyChanged("Direction"); } } }
 
         private String _Status;
         /// <summary>状态</summary>
         [DisplayName("状态")]
         [Description("状态")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Status", "状态", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("Status", "状态", "")]
         public String Status { get => _Status; set { if (OnPropertyChanging("Status", value)) { _Status = value; OnPropertyChanged("Status"); } } }
 
         private Decimal _Gas;
         /// <summary>油气</summary>
         [DisplayName("油气")]
         [Description("油气")]
-        [DataObjectField(false, false, true, 18)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("Gas", "油气", "numeric(18, 1)", Precision = 0, Scale = 1)]
         public Decimal Gas { get => _Gas; set { if (OnPropertyChanging("Gas", value)) { _Gas = value; OnPropertyChanged("Gas"); } } }
 
-        private double _Mileage;
+        private Decimal _Mileage;
         /// <summary>里程</summary>
         [DisplayName("里程")]
         [Description("里程")]
-        [DataObjectField(false, false, true, 18)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("Mileage", "里程", "numeric(18, 1)", Precision = 0, Scale = 1)]
-        public double Mileage { get => _Mileage; set { if (OnPropertyChanging("Mileage", value)) { _Mileage = value; OnPropertyChanged("Mileage"); } } }
+        public Decimal Mileage { get => _Mileage; set { if (OnPropertyChanging("Mileage", value)) { _Mileage = value; OnPropertyChanged("Mileage"); } } }
 
         private Decimal _RecordVelocity;
         /// <summary>行车记录仪速度</summary>
         [DisplayName("行车记录仪速度")]
         [Description("行车记录仪速度")]
-        [DataObjectField(false, false, true, 18)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("RecordVelocity", "行车记录仪速度", "numeric(18, 1)", Precision = 0, Scale = 1)]
         public Decimal RecordVelocity { get => _RecordVelocity; set { if (OnPropertyChanging("RecordVelocity", value)) { _RecordVelocity = value; OnPropertyChanged("RecordVelocity"); } } }
 
@@ -126,8 +128,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>剩余</summary>
         [DisplayName("剩余")]
         [Description("剩余")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Remain", "剩余", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Remain", "剩余", "")]
         public Double Remain { get => _Remain; set { if (OnPropertyChanging("Remain", value)) { _Remain = value; OnPropertyChanged("Remain"); } } }
 
         private Boolean _Online;
@@ -135,23 +137,23 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("在线")]
         [Description("在线")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Online", "在线", "bit")]
+        [BindColumn("Online", "在线", "")]
         public Boolean Online { get => _Online; set { if (OnPropertyChanging("Online", value)) { _Online = value; OnPropertyChanged("Online"); } } }
 
         private Int32 _Signal;
         /// <summary>信号</summary>
         [DisplayName("信号")]
         [Description("信号")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("Signal", "信号", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Signal", "信号", "")]
         public Int32 Signal { get => _Signal; set { if (OnPropertyChanging("Signal", value)) { _Signal = value; OnPropertyChanged("Signal"); } } }
 
         private String _AlarmState;
         /// <summary>报警状态</summary>
         [DisplayName("报警状态")]
         [Description("报警状态")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("AlarmState", "报警状态", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("AlarmState", "报警状态", "")]
         public String AlarmState { get => _AlarmState; set { if (OnPropertyChanging("AlarmState", value)) { _AlarmState = value; OnPropertyChanged("AlarmState"); } } }
 
         private String _DVRStatus;
@@ -159,177 +161,175 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("DVR状态")]
         [Description("DVR状态")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("DVRStatus", "DVR状态", "nvarchar(50)")]
+        [BindColumn("DVRStatus", "DVR状态", "")]
         public String DVRStatus { get => _DVRStatus; set { if (OnPropertyChanging("DVRStatus", value)) { _DVRStatus = value; OnPropertyChanged("DVRStatus"); } } }
 
         private Double _Altitude;
         /// <summary>海拔高度</summary>
         [DisplayName("海拔高度")]
         [Description("海拔高度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Altitude", "海拔高度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Altitude", "海拔高度", "")]
         public Double Altitude { get => _Altitude; set { if (OnPropertyChanging("Altitude", value)) { _Altitude = value; OnPropertyChanged("Altitude"); } } }
 
-        private Boolean _Valid;
+        private Boolean _IsValid;
         /// <summary>有效</summary>
         [DisplayName("有效")]
         [Description("有效")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("IsValid", "有效", "bit")]
-        public Boolean IsValid { get => _Valid; set { if (OnPropertyChanging("IsValid", value)) { _Valid = value; OnPropertyChanged("IsValid"); } } }
+        [BindColumn("IsValid", "有效", "")]
+        public Boolean IsValid { get => _IsValid; set { if (OnPropertyChanging("IsValid", value)) { _IsValid = value; OnPropertyChanged("IsValid"); } } }
 
         private Int32 _DepId;
         /// <summary>部门</summary>
         [DisplayName("部门")]
         [Description("部门")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("DepId", "部门", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("DepId", "部门", "")]
         public Int32 DepId { get => _DepId; set { if (OnPropertyChanging("DepId", value)) { _DepId = value; OnPropertyChanged("DepId"); } } }
 
         private Int32 _VehicleId;
         /// <summary>车辆编码</summary>
         [DisplayName("车辆编码")]
         [Description("车辆编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("VehicleId", "车辆编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("VehicleId", "车辆编码", "")]
         public Int32 VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
-        [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("UpdateTime", "更新时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("UpdateTime", "更新时间", "", Precision = 0, Scale = 3)]
         public DateTime UpdateTime { get => _UpdateTime; set { if (OnPropertyChanging("UpdateTime", value)) { _UpdateTime = value; OnPropertyChanged("UpdateTime"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
-        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private Int32 _EnclosureId;
         /// <summary>围栏编码</summary>
         [DisplayName("围栏编码")]
         [Description("围栏编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("EnclosureId", "围栏编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("EnclosureId", "围栏编码", "")]
         public Int32 EnclosureId { get => _EnclosureId; set { if (OnPropertyChanging("EnclosureId", value)) { _EnclosureId = value; OnPropertyChanged("EnclosureId"); } } }
 
         private Int32 _EnclosureType;
         /// <summary>围栏类型</summary>
         [DisplayName("围栏类型")]
         [Description("围栏类型")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("EnclosureType", "围栏类型", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("EnclosureType", "围栏类型", "")]
         public Int32 EnclosureType { get => _EnclosureType; set { if (OnPropertyChanging("EnclosureType", value)) { _EnclosureType = value; OnPropertyChanged("EnclosureType"); } } }
 
         private Int32 _EnclosureAlarm;
         /// <summary>围栏报警</summary>
         [DisplayName("围栏报警")]
         [Description("围栏报警")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("EnclosureAlarm", "围栏报警", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("EnclosureAlarm", "围栏报警", "")]
         public Int32 EnclosureAlarm { get => _EnclosureAlarm; set { if (OnPropertyChanging("EnclosureAlarm", value)) { _EnclosureAlarm = value; OnPropertyChanged("EnclosureAlarm"); } } }
 
         private Int32 _OverSpeedAreaType;
         /// <summary>超速区域类型</summary>
         [DisplayName("超速区域类型")]
         [Description("超速区域类型")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("OverSpeedAreaType", "超速区域类型", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("OverSpeedAreaType", "超速区域类型", "")]
         public Int32 OverSpeedAreaType { get => _OverSpeedAreaType; set { if (OnPropertyChanging("OverSpeedAreaType", value)) { _OverSpeedAreaType = value; OnPropertyChanged("OverSpeedAreaType"); } } }
 
         private Int32 _OverSpeedAreaId;
         /// <summary>超速区域编码</summary>
         [DisplayName("超速区域编码")]
         [Description("超速区域编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("OverSpeedAreaId", "超速区域编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("OverSpeedAreaId", "超速区域编码", "")]
         public Int32 OverSpeedAreaId { get => _OverSpeedAreaId; set { if (OnPropertyChanging("OverSpeedAreaId", value)) { _OverSpeedAreaId = value; OnPropertyChanged("OverSpeedAreaId"); } } }
 
         private Int32 _RouteSegmentId;
         /// <summary>路线段编码</summary>
         [DisplayName("路线段编码")]
         [Description("路线段编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("RouteSegmentId", "路线段编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("RouteSegmentId", "路线段编码", "")]
         public Int32 RouteSegmentId { get => _RouteSegmentId; set { if (OnPropertyChanging("RouteSegmentId", value)) { _RouteSegmentId = value; OnPropertyChanged("RouteSegmentId"); } } }
 
         private Int32 _RunTimeOnRoute;
         /// <summary>在路线上运行时间</summary>
         [DisplayName("在路线上运行时间")]
         [Description("在路线上运行时间")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("RunTimeOnRoute", "在路线上运行时间", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("RunTimeOnRoute", "在路线上运行时间", "")]
         public Int32 RunTimeOnRoute { get => _RunTimeOnRoute; set { if (OnPropertyChanging("RunTimeOnRoute", value)) { _RunTimeOnRoute = value; OnPropertyChanged("RunTimeOnRoute"); } } }
 
         private Int32 _RouteAlarmType;
         /// <summary>路线报警类型</summary>
         [DisplayName("路线报警类型")]
         [Description("路线报警类型")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("RouteAlarmType", "路线报警类型", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("RouteAlarmType", "路线报警类型", "")]
         public Int32 RouteAlarmType { get => _RouteAlarmType; set { if (OnPropertyChanging("RouteAlarmType", value)) { _RouteAlarmType = value; OnPropertyChanged("RouteAlarmType"); } } }
 
         private DateTime _OnlineDate;
         /// <summary>上线时间</summary>
         [DisplayName("上线时间")]
         [Description("上线时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("OnlineDate", "上线时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("OnlineDate", "上线时间", "", Precision = 0, Scale = 3)]
         public DateTime OnlineDate { get => _OnlineDate; set { if (OnPropertyChanging("OnlineDate", value)) { _OnlineDate = value; OnPropertyChanged("OnlineDate"); } } }
 
         private String _FuelLevelData;
         /// <summary>燃料等级数据</summary>
         [DisplayName("燃料等级数据")]
         [Description("燃料等级数据")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("FuelLevelData", "燃料等级数据", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("FuelLevelData", "燃料等级数据", "")]
         public String FuelLevelData { get => _FuelLevelData; set { if (OnPropertyChanging("FuelLevelData", value)) { _FuelLevelData = value; OnPropertyChanged("FuelLevelData"); } } }
 
         private String _FuelData;
         /// <summary>燃料数据</summary>
         [DisplayName("燃料数据")]
         [Description("燃料数据")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("FuelData", "燃料数据", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("FuelData", "燃料数据", "")]
         public String FuelData { get => _FuelData; set { if (OnPropertyChanging("FuelData", value)) { _FuelData = value; OnPropertyChanged("FuelData"); } } }
 
         private Int32 _AreaId;
         /// <summary>区域编码</summary>
         [DisplayName("区域编码")]
         [Description("区域编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("AreaId", "区域编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("AreaId", "区域编码", "")]
         public Int32 AreaId { get => _AreaId; set { if (OnPropertyChanging("AreaId", value)) { _AreaId = value; OnPropertyChanged("AreaId"); } } }
 
         private Int32 _AreaAlarm;
         /// <summary>区域报警</summary>
         [DisplayName("区域报警")]
         [Description("区域报警")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("AreaAlarm", "区域报警", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("AreaAlarm", "区域报警", "")]
         public Int32 AreaAlarm { get => _AreaAlarm; set { if (OnPropertyChanging("AreaAlarm", value)) { _AreaAlarm = value; OnPropertyChanged("AreaAlarm"); } } }
 
         private Int32 _AreaType;
         /// <summary>区域类型</summary>
         [DisplayName("区域类型")]
         [Description("区域类型")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("AreaType", "区域类型", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("AreaType", "区域类型", "")]
         public Int32 AreaType { get => _AreaType; set { if (OnPropertyChanging("AreaType", value)) { _AreaType = value; OnPropertyChanged("AreaType"); } } }
 
         private Int32 _PlatformId;
         /// <summary>平台编码</summary>
         [DisplayName("平台编码")]
         [Description("平台编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("PlatformId", "平台编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("PlatformId", "平台编码", "")]
         public Int32 PlatformId { get => _PlatformId; set { if (OnPropertyChanging("PlatformId", value)) { _PlatformId = value; OnPropertyChanged("PlatformId"); } } }
         #endregion
 
@@ -362,7 +362,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "AlarmState": return _AlarmState;
                     case "DVRStatus": return _DVRStatus;
                     case "Altitude": return _Altitude;
-                    case "IsValid": return _Valid;
+                    case "IsValid": return _IsValid;
                     case "DepId": return _DepId;
                     case "VehicleId": return _VehicleId;
                     case "UpdateTime": return _UpdateTime;
@@ -394,13 +394,13 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "PlateNo": _PlateNo = Convert.ToString(value); break;
                     case "Location": _Location = Convert.ToString(value); break;
                     case "SendTime": _SendTime = value.ToDateTime(); break;
-                    case "Longitude": _Longitude = Convert.ToDouble(value); break;
-                    case "Latitude": _Latitude = Convert.ToDouble(value); break;
-                    case "Velocity": _Velocity = Convert.ToDouble(value); break;
+                    case "Longitude": _Longitude = Convert.ToDecimal(value); break;
+                    case "Latitude": _Latitude = Convert.ToDecimal(value); break;
+                    case "Velocity": _Velocity = Convert.ToDecimal(value); break;
                     case "Direction": _Direction = value.ToInt(); break;
                     case "Status": _Status = Convert.ToString(value); break;
                     case "Gas": _Gas = Convert.ToDecimal(value); break;
-                    case "Mileage": _Mileage = Convert.ToDouble(value); break;
+                    case "Mileage": _Mileage = Convert.ToDecimal(value); break;
                     case "RecordVelocity": _RecordVelocity = Convert.ToDecimal(value); break;
                     case "Remain": _Remain = value.ToDouble(); break;
                     case "Online": _Online = value.ToBoolean(); break;
@@ -408,7 +408,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "AlarmState": _AlarmState = Convert.ToString(value); break;
                     case "DVRStatus": _DVRStatus = Convert.ToString(value); break;
                     case "Altitude": _Altitude = value.ToDouble(); break;
-                    case "IsValid": _Valid = value.ToBoolean(); break;
+                    case "IsValid": _IsValid = value.ToBoolean(); break;
                     case "DepId": _DepId = value.ToInt(); break;
                     case "VehicleId": _VehicleId = value.ToInt(); break;
                     case "UpdateTime": _UpdateTime = value.ToDateTime(); break;

@@ -1,24 +1,29 @@
-﻿using System.ComponentModel;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
+using System.Web.Script.Serialization;
+using System.Xml.Serialization;
 using XCode;
 using XCode.Configuration;
 using XCode.DataAccessLayer;
 
 namespace VehicleVedioManage.ReportStatistics.Entity
 {
-    /// <summary>平台状态</summary>
+    /// <summary>平台状态。主要是涉及到809主从链路状态</summary>
     [Serializable]
     [DataObject]
-    [Description("平台状态")]
-    [BindTable("PlatformState", Description = "平台状态", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [Description("平台状态。主要是涉及到809主从链路状态")]
+    [BindTable("PlatformState", Description = "平台状态。主要是涉及到809主从链路状态", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class PlatformState
     {
         #region 属性
         private Int32 _StateId;
-        /// <summary>平台状态编码</summary>
-        [DisplayName("平台状态编码")]
-        [Description("平台状态编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("StateId", "平台状态编码", "int")]
+        /// <summary>编码</summary>
+        [DisplayName("编码")]
+        [Description("编码")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("StateId", "编码", "")]
         public Int32 StateId { get => _StateId; set { if (OnPropertyChanging("StateId", value)) { _StateId = value; OnPropertyChanged("StateId"); } } }
 
         private String _MainLinkState;
@@ -26,15 +31,15 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("主链路状态")]
         [Description("主链路状态")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("MainLinkState", "主链路状态", "nvarchar(50)")]
+        [BindColumn("MainLinkState", "主链路状态", "")]
         public String MainLinkState { get => _MainLinkState; set { if (OnPropertyChanging("MainLinkState", value)) { _MainLinkState = value; OnPropertyChanged("MainLinkState"); } } }
 
         private DateTime _MainLinkDate;
         /// <summary>主链路连接日期</summary>
         [DisplayName("主链路连接日期")]
         [Description("主链路连接日期")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("MainLinkDate", "主链路连接日期", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MainLinkDate", "主链路连接日期", "", Precision = 0, Scale = 3)]
         public DateTime MainLinkDate { get => _MainLinkDate; set { if (OnPropertyChanging("MainLinkDate", value)) { _MainLinkDate = value; OnPropertyChanged("MainLinkDate"); } } }
 
         private String _SubLinkState;
@@ -42,15 +47,15 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("从链路连接状态")]
         [Description("从链路连接状态")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("SubLinkState", "从链路连接状态", "nvarchar(50)")]
+        [BindColumn("SubLinkState", "从链路连接状态", "")]
         public String SubLinkState { get => _SubLinkState; set { if (OnPropertyChanging("SubLinkState", value)) { _SubLinkState = value; OnPropertyChanged("SubLinkState"); } } }
 
         private DateTime _SubLinkDate;
         /// <summary>从链路连接日期</summary>
         [DisplayName("从链路连接日期")]
         [Description("从链路连接日期")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("SubLinkDate", "从链路连接日期", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("SubLinkDate", "从链路连接日期", "", Precision = 0, Scale = 3)]
         public DateTime SubLinkDate { get => _SubLinkDate; set { if (OnPropertyChanging("SubLinkDate", value)) { _SubLinkDate = value; OnPropertyChanged("SubLinkDate"); } } }
 
         private String _GPSServerState;
@@ -58,60 +63,55 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("GPS服务状态")]
         [Description("GPS服务状态")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("GPSServerState", "GPS服务状态", "nvarchar(50)")]
+        [BindColumn("GPSServerState", "GPS服务状态", "")]
         public String GPSServerState { get => _GPSServerState; set { if (OnPropertyChanging("GPSServerState", value)) { _GPSServerState = value; OnPropertyChanged("GPSServerState"); } } }
 
         private DateTime _GPSServerDate;
         /// <summary>GPS服务日期</summary>
         [DisplayName("GPS服务日期")]
         [Description("GPS服务日期")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("GPSServerDate", "GPS服务日期", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("GPSServerDate", "GPS服务日期", "", Precision = 0, Scale = 3)]
         public DateTime GPSServerDate { get => _GPSServerDate; set { if (OnPropertyChanging("GPSServerDate", value)) { _GPSServerDate = value; OnPropertyChanged("GPSServerDate"); } } }
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
-        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TenantId", "租户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建日期</summary>
-        [Category("扩展信息")]
         [DisplayName("创建日期")]
         [Description("创建日期")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建日期", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建日期", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private String _Remark;
         /// <summary>备注</summary>
-        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
-        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private String _Owner;
         /// <summary>拥有者</summary>
-        [Category("扩展信息")]
         [DisplayName("拥有者")]
         [Description("拥有者")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Owner", "拥有者", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("Owner", "拥有者", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
         #endregion
 
@@ -166,7 +166,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>取得平台状态字段信息的快捷方式</summary>
         public partial class _
         {
-            /// <summary>平台状态编码</summary>
+            /// <summary>编码</summary>
             public static readonly Field StateId = FindByName("StateId");
 
             /// <summary>主链路状态</summary>
@@ -208,7 +208,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>取得平台状态字段名称的快捷方式</summary>
         public partial class __
         {
-            /// <summary>平台状态编码</summary>
+            /// <summary>编码</summary>
             public const String StateId = "StateId";
 
             /// <summary>主链路状态</summary>

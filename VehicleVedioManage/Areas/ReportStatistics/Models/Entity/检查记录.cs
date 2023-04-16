@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,7 +14,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
     [Serializable]
     [DataObject]
     [Description("检查记录")]
-    [BindTable("CheckRecord", Description = "检查记录", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindTable("CheckRecord", Description = "检查记录", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class CheckRecord
     {
         #region 属性
@@ -22,8 +22,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>编号</summary>
         [DisplayName("编号")]
         [Description("编号")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("ID", "编号", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("ID", "编号", "")]
         public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private String _Answer;
@@ -38,16 +38,16 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>创建时间</summary>
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private Int32 _InfoId;
         /// <summary>信息编码</summary>
         [DisplayName("信息编码")]
         [Description("信息编码")]
-        [DataObjectField(false, false, false, 10)]
-        [BindColumn("InfoId", "信息编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("InfoId", "信息编码", "")]
         public Int32 InfoId { get => _InfoId; set { if (OnPropertyChanging("InfoId", value)) { _InfoId = value; OnPropertyChanged("InfoId"); } } }
 
         private String _Message;
@@ -70,32 +70,32 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>对象类型</summary>
         [DisplayName("对象类型")]
         [Description("对象类型")]
-        [DataObjectField(false, false, false, 10)]
-        [BindColumn("ObjType", "对象类型", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("ObjType", "对象类型", "")]
         public Int32 ObjType { get => _ObjType; set { if (OnPropertyChanging("ObjType", value)) { _ObjType = value; OnPropertyChanged("ObjType"); } } }
 
         private Int32 _PlatformId;
         /// <summary>平台编码</summary>
         [DisplayName("平台编码")]
         [Description("平台编码")]
-        [DataObjectField(false, false, false, 10)]
-        [BindColumn("PlatformId", "平台编码", "int")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("PlatformId", "平台编码", "")]
         public Int32 PlatformId { get => _PlatformId; set { if (OnPropertyChanging("PlatformId", value)) { _PlatformId = value; OnPropertyChanged("PlatformId"); } } }
 
         private Int32 _Status;
         /// <summary>状态</summary>
         [DisplayName("状态")]
         [Description("状态")]
-        [DataObjectField(false, false, false, 10)]
-        [BindColumn("Status", "状态", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Status", "状态", "")]
         public Int32 Status { get => _Status; set { if (OnPropertyChanging("Status", value)) { _Status = value; OnPropertyChanged("Status"); } } }
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
         [DisplayName("更新时间")]
         [Description("更新时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("UpdateTime", "更新时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("UpdateTime", "更新时间", "", Precision = 0, Scale = 3)]
         public DateTime UpdateTime { get => _UpdateTime; set { if (OnPropertyChanging("UpdateTime", value)) { _UpdateTime = value; OnPropertyChanged("UpdateTime"); } } }
         #endregion
 

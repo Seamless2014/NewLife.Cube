@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,7 +14,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
     [Serializable]
     [DataObject]
     [Description("驾驶记录")]
-    [BindTable("DriverRecord", Description = "驾驶记录", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_DriverRecord_DriverName", true, "DriverName")]
+    [BindTable("DriverRecord", Description = "驾驶记录", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class DriverRecord
     {
         #region 属性
@@ -22,32 +23,32 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>驾驶员编码</summary>
         [DisplayName("驾驶员编码")]
         [Description("驾驶员编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("DriverId", "驾驶员编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("DriverId", "驾驶员编码", "")]
         public Int32 DriverId { get => _DriverId; set { if (OnPropertyChanging("DriverId", value)) { _DriverId = value; OnPropertyChanged("DriverId"); } } }
 
         private Int32 _CardState;
         /// <summary>卡片状态</summary>
         [DisplayName("卡片状态")]
         [Description("卡片状态")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("CardState", "卡片状态", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CardState", "卡片状态", "")]
         public Int32 CardState { get => _CardState; set { if (OnPropertyChanging("CardState", value)) { _CardState = value; OnPropertyChanged("CardState"); } } }
 
         private DateTime _OperTime;
         /// <summary>运营时间</summary>
         [DisplayName("运营时间")]
         [Description("运营时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("OperTime", "运营时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("OperTime", "运营时间", "", Precision = 0, Scale = 3)]
         public DateTime OperTime { get => _OperTime; set { if (OnPropertyChanging("OperTime", value)) { _OperTime = value; OnPropertyChanged("OperTime"); } } }
 
         private Int32 _ReadResult;
         /// <summary>读取结果</summary>
         [DisplayName("读取结果")]
         [Description("读取结果")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("ReadResult", "读取结果", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("ReadResult", "读取结果", "")]
         public Int32 ReadResult { get => _ReadResult; set { if (OnPropertyChanging("ReadResult", value)) { _ReadResult = value; OnPropertyChanged("ReadResult"); } } }
 
         private String _DriverName;
@@ -55,7 +56,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("驾驶员姓名")]
         [Description("驾驶员姓名")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("DriverName", "驾驶员姓名", "nvarchar(255)")]
+        [BindColumn("DriverName", "驾驶员姓名", "")]
         public String DriverName { get => _DriverName; set { if (OnPropertyChanging("DriverName", value)) { _DriverName = value; OnPropertyChanged("DriverName"); } } }
 
         private String _CertificationCode;
@@ -63,7 +64,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("认证代码")]
         [Description("认证代码")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("CertificationCode", "认证代码", "nvarchar(255)")]
+        [BindColumn("CertificationCode", "认证代码", "")]
         public String CertificationCode { get => _CertificationCode; set { if (OnPropertyChanging("CertificationCode", value)) { _CertificationCode = value; OnPropertyChanged("CertificationCode"); } } }
 
         private String _AgencyName;
@@ -71,7 +72,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("机构名称")]
         [Description("机构名称")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("AgencyName", "机构名称", "nvarchar(255)")]
+        [BindColumn("AgencyName", "机构名称", "")]
         public String AgencyName { get => _AgencyName; set { if (OnPropertyChanging("AgencyName", value)) { _AgencyName = value; OnPropertyChanged("AgencyName"); } } }
 
         private String _ValidateDate;
@@ -79,42 +80,39 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("验证日期")]
         [Description("验证日期")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("ValidateDate", "验证日期", "nvarchar(255)")]
+        [BindColumn("ValidateDate", "验证日期", "")]
         public String ValidateDate { get => _ValidateDate; set { if (OnPropertyChanging("ValidateDate", value)) { _ValidateDate = value; OnPropertyChanged("ValidateDate"); } } }
 
         private Int32 _VehicleId;
         /// <summary>车辆编码</summary>
         [DisplayName("车辆编码")]
         [Description("车辆编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("VehicleId", "车辆编码", "int")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("VehicleId", "车辆编码", "")]
         public Int32 VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
-        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private String _Remark;
         /// <summary>备注</summary>
-        [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "nvarchar(255)")]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
-        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
         #endregion
 

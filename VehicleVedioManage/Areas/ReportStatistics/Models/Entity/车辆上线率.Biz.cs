@@ -39,6 +39,10 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             Meta.Modules.Add<UserModule>();
             Meta.Modules.Add<TimeModule>();
             Meta.Modules.Add<IPModule>();
+            // 过滤器 UserModule、TimeModule、IPModule
+            Meta.Modules.Add<UserModule>();
+            Meta.Modules.Add<TimeModule>();
+            Meta.Modules.Add<IPModule>();
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -139,9 +143,36 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             //return Find(_.ID == id);
         }
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体对象</returns>
+        public static VehicleOnlineRate FindByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return Find(_.PlateNo == plateNo);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="start">更新时间开始</param>
+        /// <param name="end">更新时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<VehicleOnlineRate> Search(String plateNo, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            exp &= _.UpdateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.IntervalDescr.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
+
+            return FindAll(exp, page);
+        }
 
         // Select Count(ID) as ID,Category From VehicleOnlineRate Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
         //static readonly FieldCache<VehicleOnlineRate> _CategoryCache = new FieldCache<VehicleOnlineRate>(nameof(Category))

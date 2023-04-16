@@ -131,6 +131,16 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             return Find(_.EnclosureId == enclosureId);
         }
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体列表</returns>
+        public static IList<FuelChangeRecord> FindAllByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return FindAll(_.PlateNo == plateNo);
+        }
         #endregion
 
         #region 高级查询
@@ -152,15 +162,35 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             return FindAll(exp, page);
         }
 
-        // Select Count(ID) as ID,Category From FuelChangeRecord Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
-        //static readonly FieldCache<FuelChangeRecord> _CategoryCache = new FieldCache<FuelChangeRecord>(nameof(Category))
-        //{
-        //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
-        //};
+        /// <summary>高级查询</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="enclosureId">围栏编码</param>
+        /// <param name="start">创建时间开始</param>
+        /// <param name="end">创建时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<FuelChangeRecord> Search(String plateNo, Int32 enclosureId, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
-        ///// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
-        ///// <returns></returns>
-        //public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (enclosureId >= 0) exp &= _.EnclosureId == enclosureId;
+            exp &= _.CreateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.Type.Contains(key) | _.Manual.Contains(key) | _.Location.Contains(key) | _.Owner.Contains(key) | _.Remark.Contains(key);
+
+            return FindAll(exp, page);
+        }
+
+        // Select Count(ID) as ID,PlateNo From FuelChangeRecord Where CreateTime>'2020-01-24 00:00:00' Group By PlateNo Order By ID Desc limit 20
+        static readonly FieldCache<FuelChangeRecord> _PlateNoCache = new FieldCache<FuelChangeRecord>(nameof(PlateNo))
+        {
+            //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取车牌号列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetPlateNoList() => _PlateNoCache.FindAllName();
         #endregion
 
         #region 业务操作

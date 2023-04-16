@@ -148,19 +148,46 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             //return Find(_.ID == id);
         }
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体对象</returns>
+        public static GPSRealData FindByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return Find(_.PlateNo == plateNo);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="start">发送时间开始</param>
+        /// <param name="end">发送时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<GPSRealData> Search(String plateNo, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
-        // Select Count(ID) as ID,Category From GPSRealData Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
-        //static readonly FieldCache<GPSRealData> _CategoryCache = new FieldCache<GPSRealData>(nameof(Category))
-        //{
-        //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
-        //};
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            exp &= _.SendTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.SimNo.Contains(key) | _.PlateNo.Contains(key) | _.Location.Contains(key) | _.Status.Contains(key) | _.AlarmState.Contains(key) | _.DVRStatus.Contains(key) | _.FuelLevelData.Contains(key) | _.FuelData.Contains(key);
 
-        ///// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
-        ///// <returns></returns>
-        //public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
+            return FindAll(exp, page);
+        }
+
+        // Select Count(ID) as ID,PlateNo From GPSRealData Where CreateTime>'2020-01-24 00:00:00' Group By PlateNo Order By ID Desc limit 20
+        static readonly FieldCache<GPSRealData> _PlateNoCache = new FieldCache<GPSRealData>(nameof(PlateNo))
+        {
+            //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取车牌号列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetPlateNoList() => _PlateNoCache.FindAllName();
         #endregion
 
         #region 业务操作

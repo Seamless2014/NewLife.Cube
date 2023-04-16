@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,7 +14,8 @@ namespace VehicleVedioManage.FenceManagement.Entity
     [Serializable]
     [DataObject]
     [Description("图层")]
-    [BindTable("MapLayer", Description = "图层", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_MapLayer_Name", true, "Name")]
+    [BindTable("MapLayer", Description = "图层", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class MapLayer
     {
         #region 属性
@@ -22,8 +23,8 @@ namespace VehicleVedioManage.FenceManagement.Entity
         /// <summary>图层编码</summary>
         [DisplayName("图层编码")]
         [Description("图层编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("LayerId", "图层编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("LayerId", "图层编码", "")]
         public Int32 LayerId { get => _LayerId; set { if (OnPropertyChanging("LayerId", value)) { _LayerId = value; OnPropertyChanged("LayerId"); } } }
 
         private String _Name;
@@ -31,7 +32,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [DisplayName("图层名称")]
         [Description("图层名称")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Name", "图层名称", "nvarchar(255)", Master = true)]
+        [BindColumn("Name", "图层名称", "", Master = true)]
         public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
 
         private Boolean _Visible;
@@ -39,7 +40,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [DisplayName("可视")]
         [Description("可视")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Visible", "可视", "bit")]
+        [BindColumn("Visible", "可视", "")]
         public Boolean Visible { get => _Visible; set { if (OnPropertyChanging("Visible", value)) { _Visible = value; OnPropertyChanged("Visible"); } } }
 
         private Boolean _Animated;
@@ -47,7 +48,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [DisplayName("动画")]
         [Description("动画")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Animated", "动画", "bit")]
+        [BindColumn("Animated", "动画", "")]
         public Boolean Animated { get => _Animated; set { if (OnPropertyChanging("Animated", value)) { _Animated = value; OnPropertyChanged("Animated"); } } }
 
         private String _Icon;
@@ -55,66 +56,63 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [DisplayName("图标")]
         [Description("图标")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Icon", "图标", "nvarchar(255)")]
+        [BindColumn("Icon", "图标", "")]
         public String Icon { get => _Icon; set { if (OnPropertyChanging("Icon", value)) { _Icon = value; OnPropertyChanged("Icon"); } } }
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
-        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TenantId", "租户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
         private Int32 _MaxIconZoom;
         /// <summary>最大缩放图标</summary>
         [DisplayName("最大缩放图标")]
         [Description("最大缩放图标")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("MaxIconZoom", "最大缩放图标", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MaxIconZoom", "最大缩放图标", "")]
         public Int32 MaxIconZoom { get => _MaxIconZoom; set { if (OnPropertyChanging("MaxIconZoom", value)) { _MaxIconZoom = value; OnPropertyChanged("MaxIconZoom"); } } }
 
         private Int32 _MaxLabelZoom;
         /// <summary>最大缩放标签</summary>
         [DisplayName("最大缩放标签")]
         [Description("最大缩放标签")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("MaxLabelZoom", "最大缩放标签", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MaxLabelZoom", "最大缩放标签", "")]
         public Int32 MaxLabelZoom { get => _MaxLabelZoom; set { if (OnPropertyChanging("MaxLabelZoom", value)) { _MaxLabelZoom = value; OnPropertyChanged("MaxLabelZoom"); } } }
 
         private Int32 _MinIconZoom;
         /// <summary>最小缩放图标</summary>
         [DisplayName("最小缩放图标")]
         [Description("最小缩放图标")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("MinIconZoom", "最小缩放图标", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MinIconZoom", "最小缩放图标", "")]
         public Int32 MinIconZoom { get => _MinIconZoom; set { if (OnPropertyChanging("MinIconZoom", value)) { _MinIconZoom = value; OnPropertyChanged("MinIconZoom"); } } }
 
         private Int32 _MinLabelZoom;
         /// <summary>最小缩放标签</summary>
         [DisplayName("最小缩放标签")]
         [Description("最小缩放标签")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("MinLabelZoom", "最小缩放标签", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MinLabelZoom", "最小缩放标签", "")]
         public Int32 MinLabelZoom { get => _MinLabelZoom; set { if (OnPropertyChanging("MinLabelZoom", value)) { _MinLabelZoom = value; OnPropertyChanged("MinLabelZoom"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
-        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private String _Creator;
         /// <summary>创建者</summary>
-        [Category("扩展信息")]
         [DisplayName("创建者")]
         [Description("创建者")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Creator", "创建者", "nvarchar(255)")]
+        [BindColumn("Creator", "创建者", "")]
         public String Creator { get => _Creator; set { if (OnPropertyChanging("Creator", value)) { _Creator = value; OnPropertyChanged("Creator"); } } }
 
         private String _ForeColor;
@@ -122,16 +120,15 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [DisplayName("前景色")]
         [Description("前景色")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("ForeColor", "前景色", "nvarchar(255)")]
+        [BindColumn("ForeColor", "前景色", "")]
         public String ForeColor { get => _ForeColor; set { if (OnPropertyChanging("ForeColor", value)) { _ForeColor = value; OnPropertyChanged("ForeColor"); } } }
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
-        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
         #endregion
 

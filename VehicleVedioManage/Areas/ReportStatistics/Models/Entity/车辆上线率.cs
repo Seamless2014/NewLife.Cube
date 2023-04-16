@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,7 +14,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
     [Serializable]
     [DataObject]
     [Description("车辆上线率")]
-    [BindTable("VehicleOnlineRate", Description = "车辆上线率", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_VehicleOnlineRate_PlateNo", true, "PlateNo")]
+    [BindTable("VehicleOnlineRate", Description = "车辆上线率", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class VehicleOnlineRate
     {
         #region 属性
@@ -22,8 +23,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>编号</summary>
         [DisplayName("编号")]
         [Description("编号")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("ID", "编号", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("ID", "编号", "")]
         public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private String _PlateNo;
@@ -31,38 +32,38 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("车牌号")]
         [Description("车牌号")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("PlateNo", "车牌号", "nvarchar(255)")]
+        [BindColumn("PlateNo", "车牌号", "")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
         private String _IntervalDescr;
         /// <summary>间隔描述</summary>
         [DisplayName("间隔描述")]
         [Description("间隔描述")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("IntervalDescr", "间隔描述", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 200)]
+        [BindColumn("IntervalDescr", "间隔描述", "")]
         public String IntervalDescr { get => _IntervalDescr; set { if (OnPropertyChanging("IntervalDescr", value)) { _IntervalDescr = value; OnPropertyChanged("IntervalDescr"); } } }
 
         private Double _Hour;
         /// <summary>小时</summary>
         [DisplayName("小时")]
         [Description("小时")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Hour", "小时", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Hour", "小时", "")]
         public Double Hour { get => _Hour; set { if (OnPropertyChanging("Hour", value)) { _Hour = value; OnPropertyChanged("Hour"); } } }
 
         private DateTime _StaticDate;
-        /// <summary>静态时间</summary>
-        [DisplayName("静态时间")]
-        [Description("静态时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("StaticDate", "静态时间", "datetime", Precision = 0, Scale = 3)]
+        /// <summary>统计时间</summary>
+        [DisplayName("统计时间")]
+        [Description("统计时间")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("StaticDate", "统计时间", "", Precision = 0, Scale = 3)]
         public DateTime StaticDate { get => _StaticDate; set { if (OnPropertyChanging("StaticDate", value)) { _StaticDate = value; OnPropertyChanged("StaticDate"); } } }
 
         private Decimal _OnlineTime;
         /// <summary>上线时间</summary>
         [DisplayName("上线时间")]
         [Description("上线时间")]
-        [DataObjectField(false, false, true, 18)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("OnlineTime", "上线时间", "decimal(18, 2)", Precision = 0, Scale = 2)]
         public Decimal OnlineTime { get => _OnlineTime; set { if (OnPropertyChanging("OnlineTime", value)) { _OnlineTime = value; OnPropertyChanged("OnlineTime"); } } }
 
@@ -70,15 +71,15 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>间隔类型</summary>
         [DisplayName("间隔类型")]
         [Description("间隔类型")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("IntervalType", "间隔类型", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("IntervalType", "间隔类型", "")]
         public Int32 IntervalType { get => _IntervalType; set { if (OnPropertyChanging("IntervalType", value)) { _IntervalType = value; OnPropertyChanged("IntervalType"); } } }
 
         private Decimal _OfflineTime;
         /// <summary>离线时间</summary>
         [DisplayName("离线时间")]
         [Description("离线时间")]
-        [DataObjectField(false, false, true, 18)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("OfflineTime", "离线时间", "decimal(18, 2)", Precision = 0, Scale = 2)]
         public Decimal OfflineTime { get => _OfflineTime; set { if (OnPropertyChanging("OfflineTime", value)) { _OfflineTime = value; OnPropertyChanged("OfflineTime"); } } }
 
@@ -86,8 +87,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// <summary>总计时间</summary>
         [DisplayName("总计时间")]
         [Description("总计时间")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("TotalTime", "总计时间", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TotalTime", "总计时间", "")]
         public Double TotalTime { get => _TotalTime; set { if (OnPropertyChanging("TotalTime", value)) { _TotalTime = value; OnPropertyChanged("TotalTime"); } } }
 
         private Boolean _Deleted;
@@ -96,7 +97,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private String _Owner;
@@ -104,8 +105,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [Category("扩展信息")]
         [DisplayName("拥有者")]
         [Description("拥有者")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Owner", "拥有者", "nvarchar(255)")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("Owner", "拥有者", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
         private Int32 _TenantId;
@@ -113,15 +114,15 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TenantId", "租户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
         private Decimal _OnlineRate;
         /// <summary>上线日期</summary>
         [DisplayName("上线日期")]
         [Description("上线日期")]
-        [DataObjectField(false, false, true, 18)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("OnlineRate", "上线日期", "decimal(18, 2)", Precision = 0, Scale = 2)]
         public Decimal OnlineRate { get => _OnlineRate; set { if (OnPropertyChanging("OnlineRate", value)) { _OnlineRate = value; OnPropertyChanged("OnlineRate"); } } }
 
@@ -131,7 +132,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("创建者")]
         [Description("创建者")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("CreateUser", "创建者", "nvarchar(50)")]
+        [BindColumn("CreateUser", "创建者", "")]
         public String CreateUser { get => _CreateUser; set { if (OnPropertyChanging("CreateUser", value)) { _CreateUser = value; OnPropertyChanged("CreateUser"); } } }
 
         private Int32 _CreateUserID;
@@ -139,8 +140,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [Category("扩展信息")]
         [DisplayName("创建人")]
         [Description("创建人")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("CreateUserID", "创建人", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateUserID", "创建人", "")]
         public Int32 CreateUserID { get => _CreateUserID; set { if (OnPropertyChanging("CreateUserID", value)) { _CreateUserID = value; OnPropertyChanged("CreateUserID"); } } }
 
         private String _CreateIP;
@@ -149,7 +150,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("创建地址")]
         [Description("创建地址")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("CreateIP", "创建地址", "nvarchar(50)")]
+        [BindColumn("CreateIP", "创建地址", "")]
         public String CreateIP { get => _CreateIP; set { if (OnPropertyChanging("CreateIP", value)) { _CreateIP = value; OnPropertyChanged("CreateIP"); } } }
 
         private DateTime _CreateTime;
@@ -157,8 +158,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private String _UpdateUser;
@@ -167,7 +168,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("更新者")]
         [Description("更新者")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("UpdateUser", "更新者", "nvarchar(50)")]
+        [BindColumn("UpdateUser", "更新者", "")]
         public String UpdateUser { get => _UpdateUser; set { if (OnPropertyChanging("UpdateUser", value)) { _UpdateUser = value; OnPropertyChanged("UpdateUser"); } } }
 
         private Int32 _UpdateUserID;
@@ -175,8 +176,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [Category("扩展信息")]
         [DisplayName("更新人")]
         [Description("更新人")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("UpdateUserID", "更新人", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("UpdateUserID", "更新人", "")]
         public Int32 UpdateUserID { get => _UpdateUserID; set { if (OnPropertyChanging("UpdateUserID", value)) { _UpdateUserID = value; OnPropertyChanged("UpdateUserID"); } } }
 
         private String _UpdateIP;
@@ -185,7 +186,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("更新地址")]
         [Description("更新地址")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("UpdateIP", "更新地址", "nvarchar(50)")]
+        [BindColumn("UpdateIP", "更新地址", "")]
         public String UpdateIP { get => _UpdateIP; set { if (OnPropertyChanging("UpdateIP", value)) { _UpdateIP = value; OnPropertyChanged("UpdateIP"); } } }
 
         private DateTime _UpdateTime;
@@ -193,8 +194,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("UpdateTime", "更新时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("UpdateTime", "更新时间", "", Precision = 0, Scale = 3)]
         public DateTime UpdateTime { get => _UpdateTime; set { if (OnPropertyChanging("UpdateTime", value)) { _UpdateTime = value; OnPropertyChanged("UpdateTime"); } } }
 
         private String _Remark;
@@ -203,7 +204,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 500)]
-        [BindColumn("Remark", "备注", "nvarchar(500)")]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
         #endregion
 
@@ -290,7 +291,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             /// <summary>小时</summary>
             public static readonly Field Hour = FindByName("Hour");
 
-            /// <summary>静态时间</summary>
+            /// <summary>统计时间</summary>
             public static readonly Field StaticDate = FindByName("StaticDate");
 
             /// <summary>上线时间</summary>
@@ -362,7 +363,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             /// <summary>小时</summary>
             public const String Hour = "Hour";
 
-            /// <summary>静态时间</summary>
+            /// <summary>统计时间</summary>
             public const String StaticDate = "StaticDate";
 
             /// <summary>上线时间</summary>
