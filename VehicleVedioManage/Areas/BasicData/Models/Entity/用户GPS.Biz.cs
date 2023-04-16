@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using NewLife;
+using NewLife.Data;
 using XCode;
 using XCode.Membership;
 
@@ -98,9 +100,38 @@ namespace VehicleVedioManage.BasicData.Entity
 
             //return Find(_.ID == id);
         }
+        /// <summary>根据用户名查找</summary>
+        /// <param name="userName">用户名</param>
+        /// <returns>实体对象</returns>
+        public static UserGpsInfo FindByUserName(String userName)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.UserName.EqualIgnoreCase(userName));
+
+            return Find(_.UserName == userName);
+        }
         #endregion
 
         #region 高级查询
+
+        /// <summary>高级查询</summary>
+        /// <param name="userName">用户名</param>
+        /// <param name="start">发送时间开始</param>
+        /// <param name="end">发送时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<UserGpsInfo> Search(String userName, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!userName.IsNullOrEmpty()) exp &= _.UserName == userName;
+            exp &= _.SendTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.UserName.Contains(key) | _.Location.Contains(key);
+
+            return FindAll(exp, page);
+        }
+
 
         // Select Count(ID) as ID,Category From UserGpsInfo Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
         //static readonly FieldCache<UserGpsInfo> _CategoryCache = new FieldCache<UserGpsInfo>(nameof(Category))

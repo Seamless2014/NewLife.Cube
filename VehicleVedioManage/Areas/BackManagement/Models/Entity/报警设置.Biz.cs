@@ -34,6 +34,11 @@ namespace VehicleVedioManage.BackManagement.Entity
         {
 
             // 过滤器 UserModule、TimeModule、IPModule
+
+            // 单对象缓存
+            var sc = Meta.SingleCache;
+            sc.FindSlaveKeyMethod = k => Find(_.Name == k);
+            sc.GetSlaveKeyMethod = e => e.Name;
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -47,6 +52,9 @@ namespace VehicleVedioManage.BackManagement.Entity
             base.Valid(isNew);
 
             // 在新插入数据或者修改了指定字段时进行修正
+
+            // 检查唯一索引
+            // CheckExist(isNew, nameof(Name));
         }
 
         ///// <summary>首次连接数据库时初始化数据，仅用于实体类重载，用户不应该调用该方法</summary>
@@ -59,6 +67,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         //    if (XTrace.Debug) XTrace.WriteLine("开始初始化AlarmConfig[报警设置]数据……");
 
         //    var entity = new AlarmConfig();
+        //    entity.Code = "abc";
         //    entity.Name = "abc";
         //    entity.alarmType = "abc";
         //    entity.Enabled = true;
@@ -87,7 +96,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         #endregion
 
         #region 扩展属性
-        /// <summary>报警源</summary>
+		/// <summary>报警源</summary>
         [XmlIgnore, ScriptIgnore, IgnoreDataMember]
         public AlarmSource _AlarmSource => Extends.Get(nameof(AlarmSource), k => AlarmSource.FindByCode(alarmSource));
 
@@ -97,26 +106,54 @@ namespace VehicleVedioManage.BackManagement.Entity
         #endregion
 
         #region 扩展查询
-        /// <summary>根据id查找</summary>
-        /// <param name="id">id</param>
+        /// <summary>根据报警设置主键查找</summary>
+        /// <param name="id">报警设置主键</param>
         /// <returns>实体对象</returns>
-        public static AlarmConfig FindByid(Int32 id)
+        public static AlarmConfig FindByID(Int32 id)
         {
             if (id <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.id == id);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ID == id);
 
             // 单对象缓存
             return Meta.SingleCache[id];
 
-            //return Find(_.id == id);
+            //return Find(_.ID == id);
+        }
+
+        /// <summary>根据名称查找</summary>
+        /// <param name="name">名称</param>
+        /// <returns>实体对象</returns>
+        public static AlarmConfig FindByName(String name)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name.EqualIgnoreCase(name));
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(name) as AlarmConfig;
+
+            return Find(_.Name == name);
         }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="name">名称</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<AlarmConfig> Search(String name, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
-        // Select Count(id) as id,Category From AlarmConfig Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By id Desc limit 20
+            if (!name.IsNullOrEmpty()) exp &= _.Name == name;
+            if (!key.IsNullOrEmpty()) exp &= _.Code.Contains(key) | _.Name.Contains(key) | _.alarmType.Contains(key) | _.alarmSource.Contains(key);
+
+            return FindAll(exp, page);
+        }
+
+        // Select Count(ID) as ID,Category From AlarmConfig Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
         //static readonly FieldCache<AlarmConfig> _CategoryCache = new FieldCache<AlarmConfig>(nameof(Category))
         //{
         //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty

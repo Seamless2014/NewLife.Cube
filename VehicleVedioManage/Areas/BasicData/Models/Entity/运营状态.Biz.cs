@@ -128,9 +128,9 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>根据编码查找</summary>
         /// <param name="code">编码</param>
         /// <returns>实体对象</returns>
-        public static RunStatus FindByCode(string code)
+        public static RunStatus FindByCode(Int32 code)
         {
-            if (string.IsNullOrEmpty(code)) return null;
+            if (code<0) return null;
 
             // 实体缓存
             if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Code == code);
@@ -145,7 +145,7 @@ namespace VehicleVedioManage.BasicData.Entity
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public static bool isExistCode(String code)
+        public static bool isExistCode(Int32 code)
         {
             var isExist = false;
             var list = FindByCode(code);
@@ -155,10 +155,40 @@ namespace VehicleVedioManage.BasicData.Entity
             }
             return isExist;
         }
+        /// <summary>根据名称查找</summary>
+        /// <param name="name">名称</param>
+        /// <returns>实体对象</returns>
+        public static RunStatus FindByName(String name)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name.EqualIgnoreCase(name));
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(name) as RunStatus;
+
+            return Find(_.Name == name);
+        }
         #endregion
 
         #region 高级查询
 
+        /// <summary>高级查询</summary>
+        /// <param name="name">名称</param>
+        /// <param name="start">更新时间开始</param>
+        /// <param name="end">更新时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<RunStatus> Search(String name, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!name.IsNullOrEmpty()) exp &= _.Name == name;
+            exp &= _.UpdateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.Name.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
+
+            return FindAll(exp, page);
+        }
         // Select Count(ID) as ID,Category From RunStatus Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
         //static readonly FieldCache<RunStatus> _CategoryCache = new FieldCache<RunStatus>(nameof(Category))
         //{

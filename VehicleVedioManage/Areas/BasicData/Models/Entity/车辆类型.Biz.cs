@@ -24,7 +24,7 @@ using XCode.DataAccessLayer;
 using XCode.Membership;
 using XCode.Shards;
 
-namespace NewLife.BasicData.Entity
+namespace VehicleVedioManage.BasicData.Entity
 {
     public partial class VehicleType : Entity<VehicleType>
     {
@@ -147,6 +147,17 @@ namespace NewLife.BasicData.Entity
 
             //return Find(_.ID == id);
         }
+
+        /// <summary>根据名称查找</summary>
+        /// <param name="name">名称</param>
+        /// <returns>实体列表</returns>
+        public static IList<VehicleType> FindAllByName(String name)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Name.EqualIgnoreCase(name));
+
+            return FindAll(_.Name == name);
+        }
         #endregion
 
         #region 高级查询
@@ -160,6 +171,25 @@ namespace NewLife.BasicData.Entity
         ///// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
         ///// <returns></returns>
         //public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
+
+        /// <summary>高级查询</summary>
+        /// <param name="name">名称</param>
+        /// <param name="start">更新时间开始</param>
+        /// <param name="end">更新时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<VehicleType> Search(String name, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!name.IsNullOrEmpty()) exp &= _.Name == name;
+            exp &= _.UpdateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.Description.Contains(key) | _.Name.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
+
+            return FindAll(exp, page);
+        }
+
         #endregion
 
         #region 业务操作

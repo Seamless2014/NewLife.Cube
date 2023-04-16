@@ -31,9 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CubeSSO", "CubeSSO\CubeSSO.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewLife.Cube.LayuiAdmin", "NewLife.Cube.LayuiAdmin\NewLife.Cube.LayuiAdmin.csproj", "{0A1E77F0-7811-4188-A9B6-0F5FAFB76420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleVedioManage.Web", "VehicleVedioManage\VehicleVedioManage.Web.csproj", "{84A1D6D4-B31A-4479-B3CF-B51DCC0E9A7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleVedioManage.Web", "VehicleVedioManage\VehicleVedioManage.Web.csproj", "{84A1D6D4-B31A-4479-B3CF-B51DCC0E9A7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleVedioManage.Utility", "VehicleVedioManage.Utility\VehicleVedioManage.Utility.csproj", "{F0B8D7CD-511A-49D4-A4CC-2CE79A5BA99A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleVedioManage.Utility", "VehicleVedioManage.Utility\VehicleVedioManage.Utility.csproj", "{F0B8D7CD-511A-49D4-A4CC-2CE79A5BA99A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

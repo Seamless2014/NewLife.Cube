@@ -2,7 +2,6 @@
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using NewLife;
-using NewLife.BasicData.Entity;
 using NewLife.Data;
 using XCode;
 using XCode.Cache;
@@ -120,47 +119,47 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>行业类型</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public IndustryType _IndustryType => Extends.Get(nameof(IndustryType), k => IndustryType.FindByID(IndustryID));
+        public IndustryType _IndustryType => Extends.Get(nameof(IndustryType), k => IndustryType.FindByID(Industry));
 
         /// <summary>行业类型名称</summary>
-        [Map(nameof(IndustryID), typeof(IndustryType), "ID")]
+        [Map(nameof(Industry), typeof(IndustryType), "ID")]
         [Category("基本信息")]
         public String IndustryTypeName => _IndustryType?.Description;
 
         /// <summary>车牌颜色</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public PlateColor _PlateColor => Extends.Get(nameof(PlateColor), k => PlateColor.FindByCode(PlateColorID));
+        public PlateColor __PlateColor => Extends.Get(nameof(PlateColor), k => Entity.PlateColor.FindByCode(PlateColor));
 
         /// <summary>车牌颜色名称</summary>
-        [Map(nameof(PlateColorID), typeof(PlateColor), "Code")]
+        [Map(nameof(PlateColor), typeof(PlateColor), "Code")]
         [Category("基本信息")]
-        public String PlateColorName => _PlateColor?.Name;
+        public String PlateColorName => __PlateColor?.Name;
 
         /// <summary>车辆类型</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public VehicleType _VehicleType => Extends.Get(nameof(VehicleType), k => VehicleType.FindByID(VehicleTypeID));
+        public VehicleType _VehicleType => Extends.Get(nameof(VehicleType), k => VehicleType.FindByID(ID));
 
         /// <summary>车辆类型名称</summary>
-        [Map(nameof(VehicleTypeID), typeof(VehicleType), "ID")]
+        [Map(nameof(ID), typeof(VehicleType), "ID")]
         [Category("基本信息")]
         public String VehicleTypeName => _VehicleType?.Name;
 
         /// <summary>运营状态</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public RunStatus _RunStatus => Extends.Get(nameof(RunStatus), k => RunStatus.FindByCode(RunStatusCode));
+        public RunStatus __RunStatus => Extends.Get(nameof(RunStatus), k => Entity.RunStatus.FindByCode(RunStatusCode));
 
         /// <summary>运营状态名称</summary>
         [Map(nameof(RunStatusCode), typeof(RunStatus), "Code")]
         [Category("基本信息")]
-        public String RunStatusName => _RunStatus?.Name;
+        public String RunStatusName => __RunStatus?.Name;
 
         /// <summary>使用性质</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public UseType _UserTypeCode => Extends.Get(nameof(UseType), k => UseType.FindByCode(UseTypeCode));
+        public UseType _UserTypeCode => Extends.Get(nameof(UseType), k => Entity.UseType.FindByCode(UseTypeCode));
         /// <summary>使用性质名称</summary>
         [Map(nameof(UseTypeCode), typeof(UseType), "Code")]
         [Category("基本信息")]
@@ -208,6 +207,42 @@ namespace VehicleVedioManage.BasicData.Entity
 
             return FindAll(_.Deleted == isDeleted);
         }
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体对象</returns>
+        public static Vehicle FindByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(plateNo) as Vehicle;
+
+            return Find(_.PlateNo == plateNo);
+        }
+
+        /// <summary>根据部门名称、车牌号查找</summary>
+        /// <param name="departmentName">部门名称</param>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体列表</returns>
+        public static IList<Vehicle> FindAllByDepartmentNameAndPlateNo(String departmentName, String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.DepartmentName.EqualIgnoreCase(departmentName) && e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return FindAll(_.DepartmentName == departmentName & _.PlateNo == plateNo);
+        }
+
+        /// <summary>根据Sim卡号查找</summary>
+        /// <param name="simNo">Sim卡号</param>
+        /// <returns>实体列表</returns>
+        public static IList<Vehicle> FindAllBySimNo(String simNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.SimNo.EqualIgnoreCase(simNo));
+
+            return FindAll(_.SimNo == simNo);
+        }
         #endregion
 
         #region 高级查询
@@ -244,9 +279,9 @@ namespace VehicleVedioManage.BasicData.Entity
             var exp = new WhereExpression();
 
             if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
-            if (!plateColorCode.IsNullOrEmpty()) exp &= _.PlateColorID == plateColorCode;
+            if (!plateColorCode.IsNullOrEmpty()) exp &= _.PlateColor == plateColorCode;
             if (!runStatusCode.IsNullOrEmpty()) exp &= _.RunStatusCode == runStatusCode;
-            if (!vehicleTypeCode.IsNullOrEmpty()) exp &= _.VehicleTypeID == vehicleTypeCode;
+            if (!vehicleTypeCode.IsNullOrEmpty()) exp &= _.ParameterID == vehicleTypeCode;
             exp &= _.Deleted == false;
             if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
 
@@ -282,6 +317,47 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>获取车牌号列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
         /// <returns></returns>
         public static IDictionary<String, String> GetPlateNoList() => _PlateNoCache.FindAllName();
+        /// <summary>高级查询</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="simNo">Sim卡号</param>
+        /// <param name="departmentName">部门名称</param>
+        /// <param name="start">更新时间开始</param>
+        /// <param name="end">更新时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<Vehicle> Search(String plateNo, String simNo, String departmentName, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!simNo.IsNullOrEmpty()) exp &= _.SimNo == simNo;
+            if (!departmentName.IsNullOrEmpty()) exp &= _.DepartmentName == departmentName;
+            exp &= _.UpdateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DepartmentName.Contains(key) | _.Region.Contains(key) | _.Industry.Contains(key) | _.UseType.Contains(key) | _.PlateformId.Contains(key) | _.TerminalId.Contains(key) | _.TerminalModel.Contains(key) | _.TerminalVendorId.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key) | _.RunStatusCode.Contains(key) | _.UseTypeCode.Contains(key);
+
+            return FindAll(exp, page);
+        }
+
+        // Select Count(ID) as ID,DepartmentName From Vehicle Where CreateTime>'2020-01-24 00:00:00' Group By DepartmentName Order By ID Desc limit 20
+        static readonly FieldCache<Vehicle> _DepartmentNameCache = new FieldCache<Vehicle>(nameof(DepartmentName))
+        {
+            //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取部门名称列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetDepartmentNameList() => _DepartmentNameCache.FindAllName();
+
+        // Select Count(ID) as ID,SimNo From Vehicle Where CreateTime>'2020-01-24 00:00:00' Group By SimNo Order By ID Desc limit 20
+        static readonly FieldCache<Vehicle> _SimNoCache = new FieldCache<Vehicle>(nameof(SimNo))
+        {
+            //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取Sim卡号列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetSimNoList() => _SimNoCache.FindAllName();
         #endregion
 
         #region 业务操作

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -65,7 +65,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         //    if (XTrace.Debug) XTrace.WriteLine("开始初始化SystemConfig[系统配置]数据……");
 
         //    var entity = new SystemConfig();
-        //    entity.SystemTitle1 = "abc";
+        //    entity.SubTitle = "abc";
         //    entity.InitLat = 0.0;
         //    entity.InitLng = 0.0;
         //    entity.InitZoomLevel = 0;
@@ -85,8 +85,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         //    entity.AmapWebServiceKey = "abc";
         //    entity.RefreshInterval = 0;
         //    entity.AlarmInterval = 0;
-        //    entity.ShowVehicleOnMap = "abc";
-        //    entity.ShowDepNameOnMap = "abc";
+        //    entity.ShowVehicleOnMap = true;
+        //    entity.ShowDepNameOnMap = true;
         //    entity.BaiduWebServiceKey = "abc";
         //    entity.Insert();
 

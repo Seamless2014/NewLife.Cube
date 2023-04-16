@@ -487,8 +487,8 @@ namespace VehicleVedioManage.IService
         /// </summary>
         /// <param name="commandId"></param>
         /// <returns></returns>
-        
-        VehicleRecorder GetRecorderInfo(int commandId);
+
+        VehicleRecord GetRecorderInfo(int commandId);
 
         /// <summary>
         /// 获取所有图层

@@ -9,8 +9,8 @@ using NewLife.Web;
 namespace VehicleVedioManage.Areas.BasicData.Controllers
 {
     [BasicDataArea]
-    [DisplayName("车辆记录")]
-    public class VehicleRecorderController : EntityController<VehicleRecorder>
+    [DisplayName("行车记录仪")]
+    public class VehicleRecorderController : EntityController<VehicleRecord>
     {
         public override ActionResult Index(Pager p = null)
         {

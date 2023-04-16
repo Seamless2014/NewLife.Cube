@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.Serialization;
-using System.Web.Script.Serialization;
-using System.Xml.Serialization;
+﻿using System.ComponentModel;
 using XCode;
 using XCode.Configuration;
 using XCode.DataAccessLayer;
@@ -14,42 +9,51 @@ namespace VehicleVedioManage.BasicData.Entity
     [Serializable]
     [DataObject]
     [Description("行业类型")]
-    [BindIndex("PK_IndustryType", true, "ID")]
-    [BindTable("IndustryType", Description = "行业类型", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("PK_IndustryType", true, "Id")]
+    [BindIndex("IX_IndustryType_Description", false, "Description")]
+    [BindTable("IndustryType", Description = "行业类型", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class IndustryType
     {
         #region 属性
-        private Int32 _ID;
-        /// <summary>行业类型</summary>
-        [DisplayName("行业类型")]
-        [Description("行业类型")]
-        [DataObjectField(true, false, false, 10)]
-        [BindColumn("ID", "行业类型", "int")]
-        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
+        private Int32 _Id;
+        /// <summary>主键</summary>
+        [DisplayName("主键")]
+        [Description("主键")]
+        [DataObjectField(true, false, false, 0)]
+        [BindColumn("Id", "主键", "")]
+        public Int32 Id { get => _Id; set { if (OnPropertyChanging("Id", value)) { _Id = value; OnPropertyChanged("Id"); } } }
 
         private Int32 _Code;
         /// <summary>编码</summary>
         [DisplayName("编码")]
         [Description("编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("Code", "编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Code", "编码", "")]
         public Int32 Code { get => _Code; set { if (OnPropertyChanging("Code", value)) { _Code = value; OnPropertyChanged("Code"); } } }
 
         private String _Description;
         /// <summary>描述</summary>
         [DisplayName("描述")]
         [Description("描述")]
-        [DataObjectField(false, false, true, 64)]
-        [BindColumn("Description", "描述", "varchar(64)")]
+        [DataObjectField(false, false, true, 200)]
+        [BindColumn("Description", "描述", "varchar(200)", Master = true)]
         public String Description { get => _Description; set { if (OnPropertyChanging("Description", value)) { _Description = value; OnPropertyChanged("Description"); } } }
 
         private Int32 _ParentCode;
-        /// <summary>上级编码</summary>
-        [DisplayName("上级编码")]
-        [Description("上级编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("ParentCode", "上级编码", "int")]
+        /// <summary>父编码</summary>
+        [DisplayName("父编码")]
+        [Description("父编码")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("ParentCode", "父编码", "")]
         public Int32 ParentCode { get => _ParentCode; set { if (OnPropertyChanging("ParentCode", value)) { _ParentCode = value; OnPropertyChanged("ParentCode"); } } }
+
+        private String _IndustryType;
+        /// <summary>行业类型</summary>
+        [DisplayName("行业类型")]
+        [Description("行业类型")]
+        [DataObjectField(false, false, true, 32)]
+        [BindColumn("Industry_Type", "行业类型", "varchar(32)")]
+        public String Industry_Type { get => _IndustryType; set { if (OnPropertyChanging("IndustryType", value)) { _IndustryType = value; OnPropertyChanged("IndustryType"); } } }
         #endregion
 
         #region 获取/设置 字段值
@@ -62,10 +66,11 @@ namespace VehicleVedioManage.BasicData.Entity
             {
                 switch (name)
                 {
-                    case "ID": return _ID;
+                    case "Id": return _Id;
                     case "Code": return _Code;
                     case "Description": return _Description;
                     case "ParentCode": return _ParentCode;
+                    case "IndustryType": return _IndustryType;
                     default: return base[name];
                 }
             }
@@ -73,10 +78,11 @@ namespace VehicleVedioManage.BasicData.Entity
             {
                 switch (name)
                 {
-                    case "ID": _ID = value.ToInt(); break;
+                    case "Id": _Id = value.ToInt(); break;
                     case "Code": _Code = value.ToInt(); break;
                     case "Description": _Description = Convert.ToString(value); break;
                     case "ParentCode": _ParentCode = value.ToInt(); break;
+                    case "IndustryType": _IndustryType = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
             }
@@ -87,8 +93,8 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>取得行业类型字段信息的快捷方式</summary>
         public partial class _
         {
-            /// <summary>行业类型</summary>
-            public static readonly Field ID = FindByName("ID");
+            /// <summary>主键</summary>
+            public static readonly Field Id = FindByName("Id");
 
             /// <summary>编码</summary>
             public static readonly Field Code = FindByName("Code");
@@ -96,8 +102,11 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>描述</summary>
             public static readonly Field Description = FindByName("Description");
 
-            /// <summary>上级编码</summary>
+            /// <summary>父编码</summary>
             public static readonly Field ParentCode = FindByName("ParentCode");
+
+            /// <summary>行业类型</summary>
+            public static readonly Field Industry_Type = FindByName("Industry_Type");
 
             static Field FindByName(String name) => Meta.Table.FindByName(name);
         }
@@ -105,8 +114,8 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>取得行业类型字段名称的快捷方式</summary>
         public partial class __
         {
-            /// <summary>行业类型</summary>
-            public const String ID = "ID";
+            /// <summary>主键</summary>
+            public const String Id = "Id";
 
             /// <summary>编码</summary>
             public const String Code = "Code";
@@ -114,8 +123,11 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>描述</summary>
             public const String Description = "Description";
 
-            /// <summary>上级编码</summary>
+            /// <summary>父编码</summary>
             public const String ParentCode = "ParentCode";
+
+            /// <summary>行业类型</summary>
+            public const String Industry_Type = "Industry_Type";
         }
         #endregion
     }

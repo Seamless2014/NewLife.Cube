@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -37,6 +37,11 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             // 过滤器 UserModule、TimeModule、IPModule
             Meta.Modules.Add<TimeModule>();
+
+            // 单对象缓存
+            var sc = Meta.SingleCache;
+            sc.FindSlaveKeyMethod = k => Find(_.Name == k);
+            sc.GetSlaveKeyMethod = e => e.Name;
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -51,6 +56,9 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             // 在新插入数据或者修改了指定字段时进行修正
             //if (isNew && !Dirtys[nameof(CreateTime)]) CreateTime = DateTime.Now;
+
+            // 检查唯一索引
+            // CheckExist(isNew, nameof(Name));
         }
 
         ///// <summary>首次连接数据库时初始化数据，仅用于实体类重载，用户不应该调用该方法</summary>
@@ -63,13 +71,12 @@ namespace VehicleVedioManage.BackManagement.Entity
         //    if (XTrace.Debug) XTrace.WriteLine("开始初始化MemberInfo[会员信息]数据……");
 
         //    var entity = new MemberInfo();
-        //    entity.MemberNo = "abc";
         //    entity.MemberType = 0;
         //    entity.MemberFormNo = "abc";
         //    entity.MemberTime = DateTime.Now;
         //    entity.Address = "abc";
         //    entity.LicenseNo = "abc";
-        //    entity.OrgNo = "abc";
+        //    entity.DepartmentID = "abc";
         //    entity.ContactPhone = "abc";
         //    entity.Contact = "abc";
         //    entity.Owner = "abc";
@@ -106,8 +113,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         #endregion
 
         #region 扩展查询
-        /// <summary>根据编号查找</summary>
-        /// <param name="id">编号</param>
+        /// <summary>根据会员编号查找</summary>
+        /// <param name="id">会员编号</param>
         /// <returns>实体对象</returns>
         public static MemberInfo FindById(Int32 id)
         {
@@ -121,9 +128,40 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             //return Find(_.Id == id);
         }
+
+        /// <summary>根据名称查找</summary>
+        /// <param name="name">名称</param>
+        /// <returns>实体对象</returns>
+        public static MemberInfo FindByName(String name)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name.EqualIgnoreCase(name));
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(name) as MemberInfo;
+
+            return Find(_.Name == name);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="name">名称</param>
+        /// <param name="start">创建时间开始</param>
+        /// <param name="end">创建时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<MemberInfo> Search(String name, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!name.IsNullOrEmpty()) exp &= _.Name == name;
+            exp &= _.CreateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.MemberFormNo.Contains(key) | _.Address.Contains(key) | _.LicenseNo.Contains(key) | _.DepartmentID.Contains(key) | _.ContactPhone.Contains(key) | _.Contact.Contains(key) | _.Owner.Contains(key) | _.BankCode.Contains(key) | _.BusinessScope.Contains(key) | _.Remark.Contains(key) | _.BankName.Contains(key) | _.AccountName.Contains(key) | _.Name.Contains(key);
+
+            return FindAll(exp, page);
+        }
 
         // Select Count(Id) as Id,Category From MemberInfo Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By Id Desc limit 20
         //static readonly FieldCache<MemberInfo> _CategoryCache = new FieldCache<MemberInfo>(nameof(Category))

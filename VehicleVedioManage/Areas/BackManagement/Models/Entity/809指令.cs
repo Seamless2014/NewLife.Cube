@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -10,191 +10,181 @@ using XCode.DataAccessLayer;
 
 namespace VehicleVedioManage.BackManagement.Entity
 {
-    /// <summary>809指令</summary>
+    /// <summary>809指令。JT809指令，涉及到809转发</summary>
     [Serializable]
     [DataObject]
-    [Description("809指令")]
-    [BindTable("JT809Command", Description = "809指令", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [Description("809指令。JT809指令，涉及到809转发")]
+    [BindIndex("IU_JT809Command_PlateNo_PlateColor", true, "PlateNo,PlateColor")]
+    [BindIndex("IX_JT809Command_SimNo", false, "SimNo")]
+    [BindTable("JT809Command", Description = "809指令。JT809指令，涉及到809转发", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class JT809Command
     {
         #region 属性
         private Int32 _CmdId;
         /// <summary>指令编码</summary>
-        [Category("基本信息")]
         [DisplayName("指令编码")]
         [Description("指令编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("CmdId", "指令编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("CmdId", "指令编码", "")]
         public Int32 CmdId { get => _CmdId; set { if (OnPropertyChanging("CmdId", value)) { _CmdId = value; OnPropertyChanged("CmdId"); } } }
 
         private String _SimNo;
         /// <summary>Sim卡</summary>
-        [Category("基本信息")]
         [DisplayName("Sim卡")]
         [Description("Sim卡")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("SimNo", "Sim卡", "nvarchar(255)")]
+        [BindColumn("SimNo", "Sim卡", "")]
         public String SimNo { get => _SimNo; set { if (OnPropertyChanging("SimNo", value)) { _SimNo = value; OnPropertyChanged("SimNo"); } } }
 
         private String _PlateNo;
         /// <summary>车牌号</summary>
-        [Category("基本信息")]
         [DisplayName("车牌号")]
         [Description("车牌号")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("PlateNo", "车牌号", "nvarchar(255)")]
+        [BindColumn("PlateNo", "车牌号", "")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
         private String _Descr;
         /// <summary>描述</summary>
-        [Category("基本信息")]
         [DisplayName("描述")]
         [Description("描述")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Descr", "描述", "nvarchar(255)")]
+        [BindColumn("Descr", "描述", "")]
         public String Descr { get => _Descr; set { if (OnPropertyChanging("Descr", value)) { _Descr = value; OnPropertyChanged("Descr"); } } }
 
         private Int32 _Cmd;
         /// <summary>指令</summary>
-        [Category("基本信息")]
         [DisplayName("指令")]
         [Description("指令")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("Cmd", "指令", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Cmd", "指令", "")]
         public Int32 Cmd { get => _Cmd; set { if (OnPropertyChanging("Cmd", value)) { _Cmd = value; OnPropertyChanged("Cmd"); } } }
 
         private String _CmdData;
         /// <summary>指令数据</summary>
-        [Category("基本信息")]
         [DisplayName("指令数据")]
         [Description("指令数据")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("CmdData", "指令数据", "nvarchar(255)")]
+        [BindColumn("CmdData", "指令数据", "")]
         public String CmdData { get => _CmdData; set { if (OnPropertyChanging("CmdData", value)) { _CmdData = value; OnPropertyChanged("CmdData"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
-        [Category("基本信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private String _Owner;
         /// <summary>物主</summary>
-        [Category("扩展信息")]
+        [Category("扩展")]
         [DisplayName("物主")]
         [Description("物主")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Owner", "物主", "nvarchar(255)")]
+        [BindColumn("Owner", "物主", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
         private String _Status;
         /// <summary></summary>
-        [Category("基本信息")]
         [DisplayName("Status")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Status", "", "nvarchar(255)")]
+        [BindColumn("Status", "", "")]
         public String Status { get => _Status; set { if (OnPropertyChanging("Status", value)) { _Status = value; OnPropertyChanged("Status"); } } }
 
         private String _Remark;
         /// <summary>备注</summary>
-        [Category("扩展信息")]
+        [Category("扩展")]
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "nvarchar(255)")]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Int32 _SN;
         /// <summary>序号</summary>
-        [Category("扩展信息")]
+        [Category("扩展")]
         [DisplayName("序号")]
         [Description("序号")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("SN", "序号", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("SN", "序号", "")]
         public Int32 SN { get => _SN; set { if (OnPropertyChanging("SN", value)) { _SN = value; OnPropertyChanged("SN"); } } }
 
         private Int32 _UserId;
-        /// <summary>用户名称</summary>
-        [Category("基本信息")]
-        [DisplayName("用户名称")]
-        [Description("用户名称")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("UserId", "用户名称", "int")]
+        /// <summary>用户编码</summary>
+        [DisplayName("用户编码")]
+        [Description("用户编码")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("UserId", "用户编码", "")]
         public Int32 UserId { get => _UserId; set { if (OnPropertyChanging("UserId", value)) { _UserId = value; OnPropertyChanged("UserId"); } } }
 
         private Boolean _Deleted;
-        /// <summary>启用</summary>
-        [Category("基本信息")]
-        [DisplayName("启用")]
-        [Description("启用")]
+        /// <summary>删除</summary>
+        [Category("扩展")]
+        [DisplayName("删除")]
+        [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "启用", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private Byte _PlateColor;
         /// <summary>车牌颜色</summary>
-        [Category("基本信息")]
         [DisplayName("车牌颜色")]
         [Description("车牌颜色")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("PlateColor", "车牌颜色", "tinyint")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("PlateColor", "车牌颜色", "")]
         public Byte PlateColor { get => _PlateColor; set { if (OnPropertyChanging("PlateColor", value)) { _PlateColor = value; OnPropertyChanged("PlateColor"); } } }
 
         private Int32 _SubCmd;
         /// <summary>子指令</summary>
-        [Category("基本信息")]
         [DisplayName("子指令")]
         [Description("子指令")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("SubCmd", "子指令", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("SubCmd", "子指令", "")]
         public Int32 SubCmd { get => _SubCmd; set { if (OnPropertyChanging("SubCmd", value)) { _SubCmd = value; OnPropertyChanged("SubCmd"); } } }
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
-        [Category("扩展信息")]
+        [Category("扩展")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TenantId", "租户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
         private String _Source;
         /// <summary>源</summary>
-        [Category("扩展信息")]
         [DisplayName("源")]
         [Description("源")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("Source", "源", "nvarchar(50)")]
+        [BindColumn("Source", "源", "")]
         public String Source { get => _Source; set { if (OnPropertyChanging("Source", value)) { _Source = value; OnPropertyChanged("Source"); } } }
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
-        [Category("扩展信息")]
+        [Category("扩展")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("UpdateTime", "更新时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("UpdateTime", "更新时间", "", Precision = 0, Scale = 3)]
         public DateTime UpdateTime { get => _UpdateTime; set { if (OnPropertyChanging("UpdateTime", value)) { _UpdateTime = value; OnPropertyChanged("UpdateTime"); } } }
 
         private String _GpsId;
         /// <summary>GPS编码</summary>
-        [Category("扩展信息")]
+        [Category("扩展")]
         [DisplayName("GPS编码")]
         [Description("GPS编码")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("GpsId", "GPS编码", "nvarchar(255)")]
+        [BindColumn("GpsId", "GPS编码", "")]
         public String GpsId { get => _GpsId; set { if (OnPropertyChanging("GpsId", value)) { _GpsId = value; OnPropertyChanged("GpsId"); } } }
 
         private String _Data;
         /// <summary>数据</summary>
-        [Category("扩展信息")]
+        [Category("扩展")]
         [DisplayName("数据")]
         [Description("数据")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Data", "数据", "nvarchar(255)")]
+        [BindColumn("Data", "数据", "")]
         public String Data { get => _Data; set { if (OnPropertyChanging("Data", value)) { _Data = value; OnPropertyChanged("Data"); } } }
         #endregion
 

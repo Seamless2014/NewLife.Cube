@@ -102,16 +102,41 @@ namespace VehicleVedioManage.BasicData.Entity
             if (id <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ID == id);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Id == id);
 
             // 单对象缓存
             return Meta.SingleCache[id];
 
             //return Find(_.Id == id);
         }
+        /// <summary>根据描述查找</summary>
+        /// <param name="description">描述</param>
+        /// <returns>实体列表</returns>
+        public static IList<IndustryType> FindAllByDescription(String description)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Description.EqualIgnoreCase(description));
+
+            return FindAll(_.Description == description);
+        }
         #endregion
 
         #region 高级查询
+
+        /// <summary>高级查询</summary>
+        /// <param name="description">描述</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<IndustryType> Search(String description, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!description.IsNullOrEmpty()) exp &= _.Description == description;
+            if (!key.IsNullOrEmpty()) exp &= _.Description.Contains(key) | _.Industry_Type.Contains(key);
+
+            return FindAll(exp, page);
+        }
 
         // Select Count(Id) as Id,Category From IndustryType Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By Id Desc limit 20
         //static readonly FieldCache<IndustryType> _CategoryCache = new FieldCache<IndustryType>(nameof(Category))

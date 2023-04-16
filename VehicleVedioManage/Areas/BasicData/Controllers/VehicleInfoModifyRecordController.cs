@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using VehicleVedioManage.BasicData.Entity;
 using Microsoft.AspNetCore.Mvc;
-using NewLife.BasicData.Entity;
 using NewLife.Cube;
 using NewLife.Web;
 

@@ -39,6 +39,11 @@ namespace VehicleVedioManage.BasicData.Entity
             Meta.Modules.Add<UserModule>();
             Meta.Modules.Add<TimeModule>();
             Meta.Modules.Add<IPModule>();
+            // 单对象缓存
+            var sc = Meta.SingleCache;
+            sc.FindSlaveKeyMethod = k => Find(_.Name == k);
+            sc.GetSlaveKeyMethod = e => e.Name;
+
             FindAll();
         }
 
@@ -152,7 +157,19 @@ namespace VehicleVedioManage.BasicData.Entity
 
             return FindAll();
         }
+        /// <summary>根据名称查找</summary>
+        /// <param name="name">名称</param>
+        /// <returns>实体对象</returns>
+        public static PlateColor FindByName(String name)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name.EqualIgnoreCase(name));
 
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(name) as PlateColor;
+
+            return Find(_.Name == name);
+        }
         #endregion
 
         #region 高级查询
@@ -162,6 +179,23 @@ namespace VehicleVedioManage.BasicData.Entity
         {
             Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
         };
+        /// <summary>高级查询</summary>
+        /// <param name="name">名称</param>
+        /// <param name="start">更新时间开始</param>
+        /// <param name="end">更新时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<PlateColor> Search(String name, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!name.IsNullOrEmpty()) exp &= _.Name == name;
+            exp &= _.UpdateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.Name.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
+
+            return FindAll(exp, page);
+        }
 
         /// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
         /// <returns></returns>

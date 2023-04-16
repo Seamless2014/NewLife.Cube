@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,7 +14,8 @@ namespace VehicleVedioManage.BackManagement.Entity
     [Serializable]
     [DataObject]
     [Description("报表模型")]
-    [BindTable("ReportModel", Description = "报表模型", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_ReportModel_Name", true, "Name")]
+    [BindTable("ReportModel", Description = "报表模型", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class ReportModel
     {
         #region 属性
@@ -22,8 +23,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>报表编码</summary>
         [DisplayName("报表编码")]
         [Description("报表编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("ReportId", "报表编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("ReportId", "报表编码", "")]
         public Int32 ReportId { get => _ReportId; set { if (OnPropertyChanging("ReportId", value)) { _ReportId = value; OnPropertyChanged("ReportId"); } } }
 
         private String _Name;
@@ -31,7 +32,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("名称")]
         [Description("名称")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Name", "名称", "nvarchar(255)", Master = true)]
+        [BindColumn("Name", "名称", "", Master = true)]
         public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
 
         private String _QueryId;
@@ -39,7 +40,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("查询编码")]
         [Description("查询编码")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("QueryId", "查询编码", "nvarchar(255)")]
+        [BindColumn("QueryId", "查询编码", "")]
         public String QueryId { get => _QueryId; set { if (OnPropertyChanging("QueryId", value)) { _QueryId = value; OnPropertyChanged("QueryId"); } } }
 
         private String _Code;
@@ -47,15 +48,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("编码")]
         [Description("编码")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Code", "编码", "nvarchar(255)")]
+        [BindColumn("Code", "编码", "")]
         public String Code { get => _Code; set { if (OnPropertyChanging("Code", value)) { _Code = value; OnPropertyChanged("Code"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private Boolean _Deleted;
@@ -63,7 +64,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private String _Owner;
@@ -71,7 +72,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("拥有者")]
         [Description("拥有者")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Owner", "拥有者", "nvarchar(255)")]
+        [BindColumn("Owner", "拥有者", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
         #endregion
 

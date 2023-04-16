@@ -1,155 +1,198 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
+using System.Web.Script.Serialization;
+using System.Xml.Serialization;
 using XCode;
 using XCode.Configuration;
 using XCode.DataAccessLayer;
 
 namespace VehicleVedioManage.BasicData.Entity
 {
-    /// <summary></summary>
+    /// <summary>车辆信息.车辆基本信息</summary>
     [Serializable]
     [DataObject]
-    [BindTable("Vehicle", Description = "车辆信息", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [Description("车辆信息.车辆基本信息")]
+    [BindIndex("IU_Vehicle_PlateNo", true, "PlateNo")]
+    [BindIndex("IX_Vehicle_DepartmentName_PlateNo", false, "DepartmentName,PlateNo")]
+    [BindIndex("IX_Vehicle_SimNo", false, "SimNo")]
+    [BindTable("Vehicle", Description = "车辆信息.车辆基本信息", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class Vehicle
     {
         #region 属性
-        private Int32 _Id;
-        /// <summary>车辆编号</summary>
-        [Category("基本信息")]
-        [DisplayName("车辆编号")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("ID", "车辆编号", "Int32")]
-        public Int32 ID { get => _Id; set { if (OnPropertyChanging("ID", value)) { _Id = value; OnPropertyChanged("ID"); } } }
+        private Int32 _ID;
+        /// <summary>编号</summary>
+        [DisplayName("编号")]
+        [Description("编号")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("ID", "编号", "")]
+        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
-        private String? _plateNo;
+        private String _PlateNo;
         /// <summary>车牌号</summary>
-        [Category("基本信息")]
         [DisplayName("车牌号")]
+        [Description("车牌号")]
         [DataObjectField(false, false, true, 30)]
-        [BindColumn("PlateNo", "车牌号", "nvarchar(30)",Master =true)]
-        public String PlateNo { get => _plateNo; set { if (OnPropertyChanging("PlateNo", value)) { _plateNo = value; OnPropertyChanged("PlateNo"); } } }
+        [BindColumn("PlateNo", "车牌号", "", Master = true)]
+        public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
-        private Int32 _vehicleTypeID;
-        /// <summary>车牌类型</summary>
-        [Category("基本信息")]
+        private Int32 _ParameterID;
+        /// <summary>车辆类型</summary>
         [DisplayName("车辆类型")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("VehicleTypeID", "车辆类型", "Int32")]
-        public Int32 VehicleTypeID { get => _vehicleTypeID; set { if (OnPropertyChanging("VehicleTypeID", value)) { _vehicleTypeID = value; OnPropertyChanged("VehicleTypeID"); } } }
+        [Description("车辆类型")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("ParameterID", "车辆类型", "")]
+        public Int32 ParameterID { get => _ParameterID; set { if (OnPropertyChanging("ParameterID", value)) { _ParameterID = value; OnPropertyChanged("ParameterID"); } } }
 
-        private Int32 _plateColorID;
+        private Int32 _PlateColor;
         /// <summary>车牌颜色</summary>
-        [Category("基本信息")]
         [DisplayName("车牌颜色")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("PlateColorID", "车牌颜色", "Int32")]
-        public Int32 PlateColorID { get => _plateColorID; set { if (OnPropertyChanging("PlateColorID", value)) { _plateColorID = value; OnPropertyChanged("PlateColorID"); } } }
+        [Description("车牌颜色")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("PlateColor", "车牌颜色", "")]
+        public Int32 PlateColor { get => _PlateColor; set { if (OnPropertyChanging("PlateColor", value)) { _PlateColor = value; OnPropertyChanged("PlateColor"); } } }
 
-
-        private string? _runStatus;
+        private Int32 _RunStatus;
         /// <summary>车辆运行状态</summary>
-        [Category("基本信息")]
         [DisplayName("车辆运行状态")]
-        [DataObjectField(false, false, true, 20)]
-        [BindColumn("RunStatusCode", "车辆运行状态", "nvarchar(20)")]
-        public string RunStatusCode { get => _runStatus; set { if (OnPropertyChanging("RunStatusCode", value)) { _runStatus = value; OnPropertyChanged("RunStatusCode"); } } }
-
-        private String? _simNo;
-        /// <summary>Sim卡号</summary>
-        [Category("基本信息")]
-        [DisplayName("Sim卡号")]
-        [DataObjectField(false, false, true, 50)]
-        [BindColumn("SimNo", "Sim卡号", "nvarchar(50)")]
-        public String SimNo { get => _simNo; set { if (OnPropertyChanging("SimNo", value)) { _simNo = value; OnPropertyChanged("SimNo"); } } }
-
-        private Int32 _departmentID;
-        /// <summary>部门名称</summary>
-        [Category("基本信息")]
-        [DisplayName("部门名称")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("DepartmentID", "部门名称", "int")]
-        public Int32 DepartmentID { get => _departmentID; set { if (OnPropertyChanging("DepartmentID", value)) { _departmentID = value; OnPropertyChanged("DepartmentID"); } } }
-
-        private Int32 _industryID;
-        /// <summary>行业</summary>
-        [Category("基本信息")]
-        [DisplayName("行业类型")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("IndustryID", "行业类型", "Int32")]
-        public Int32 IndustryID { get => _industryID; set { if (OnPropertyChanging("IndustryID", value)) { _industryID = value; OnPropertyChanged("IndustryID"); } } }
-
-        private String _useTypeCode;
-        /// <summary>使用性质</summary>
-        [Category("基本信息")]
-        [DisplayName("使用性质")]
-        [DataObjectField(false, false, true, 25)]
-        [BindColumn("UseTypeCode", "使用性质", "nvarchar(25)")]
-        public String UseTypeCode { get => _useTypeCode; set { if (OnPropertyChanging("UseTypeCode", value)) { _useTypeCode = value; OnPropertyChanged("UseTypeCode"); } } }
-
-        private Int32 _Region;
-        /// <summary>区域</summary>
-        [Category("基本信息")]
-        [DisplayName("区域")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("Region", "区域", "Int32")]
-        public Int32 Region { get => _Region; set { if (OnPropertyChanging("Region", value)) { _Region = value; OnPropertyChanged("Region"); } } }
+        [Description("车辆运行状态")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("RunStatus", "车辆运行状态", "")]
+        public Int32 RunStatus { get => _RunStatus; set { if (OnPropertyChanging("RunStatus", value)) { _RunStatus = value; OnPropertyChanged("RunStatus"); } } }
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
-        [Category("基本信息")]
+        [Category("扩展信息")]
         [DisplayName("删除")]
+        [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
-        private String? _Driver;
+        private Int32 _TenantId;
+        /// <summary>租户编号</summary>
+        [Category("扩展信息")]
+        [DisplayName("租户编号")]
+        [Description("租户编号")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编号", "")]
+        public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
+
+        private DateTime _InstallDate;
+        /// <summary>安装日期</summary>
+        [DisplayName("安装日期")]
+        [Description("安装日期")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("InstallDate", "安装日期", "", Precision = 0, Scale = 3)]
+        public DateTime InstallDate { get => _InstallDate; set { if (OnPropertyChanging("InstallDate", value)) { _InstallDate = value; OnPropertyChanged("InstallDate"); } } }
+
+        private String _SimNo;
+        /// <summary>Sim卡号</summary>
+        [DisplayName("Sim卡号")]
+        [Description("Sim卡号")]
+        [DataObjectField(false, false, true, 50)]
+        [BindColumn("SimNo", "Sim卡号", "")]
+        public String SimNo { get => _SimNo; set { if (OnPropertyChanging("SimNo", value)) { _SimNo = value; OnPropertyChanged("SimNo"); } } }
+
+        private String _Driver;
         /// <summary>驾驶员</summary>
-        [Category("车辆档案")]
         [DisplayName("驾驶员")]
+        [Description("驾驶员")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Driver", "驾驶员", "nvarchar(255)")]
+        [BindColumn("Driver", "驾驶员", "")]
         public String Driver { get => _Driver; set { if (OnPropertyChanging("Driver", value)) { _Driver = value; OnPropertyChanged("Driver"); } } }
 
-        private Int32 _tenantId;
-        /// <summary>租户编号</summary>
-        [Category("车辆档案")]
-        [DisplayName("租户编号")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TenantID", "租户编号", "int")]
-        public Int32 TenantID { get => _tenantId; set { if (OnPropertyChanging("TenantID", value)) { _tenantId = value; OnPropertyChanged("TenantID"); } } }
+        private Int32 _DepartmentID;
+        /// <summary>部门编码</summary>
+        [DisplayName("部门编码")]
+        [Description("部门编码")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("DepartmentID", "部门编码", "")]
+        public Int32 DepartmentID { get => _DepartmentID; set { if (OnPropertyChanging("DepartmentID", value)) { _DepartmentID = value; OnPropertyChanged("DepartmentID"); } } }
 
-        private DateTime _installDate;
-        /// <summary>安装日期</summary>
-        [Category("车辆档案")]
-        [DisplayName("安装日期")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("InstallDate", "安装日期", "datetime", Precision = 0, Scale = 3)]
-        public DateTime InstallDate { get => _installDate; set { if (OnPropertyChanging("InstallDate", value)) { _installDate = value; OnPropertyChanged("InstallDate"); } } }
+        private Int32 _Region;
+        /// <summary>区域</summary>
+        [DisplayName("区域")]
+        [Description("区域")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("Region", "区域", "")]
+        public Int32 Region { get => _Region; set { if (OnPropertyChanging("Region", value)) { _Region = value; OnPropertyChanged("Region"); } } }
 
-        private String? _DriverMobile;
+        private Int32 _Industry;
+        /// <summary>行业</summary>
+        [DisplayName("行业")]
+        [Description("行业")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("Industry", "行业", "")]
+        public Int32 Industry { get => _Industry; set { if (OnPropertyChanging("Industry", value)) { _Industry = value; OnPropertyChanged("Industry"); } } }
+
+        private Int32 _UseType;
+        /// <summary>使用性质</summary>
+        [DisplayName("使用性质")]
+        [Description("使用性质")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("UseType", "使用性质", "")]
+        public Int32 UseType { get => _UseType; set { if (OnPropertyChanging("UseType", value)) { _UseType = value; OnPropertyChanged("UseType"); } } }
+
+        private String _PlateformId;
+        /// <summary>平台编码</summary>
+        [DisplayName("平台编码")]
+        [Description("平台编码")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("PlateformId", "平台编码", "varchar(255)")]
+        public String PlateformId { get => _PlateformId; set { if (OnPropertyChanging("PlateformId", value)) { _PlateformId = value; OnPropertyChanged("PlateformId"); } } }
+
+        private String _TerminalId;
+        /// <summary>终端编码</summary>
+        [DisplayName("终端编码")]
+        [Description("终端编码")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("TerminalId", "终端编码", "varchar(255)")]
+        public String TerminalId { get => _TerminalId; set { if (OnPropertyChanging("TerminalId", value)) { _TerminalId = value; OnPropertyChanged("TerminalId"); } } }
+
+        private String _TerminalModel;
+        /// <summary>终端型号</summary>
+        [DisplayName("终端型号")]
+        [Description("终端型号")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("TerminalModel", "终端型号", "varchar(255)")]
+        public String TerminalModel { get => _TerminalModel; set { if (OnPropertyChanging("TerminalModel", value)) { _TerminalModel = value; OnPropertyChanged("TerminalModel"); } } }
+
+        private String _TerminalVendorId;
+        /// <summary>终端供应商编码</summary>
+        [DisplayName("终端供应商编码")]
+        [Description("终端供应商编码")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("TerminalVendorId", "终端供应商编码", "varchar(255)")]
+        public String TerminalVendorId { get => _TerminalVendorId; set { if (OnPropertyChanging("TerminalVendorId", value)) { _TerminalVendorId = value; OnPropertyChanged("TerminalVendorId"); } } }
+
+        private String _DriverMobile;
         /// <summary>驾驶员手机号</summary>
-        [Category("车辆档案")]
         [DisplayName("驾驶员手机号")]
+        [Description("驾驶员手机号")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("DriverMobile", "驾驶员手机号", "nvarchar(50)")]
+        [BindColumn("DriverMobile", "驾驶员手机号", "")]
         public String DriverMobile { get => _DriverMobile; set { if (OnPropertyChanging("DriverMobile", value)) { _DriverMobile = value; OnPropertyChanged("DriverMobile"); } } }
 
-        private DateTime _buyDate;
+        private DateTime _BuyDate;
         /// <summary>购买日期</summary>
-        [Category("车辆档案")]
         [DisplayName("购买日期")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("BuyDate", "购买日期", "datetime", Precision = 0, Scale = 3)]
-        public DateTime BuyDate { get => _buyDate; set { if (OnPropertyChanging("BuyDate", value)) { _buyDate = value; OnPropertyChanged("BuyDate"); } } }
+        [Description("购买日期")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("BuyDate", "购买日期", "", Precision = 0, Scale = 3)]
+        public DateTime BuyDate { get => _BuyDate; set { if (OnPropertyChanging("BuyDate", value)) { _BuyDate = value; OnPropertyChanged("BuyDate"); } } }
 
-        private String? _Owner;
+        private String _Owner;
         /// <summary>拥有者</summary>
-        [Category("车辆档案")]
+        [Category("扩展信息")]
         [DisplayName("拥有者")]
+        [Description("拥有者")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("Owner", "拥有者", "nvarchar(50)")]
+        [BindColumn("Owner", "拥有者", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
-        private String? _CreateUser;
+        private String _CreateUser;
         /// <summary>创建者</summary>
         [Category("扩展信息")]
         [DisplayName("创建者")]
@@ -163,11 +206,11 @@ namespace VehicleVedioManage.BasicData.Entity
         [Category("扩展信息")]
         [DisplayName("创建人")]
         [Description("创建人")]
-        [DataObjectField(false, false, false, 0)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("CreateUserID", "创建人", "")]
         public Int32 CreateUserID { get => _CreateUserID; set { if (OnPropertyChanging("CreateUserID", value)) { _CreateUserID = value; OnPropertyChanged("CreateUserID"); } } }
 
-        private String? _CreateIP;
+        private String _CreateIP;
         /// <summary>创建地址</summary>
         [Category("扩展信息")]
         [DisplayName("创建地址")]
@@ -182,10 +225,10 @@ namespace VehicleVedioManage.BasicData.Entity
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("CreateTime", "创建时间", "")]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
-        private String? _UpdateUser;
+        private String _UpdateUser;
         /// <summary>更新者</summary>
         [Category("扩展信息")]
         [DisplayName("更新者")]
@@ -199,11 +242,11 @@ namespace VehicleVedioManage.BasicData.Entity
         [Category("扩展信息")]
         [DisplayName("更新人")]
         [Description("更新人")]
-        [DataObjectField(false, false, false, 0)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("UpdateUserID", "更新人", "")]
         public Int32 UpdateUserID { get => _UpdateUserID; set { if (OnPropertyChanging("UpdateUserID", value)) { _UpdateUserID = value; OnPropertyChanged("UpdateUserID"); } } }
 
-        private String? _UpdateIP;
+        private String _UpdateIP;
         /// <summary>更新地址</summary>
         [Category("扩展信息")]
         [DisplayName("更新地址")]
@@ -214,14 +257,13 @@ namespace VehicleVedioManage.BasicData.Entity
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
-        [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("UpdateTime", "更新时间", "")]
+        [BindColumn("UpdateTime", "更新时间", "", Precision = 0, Scale = 3)]
         public DateTime UpdateTime { get => _UpdateTime; set { if (OnPropertyChanging("UpdateTime", value)) { _UpdateTime = value; OnPropertyChanged("UpdateTime"); } } }
 
-        private String? _Remark;
+        private String _Remark;
         /// <summary>备注</summary>
         [Category("扩展信息")]
         [DisplayName("备注")]
@@ -229,6 +271,22 @@ namespace VehicleVedioManage.BasicData.Entity
         [DataObjectField(false, false, true, 500)]
         [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
+
+        private Int32 _RunStatusCode;
+        /// <summary>车辆运行状态</summary>
+        [DisplayName("车辆运行状态")]
+        [Description("车辆运行状态")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("RunStatusCode", "车辆运行状态", "")]
+        public Int32 RunStatusCode { get => _RunStatusCode; set { if (OnPropertyChanging("RunStatusCode", value)) { _RunStatusCode = value; OnPropertyChanged("RunStatusCode"); } } }
+
+        private String _UseTypeCode;
+        /// <summary>使用性质</summary>
+        [DisplayName("使用性质")]
+        [Description("使用性质")]
+        [DataObjectField(false, false, true, 25)]
+        [BindColumn("UseTypeCode", "使用性质", "")]
+        public String UseTypeCode { get => _UseTypeCode; set { if (OnPropertyChanging("UseTypeCode", value)) { _UseTypeCode = value; OnPropertyChanged("UseTypeCode"); } } }
         #endregion
 
         #region 获取/设置 字段值
@@ -241,21 +299,27 @@ namespace VehicleVedioManage.BasicData.Entity
             {
                 switch (name)
                 {
-                    case "ID": return _Id;
-                    case "PlateNo": return _plateNo;
-                    case "VehicleTypeID": return _vehicleTypeID;
-                    case "PlateColorID": return _plateColorID;
-                    case "Driver": return _Driver;
-                    case "RunStatusCode": return _runStatus;
+                    case "ID": return _ID;
+                    case "PlateNo": return _PlateNo;
+                    case "ParameterID": return _ParameterID;
+                    case "PlateColor": return _PlateColor;
+                    case "RunStatus": return _RunStatus;
                     case "Deleted": return _Deleted;
-                    case "TenantID": return _tenantId;
-                    case "InstallDate": return _installDate;
-                    case "SimNo": return _simNo;
-                    case "BuyDate": return _buyDate;
+                    case "TenantId": return _TenantId;
+                    case "InstallDate": return _InstallDate;
+                    case "SimNo": return _SimNo;
+                    case "Driver": return _Driver;
+                    case "DepartmentID": return _DepartmentID;
+                    case "Region": return _Region;
+                    case "Industry": return _Industry;
+                    case "UseType": return _UseType;
+                    case "PlateformId": return _PlateformId;
+                    case "TerminalId": return _TerminalId;
+                    case "TerminalModel": return _TerminalModel;
+                    case "TerminalVendorId": return _TerminalVendorId;
+                    case "DriverMobile": return _DriverMobile;
+                    case "BuyDate": return _BuyDate;
                     case "Owner": return _Owner;
-                    case "DepartmentID": return _departmentID;
-                    case "UseTypeCode": return _useTypeCode;
-                    case "IndustryID": return _industryID;
                     case "CreateUser": return _CreateUser;
                     case "CreateUserID": return _CreateUserID;
                     case "CreateIP": return _CreateIP;
@@ -265,6 +329,8 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "UpdateIP": return _UpdateIP;
                     case "UpdateTime": return _UpdateTime;
                     case "Remark": return _Remark;
+                    case "RunStatusCode": return _RunStatusCode;
+                    case "UseTypeCode": return _UseTypeCode;
                     default: return base[name];
                 }
             }
@@ -272,20 +338,27 @@ namespace VehicleVedioManage.BasicData.Entity
             {
                 switch (name)
                 {
-                    case "ID": _Id = value.ToInt(); break;
-                    case "PlateNo": _plateNo = Convert.ToString(value); break;
-                    case "VehicleTypeID": _vehicleTypeID = value.ToInt(); break;
-                    case "PlateColorID": _plateColorID = value.ToInt(); break;
-                    case "RunStatusCode": _runStatus = Convert.ToString(value); break;
+                    case "ID": _ID = value.ToInt(); break;
+                    case "PlateNo": _PlateNo = Convert.ToString(value); break;
+                    case "ParameterID": _ParameterID = value.ToInt(); break;
+                    case "PlateColor": _PlateColor = value.ToInt(); break;
+                    case "RunStatus": _RunStatus = value.ToInt(); break;
                     case "Deleted": _Deleted = value.ToBoolean(); break;
-                    case "TenantId": _tenantId = value.ToInt(); break;
-                    case "SimNo": _simNo = Convert.ToString(value); break;
+                    case "TenantId": _TenantId = value.ToInt(); break;
+                    case "InstallDate": _InstallDate = value.ToDateTime(); break;
+                    case "SimNo": _SimNo = Convert.ToString(value); break;
+                    case "Driver": _Driver = Convert.ToString(value); break;
+                    case "DepartmentID": _DepartmentID = value.ToInt(); break;
+                    case "Region": _Region = value.ToInt(); break;
+                    case "Industry": _Industry = value.ToInt(); break;
+                    case "UseType": _UseType = value.ToInt(); break;
+                    case "PlateformId": _PlateformId = Convert.ToString(value); break;
+                    case "TerminalId": _TerminalId = Convert.ToString(value); break;
+                    case "TerminalModel": _TerminalModel = Convert.ToString(value); break;
+                    case "TerminalVendorId": _TerminalVendorId = Convert.ToString(value); break;
                     case "DriverMobile": _DriverMobile = Convert.ToString(value); break;
-                    case "BuyDate": _buyDate = value.ToDateTime(); break;
+                    case "BuyDate": _BuyDate = value.ToDateTime(); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
-                    case "DepartmentID": _departmentID = value.ToInt(); break;
-                    case "UseTypeCode": _useTypeCode = value?.ToString(); break;
-                    case "IndustryID": _industryID = value.ToInt(); break;
                     case "CreateUser": _CreateUser = Convert.ToString(value); break;
                     case "CreateUserID": _CreateUserID = value.ToInt(); break;
                     case "CreateIP": _CreateIP = Convert.ToString(value); break;
@@ -295,6 +368,8 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "UpdateIP": _UpdateIP = Convert.ToString(value); break;
                     case "UpdateTime": _UpdateTime = value.ToDateTime(); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
+                    case "RunStatusCode": _RunStatusCode = value.ToInt(); break;
+                    case "UseTypeCode": _UseTypeCode = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
             }
@@ -302,62 +377,74 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 字段名
-        /// <summary>取得Vehicle字段信息的快捷方式</summary>
+        /// <summary>取得车辆信息字段信息的快捷方式</summary>
         public partial class _
         {
-            /// <summary></summary>
+            /// <summary>编号</summary>
             public static readonly Field ID = FindByName("ID");
 
-            /// <summary></summary>
+            /// <summary>车牌号</summary>
             public static readonly Field PlateNo = FindByName("PlateNo");
 
-            /// <summary></summary>
-            public static readonly Field VehicleTypeID = FindByName("VehicleTypeID");
+            /// <summary>车辆类型</summary>
+            public static readonly Field ParameterID = FindByName("ParameterID");
 
-            /// <summary></summary>
-            public static readonly Field PlateColorID = FindByName("PlateColorID");
+            /// <summary>车牌颜色</summary>
+            public static readonly Field PlateColor = FindByName("PlateColor");
 
-            /// <summary></summary>
-            public static readonly Field Driver = FindByName("Driver");
+            /// <summary>车辆运行状态</summary>
+            public static readonly Field RunStatus = FindByName("RunStatus");
 
-            /// <summary></summary>
-            public static readonly Field RunStatusCode = FindByName("RunStatusCode");
-
-            /// <summary></summary>
+            /// <summary>删除</summary>
             public static readonly Field Deleted = FindByName("Deleted");
 
-            /// <summary></summary>
-            public static readonly Field tenantId = FindByName("TenantID");
+            /// <summary>租户编号</summary>
+            public static readonly Field TenantId = FindByName("TenantId");
 
-            /// <summary></summary>
+            /// <summary>安装日期</summary>
             public static readonly Field InstallDate = FindByName("InstallDate");
 
-            /// <summary></summary>
+            /// <summary>Sim卡号</summary>
             public static readonly Field SimNo = FindByName("SimNo");
 
-            /// <summary></summary>
-            public static readonly Field DriverMobile = FindByName("DriverMobile");
+            /// <summary>驾驶员</summary>
+            public static readonly Field Driver = FindByName("Driver");
 
-            /// <summary></summary>
-            public static readonly Field BuyDate = FindByName("BuyDate");
-
-            /// <summary></summary>
-            public static readonly Field Owner = FindByName("Owner");
-
-            /// <summary></summary>
+            /// <summary>部门编码</summary>
             public static readonly Field DepartmentID = FindByName("DepartmentID");
 
-            /// <summary></summary>
-            public static readonly Field UseTypeCode = FindByName("UseTypeCode");
+            /// <summary>部门名称</summary>
+            public static readonly Field DepartmentName = FindByName("DepartmentName");
 
-            /// <summary></summary>
-            public static readonly Field IndustryID = FindByName("IndustryID");
-
-            /// <summary></summary>
+            /// <summary>区域</summary>
             public static readonly Field Region = FindByName("Region");
 
-            /// <summary></summary>
-            public static readonly Field DepartmentName = FindByName("DepartmentName");
+            /// <summary>行业</summary>
+            public static readonly Field Industry = FindByName("Industry");
+
+            /// <summary>使用性质</summary>
+            public static readonly Field UseType = FindByName("UseType");
+
+            /// <summary>平台编码</summary>
+            public static readonly Field PlateformId = FindByName("PlateformId");
+
+            /// <summary>终端编码</summary>
+            public static readonly Field TerminalId = FindByName("TerminalId");
+
+            /// <summary>终端型号</summary>
+            public static readonly Field TerminalModel = FindByName("TerminalModel");
+
+            /// <summary>终端供应商编码</summary>
+            public static readonly Field TerminalVendorId = FindByName("TerminalVendorId");
+
+            /// <summary>驾驶员手机号</summary>
+            public static readonly Field DriverMobile = FindByName("DriverMobile");
+
+            /// <summary>购买日期</summary>
+            public static readonly Field BuyDate = FindByName("BuyDate");
+
+            /// <summary>拥有者</summary>
+            public static readonly Field Owner = FindByName("Owner");
 
             /// <summary>创建者</summary>
             public static readonly Field CreateUser = FindByName("CreateUser");
@@ -386,65 +473,83 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>备注</summary>
             public static readonly Field Remark = FindByName("Remark");
 
+            /// <summary>车辆运行状态</summary>
+            public static readonly Field RunStatusCode = FindByName("RunStatusCode");
+
+            /// <summary>使用性质</summary>
+            public static readonly Field UseTypeCode = FindByName("UseTypeCode");
+
             static Field FindByName(String name) => Meta.Table.FindByName(name);
         }
 
-        /// <summary>取得Vehicle字段名称的快捷方式</summary>
+        /// <summary>取得车辆信息字段名称的快捷方式</summary>
         public partial class __
         {
-            /// <summary></summary>
+            /// <summary>编号</summary>
             public const String ID = "ID";
 
-            /// <summary></summary>
+            /// <summary>车牌号</summary>
             public const String PlateNo = "PlateNo";
 
-            /// <summary></summary>
-            public const String VehicleTypeID = "VehicleTypeID";
+            /// <summary>车辆类型</summary>
+            public const String ParameterID = "ParameterID";
 
-            /// <summary></summary>
-            public const String PlateColorID = "PlateColorID";
+            /// <summary>车牌颜色</summary>
+            public const String PlateColor = "PlateColor";
 
-            /// <summary></summary>
-            public const String Driver = "Driver";
+            /// <summary>车辆运行状态</summary>
+            public const String RunStatus = "RunStatus";
 
-            /// <summary></summary>
-            public const String RunStatusCode = "RunStatusCode";
-
-            /// <summary></summary>
+            /// <summary>删除</summary>
             public const String Deleted = "Deleted";
 
-            /// <summary></summary>
-            public const String TenantId = "TenantID";
+            /// <summary>租户编号</summary>
+            public const String TenantId = "TenantId";
 
-            /// <summary></summary>
+            /// <summary>安装日期</summary>
             public const String InstallDate = "InstallDate";
 
-            /// <summary></summary>
+            /// <summary>Sim卡号</summary>
             public const String SimNo = "SimNo";
 
-            /// <summary></summary>
-            public const String DriverMobile = "DriverMobile";
+            /// <summary>驾驶员</summary>
+            public const String Driver = "Driver";
 
-            /// <summary></summary>
-            public const String BuyDate = "BuyDate";
-
-            /// <summary></summary>
-            public const String Owner = "Owner";
-
-            /// <summary></summary>
+            /// <summary>部门编码</summary>
             public const String DepartmentID = "DepartmentID";
 
-            /// <summary></summary>
-            public const String UseTypeCode = "UseTypeCode";
+            /// <summary>部门名称</summary>
+            public const String DepartmentName = "DepartmentName";
 
-            /// <summary></summary>
-            public const String IndustryID = "IndustryID";
-
-            /// <summary></summary>
+            /// <summary>区域</summary>
             public const String Region = "Region";
 
-            /// <summary></summary>
-            public const String DepartmentName = "DepartmentName";
+            /// <summary>行业</summary>
+            public const String Industry = "Industry";
+
+            /// <summary>使用性质</summary>
+            public const String UseType = "UseType";
+
+            /// <summary>平台编码</summary>
+            public const String PlateformId = "PlateformId";
+
+            /// <summary>终端编码</summary>
+            public const String TerminalId = "TerminalId";
+
+            /// <summary>终端型号</summary>
+            public const String TerminalModel = "TerminalModel";
+
+            /// <summary>终端供应商编码</summary>
+            public const String TerminalVendorId = "TerminalVendorId";
+
+            /// <summary>驾驶员手机号</summary>
+            public const String DriverMobile = "DriverMobile";
+
+            /// <summary>购买日期</summary>
+            public const String BuyDate = "BuyDate";
+
+            /// <summary>拥有者</summary>
+            public const String Owner = "Owner";
 
             /// <summary>创建者</summary>
             public const String CreateUser = "CreateUser";
@@ -472,6 +577,12 @@ namespace VehicleVedioManage.BasicData.Entity
 
             /// <summary>备注</summary>
             public const String Remark = "Remark";
+
+            /// <summary>车辆运行状态</summary>
+            public const String RunStatusCode = "RunStatusCode";
+
+            /// <summary>使用性质</summary>
+            public const String UseTypeCode = "UseTypeCode";
         }
         #endregion
     }

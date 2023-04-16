@@ -1,4 +1,9 @@
-﻿using System.ComponentModel;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
+using System.Web.Script.Serialization;
+using System.Xml.Serialization;
 using XCode;
 using XCode.Configuration;
 using XCode.DataAccessLayer;
@@ -9,7 +14,8 @@ namespace VehicleVedioManage.BasicData.Entity
     [Serializable]
     [DataObject]
     [Description("基础数据")]
-    [BindTable("BasicInfo", Description = "基础数据", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_BasicInfo_Name", true, "Name")]
+    [BindTable("BasicInfo", Description = "基础数据", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class BasicInfo
     {
         #region 属性
@@ -17,8 +23,8 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>基础数据编码</summary>
         [DisplayName("基础数据编码")]
         [Description("基础数据编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("BaseId", "基础数据编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("BaseId", "基础数据编码", "")]
         public Int32 BaseId { get => _BaseId; set { if (OnPropertyChanging("BaseId", value)) { _BaseId = value; OnPropertyChanged("BaseId"); } } }
 
         private String _Name;
@@ -26,55 +32,55 @@ namespace VehicleVedioManage.BasicData.Entity
         [DisplayName("名称")]
         [Description("名称")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Name", "名称", "nvarchar(255)", Master = true)]
+        [BindColumn("Name", "名称", "", Master = true)]
         public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
 
         private String _Code;
-        /// <summary>代码</summary>
-        [DisplayName("代码")]
-        [Description("代码")]
+        /// <summary>编码</summary>
+        [DisplayName("编码")]
+        [Description("编码")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Code", "代码", "nvarchar(255)")]
+        [BindColumn("Code", "编码", "")]
         public String Code { get => _Code; set { if (OnPropertyChanging("Code", value)) { _Code = value; OnPropertyChanged("Code"); } } }
 
         private String _Parent;
-        /// <summary>上级</summary>
-        [DisplayName("上级")]
-        [Description("上级")]
+        /// <summary>父编码</summary>
+        [DisplayName("父编码")]
+        [Description("父编码")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Parent", "上级", "nvarchar(255)")]
+        [BindColumn("Parent", "父编码", "")]
         public String Parent { get => _Parent; set { if (OnPropertyChanging("Parent", value)) { _Parent = value; OnPropertyChanged("Parent"); } } }
 
-        private String _Meta;
-        /// <summary>元(标签)</summary>
-        [DisplayName("元")]
-        [Description("元(标签)")]
+        private String _MetaData;
+        /// <summary>元数据</summary>
+        [DisplayName("元数据")]
+        [Description("元数据")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("MetaData", "元(标签)", "nvarchar(255)")]
-        public String MetaData { get => _Meta; set { if (OnPropertyChanging("MetaData", value)) { _Meta = value; OnPropertyChanged("MetaData"); } } }
+        [BindColumn("MetaData", "元数据", "")]
+        public String MetaData { get => _MetaData; set { if (OnPropertyChanging("MetaData", value)) { _MetaData = value; OnPropertyChanged("MetaData"); } } }
 
         private Boolean _Deleted;
-        /// <summary>删除</summary>
-        [DisplayName("删除")]
-        [Description("删除")]
+        /// <summary>启用</summary>
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "启用", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
         [DisplayName("租户编码")]
         [Description("租户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TenantId", "租户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
         private String _Remark;
@@ -82,7 +88,7 @@ namespace VehicleVedioManage.BasicData.Entity
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "nvarchar(255)")]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private String _Owner;
@@ -90,15 +96,15 @@ namespace VehicleVedioManage.BasicData.Entity
         [DisplayName("物主")]
         [Description("物主")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("Owner", "物主", "nvarchar(50)")]
+        [BindColumn("Owner", "物主", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
         private Int32 _SN;
         /// <summary>序号</summary>
         [DisplayName("序号")]
         [Description("序号")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("SN", "序号", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("SN", "序号", "")]
         public Int32 SN { get => _SN; set { if (OnPropertyChanging("SN", value)) { _SN = value; OnPropertyChanged("SN"); } } }
         #endregion
 
@@ -116,7 +122,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "Name": return _Name;
                     case "Code": return _Code;
                     case "Parent": return _Parent;
-                    case "MetaData": return _Meta;
+                    case "MetaData": return _MetaData;
                     case "Deleted": return _Deleted;
                     case "CreateTime": return _CreateTime;
                     case "TenantId": return _TenantId;
@@ -134,7 +140,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "Name": _Name = Convert.ToString(value); break;
                     case "Code": _Code = Convert.ToString(value); break;
                     case "Parent": _Parent = Convert.ToString(value); break;
-                    case "MetaData": _Meta = Convert.ToString(value); break;
+                    case "MetaData": _MetaData = Convert.ToString(value); break;
                     case "Deleted": _Deleted = value.ToBoolean(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
@@ -157,16 +163,16 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>名称</summary>
             public static readonly Field Name = FindByName("Name");
 
-            /// <summary>代码</summary>
+            /// <summary>编码</summary>
             public static readonly Field Code = FindByName("Code");
 
-            /// <summary>上级</summary>
+            /// <summary>父编码</summary>
             public static readonly Field Parent = FindByName("Parent");
 
-            /// <summary>元(标签)</summary>
+            /// <summary>元数据</summary>
             public static readonly Field MetaData = FindByName("MetaData");
 
-            /// <summary>删除</summary>
+            /// <summary>启用</summary>
             public static readonly Field Deleted = FindByName("Deleted");
 
             /// <summary>创建时间</summary>
@@ -196,16 +202,16 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>名称</summary>
             public const String Name = "Name";
 
-            /// <summary>代码</summary>
+            /// <summary>编码</summary>
             public const String Code = "Code";
 
-            /// <summary>上级</summary>
+            /// <summary>父编码</summary>
             public const String Parent = "Parent";
 
-            /// <summary>元(标签)</summary>
+            /// <summary>元数据</summary>
             public const String MetaData = "MetaData";
 
-            /// <summary>删除</summary>
+            /// <summary>启用</summary>
             public const String Deleted = "Deleted";
 
             /// <summary>创建时间</summary>

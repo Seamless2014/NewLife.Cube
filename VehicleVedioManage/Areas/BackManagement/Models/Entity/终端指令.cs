@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -14,7 +14,8 @@ namespace VehicleVedioManage.BackManagement.Entity
     [Serializable]
     [DataObject]
     [Description("终端指令")]
-    [BindTable("TerminalCommand", Description = "终端指令", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [BindIndex("IU_TerminalCommand_PlateNo", true, "PlateNo")]
+    [BindTable("TerminalCommand", Description = "终端指令", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class TerminalCommand
     {
         #region 属性
@@ -22,8 +23,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>指令编码</summary>
         [DisplayName("指令编码")]
         [Description("指令编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("CmdId", "指令编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("CmdId", "指令编码", "")]
         public Int32 CmdId { get => _CmdId; set { if (OnPropertyChanging("CmdId", value)) { _CmdId = value; OnPropertyChanged("CmdId"); } } }
 
         private String _PlateNo;
@@ -31,15 +32,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("车牌号")]
         [Description("车牌号")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("PlateNo", "车牌号", "nvarchar(50)")]
+        [BindColumn("PlateNo", "车牌号", "")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
         private Int32 _CmdType;
         /// <summary>指令类型</summary>
         [DisplayName("指令类型")]
         [Description("指令类型")]
-        [DataObjectField(false, false, false, 10)]
-        [BindColumn("CmdType", "指令类型", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CmdType", "指令类型", "")]
         public Int32 CmdType { get => _CmdType; set { if (OnPropertyChanging("CmdType", value)) { _CmdType = value; OnPropertyChanged("CmdType"); } } }
 
         private String _Cmd;
@@ -47,7 +48,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("指令")]
         [Description("指令")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("CMD", "指令", "nvarchar(50)")]
+        [BindColumn("Cmd", "指令", "")]
         public String Cmd { get => _Cmd; set { if (OnPropertyChanging("Cmd", value)) { _Cmd = value; OnPropertyChanged("Cmd"); } } }
 
         private String _CmdData;
@@ -55,16 +56,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("指令数据")]
         [Description("指令数据")]
         [DataObjectField(false, false, true, 2500)]
-        [BindColumn("CmdData", "指令数据", "nvarchar(2500)")]
+        [BindColumn("CmdData", "指令数据", "")]
         public String CmdData { get => _CmdData; set { if (OnPropertyChanging("CmdData", value)) { _CmdData = value; OnPropertyChanged("CmdData"); } } }
 
         private DateTime _CreateDate;
         /// <summary>创建时间</summary>
-        [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateDate", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateDate", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateDate { get => _CreateDate; set { if (OnPropertyChanging("CreateDate", value)) { _CreateDate = value; OnPropertyChanged("CreateDate"); } } }
 
         private Boolean _Deleted;
@@ -73,7 +73,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private String _SimNo;
@@ -81,7 +81,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("Sim卡")]
         [Description("Sim卡")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("SimNo", "Sim卡", "nvarchar(50)")]
+        [BindColumn("SimNo", "Sim卡", "")]
         public String SimNo { get => _SimNo; set { if (OnPropertyChanging("SimNo", value)) { _SimNo = value; OnPropertyChanged("SimNo"); } } }
 
         private String _Status;
@@ -89,7 +89,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("状态")]
         [Description("状态")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("Status", "状态", "nvarchar(50)")]
+        [BindColumn("Status", "状态", "")]
         public String Status { get => _Status; set { if (OnPropertyChanging("Status", value)) { _Status = value; OnPropertyChanged("Status"); } } }
 
         private String _Remark;
@@ -98,7 +98,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 100)]
-        [BindColumn("Remark", "备注", "nvarchar(100)")]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private String _Owner;
@@ -107,16 +107,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("拥有者")]
         [Description("拥有者")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("Owner", "拥有者", "nvarchar(50)")]
+        [BindColumn("Owner", "拥有者", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
         private Int32 _UserId;
         /// <summary>用户编码</summary>
-        [Category("扩展信息")]
         [DisplayName("用户编码")]
         [Description("用户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("UserId", "用户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("UserId", "用户编码", "")]
         public Int32 UserId { get => _UserId; set { if (OnPropertyChanging("UserId", value)) { _UserId = value; OnPropertyChanged("UserId"); } } }
 
         private Int32 _SN;
@@ -124,8 +123,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         [Category("扩展信息")]
         [DisplayName("序号")]
         [Description("序号")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("SN", "序号", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("SN", "序号", "")]
         public Int32 SN { get => _SN; set { if (OnPropertyChanging("SN", value)) { _SN = value; OnPropertyChanged("SN"); } } }
 
         private Int32 _TenantId;
@@ -133,25 +132,24 @@ namespace VehicleVedioManage.BackManagement.Entity
         [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TenantId", "租户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
         private DateTime _UpdateDate;
         /// <summary>更新时间</summary>
-        [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("UpdateDate", "更新时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("UpdateDate", "更新时间", "", Precision = 0, Scale = 3)]
         public DateTime UpdateDate { get => _UpdateDate; set { if (OnPropertyChanging("UpdateDate", value)) { _UpdateDate = value; OnPropertyChanged("UpdateDate"); } } }
 
         private Int32 _VehicleId;
         /// <summary>车辆编码</summary>
         [DisplayName("车辆编码")]
         [Description("车辆编码")]
-        [DataObjectField(false, false, false, 10)]
-        [BindColumn("VehicleId", "车辆编码", "int")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("VehicleId", "车辆编码", "")]
         public Int32 VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
 
         private String _Data;
@@ -159,7 +157,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("数据")]
         [Description("数据")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Data", "数据", "nvarchar(255)")]
+        [BindColumn("Data", "数据", "")]
         public String Data { get => _Data; set { if (OnPropertyChanging("Data", value)) { _Data = value; OnPropertyChanged("Data"); } } }
         #endregion
 

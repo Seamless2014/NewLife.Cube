@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -49,6 +49,9 @@ namespace VehicleVedioManage.BackManagement.Entity
             base.Valid(isNew);
 
             // 在新插入数据或者修改了指定字段时进行修正
+
+            // 检查唯一索引
+            // CheckExist(isNew, nameof(PlateNo));
         }
 
         ///// <summary>首次连接数据库时初始化数据，仅用于实体类重载，用户不应该调用该方法</summary>
@@ -98,15 +101,6 @@ namespace VehicleVedioManage.BackManagement.Entity
         #endregion
 
         #region 扩展属性
-        /// <summary>用户编码</summary>
-        [XmlIgnore, IgnoreDataMember]
-        //[ScriptIgnore]
-        public User User => Extends.Get(nameof(User), k => User.FindByID(UserId));
-
-        /// <summary>用户编码</summary>
-        [Map(nameof(UserId), typeof(User), "ID")]
-        public String UserName => User?.Name;
-
         #endregion
 
         #region 扩展查询
@@ -125,9 +119,34 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             //return Find(_.CmdId == cmdId);
         }
+
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体对象</returns>
+        public static TerminalCommand FindByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return Find(_.PlateNo == plateNo);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<TerminalCommand> Search(String plateNo, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.Cmd.Contains(key) | _.CmdData.Contains(key) | _.SimNo.Contains(key) | _.Status.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key) | _.Data.Contains(key);
+
+            return FindAll(exp, page);
+        }
 
         // Select Count(CmdId) as CmdId,Category From TerminalCommand Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By CmdId Desc limit 20
         //static readonly FieldCache<TerminalCommand> _CategoryCache = new FieldCache<TerminalCommand>(nameof(Category))

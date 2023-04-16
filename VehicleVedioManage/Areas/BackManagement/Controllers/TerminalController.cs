@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel;
 using VehicleVedioManage.BasicData.Entity;
 using Microsoft.AspNetCore.Mvc;
-using NewLife.BasicData.Entity;
 using NewLife;
 using NewLife.Cube;
 using NewLife.Cube.Extensions;
 using NewLife.Log;
 using NewLife.Web;
 using VehicleVedioManage.BackManagement.Entity;
+using VehicleVedioManage.Areas.BackManagement;
 
-namespace VehicleVedioManage.Areas.BackManagement.Controllers
+namespace VehicleVedioManage.BackManagement.Controllers
 {
     [BackManagementArea]
     [DisplayName("终端信息")]

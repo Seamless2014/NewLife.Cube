@@ -143,6 +143,29 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             //return Find(_.CmdId == cmdId);
         }
+
+        /// <summary>根据车牌号、车牌颜色查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="plateColor">车牌颜色</param>
+        /// <returns>实体对象</returns>
+        public static JT809Command FindByPlateNoAndPlateColor(String plateNo, Byte plateColor)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo) && e.PlateColor == plateColor);
+
+            return Find(_.PlateNo == plateNo & _.PlateColor == plateColor);
+        }
+
+        /// <summary>根据Sim卡查找</summary>
+        /// <param name="simNo">Sim卡</param>
+        /// <returns>实体列表</returns>
+        public static IList<JT809Command> FindAllBySimNo(String simNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.SimNo.EqualIgnoreCase(simNo));
+
+            return FindAll(_.SimNo == simNo);
+        }
         #endregion
 
         #region 高级查询
@@ -156,6 +179,47 @@ namespace VehicleVedioManage.BackManagement.Entity
         ///// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
         ///// <returns></returns>
         //public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
+        /// <summary>高级查询</summary>
+        /// <param name="simNo">Sim卡</param>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="plateColor">车牌颜色</param>
+        /// <param name="start">更新时间开始</param>
+        /// <param name="end">更新时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<JT809Command> Search(String simNo, String plateNo, Byte plateColor, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!simNo.IsNullOrEmpty()) exp &= _.SimNo == simNo;
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (plateColor >= 0) exp &= _.PlateColor == plateColor;
+            exp &= _.UpdateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.SimNo.Contains(key) | _.PlateNo.Contains(key) | _.Descr.Contains(key) | _.CmdData.Contains(key) | _.Owner.Contains(key) | _.Status.Contains(key) | _.Remark.Contains(key) | _.Source.Contains(key) | _.GpsId.Contains(key) | _.Data.Contains(key);
+
+            return FindAll(exp, page);
+        }
+
+        // Select Count(CmdId) as CmdId,PlateNo From JT809Command Where CreateTime>'2020-01-24 00:00:00' Group By PlateNo Order By CmdId Desc limit 20
+        static readonly FieldCache<JT809Command> _PlateNoCache = new FieldCache<JT809Command>(nameof(PlateNo))
+        {
+            //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取车牌号列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetPlateNoList() => _PlateNoCache.FindAllName();
+
+        // Select Count(CmdId) as CmdId,SimNo From JT809Command Where CreateTime>'2020-01-24 00:00:00' Group By SimNo Order By CmdId Desc limit 20
+        static readonly FieldCache<JT809Command> _SimNoCache = new FieldCache<JT809Command>(nameof(SimNo))
+        {
+            //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取Sim卡列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetSimNoList() => _SimNoCache.FindAllName();
         #endregion
 
         #region 业务操作

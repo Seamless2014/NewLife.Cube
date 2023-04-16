@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -10,11 +10,14 @@ using XCode.DataAccessLayer;
 
 namespace VehicleVedioManage.BackManagement.Entity
 {
-    /// <summary>多媒体</summary>
+    /// <summary>多媒体。多媒体信息</summary>
     [Serializable]
     [DataObject]
-    [Description("多媒体")]
-    [BindTable("MediaItem", Description = "多媒体", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [Description("多媒体。多媒体信息")]
+    [BindIndex("IU_MediaItem_PlateNo", true, "PlateNo")]
+    [BindIndex("IX_MediaItem_SendTime_PlateNo", false, "SendTime,PlateNo")]
+    [BindIndex("IX_MediaItem_SimNo", false, "SimNo")]
+    [BindTable("MediaItem", Description = "多媒体。多媒体信息", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class MediaItem
     {
         #region 属性
@@ -22,16 +25,16 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>多媒体项编码</summary>
         [DisplayName("多媒体项编码")]
         [Description("多媒体项编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("MediaItemId", "多媒体项编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("MediaItemId", "多媒体项编码", "")]
         public Int32 MediaItemId { get => _MediaItemId; set { if (OnPropertyChanging("MediaItemId", value)) { _MediaItemId = value; OnPropertyChanged("MediaItemId"); } } }
 
         private Int32 _CommandId;
         /// <summary>指令编码</summary>
         [DisplayName("指令编码")]
         [Description("指令编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("CommandId", "指令编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CommandId", "指令编码", "")]
         public Int32 CommandId { get => _CommandId; set { if (OnPropertyChanging("CommandId", value)) { _CommandId = value; OnPropertyChanged("CommandId"); } } }
 
         private String _CommandType;
@@ -39,7 +42,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("指令类型")]
         [Description("指令类型")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("CommandType", "指令类型", "nvarchar(255)")]
+        [BindColumn("CommandType", "指令类型", "")]
         public String CommandType { get => _CommandType; set { if (OnPropertyChanging("CommandType", value)) { _CommandType = value; OnPropertyChanged("CommandType"); } } }
 
         private String _PlateNo;
@@ -47,7 +50,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("车牌号")]
         [Description("车牌号")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("PlateNo", "车牌号", "nvarchar(255)")]
+        [BindColumn("PlateNo", "车牌号", "")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
         private String _SimNo;
@@ -55,55 +58,55 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("Sim卡号")]
         [Description("Sim卡号")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("SimNo", "Sim卡号", "nvarchar(255)")]
+        [BindColumn("SimNo", "Sim卡号", "")]
         public String SimNo { get => _SimNo; set { if (OnPropertyChanging("SimNo", value)) { _SimNo = value; OnPropertyChanged("SimNo"); } } }
 
         private DateTime _SendTime;
         /// <summary>发送时间</summary>
         [DisplayName("发送时间")]
         [Description("发送时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("SendTime", "发送时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("SendTime", "发送时间", "", Precision = 0, Scale = 3)]
         public DateTime SendTime { get => _SendTime; set { if (OnPropertyChanging("SendTime", value)) { _SendTime = value; OnPropertyChanged("SendTime"); } } }
 
         private Int32 _MediaDataId;
         /// <summary>多媒体数据编码</summary>
         [DisplayName("多媒体数据编码")]
         [Description("多媒体数据编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("MediaDataId", "多媒体数据编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MediaDataId", "多媒体数据编码", "")]
         public Int32 MediaDataId { get => _MediaDataId; set { if (OnPropertyChanging("MediaDataId", value)) { _MediaDataId = value; OnPropertyChanged("MediaDataId"); } } }
 
         private Byte _MediaType;
         /// <summary>多媒体类型</summary>
         [DisplayName("多媒体类型")]
         [Description("多媒体类型")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("MediaType", "多媒体类型", "tinyint")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MediaType", "多媒体类型", "")]
         public Byte MediaType { get => _MediaType; set { if (OnPropertyChanging("MediaType", value)) { _MediaType = value; OnPropertyChanged("MediaType"); } } }
 
         private Byte _CodeFormat;
         /// <summary>编码格式</summary>
         [DisplayName("编码格式")]
         [Description("编码格式")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CodeFormat", "编码格式", "tinyint")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CodeFormat", "编码格式", "")]
         public Byte CodeFormat { get => _CodeFormat; set { if (OnPropertyChanging("CodeFormat", value)) { _CodeFormat = value; OnPropertyChanged("CodeFormat"); } } }
 
         private Byte _ChannelId;
         /// <summary>通道编码</summary>
         [DisplayName("通道编码")]
         [Description("通道编码")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("ChannelId", "通道编码", "tinyint")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("ChannelId", "通道编码", "")]
         public Byte ChannelId { get => _ChannelId; set { if (OnPropertyChanging("ChannelId", value)) { _ChannelId = value; OnPropertyChanged("ChannelId"); } } }
 
         private Byte _EventCode;
         /// <summary>事件代码</summary>
         [DisplayName("事件代码")]
         [Description("事件代码")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("EventCode", "事件代码", "tinyint")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("EventCode", "事件代码", "")]
         public Byte EventCode { get => _EventCode; set { if (OnPropertyChanging("EventCode", value)) { _EventCode = value; OnPropertyChanged("EventCode"); } } }
 
         private String _FileName;
@@ -111,7 +114,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("文件名称")]
         [Description("文件名称")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("FileName", "文件名称", "nvarchar(255)")]
+        [BindColumn("FileName", "文件名称", "")]
         public String FileName { get => _FileName; set { if (OnPropertyChanging("FileName", value)) { _FileName = value; OnPropertyChanged("FileName"); } } }
 
         private DateTime _CreateTime;
@@ -119,8 +122,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("CreateTime", "创建时间", "datetime", Precision = 0, Scale = 3)]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private Int32 _TenantId;
@@ -128,41 +131,41 @@ namespace VehicleVedioManage.BackManagement.Entity
         [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TenantId", "租户编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
         private Double _Latitude;
         /// <summary>纬度</summary>
         [DisplayName("纬度")]
         [Description("纬度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Latitude", "纬度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Latitude", "纬度", "")]
         public Double Latitude { get => _Latitude; set { if (OnPropertyChanging("Latitude", value)) { _Latitude = value; OnPropertyChanged("Latitude"); } } }
 
         private Double _Longitude;
         /// <summary>经度</summary>
         [DisplayName("经度")]
         [Description("经度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Longitude", "经度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Longitude", "经度", "")]
         public Double Longitude { get => _Longitude; set { if (OnPropertyChanging("Longitude", value)) { _Longitude = value; OnPropertyChanged("Longitude"); } } }
 
         private Double _Speed;
         /// <summary>速度</summary>
         [DisplayName("速度")]
         [Description("速度")]
-        [DataObjectField(false, false, true, 53)]
-        [BindColumn("Speed", "速度", "float")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Speed", "速度", "")]
         public Double Speed { get => _Speed; set { if (OnPropertyChanging("Speed", value)) { _Speed = value; OnPropertyChanged("Speed"); } } }
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
         [Category("扩展信息")]
-        [DisplayName("启用")]
-        [Description("启用")]
+        [DisplayName("删除")]
+        [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "启用", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private String _Owner;
@@ -171,7 +174,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("物主")]
         [Description("物主")]
         [DataObjectField(false, false, true, 45)]
-        [BindColumn("Owner", "物主", "nvarchar(45)")]
+        [BindColumn("Owner", "物主", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
         private String _Remark;
@@ -179,8 +182,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
-        [DataObjectField(false, false, true, 55)]
-        [BindColumn("Remark", "备注", "nvarchar(55)")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private String _Location;
@@ -188,7 +191,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("位置")]
         [Description("位置")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("Location", "位置", "nvarchar(50)")]
+        [BindColumn("Location", "位置", "")]
         public String Location { get => _Location; set { if (OnPropertyChanging("Location", value)) { _Location = value; OnPropertyChanged("Location"); } } }
 
         private String _GPSId;
@@ -197,7 +200,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("GPS编码")]
         [Description("GPS编码")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("GPSId", "GPS编码", "nvarchar(255)")]
+        [BindColumn("GPSId", "GPS编码", "")]
         public String GPSId { get => _GPSId; set { if (OnPropertyChanging("GPSId", value)) { _GPSId = value; OnPropertyChanged("GPSId"); } } }
 
         private Int32 _MultimediaDataId;
@@ -205,8 +208,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         [Category("扩展信息")]
         [DisplayName("多媒体数据编码")]
         [Description("多媒体数据编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("MultimediaDataId", "多媒体数据编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MultimediaDataId", "多媒体数据编码", "")]
         public Int32 MultimediaDataId { get => _MultimediaDataId; set { if (OnPropertyChanging("MultimediaDataId", value)) { _MultimediaDataId = value; OnPropertyChanged("MultimediaDataId"); } } }
 
         private Byte _MultimediaType;
@@ -214,8 +217,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         [Category("扩展信息")]
         [DisplayName("多媒体类型")]
         [Description("多媒体类型")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("MultimediaType", "多媒体类型", "tinyint")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MultimediaType", "多媒体类型", "")]
         public Byte MultimediaType { get => _MultimediaType; set { if (OnPropertyChanging("MultimediaType", value)) { _MultimediaType = value; OnPropertyChanged("MultimediaType"); } } }
 
         private Byte _MultidediaCodeFormat;
@@ -223,8 +226,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         [Category("扩展信息")]
         [DisplayName("多媒体编码格式")]
         [Description("多媒体编码格式")]
-        [DataObjectField(false, false, true, 3)]
-        [BindColumn("MultidediaCodeFormat", "多媒体编码格式", "tinyint")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("MultidediaCodeFormat", "多媒体编码格式", "")]
         public Byte MultidediaCodeFormat { get => _MultidediaCodeFormat; set { if (OnPropertyChanging("MultidediaCodeFormat", value)) { _MultidediaCodeFormat = value; OnPropertyChanged("MultidediaCodeFormat"); } } }
         #endregion
 

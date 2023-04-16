@@ -11,7 +11,6 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Xml.Serialization;
 using NewLife;
-using NewLife.BasicData.Entity;
 using NewLife.Data;
 using NewLife.Log;
 using NewLife.Model;
@@ -27,16 +26,19 @@ using XCode.Shards;
 
 namespace VehicleVedioManage.BasicData.Entity
 {
-    public partial class VehicleRecorder : Entity<VehicleRecorder>
+    public partial class VehicleRecord : Entity<VehicleRecord>
     {
         #region 对象操作
-        static VehicleRecorder()
+        static VehicleRecord()
         {
             // 累加字段，生成 Update xx Set Count=Count+1234 Where xxx
             //var df = Meta.Factory.AdditionalFields;
-            //df.Add(nameof(CommandID));
+            //df.Add(nameof(TenantId));
 
             // 过滤器 UserModule、TimeModule、IPModule
+            Meta.Modules.Add<UserModule>();
+            Meta.Modules.Add<TimeModule>();
+            Meta.Modules.Add<IPModule>();
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -50,6 +52,14 @@ namespace VehicleVedioManage.BasicData.Entity
             base.Valid(isNew);
 
             // 在新插入数据或者修改了指定字段时进行修正
+            // 处理当前已登录用户信息，可以由UserModule过滤器代劳
+            /*var user = ManageProvider.User;
+            if (user != null)
+            {
+                if (isNew && !Dirtys[nameof(CreateUserID)]) CreateUserID = user.ID;
+            }*/
+            //if (isNew && !Dirtys[nameof(CreateTime)]) CreateTime = DateTime.Now;
+            //if (isNew && !Dirtys[nameof(CreateIP)]) CreateIP = ManageProvider.UserHost;
         }
 
         ///// <summary>首次连接数据库时初始化数据，仅用于实体类重载，用户不应该调用该方法</summary>
@@ -59,38 +69,22 @@ namespace VehicleVedioManage.BasicData.Entity
         //    // InitData一般用于当数据表没有数据时添加一些默认数据，该实体类的任何第一次数据库操作都会触发该方法，默认异步调用
         //    if (Meta.Session.Count > 0) return;
 
-        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化VehicleRecorder[车辆记录]数据……");
+        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化VehicleInfoModifyRecord[车辆信息变更记录]数据……");
 
-        //    var entity = new VehicleRecorder();
-        //    entity.CommandID = 0;
-        //    entity.Cmd = 0;
-        //    entity.CmdData = "abc";
-        //    entity.DriverCode = "abc";
-        //    entity.DriverLicense = "abc";
-        //    entity.VinNo = "abc";
-        //    entity.PlateNo = "abc";
-        //    entity.PlateType = "abc";
-        //    entity.FeatureFactor = "abc";
-        //    entity.Deleted = true;
-        //    entity.TenantID = 0;
-        //    entity.PlateColor = 0;
-        //    entity.StartTime = DateTime.Now;
+        //    var entity = new VehicleInfoModifyRecord();
         //    entity.Owner = "abc";
-        //    entity.Speed = 0.0;
-        //    entity.Signal = 0;
-        //    entity.SortID = 0;
-        //    entity.EndTime = DateTime.Now;
+        //    entity.TenantId = 0;
+        //    entity.Detail = "abc";
+        //    entity.Type = "abc";
         //    entity.VehicleId = 0;
-        //    entity.Altitude = 0.0;
-        //    entity.Latitude = 0.0;
-        //    entity.Longitude = 0.0;
-        //    entity.Command = 0;
-        //    entity.RecorderData = "abc";
-        //    entity.RecorderDate = DateTime.Now;
-        //    entity.SpeedList = 0;
+        //    entity.CreateUser = "abc";
+        //    entity.CreateUserID = 0;
+        //    entity.CreateIP = "abc";
+        //    entity.CreateTime = DateTime.Now;
+        //    entity.Remark = "abc";
         //    entity.Insert();
 
-        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化VehicleRecorder[车辆记录]数据！");
+        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化VehicleInfoModifyRecord[车辆信息变更记录]数据！");
         //}
 
         ///// <summary>已重载。基类先调用Valid(true)验证数据，然后在事务保护内调用OnInsert</summary>
@@ -109,47 +103,66 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 扩展属性
-        /// <summary>车牌颜色</summary>
+        /// <summary>车辆编码</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public PlateColor __PlateColor => Extends.Get(nameof(Entity.PlateColor), k => Entity.PlateColor.FindByCode(PlateColor));
+        public Vehicle Vehicle => Extends.Get(nameof(Vehicle), k => Vehicle.FindByVehicleID(VehicleId));
 
-        /// <summary>车牌颜色名称</summary>
-        [Map(nameof(PlateColor), typeof(PlateColor), "Code")]
-        public String? PlateColorName => __PlateColor?.Name;
-
-        /// <summary>车辆类型</summary>
-        [XmlIgnore, IgnoreDataMember]
-        //[ScriptIgnore]
-        public VehicleType _VehicleType => Extends.Get(nameof(VehicleType), k => VehicleType.FindByCode(PlateType));
-
-        /// <summary>车辆类型名称</summary>
-        [Map(nameof(PlateType), typeof(VehicleType), "Code")]
-        public String? VehicleTypeName => _VehicleType?.Name;
+        /// <summary>车辆编码</summary>
+        [Map(nameof(VehicleId), typeof(Vehicle), "ID")]
+        public String VehiclePlateNo => Vehicle?.PlateNo;
         #endregion
 
         #region 扩展查询
-        /// <summary>根据车辆记录仪编码查找</summary>
-        /// <param name="recorderId">车辆记录仪编码</param>
+        /// <summary>根据编号查找</summary>
+        /// <param name="id">编号</param>
         /// <returns>实体对象</returns>
-        public static VehicleRecorder FindByRecorderID(Int32 recorderId)
+        public static VehicleRecord FindByID(Int32 id)
         {
-            if (recorderId <= 0) return null;
+            if (id <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.RecorderID == recorderId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.RecorderID == id);
 
             // 单对象缓存
-            return Meta.SingleCache[recorderId];
+            return Meta.SingleCache[id];
 
-            //return Find(_.RecorderID == recorderId);
+            //return Find(_.ID == id);
+        }
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体对象</returns>
+        public static VehicleRecord FindByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return Find(_.PlateNo == plateNo);
         }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="endTime">结束时间</param>
+        /// <param name="start">开始时间开始</param>
+        /// <param name="end">开始时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<VehicleRecord> Search(String plateNo, DateTime endTime, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
-        // Select Count(RecorderID) as RecorderID,Category From VehicleRecorder Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By RecorderID Desc limit 20
-        //static readonly FieldCache<VehicleRecorder> _CategoryCache = new FieldCache<VehicleRecorder>(nameof(Category))
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            exp &= _.StartTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.CmdData.Contains(key) | _.DriverCode.Contains(key) | _.DriverLicense.Contains(key) | _.VinNo.Contains(key) | _.PlateNo.Contains(key) | _.PlateType.Contains(key) | _.FeatureFactor.Contains(key) | _.Owner.Contains(key) | _.RecorderData.Contains(key);
+
+            return FindAll(exp, page);
+        }
+
+        // Select Count(ID) as ID,Category From VehicleInfoModifyRecord Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
+        //static readonly FieldCache<VehicleInfoModifyRecord> _CategoryCache = new FieldCache<VehicleInfoModifyRecord>(nameof(Category))
         //{
         //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
         //};

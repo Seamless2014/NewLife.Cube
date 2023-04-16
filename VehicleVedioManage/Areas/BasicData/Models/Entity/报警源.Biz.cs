@@ -131,6 +131,20 @@ namespace VehicleVedioManage.BasicData.Entity
             //return Find(_.ID == id);
         }
 
+        /// <summary>根据名称查找</summary>
+        /// <param name="name">名称</param>
+        /// <returns>实体对象</returns>
+        public static AlarmSource FindByName(String name)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name.EqualIgnoreCase(name));
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(name) as AlarmSource;
+
+            return Find(_.Name == name);
+        }
+
         /// <summary>根据编码查找</summary>
         /// <param name="id">主键</param>
         /// <returns>实体对象</returns>
@@ -146,9 +160,24 @@ namespace VehicleVedioManage.BasicData.Entity
 
             //return Find(_.ID == id);
         }
+
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="name">名称</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<AlarmSource> Search(String name, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!name.IsNullOrEmpty()) exp &= _.Name == name;
+            if (!key.IsNullOrEmpty()) exp &= _.Code.Contains(key) | _.Name.Contains(key);
+
+            return FindAll(exp, page);
+        }
 
         // Select Count(ID) as ID,Category From AlarmSource Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ID Desc limit 20
         //static readonly FieldCache<AlarmSource> _CategoryCache = new FieldCache<AlarmSource>(nameof(Category))

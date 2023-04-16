@@ -46,9 +46,6 @@ namespace VehicleVedioManage.BackManagement.Entity
             // 如果没有脏数据，则不需要进行任何处理
             if (!HasDirty) return;
 
-            // 这里验证参数范围，建议抛出参数异常，指定参数名，前端用户界面可以捕获参数异常并聚焦到对应的参数输入框
-            if (TermNo.IsNullOrEmpty()) throw new ArgumentNullException(nameof(TermNo), "终端编号不能为空！");
-
             // 建议先调用基类方法，基类方法会做一些统一处理
             base.Valid(isNew);
 
@@ -64,7 +61,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         //    // InitData一般用于当数据表没有数据时添加一些默认数据，该实体类的任何第一次数据库操作都会触发该方法，默认异步调用
         //    if (Meta.Session.Count > 0) return;
 
-        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化Terminal[Terminal]数据……");
+        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化Terminal[终端信息]数据……");
 
         //    var entity = new Terminal();
         //    entity.DevNo = "abc";
@@ -97,7 +94,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         //    entity.CertString = "abc";
         //    entity.Insert();
 
-        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化Terminal[Terminal]数据！");
+        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化Terminal[终端信息]数据！");
         //}
 
         ///// <summary>已重载。基类先调用Valid(true)验证数据，然后在事务保护内调用OnInsert</summary>
@@ -134,18 +131,15 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             //return Find(_.TermId == termId);
         }
-        /// <summary>根据deleted查找</summary>
-        /// <param name="deleted">是否删除</param>
-        /// <returns>实体对象</returns>
-        public static IList<Terminal> FindByDeleted(bool isDeleted)
+        public static IList<Terminal> FindByDeleted(bool deletedTermId)
         {
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Deleted == isDeleted);
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Deleted == deletedTermId);
 
             // 单对象缓存
-            //return Meta.SingleCache[id];
+            //return Meta.SingleCache[deletedTermId];
 
-            return FindAll(_.Deleted == isDeleted);
+            return FindAll(_.Deleted == deletedTermId);
         }
         #endregion
 

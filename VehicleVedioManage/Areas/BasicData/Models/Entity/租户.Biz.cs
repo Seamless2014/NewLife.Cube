@@ -132,10 +132,39 @@ namespace VehicleVedioManage.BasicData.Entity
 
             //return Find(_.UserId == userId);
         }
+        /// <summary>根据名称查找</summary>
+        /// <param name="name">名称</param>
+        /// <returns>实体对象</returns>
+        public static TenantUser FindByName(String name)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name.EqualIgnoreCase(name));
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(name) as TenantUser;
+
+            return Find(_.Name == name);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="name">名称</param>
+        /// <param name="start">创建时间开始</param>
+        /// <param name="end">创建时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<TenantUser> Search(String name, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
+            if (!name.IsNullOrEmpty()) exp &= _.Name == name;
+            exp &= _.CreateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.Name.Contains(key) | _.UserType.Contains(key) | _.Job.Contains(key) | _.Phone.Contains(key) | _.Mail.Contains(key) | _.LoginName.Contains(key) | _.Password.Contains(key);
+
+            return FindAll(exp, page);
+        }
         // Select Count(UserId) as UserId,Category From TenantUser Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By UserId Desc limit 20
         //static readonly FieldCache<TenantUser> _CategoryCache = new FieldCache<TenantUser>(nameof(Category))
         //{

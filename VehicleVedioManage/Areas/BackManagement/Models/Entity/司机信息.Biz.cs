@@ -1,5 +1,28 @@
-﻿using XCode;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Xml.Serialization;
+using NewLife;
+using NewLife.Data;
+using NewLife.Log;
+using NewLife.Model;
+using NewLife.Reflection;
+using NewLife.Threading;
+using NewLife.Web;
+using XCode;
+using XCode.Cache;
+using XCode.Configuration;
+using XCode.DataAccessLayer;
 using XCode.Membership;
+using XCode.Shards;
 
 namespace VehicleVedioManage.BackManagement.Entity
 {
@@ -10,7 +33,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         {
             // 累加字段，生成 Update xx Set Count=Count+1234 Where xxx
             //var df = Meta.Factory.AdditionalFields;
-            //df.Add(nameof(VehicleId));
+            //df.Add(nameof(DepartmentID));
 
             // 过滤器 UserModule、TimeModule、IPModule
             Meta.Modules.Add<TimeModule>();
@@ -29,6 +52,9 @@ namespace VehicleVedioManage.BackManagement.Entity
             // 在新插入数据或者修改了指定字段时进行修正
             //if (isNew && !Dirtys[nameof(CreateTime)]) CreateTime = DateTime.Now;
             //if (!Dirtys[nameof(UpdateTime)]) UpdateTime = DateTime.Now;
+
+            // 检查唯一索引
+            // CheckExist(isNew, nameof(DriverName));
         }
 
         ///// <summary>首次连接数据库时初始化数据，仅用于实体类重载，用户不应该调用该方法</summary>
@@ -41,9 +67,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         //    if (XTrace.Debug) XTrace.WriteLine("开始初始化DriverInfo[司机信息]数据……");
 
         //    var entity = new DriverInfo();
-        //    entity.CompanyNo = "abc";
-        //    entity.VehicleId = 0;
-        //    entity.DriverCode = "abc";
+        //    entity.DepartmentID = 0;
+        //    entity.DepartmentName = "abc";
         //    entity.DriverName = "abc";
         //    entity.Sex = "abc";
         //    entity.DriverLicence = "abc";
@@ -63,16 +88,12 @@ namespace VehicleVedioManage.BackManagement.Entity
         //    entity.AppraisalIntegral = 0.0;
         //    entity.DriverRFID = "abc";
         //    entity.Password = "abc";
-        //    entity.OperatorID = 0;
         //    entity.Register = DateTime.Now;
         //    entity.Remark = "abc";
         //    entity.UpdateTime = DateTime.Now;
         //    entity.LicenseAgency = "abc";
         //    entity.CertificationDate = DateTime.Now;
         //    entity.InvalidDate = DateTime.Now;
-        //    entity.Corp = "abc";
-        //    entity.MonitorOrg = "abc";
-        //    entity.MonitorPhone = "abc";
         //    entity.ServiceLevel = 0;
         //    entity.BgTitle = "abc";
         //    entity.Location = "abc";
@@ -123,19 +144,60 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             //return Find(_.DriverId == driverId);
         }
+
+        /// <summary>根据驾驶员姓名查找</summary>
+        /// <param name="driverName">驾驶员姓名</param>
+        /// <returns>实体对象</returns>
+        public static DriverInfo FindByDriverName(String driverName)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.DriverName.EqualIgnoreCase(driverName));
+
+            return Find(_.DriverName == driverName);
+        }
+
+        /// <summary>根据部门名称查找</summary>
+        /// <param name="departmentName">部门名称</param>
+        /// <returns>实体列表</returns>
+        public static IList<DriverInfo> FindAllByDepartmentName(String departmentName)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.DepartmentName.EqualIgnoreCase(departmentName));
+
+            return FindAll(_.DepartmentName == departmentName);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="departmentName">部门名称</param>
+        /// <param name="driverName">驾驶员姓名</param>
+        /// <param name="start">更新时间开始</param>
+        /// <param name="end">更新时间结束</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<DriverInfo> Search(String departmentName, String driverName, DateTime start, DateTime end, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
-        // Select Count(DriverId) as DriverId,Category From DriverInfo Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By DriverId Desc limit 20
-        //static readonly FieldCache<DriverInfo> _CategoryCache = new FieldCache<DriverInfo>(nameof(Category))
-        //{
-        //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
-        //};
+            if (!departmentName.IsNullOrEmpty()) exp &= _.DepartmentName == departmentName;
+            if (!driverName.IsNullOrEmpty()) exp &= _.DriverName == driverName;
+            exp &= _.UpdateTime.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.DepartmentName.Contains(key) | _.DriverName.Contains(key) | _.Sex.Contains(key) | _.DriverLicence.Contains(key) | _.IdentityCard.Contains(key) | _.NativePlace.Contains(key) | _.Address.Contains(key) | _.Telephone.Contains(key) | _.MobilePhone.Contains(key) | _.DrivingType.Contains(key) | _.DriverRFID.Contains(key) | _.Password.Contains(key) | _.Remark.Contains(key) | _.LicenseAgency.Contains(key) | _.BgTitle.Contains(key) | _.Location.Contains(key) | _.PhotoFormat.Contains(key) | _.Owner.Contains(key) | _.JobCard.Contains(key);
 
-        ///// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
-        ///// <returns></returns>
-        //public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
+            return FindAll(exp, page);
+        }
+
+        // Select Count(DriverId) as DriverId,DepartmentName From DriverInfo Where CreateTime>'2020-01-24 00:00:00' Group By DepartmentName Order By DriverId Desc limit 20
+        static readonly FieldCache<DriverInfo> _DepartmentNameCache = new FieldCache<DriverInfo>(nameof(DepartmentName))
+        {
+            //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取部门名称列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetDepartmentNameList() => _DepartmentNameCache.FindAllName();
         #endregion
 
         #region 业务操作

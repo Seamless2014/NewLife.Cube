@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -10,11 +10,12 @@ using XCode.DataAccessLayer;
 
 namespace VehicleVedioManage.BackManagement.Entity
 {
-    /// <summary>油箱</summary>
+    /// <summary>油箱。对油箱基本信息进行管理</summary>
     [Serializable]
     [DataObject]
-    [Description("油箱")]
-    [BindTable("FuelTank", Description = "油箱", ConnName = "VehicleGPSVideo", DbType = DatabaseType.SqlServer)]
+    [Description("油箱。对油箱基本信息进行管理")]
+    [BindIndex("IU_FuelTank_PlateNo", true, "PlateNo")]
+    [BindTable("FuelTank", Description = "油箱。对油箱基本信息进行管理", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class FuelTank
     {
         #region 属性
@@ -22,8 +23,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>油箱编码</summary>
         [DisplayName("油箱编码")]
         [Description("油箱编码")]
-        [DataObjectField(true, true, false, 10)]
-        [BindColumn("TankId", "油箱编码", "int")]
+        [DataObjectField(true, true, false, 0)]
+        [BindColumn("TankId", "油箱编码", "")]
         public Int32 TankId { get => _TankId; set { if (OnPropertyChanging("TankId", value)) { _TankId = value; OnPropertyChanged("TankId"); } } }
 
         private String _TankType;
@@ -31,30 +32,38 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("油箱类型")]
         [Description("油箱类型")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("TankType", "油箱类型", "nvarchar(255)")]
+        [BindColumn("TankType", "油箱类型", "")]
         public String TankType { get => _TankType; set { if (OnPropertyChanging("TankType", value)) { _TankType = value; OnPropertyChanged("TankType"); } } }
 
         private Int32 _VehicleId;
         /// <summary>车辆编码</summary>
         [DisplayName("车辆编码")]
         [Description("车辆编码")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("VehicleId", "车辆编码", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("VehicleId", "车辆编码", "")]
         public Int32 VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
+
+        private String _PlateNo;
+        /// <summary>车牌号</summary>
+        [DisplayName("车牌号")]
+        [Description("车牌号")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("PlateNo", "车牌号", "")]
+        public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
         private Int32 _TankNo;
         /// <summary>油箱编号</summary>
         [DisplayName("油箱编号")]
         [Description("油箱编号")]
-        [DataObjectField(false, false, true, 10)]
-        [BindColumn("TankNo", "油箱编号", "int")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("TankNo", "油箱编号", "")]
         public Int32 TankNo { get => _TankNo; set { if (OnPropertyChanging("TankNo", value)) { _TankNo = value; OnPropertyChanged("TankNo"); } } }
 
         private Decimal _Width;
         /// <summary>宽</summary>
         [DisplayName("宽")]
         [Description("宽")]
-        [DataObjectField(false, false, true, 8)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("Width", "宽", "decimal(8, 2)", Precision = 0, Scale = 2)]
         public Decimal Width { get => _Width; set { if (OnPropertyChanging("Width", value)) { _Width = value; OnPropertyChanged("Width"); } } }
 
@@ -62,7 +71,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>长</summary>
         [DisplayName("长")]
         [Description("长")]
-        [DataObjectField(false, false, true, 8)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("Length", "长", "decimal(8, 2)", Precision = 0, Scale = 2)]
         public Decimal Length { get => _Length; set { if (OnPropertyChanging("Length", value)) { _Length = value; OnPropertyChanged("Length"); } } }
 
@@ -70,7 +79,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>高</summary>
         [DisplayName("高")]
         [Description("高")]
-        [DataObjectField(false, false, true, 8)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("Height", "高", "decimal(8, 2)", Precision = 0, Scale = 2)]
         public Decimal Height { get => _Height; set { if (OnPropertyChanging("Height", value)) { _Height = value; OnPropertyChanged("Height"); } } }
 
@@ -78,7 +87,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>传感器长度</summary>
         [DisplayName("传感器长度")]
         [Description("传感器长度")]
-        [DataObjectField(false, false, true, 8)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("SensorLength", "传感器长度", "decimal(8, 2)", Precision = 0, Scale = 2)]
         public Decimal SensorLength { get => _SensorLength; set { if (OnPropertyChanging("SensorLength", value)) { _SensorLength = value; OnPropertyChanged("SensorLength"); } } }
 
@@ -86,7 +95,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>容量</summary>
         [DisplayName("容量")]
         [Description("容量")]
-        [DataObjectField(false, false, true, 8)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("Capacity", "容量", "decimal(8, 2)", Precision = 0, Scale = 2)]
         public Decimal Capacity { get => _Capacity; set { if (OnPropertyChanging("Capacity", value)) { _Capacity = value; OnPropertyChanged("Capacity"); } } }
 
@@ -94,7 +103,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>半径</summary>
         [DisplayName("半径")]
         [Description("半径")]
-        [DataObjectField(false, false, true, 8)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("Radius", "半径", "decimal(8, 2)", Precision = 0, Scale = 2)]
         public Decimal Radius { get => _Radius; set { if (OnPropertyChanging("Radius", value)) { _Radius = value; OnPropertyChanged("Radius"); } } }
 
@@ -102,7 +111,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>盲板高度</summary>
         [DisplayName("盲板高度")]
         [Description("盲板高度")]
-        [DataObjectField(false, false, true, 8)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("BlindHeight", "盲板高度", "decimal(8, 2)", Precision = 0, Scale = 2)]
         public Decimal BlindHeight { get => _BlindHeight; set { if (OnPropertyChanging("BlindHeight", value)) { _BlindHeight = value; OnPropertyChanged("BlindHeight"); } } }
 
@@ -110,7 +119,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>正常燃料消耗</summary>
         [DisplayName("正常燃料消耗")]
         [Description("正常燃料消耗")]
-        [DataObjectField(false, false, true, 8)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("NormalFuelConsum", "正常燃料消耗", "decimal(8, 2)", Precision = 0, Scale = 2)]
         public Decimal NormalFuelConsum { get => _NormalFuelConsum; set { if (OnPropertyChanging("NormalFuelConsum", value)) { _NormalFuelConsum = value; OnPropertyChanged("NormalFuelConsum"); } } }
 
@@ -120,7 +129,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("备注")]
         [Description("备注")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "nvarchar(255)")]
+        [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Boolean _Deleted;
@@ -129,7 +138,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
+        [BindColumn("Deleted", "删除", "")]
         public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
 
         private String _Owner;
@@ -138,7 +147,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("物主")]
         [Description("物主")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("Owner", "物主", "nvarchar(255)")]
+        [BindColumn("Owner", "物主", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
         #endregion
 
@@ -155,6 +164,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "TankId": return _TankId;
                     case "TankType": return _TankType;
                     case "VehicleId": return _VehicleId;
+                    case "PlateNo": return _PlateNo;
                     case "TankNo": return _TankNo;
                     case "Width": return _Width;
                     case "Length": return _Length;
@@ -177,6 +187,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "TankId": _TankId = value.ToInt(); break;
                     case "TankType": _TankType = Convert.ToString(value); break;
                     case "VehicleId": _VehicleId = value.ToInt(); break;
+                    case "PlateNo": _PlateNo = Convert.ToString(value); break;
                     case "TankNo": _TankNo = value.ToInt(); break;
                     case "Width": _Width = Convert.ToDecimal(value); break;
                     case "Length": _Length = Convert.ToDecimal(value); break;
@@ -207,6 +218,9 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             /// <summary>车辆编码</summary>
             public static readonly Field VehicleId = FindByName("VehicleId");
+
+            /// <summary>车牌号</summary>
+            public static readonly Field PlateNo = FindByName("PlateNo");
 
             /// <summary>油箱编号</summary>
             public static readonly Field TankNo = FindByName("TankNo");
@@ -258,6 +272,9 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             /// <summary>车辆编码</summary>
             public const String VehicleId = "VehicleId";
+
+            /// <summary>车牌号</summary>
+            public const String PlateNo = "PlateNo";
 
             /// <summary>油箱编号</summary>
             public const String TankNo = "TankNo";

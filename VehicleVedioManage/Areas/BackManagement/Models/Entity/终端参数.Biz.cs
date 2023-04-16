@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -49,6 +49,9 @@ namespace VehicleVedioManage.BackManagement.Entity
             base.Valid(isNew);
 
             // 在新插入数据或者修改了指定字段时进行修正
+
+            // 检查唯一索引
+            // CheckExist(isNew, nameof(PlateNo));
         }
 
         ///// <summary>首次连接数据库时初始化数据，仅用于实体类重载，用户不应该调用该方法</summary>
@@ -115,19 +118,57 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             //return Find(_.ParamId == paramId);
         }
+
+        /// <summary>根据车牌号查找</summary>
+        /// <param name="plateNo">车牌号</param>
+        /// <returns>实体对象</returns>
+        public static TerminalParam FindByPlateNo(String plateNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
+
+            return Find(_.PlateNo == plateNo);
+        }
+
+        /// <summary>根据Sim卡查找</summary>
+        /// <param name="simNo">Sim卡</param>
+        /// <returns>实体列表</returns>
+        public static IList<TerminalParam> FindAllBySimNo(String simNo)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.SimNo.EqualIgnoreCase(simNo));
+
+            return FindAll(_.SimNo == simNo);
+        }
         #endregion
 
         #region 高级查询
+        /// <summary>高级查询</summary>
+        /// <param name="simNo">Sim卡</param>
+        /// <param name="plateNo">车牌号</param>
+        /// <param name="key">关键字</param>
+        /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
+        /// <returns>实体列表</returns>
+        public static IList<TerminalParam> Search(String simNo, String plateNo, String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
 
-        // Select Count(ParamId) as ParamId,Category From TerminalParam Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By ParamId Desc limit 20
-        //static readonly FieldCache<TerminalParam> _CategoryCache = new FieldCache<TerminalParam>(nameof(Category))
-        //{
-        //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
-        //};
+            if (!simNo.IsNullOrEmpty()) exp &= _.SimNo == simNo;
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!key.IsNullOrEmpty()) exp &= _.SimNo.Contains(key) | _.PlateNo.Contains(key) | _.Code.Contains(key) | _.Value.Contains(key) | _.FieldType.Contains(key) | _.Status.Contains(key) | _.Owner.Contains(key) | _.Remark.Contains(key) | _.GPSId.Contains(key);
 
-        ///// <summary>获取类别列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
-        ///// <returns></returns>
-        //public static IDictionary<String, String> GetCategoryList() => _CategoryCache.FindAllName();
+            return FindAll(exp, page);
+        }
+
+        // Select Count(ParamId) as ParamId,SimNo From TerminalParam Where CreateTime>'2020-01-24 00:00:00' Group By SimNo Order By ParamId Desc limit 20
+        static readonly FieldCache<TerminalParam> _SimNoCache = new FieldCache<TerminalParam>(nameof(SimNo))
+        {
+            //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
+        };
+
+        /// <summary>获取Sim卡列表，字段缓存10分钟，分组统计数据最多的前20种，用于魔方前台下拉选择</summary>
+        /// <returns></returns>
+        public static IDictionary<String, String> GetSimNoList() => _SimNoCache.FindAllName();
         #endregion
 
         #region 业务操作

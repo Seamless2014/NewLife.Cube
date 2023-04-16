@@ -49,7 +49,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         protected override Int32 OnInsert(RunStatus entity)
         {
             var rs = -1;
-            if (!RunStatus.isExistCode(entity.Code.Trim()))
+            if (!RunStatus.isExistCode(entity.Code))
             {
                 rs = base.OnInsert(entity);
             }
@@ -63,7 +63,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         protected override Int32 OnUpdate(RunStatus entity)
         {
             var rs = -1;
-            if (!RunStatus.isExistCode(entity.Code.Trim()))
+            if (!RunStatus.isExistCode(entity.Code))
             {
                 rs = base.OnUpdate(entity);
             }
