@@ -106,7 +106,7 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>车辆编码</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public Vehicle Vehicle => Extends.Get(nameof(Vehicle), k => Vehicle.FindByVehicleID(VehicleId));
+        public Vehicle Vehicle => Extends.Get(nameof(Vehicle), k => Vehicle.FindByID(VehicleId));
 
         /// <summary>车辆编码</summary>
         [Map(nameof(VehicleId), typeof(Vehicle), "ID")]

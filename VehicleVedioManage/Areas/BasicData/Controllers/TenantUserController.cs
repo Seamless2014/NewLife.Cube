@@ -8,7 +8,7 @@ using NewLife.Web;
 namespace VehicleVedioManage.Areas.BasicData.Controllers
 {
     [BasicDataArea]
-    [DisplayName("租户")]
+    [DisplayName("租户用户")]
     public class TenantUserController : EntityController<TenantUser>
     {
         public override ActionResult Index(Pager p = null)

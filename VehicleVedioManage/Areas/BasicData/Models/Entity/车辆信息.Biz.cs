@@ -22,6 +22,10 @@ namespace VehicleVedioManage.BasicData.Entity
             Meta.Modules.Add<UserModule>();
             Meta.Modules.Add<TimeModule>();
             Meta.Modules.Add<IPModule>();
+            // 单对象缓存
+            var sc = Meta.SingleCache;
+            sc.FindSlaveKeyMethod = k => Find(_.PlateNo == k);
+            sc.GetSlaveKeyMethod = e => e.PlateNo;
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -170,7 +174,7 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>根据车辆编号查找</summary>
         /// <param name="vehicleId">车辆编号</param>
         /// <returns>实体对象</returns>
-        public static Vehicle FindByVehicleID(Int32 vehicleId)
+        public static Vehicle FindByID(Int32 vehicleId)
         {
             if (vehicleId <= 0) return null;
 

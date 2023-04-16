@@ -127,14 +127,6 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("Industry", "行业", "")]
         public Int32 Industry { get => _Industry; set { if (OnPropertyChanging("Industry", value)) { _Industry = value; OnPropertyChanged("Industry"); } } }
 
-        private Int32 _UseType;
-        /// <summary>使用性质</summary>
-        [DisplayName("使用性质")]
-        [Description("使用性质")]
-        [DataObjectField(false, false, false, 0)]
-        [BindColumn("UseType", "使用性质", "")]
-        public Int32 UseType { get => _UseType; set { if (OnPropertyChanging("UseType", value)) { _UseType = value; OnPropertyChanged("UseType"); } } }
-
         private String _PlateformId;
         /// <summary>平台编码</summary>
         [DisplayName("平台编码")]
@@ -312,7 +304,6 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "DepartmentID": return _DepartmentID;
                     case "Region": return _Region;
                     case "Industry": return _Industry;
-                    case "UseType": return _UseType;
                     case "PlateformId": return _PlateformId;
                     case "TerminalId": return _TerminalId;
                     case "TerminalModel": return _TerminalModel;
@@ -351,7 +342,6 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "DepartmentID": _DepartmentID = value.ToInt(); break;
                     case "Region": _Region = value.ToInt(); break;
                     case "Industry": _Industry = value.ToInt(); break;
-                    case "UseType": _UseType = value.ToInt(); break;
                     case "PlateformId": _PlateformId = Convert.ToString(value); break;
                     case "TerminalId": _TerminalId = Convert.ToString(value); break;
                     case "TerminalModel": _TerminalModel = Convert.ToString(value); break;

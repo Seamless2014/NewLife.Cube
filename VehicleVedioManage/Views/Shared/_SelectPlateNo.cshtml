@@ -13,7 +13,7 @@
     if (id.IsNullOrEmpty()) { id = "vehicleId"; }
     var vehicleId = Model.VehicleId;
     if (vehicleId <= 0) vehicleId = page[id].ToInt();
-    var showValue = Vehicle.FindByVehicleID(vehicleId)?.ToString();
+    var showValue = Vehicle.FindByID(vehicleId)?.ToString();
 
     var set = NewLife.Cube.Setting.Current;
     var res = set.ResourceUrl;
