@@ -116,7 +116,6 @@ namespace VehicleVedioManage.BasicData.Entity
 
         /// <summary>部门名称</summary>
         [Map(nameof(DepartmentID), typeof(Department), "ID")]
-        [Category("基本信息")]
         [BindColumn("DepartmentName", "部门名称", "nvarchar(50)")]
         public String DepartmentName => _Department?.Name;
 
@@ -127,46 +126,41 @@ namespace VehicleVedioManage.BasicData.Entity
 
         /// <summary>行业类型名称</summary>
         [Map(nameof(Industry), typeof(IndustryType), "ID")]
-        [Category("基本信息")]
         public String IndustryTypeName => _IndustryType?.Description;
 
         /// <summary>车牌颜色</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public PlateColor __PlateColor => Extends.Get(nameof(PlateColor), k => Entity.PlateColor.FindByCode(PlateColor));
+        public PlateColor __PlateColor => Extends.Get(nameof(PlateColor), k => PlateColor.FindByCode(PlateColorCode));
 
         /// <summary>车牌颜色名称</summary>
-        [Map(nameof(PlateColor), typeof(PlateColor), "Code")]
-        [Category("基本信息")]
+        [Map(nameof(PlateColorCode), typeof(PlateColor), "Code")]
         public String PlateColorName => __PlateColor?.Name;
 
         /// <summary>车辆类型</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public VehicleType _VehicleType => Extends.Get(nameof(VehicleType), k => VehicleType.FindByID(ID));
+        public VehicleType Vehicle_Type => Extends.Get(nameof(VehicleType), k => VehicleType.FindByCode(VehicleTypeCode));
 
         /// <summary>车辆类型名称</summary>
-        [Map(nameof(ID), typeof(VehicleType), "ID")]
-        [Category("基本信息")]
-        public String VehicleTypeName => _VehicleType?.Name;
+        [Map(nameof(VehicleType), typeof(VehicleType), "Code")]
+        public String VehicleTypeName => Vehicle_Type?.Name;
 
         /// <summary>运营状态</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public RunStatus __RunStatus => Extends.Get(nameof(RunStatus), k => Entity.RunStatus.FindByCode(RunStatusCode));
+        public RunStatus __RunStatus => Extends.Get(nameof(RunStatus), k => RunStatus.FindByCode(RunStatusCode));
 
         /// <summary>运营状态名称</summary>
         [Map(nameof(RunStatusCode), typeof(RunStatus), "Code")]
-        [Category("基本信息")]
         public String RunStatusName => __RunStatus?.Name;
 
         /// <summary>使用性质</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public UseType _UserTypeCode => Extends.Get(nameof(UseType), k => Entity.UseType.FindByCode(UseTypeCode));
+        public UseType _UserTypeCode => Extends.Get(nameof(UseType), k => UseType.FindByCode(UseTypeCode));
         /// <summary>使用性质名称</summary>
         [Map(nameof(UseTypeCode), typeof(UseType), "Code")]
-        [Category("基本信息")]
         public String UseTypeName => _UserTypeCode?.Name;
         #endregion
 
@@ -283,9 +277,9 @@ namespace VehicleVedioManage.BasicData.Entity
             var exp = new WhereExpression();
 
             if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
-            if (!plateColorCode.IsNullOrEmpty()) exp &= _.PlateColor == plateColorCode;
+            if (!plateColorCode.IsNullOrEmpty()) exp &= _.PlateColorCode == plateColorCode;
             if (!runStatusCode.IsNullOrEmpty()) exp &= _.RunStatusCode == runStatusCode;
-            if (!vehicleTypeCode.IsNullOrEmpty()) exp &= _.ParameterID == vehicleTypeCode;
+            if (!vehicleTypeCode.IsNullOrEmpty()) exp &= _.VehicleTypeCode == vehicleTypeCode;
             exp &= _.Deleted == false;
             if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
 

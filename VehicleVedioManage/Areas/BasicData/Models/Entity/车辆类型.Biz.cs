@@ -158,6 +158,16 @@ namespace VehicleVedioManage.BasicData.Entity
 
             return FindAll(_.Name == name);
         }
+
+        /// <summary>查找所有</summary>
+        /// <returns>实体列表</returns>
+        public static IList<VehicleType> FindAll()
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e =>e.ID>0);
+
+            return FindAll();
+        }
         #endregion
 
         #region 高级查询

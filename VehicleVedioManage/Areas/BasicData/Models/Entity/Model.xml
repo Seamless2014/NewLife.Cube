@@ -79,7 +79,7 @@
     <Columns>
       <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
       <Column Name="PlateNo" DataType="String" Length="30" Master="True" Description="车牌号" />
-      <Column Name="ParameterID" DataType="Int32" Nullable="True" Description="车辆类型" />
+      <Column Name="VehicleType" DataType="Int32" Nullable="True" Description="车辆类型" />
       <Column Name="PlateColor" DataType="Int32" Nullable="True" Description="车牌颜色" />
       <Column Name="RunStatus" DataType="Int32" Nullable="True" Description="车辆运行状态" />
       <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" Category="扩展信息"/>

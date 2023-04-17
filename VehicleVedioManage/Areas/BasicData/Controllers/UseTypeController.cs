@@ -8,7 +8,7 @@ using VehicleVedioManage.BasicData.Entity;
 namespace VehicleVedioManage.Areas.BasicData.Controllers
 {
     [BasicDataArea]
-    [DisplayName("车辆类型")]
+    [DisplayName("使用性质")]
     public class UseTypeController : EntityController<UseType>
     {
 

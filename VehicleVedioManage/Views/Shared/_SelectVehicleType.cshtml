@@ -1,9 +1,10 @@
-﻿@using VehicleVedioManage.Enums;
+﻿@*@using VehicleVedioManage.Enums;*@
 @using NewLife.Web;
 @using NewLife.Cube;
+@using VehicleVedioManage.BasicData.Entity;
 @{
     var page = ViewBag.Page as Pager;
-    var VehicleTypeList = CommonEnumFunc.GetDictionary("VehicleType", 0);
+    var VehicleTypeList = VehicleType.FindAll(); //CommonEnumFunc.GetDictionary("VehicleType", 0);
 }
 <div class="form-group">
     <label for="VehicleType" class="control-label">车辆类型：</label>

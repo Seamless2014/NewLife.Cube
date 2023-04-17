@@ -37,29 +37,21 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("PlateNo", "车牌号", "", Master = true)]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
-        private Int32 _ParameterID;
+        private Int32 _VehicleType;
         /// <summary>车辆类型</summary>
         [DisplayName("车辆类型")]
         [Description("车辆类型")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("ParameterID", "车辆类型", "")]
-        public Int32 ParameterID { get => _ParameterID; set { if (OnPropertyChanging("ParameterID", value)) { _ParameterID = value; OnPropertyChanged("ParameterID"); } } }
+        [BindColumn("VehicleTypeCode", "车辆类型", "")]
+        public Int32 VehicleTypeCode { get => _VehicleType; set { if (OnPropertyChanging("VehicleTypeCode", value)) { _VehicleType = value; OnPropertyChanged("VehicleTypeCode"); } } }
 
         private Int32 _PlateColor;
         /// <summary>车牌颜色</summary>
         [DisplayName("车牌颜色")]
         [Description("车牌颜色")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("PlateColor", "车牌颜色", "")]
-        public Int32 PlateColor { get => _PlateColor; set { if (OnPropertyChanging("PlateColor", value)) { _PlateColor = value; OnPropertyChanged("PlateColor"); } } }
-
-        private Int32 _RunStatus;
-        /// <summary>车辆运行状态</summary>
-        [DisplayName("车辆运行状态")]
-        [Description("车辆运行状态")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("RunStatus", "车辆运行状态", "")]
-        public Int32 RunStatus { get => _RunStatus; set { if (OnPropertyChanging("RunStatus", value)) { _RunStatus = value; OnPropertyChanged("RunStatus"); } } }
+        [BindColumn("PlateColorCode", "车牌颜色", "")]
+        public Int32 PlateColorCode { get => _PlateColor; set { if (OnPropertyChanging("PlateColorCode", value)) { _PlateColor = value; OnPropertyChanged("PlateColorCode"); } } }
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
@@ -293,9 +285,8 @@ namespace VehicleVedioManage.BasicData.Entity
                 {
                     case "ID": return _ID;
                     case "PlateNo": return _PlateNo;
-                    case "ParameterID": return _ParameterID;
-                    case "PlateColor": return _PlateColor;
-                    case "RunStatus": return _RunStatus;
+                    case "VehicleTypeCode": return _VehicleType;
+                    case "PlateColorCode": return _PlateColor;
                     case "Deleted": return _Deleted;
                     case "TenantId": return _TenantId;
                     case "InstallDate": return _InstallDate;
@@ -331,9 +322,8 @@ namespace VehicleVedioManage.BasicData.Entity
                 {
                     case "ID": _ID = value.ToInt(); break;
                     case "PlateNo": _PlateNo = Convert.ToString(value); break;
-                    case "ParameterID": _ParameterID = value.ToInt(); break;
-                    case "PlateColor": _PlateColor = value.ToInt(); break;
-                    case "RunStatus": _RunStatus = value.ToInt(); break;
+                    case "VehicleTypeCode": _VehicleType = value.ToInt(); break;
+                    case "PlateColorCode": _PlateColor = value.ToInt(); break;
                     case "Deleted": _Deleted = value.ToBoolean(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "InstallDate": _InstallDate = value.ToDateTime(); break;
@@ -377,13 +367,10 @@ namespace VehicleVedioManage.BasicData.Entity
             public static readonly Field PlateNo = FindByName("PlateNo");
 
             /// <summary>车辆类型</summary>
-            public static readonly Field ParameterID = FindByName("ParameterID");
+            public static readonly Field VehicleTypeCode = FindByName("VehicleTypeCode");
 
             /// <summary>车牌颜色</summary>
-            public static readonly Field PlateColor = FindByName("PlateColor");
-
-            /// <summary>车辆运行状态</summary>
-            public static readonly Field RunStatus = FindByName("RunStatus");
+            public static readonly Field PlateColorCode = FindByName("PlateColorCode");
 
             /// <summary>删除</summary>
             public static readonly Field Deleted = FindByName("Deleted");
@@ -482,13 +469,10 @@ namespace VehicleVedioManage.BasicData.Entity
             public const String PlateNo = "PlateNo";
 
             /// <summary>车辆类型</summary>
-            public const String ParameterID = "ParameterID";
+            public const String VehicleTypeCode = "VehicleTypeCode";
 
             /// <summary>车牌颜色</summary>
-            public const String PlateColor = "PlateColor";
-
-            /// <summary>车辆运行状态</summary>
-            public const String RunStatus = "RunStatus";
+            public const String PlateColorCode = "PlateColorCode";
 
             /// <summary>删除</summary>
             public const String Deleted = "Deleted";

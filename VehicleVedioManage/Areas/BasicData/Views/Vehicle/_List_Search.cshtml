@@ -1,3 +1,8 @@
-﻿@await Html.PartialAsync("_SelectRunStatus")
+﻿@using VehicleVedioManage.Web.Models;
+@Html.ActionLink("所有省份", "Index", new { ParentID = 0 })
+@await Html.PartialAsync("_Area3", "")
+@*@await Html.PartialAsync("_SelectDepartment")*@
+@await Html.PartialAsync("_SelectPlateNo", new SelectPlateNoModel{Id="vehicleId"})
+@await Html.PartialAsync("_SelectRunStatus")
 @await Html.PartialAsync("_SelectPlateColor")
 @await Html.PartialAsync("_SelectVehicleType")
