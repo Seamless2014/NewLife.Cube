@@ -32,6 +32,10 @@ namespace VehicleVedioManage
             services.AddControllersWithViews();
             services.AddCube();
             //services.AddBlazor();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy", p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()); //MyPolicy 为自定义的策略名称，与使用时相同即可。可以同时定义多个不同策略名称的跨域策略
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -108,6 +112,8 @@ namespace VehicleVedioManage
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseCors("MyPolicy"); //指定调用MyPolicy 配置的策略，表示全局都采用该策略
 
             //// 探测星尘
             //ThreadPoolX.QueueUserWorkItem(() =>

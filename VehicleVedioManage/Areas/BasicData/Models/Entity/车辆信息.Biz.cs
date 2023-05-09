@@ -241,6 +241,16 @@ namespace VehicleVedioManage.BasicData.Entity
 
             return FindAll(_.SimNo == simNo);
         }
+        /// <summary>根据Sim卡号查找</summary>
+        /// <param name="simNo">Sim卡号</param>
+        /// <returns>实体列表</returns>
+        public static IList<Vehicle> FindAll()
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Deleted==false);
+
+            return FindAll(_.Deleted == false);
+        }
         #endregion
 
         #region 高级查询

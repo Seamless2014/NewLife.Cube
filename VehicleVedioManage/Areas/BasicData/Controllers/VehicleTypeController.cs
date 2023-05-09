@@ -15,7 +15,6 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         private readonly ITracer _tracer;
         public VehicleTypeController(IServiceProvider provider)
         {
-
             PageSetting.EnableTableDoubleClick = true;
             _tracer = provider?.GetService<ITracer>();
             ListFields.RemoveField("ID","CreateUserID","UpdateUserID");

@@ -241,25 +241,4 @@
         <Index Columns="Name" Unique="True" />
     </Indexes>
   </Table>
-    <Table Name="TenantUser" Description="租户用户">
-    <Columns>
-      <Column Name="UserId" DataType="Int32" Identity="True" PrimaryKey="True" Description="用户编码" />
-      <Column Name="TenantId" DataType="Int32" Nullable="True" Description="租户编码" />
-      <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
-      <Column Name="UserType" DataType="String" Length="255" Nullable="True" Description="使用类型" />
-      <Column Name="Job" DataType="String" Length="255" Nullable="True" Description="职位" />
-      <Column Name="DepartmentID" DataType="Int32" Nullable="True" Description="部门编码" />
-      <Column Name="Phone" DataType="String" Length="255" Nullable="True" Description="电话" />
-      <Column Name="Mail" DataType="String" Length="255" Nullable="True" Description="EMail" />
-      <Column Name="LoginName" DataType="String" Length="255" Description="登录名" />
-      <Column Name="Password" DataType="String" Length="255" Description="密码" />
-      <Column Name="CreateTime" DataType="DateTime" Nullable="True" Scale="3" Description="创建时间" />
-      <Column Name="Admin" DataType="Boolean" Nullable="True" Description="是否管理员" />
-      <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="删除" />
-    </Columns>
-    <Indexes>
-        <Index Columns="Name" Unique="True" />
-    </Indexes>
-  </Table>
-
 </Tables>

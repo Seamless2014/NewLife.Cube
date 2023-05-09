@@ -1,0 +1,10 @@
+﻿@using VehicleVedioManage.BasicData.Entity;
+@{
+    Layout = null;
+
+    var set = NewLife.Cube.Setting.Current;
+    var cfg = NewLife.Common.SysConfig.Current;
+    //获取所有的车辆数据
+    var vehicleList = Vehicle.FindAll();
+}
+@*//如何将数据加载到树状多选菜单中*@

@@ -7,7 +7,7 @@ using NewLife.Web;
 namespace VehicleVedioManage.Areas.FenceManagement.Controllers
 {
     [FenceManagementArea]
-    [DisplayName("路段")]
+    [DisplayName("路段管理")]
     public class RouteSegmentController : EntityController<RouteSegment>
     {
         public override ActionResult Index(Pager p = null)

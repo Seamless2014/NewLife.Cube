@@ -7,7 +7,7 @@ using NewLife.Web;
 namespace VehicleVedioManage.Areas.FenceManagement.Controllers
 {
     [FenceManagementArea]
-    [DisplayName("图层")]
+    [DisplayName("图层管理")]
     public class MapLayerController : EntityController<MapLayer>
     {
         public override ActionResult Index(Pager p = null)
