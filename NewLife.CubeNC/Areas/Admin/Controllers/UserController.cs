@@ -2,13 +2,14 @@
 using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Filters;
 using NewLife.Caching;
 using NewLife.Common;
 using NewLife.Cube.Areas.Admin.Models;
 using NewLife.Cube.Entity;
 using NewLife.Cube.Services;
 using NewLife.Cube.ViewModels;
-using NewLife.Data;
 using NewLife.Log;
 using NewLife.Reflection;
 using NewLife.Web;
@@ -40,34 +41,50 @@ public class UserController : EntityController<User, UserModel>
         ListFields.RemoveField("Remark");
 
         {
-            var df = ListFields.AddListField("Link", "Logins");
-            //df.Header = "链接";
-            df.HeaderTitle = "第三方登录的链接信息";
-            df.DisplayName = "链接";
-            df.Title = "第三方登录的链接信息";
-            df.Url = "/Admin/UserConnect?userId={ID}";
+            var df = ListFields.AddListField("AvatarImage", "Name");
+            df.Header = "";
+            df.Text = "<img src=\"{Avatar}&w=64&h=64\" style=\"width:64px;height:64px;\" />";
+            df.Url = "/Admin/User/Detail?id={ID}";
+            df.Target = "_blank";
+            df.DataVisible = entity => !(entity as User).Avatar.IsNullOrEmpty();
         }
-
         {
-            var df = ListFields.AddListField("Token", "Logins");
-            //df.Header = "令牌";
-            df.DisplayName = "令牌";
-            df.Url = "/Admin/UserToken?userId={ID}";
+            var df = ListFields.GetField("Name") as ListField;
+            df.Url = "/Admin/User/Detail?id={ID}";
         }
+        //{
+        //    var df = ListFields.GetField("DisplayName") as ListField;
+        //    df.Url = "/Admin/User/Detail?id={ID}";
+        //}
+        //{
+        //    var df = ListFields.AddListField("Link", "Logins");
+        //    //df.Header = "链接";
+        //    df.HeaderTitle = "第三方登录的链接信息";
+        //    df.DisplayName = "链接";
+        //    df.Title = "第三方登录的链接信息";
+        //    df.Url = "/Admin/UserConnect?userId={ID}";
+        //}
 
-        {
-            var df = ListFields.AddListField("Log", "Logins");
-            //df.Header = "日志";
-            df.DisplayName = "日志";
-            df.Url = "/Admin/Log?userId={ID}";
-        }
+        //{
+        //    var df = ListFields.AddListField("Token", "Logins");
+        //    //df.Header = "令牌";
+        //    df.DisplayName = "令牌";
+        //    df.Url = "/Admin/UserToken?userId={ID}";
+        //}
 
-        {
-            var df = ListFields.AddListField("OAuthLog", "Logins");
-            //df.Header = "OAuth日志";
-            df.DisplayName = "OAuth日志";
-            df.Url = "/Admin/OAuthLog?userId={ID}";
-        }
+        //{
+        //    var df = ListFields.AddListField("Log", "Logins");
+        //    //df.Header = "日志";
+        //    df.DisplayName = "日志";
+        //    df.Url = "/Admin/Log?userId={ID}";
+        //}
+
+        //{
+        //    var df = ListFields.AddListField("OAuthLog", "Logins");
+        //    //df.Header = "OAuth日志";
+        //    df.DisplayName = "OAuth日志";
+        //    df.Url = "/Admin/OAuthLog?userId={ID}";
+        //}
 
         {
             var df = AddFormFields.AddDataField("RoleIds", "RoleNames");
@@ -87,6 +104,20 @@ public class UserController : EntityController<User, UserModel>
 
         {
             AddFormFields.GroupVisible = (entity, group) => (entity as User).ID == 0 && group != "扩展";
+        }
+    }
+
+    /// <summary>已重载。</summary>
+    /// <param name="filterContext"></param>
+    public override void OnActionExecuting(ActionExecutingContext filterContext)
+    {
+        base.OnActionExecuting(filterContext);
+
+        if (filterContext.ActionDescriptor is ControllerActionDescriptor act &&
+            act.ActionName.EqualIgnoreCase(nameof(Detail), nameof(Info), nameof(ChangePassword), nameof(Binds), nameof(TenantSetting)))
+        {
+            PageSetting.NavView = "_User_Nav";
+            PageSetting.EnableNavbar = false;
         }
     }
 
@@ -780,7 +811,7 @@ public class UserController : EntityController<User, UserModel>
     private void SetTenant(Int32 userId)
     {
         var tenantUser = TenantUser.FindAllByUserId(userId);
-        if (tenantUser.Count > 0)
+        if (tenantUser != null && tenantUser.Count > 0)
         {
             var entity = tenantUser.FirstOrDefault().Tenant;
 
