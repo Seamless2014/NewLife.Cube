@@ -6,7 +6,7 @@ namespace NewLife.Cube.Admin.Controllers;
 
 /// <summary>租户管理</summary>
 [Area("Admin")]
-[Menu(75, false)]
+[Menu(75, true, Icon = "fa-user-circle")]
 public class TenantController : EntityController<Tenant>
 {
     static TenantController()
@@ -14,6 +14,8 @@ public class TenantController : EntityController<Tenant>
         LogOnChange = true;
 
         //ListFields.RemoveField("Secret", "Logo", "AuthUrl", "AccessUrl", "UserUrl", "Remark");
+        ListFields.RemoveField("ID", "Remark")
+            .RemoveField("CreateUserId", "CreateTime", "CreateIP", "UpdateUserId", "UpdateTime", "UpdateIP");
 
         {
             var df = ListFields.AddListField("Users", null, "ManagerName");

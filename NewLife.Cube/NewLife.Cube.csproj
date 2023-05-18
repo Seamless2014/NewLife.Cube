@@ -77,15 +77,14 @@
     <Compile Include="..\NewLife.CubeNC\ViewModels\LoginConfigModel.cs" Link="ViewModels\LoginConfigModel.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\MenuTree.cs" Link="ViewModels\MenuTree.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\SearchField.cs" Link="ViewModels\SearchField.cs" />
-    <Compile Include="..\NewLife.CubeNC\ViewModels\SelectUserModel.cs" Link="ViewModels\SelectUserModel.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\ViewKinds.cs" Link="ViewModels\ViewKinds.cs" />
     <Compile Include="..\NewLife.CubeNC\WebMiddleware\TenantMiddleware.cs" Link="WebMiddleware\TenantMiddleware.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NewLife.Core" Version="10.2.2023.401" />
-    <PackageReference Include="NewLife.IP" Version="2.0.2023.203" />
-    <PackageReference Include="NewLife.Stardust" Version="2.8.2023.325-beta0149" />
-    <PackageReference Include="NewLife.XCode" Version="11.8.2023.401" />
+    <PackageReference Include="NewLife.Core" Version="10.3.2023.516-beta0646" />
+    <PackageReference Include="NewLife.IP" Version="2.0.2023.401" />
+    <PackageReference Include="NewLife.Stardust" Version="2.8.2023.516-beta0720" />
+    <PackageReference Include="NewLife.XCode" Version="11.8.2023.511-beta0917" />
   </ItemGroup>
 
   <ItemGroup>

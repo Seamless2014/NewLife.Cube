@@ -76,8 +76,10 @@ public class RunTimeMiddleware
         var user = ManageProvider.User;
         try
         {
+            var set = CubeSetting.Current;
             var p = ctx.Request.Path + "";
-            if (!p.EndsWithIgnoreCase(ExcludeSuffixes))
+            if (!p.EndsWithIgnoreCase(ExcludeSuffixes) &&
+                (set.EnableUserOnline == 2 || set.EnableUserOnline == 1 && user != null))
             {
                 // 浏览器设备标识作为会话标识
                 var deviceId = FillDeviceId(ctx);
@@ -236,11 +238,16 @@ public class RunTimeMiddleware
             if (ctx.Request.GetRawUrl().Scheme.EqualIgnoreCase("https"))
             {
                 var domain = CubeSetting.Current.CookieDomain;
-                if (!domain.IsNullOrEmpty()) opt.Domain = domain;
+                if (!domain.IsNullOrEmpty())
+                {
+                    opt.Domain = domain;
+                    opt.SameSite = SameSiteMode.None;
+                    opt.Secure = true;
+                }
 
                 //opt.HttpOnly = true;
-                opt.SameSite = SameSiteMode.None;
-                opt.Secure = true;
+                //opt.SameSite = SameSiteMode.None;
+                //opt.Secure = true;
             }
 
             ctx.Response.Cookies.Append("CubeDeviceId", id, opt);
