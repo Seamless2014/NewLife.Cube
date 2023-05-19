@@ -7,6 +7,11 @@ using NewLife.Cube.Extensions;
 using NewLife;
 using VehicleVedioManage.BasicData.Entity;
 using NewLife.Data;
+using System.Text;
+using VehicleVedioManage.Web.ViewModels;
+using XCode.Membership;
+using NewLife.Serialization;
+using NewLife.Configuration;
 
 namespace VehicleVedioManage.Areas.BasicData.Controllers
 {
@@ -25,6 +30,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
 
         protected override Vehicle Find(Object key)
         {
+            
             return base.Find(key);
         }
 
@@ -61,8 +67,33 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
             }).ToArray());
         }
 
+        public virtual string GetFilterWhere() { return ""; }
+
+        /// <summary>
+        /// 树形导航的数据
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public ActionResult Tree(string pid="1")
+        {
+            IList<Vehicle> vehicles = Vehicle.FindAll();
+            List<Entity> list = new List<Entity>();
+            foreach (var item in vehicles)
+            {
+                Entity root = new Entity();
+                root.Add("id", item.ID);
+                root.Add("name", item.PlateNo);
+                root.Add("title", item.PlateColorName);
+                root.Add("isParent", 1);
+                list.Add(root);
+            }
+            return Content(list.ToJson());
+        }
+
         public override ActionResult Index(Pager p = null)
         {
+            ActionResult contentResult = Tree();
             return base.Index(p);
         }
 

@@ -55,6 +55,9 @@ namespace VehicleVedioManage
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseCors("MyPolicy"); //指定调用MyPolicy 配置的策略，表示全局都采用该策略
+
+
             /* 新ui通道，以下需同时满足条件
              * 1、配置启用新ui
              * 2、GET请求
@@ -113,8 +116,7 @@ namespace VehicleVedioManage
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseCors("MyPolicy"); //指定调用MyPolicy 配置的策略，表示全局都采用该策略
-
+           
             //// 探测星尘
             //ThreadPoolX.QueueUserWorkItem(() =>
             //{

@@ -52,6 +52,11 @@
 
   <ItemGroup>
     <None Include="wwwroot\content\js\jquery\jquery.ztree.texttree.js" />
+    <None Include="wwwroot\lib\jquery-ztree\3.5\js\jquery.ztree.all-3.5.js" />
+    <None Include="wwwroot\lib\jquery-ztree\3.5\js\jquery.ztree.core-3.5.js" />
+    <None Include="wwwroot\lib\jquery-ztree\3.5\js\jquery.ztree.excheck-3.5.js" />
+    <None Include="wwwroot\lib\jquery-ztree\3.5\js\jquery.ztree.exedit-3.5.js" />
+    <None Include="wwwroot\lib\jquery-ztree\3.5\js\jquery.ztree.exhide-3.5.js" />
   </ItemGroup>
 
 </Project>
