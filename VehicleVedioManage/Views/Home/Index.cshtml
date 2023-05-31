@@ -7,6 +7,7 @@
 @using NewLife;
 @using NewLife.Security;
 @using NewLife.Serialization;
+@using NewLife.Web;
 @{
     Layout = null;
 
@@ -48,5 +49,97 @@
         }
     }
 }
+@*<link href="~/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+<script src="~/lib/zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script src="~/lib/zTree_v3/js/jquery.ztree.all.js"></script>
+<script src="~/lib/zTree_v3/js/jquery.ztree.core.js"></script>
+<script src="~/lib/zTree_v3/js/jquery.ztree.excheck.js"></script>
+<script src="~/lib/zTree_v3/js/jquery.ztree.exedit.js"></script>*@
+@section scriptstop
+    {
+    <link href="~/lib/ZTree/css/ztree/metroStyle.css" rel="stylesheet" />
+    <script src="~/lib/zTree_v3/js/jquery-1.4.4.min.js"></script>
+    <script src="~/lib/ZTree/js/jquery.min.js"></script>
+    <script src="~/lib/ZTree/js/ztree/jquery.ztree.all.js"></script>
+    <script src="~/lib/ZTree/js/json2.js"></script>
+}
+<div id="vehicleTree" class="ztree"></div>
+<script>
+    var tree;
+
+    var setting = {
+        check: {
+            enable: true,
+            chkStyle: "checkbox",
+            chkboxType: {
+                "Y": "s",
+                "N": "s"
+            }
+        },
+        view: {
+            selectedMulti: true,
+            showLine: false
+        },
+        data: {
+            key: {
+                name: "name"
+            },
+            simpleData: {
+                enable: true,
+                id: "pid",
+            }
+        },
+        async: {
+            autoParam: ["id=pid"],
+            contentType: "application/x-www-form-urlencoded",
+            enable: true,
+            dataType: "text",
+            type: "post",
+            url: "/BasicData/Vehicle/Tree"
+        }
+    };
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#vehicleTree"), setting);
+    });
+
+        //tree = $.fn.zTree.init($("#vehicleTree"), setting, {
+        //    view: {
+        //        selectedMulti: false,      // 设置是否允许同时选中多个节点
+        //        nameIsHTML: true           // 设置 name 属性是否支持 HTML 脚本
+        //    },
+        //    check: {
+        //        enable: false,             // 设置 zTree 的节点上是否显示 checkbox / radio
+        //        nocheckInherit: true      // 设置子节点是否自动继承
+        //    },
+        //    data: {
+        //        key: {
+        //            title: "title"         // 节点数据保存节点提示信息的属性名称
+        //        },
+        //        simpleData: {
+        //            enable: true           // true / false 分别表示 使用 / 不使用 简单数据模式
+        //        }
+        //    },
+        //    callback: {
+        //        onClick: function (event, treeId, treeNode) {
+        //            var id = treeNode.id;
+        //            $("#nav").text(id);
+        //            $("#bootstrap-table").bootstrapTable('refresh', {
+        //                silent: true
+        //            });
+        //        },                      // 用于捕获节点被点击的事件回调函数
+        //        onCheck: function (event, treeId, treeNode) { },                      // 用于捕获 checkbox / radio 被勾选 或 取消勾选的事件回调函数
+        //        onDblClick: function (event, treeId, treeNode) { }                 // 用于捕获鼠标双击之后的事件回调函数
+        //    },
+        //    async: {
+        //        autoParam: ["id=pid"],
+        //        contentType: "application/x-www-form-urlencoded",
+        //        enable: true,
+        //        dataType: "text",
+        //        type: "post",
+        //        url: "/BasicData/Vehicle/Tree"
+        //    }
+        //}, null);
+</script>
 @await Html.PartialAsync("_BaiDuMap")
 @await Html.PartialAsync("_Footer")

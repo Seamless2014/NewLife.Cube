@@ -77,9 +77,6 @@
     <script type="text/javascript" src="//mapopen.cdn.bcebos.com/github/BMapGLLib/DistanceTool/src/DistanceTool.min.js"></script>
     <!--路书工具-->
     <script type="text/javascript" src="//bj.bcebos.com/v1/mapopen/github/BMapGLLib/Lushu/src/Lushu.min.js"></script>
-    <link href="~/lib/jquery-ztree/3.5/css/metro/zTreeStyle.css" rel="stylesheet" />
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
     <ul class="drawing-panel">
         <li class="bmap-btn bmap-marker" id="marker" onclick="draw(this)"></li>
         <li class="bmap-btn bmap-polyline" id="polyline" onclick="draw(this)"></li>
@@ -88,56 +85,14 @@
         <li class="bmap-btn bmap-circle" id="circle" onclick="draw(this)"></li>
     </ul>
     <div>
-        <div id="tree" class="ztree"></div>
         <div id="container"></div>
+        <button id="run">开始</button>
+        <button id="stop">停止</button>
+        <button id="pause">暂停</button>
+        <button id="hide">隐藏信息窗口</button>
+        <button id="show">展示信息窗口</button>
     </div>
     <script>
-        var tree;
-        $(function () {
-            lefttree();
-        });
-        function lefttree() {
-            tree = $.fn.zTree.init($("#tree"), {
-                treeId: 'tree',
-                view: {
-                    selectedMulti: false,      // 设置是否允许同时选中多个节点
-                    nameIsHTML: true           // 设置 name 属性是否支持 HTML 脚本
-                },
-                check: {
-                    enable: false,             // 置 zTree 的节点上是否显示 checkbox / radio
-                    nocheckInherit: true      // 设置子节点是否自动继承
-                },
-                data: {
-                    key: {
-                        title: "title"         // 节点数据保存节点提示信息的属性名称
-                    },
-                    simpleData: {
-                         enable: true           // true / false 分别表示 使用 / 不使用 简单数据模式
-                    }
-                },
-                callback: {
-                    onClick: function (event, treeId, treeNode) {
-                        var id = treeNode.id;
-                        $("#nav").text(id);
-                        $("#bootstrap-table").bootstrapTable('refresh', {
-                            silent: true
-                        });
-                    },                      // 用于捕获节点被点击的事件回调函数
-                    onCheck: function (event, treeId, treeNode) { },                      // 用于捕获 checkbox / radio 被勾选 或 取消勾选的事件回调函数
-                    onDblClick: function (event, treeId, treeNode) { }                 // 用于捕获鼠标双击之后的事件回调函数
-                },
-                async: {
-                    autoParam: ["id=pid"],
-                    contentType: "application/x-www-form-urlencoded",
-                    enable: true,
-                    dataType: "text",
-                    type: "post",
-                    url: "/BasicData/Vehicle/Tree"
-                }
-            }, null);
-
-        }
-
         // 禁止地图旋转和倾斜可以通过配置项进行设置
         var map = new BMapGL.Map("container",
             {

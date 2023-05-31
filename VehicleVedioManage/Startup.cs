@@ -1,14 +1,8 @@
 ﻿using Microsoft.Extensions.FileProviders;
 using Microsoft.Net.Http.Headers;
-using NewLife.Cube.AdminLTE;
-using NewLife.Cube.ElementUI;
-using NewLife.Cube.Extensions;
-using NewLife.Cube.LayuiAdmin;
-using NewLife.Cube.Metronic;
-using NewLife.Cube.Metronic8;
-using NewLife.Cube.Tabler;
-using NewLife.Cube;
 using NewLife;
+using NewLife.Cube;
+using NewLife.Cube.Extensions;
 using NewLife.Cube.WebMiddleware;
 using Setting = NewLife.Cube.Setting;
 
@@ -97,12 +91,12 @@ namespace VehicleVedioManage
             //app.UseMiddleware<TracerMiddleware>();
 
             app.UseCube(env);
-            app.UseAdminLTE(env);
-            app.UseTabler(env);
-            app.UseMetronic(env);
-            app.UseElementUI(env);
-            app.UseMetronic8(env);
-            app.UseLayuiAdmin(env);
+            //app.UseAdminLTE(env);
+            //app.UseTabler(env);
+            //app.UseMetronic(env);
+            //app.UseElementUI(env);
+            //app.UseMetronic8(env);
+            //app.UseLayuiAdmin(env);
             //app.UseBlazor(env);
 
             app.UseAuthorization();
