@@ -7,8 +7,8 @@ $(function () {
     window.confirmDialog = parent['confirmDialog'] || function (msg, func) { if (confirm(msg)) func(); };
     window.tips = parent['tips'] || function (msg, modal, time, jumpUrl) { alert(msg); location.reload(); };
 
-    //根据data-action的值确定操作类型 action为请求后端执行业务操作，url为直接跳转指定url地址
-    //按钮请求action
+    // 根据data-action的值确定操作类型 action为请求后端执行业务操作，url为直接跳转指定url地址
+    // 按钮请求action
     $(document).on('click',
         'button[data-action="action"], input[data-action="action"], a[data-action="action"]',
         function (e) {
@@ -34,10 +34,11 @@ $(function () {
             }
 
             doClickAction($this);
-            //阻止按钮本身的事件冒泡
+            // 阻止按钮本身的事件冒泡
             return false;
         });
-    //直接执行Url地址
+
+    // 直接执行Url地址
     $(document).on('click'
         , 'button[data-action="url"],input[data-action="url"],a[data-action="url"]'
         , function (data) {
@@ -51,28 +52,88 @@ $(function () {
 
     // 多标签页打开请求地址
     $(document).on('click'
-        , 'a[data-action="tab"]'
+        , 'a[target="_blank"]'
         , function (data) {
+
             $this = $(this);
+            // 动态设置标签参数
             var url = $this.attr('href');
             if (url && url.length > 0) {
                 $this.data('url', url);
             }
 
-            var title = $this.data('title');
-            if (!title || title.length <= 0) {
-                title = $this.html();
+            // 判断当前是否在容器当中，如果当前页面在容器中则使用容器标签，否则直接当前页面进行跳转
+            if (window.frames.length == parent.frames.length) {
+                //window.location.href = url;
+                return true;
             }
 
-            var obj = {
-                url: url,
-                title: title,
-                kind: 'tab'
-            };
+            // 获取框架名称
+            var parentName = window.parent.frameName;
+            // 根据框架决定实现方案
+            switch (parentName) {
+                case "layui":
+                    var title = $this.data('title');
+                    if (!title || title.length <= 0) {
+                        title = $this.html();
+                    }
 
-            sendEventToParent(obj);
+                    var obj = {
+                        url: url,
+                        title: title,
+                        kind: 'tab'
+                    };
 
-            return false;
+                    sendEventToParent(obj);
+
+                    return false;
+            }
+
+            return true;
+        }
+    )
+
+    // 多标签页打开请求地址
+    $(document).on('click'
+        , 'a[target="_frame"]'
+        , function (data) {
+
+            $this = $(this);
+            // 动态设置标签参数
+            var url = $this.attr('href');
+            if (url && url.length > 0) {
+                $this.data('url', url);
+            }
+
+            // 判断当前是否在容器当中，如果当前页面在容器中则使用容器标签，否则直接当前页面进行跳转
+            if (window.frames.length == parent.frames.length) {
+                window.location.href = url;
+                return true;
+            }
+
+            // 获取框架名称
+            var parentName = window.parent.frameName;
+            // 根据框架决定实现方案
+            switch (parentName) {
+                case "layui":
+                    var title = $this.data('title');
+                    if (!title || title.length <= 0) {
+                        title = $this.html();
+                    }
+
+                    var obj = {
+                        url: url,
+                        title: title,
+                        kind: 'tab'
+                    };
+
+                    sendEventToParent(obj);
+
+                    return false;
+            }
+
+            window.location.href = url;
+            return true;
         }
     )
 });
@@ -81,6 +142,7 @@ function doClickAction($this) {
     var fields = $this.data('fields');
     //参数
     var parameter = '';
+
     if (fields && fields.length > 0) {
         var fieldArr = fields.split(',');
         for (var i = 0; i < fieldArr.length; i++) {
@@ -162,7 +224,8 @@ function doAction(methodName, actionUrl, actionParamter) {
     });
 }
 
-// 发送页面内消息
+// 发送消息到框架页-执行打开标签操作
 function sendEventToParent(data) {
-    window.parent.postMessage(data, '*');
+    // 只向同域框架发送消息，避免消息干扰
+    window.parent.postMessage(data, location.origin);
 }
