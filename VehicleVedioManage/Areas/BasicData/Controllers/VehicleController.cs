@@ -44,7 +44,8 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
             //    var entity = Vehicle.FindByDeleted(id);
             //    return entity.Count == 0 ? new List<Vehicle>() : entity;
             //}
-            return Vehicle.Search(null, p["PlateColor"], p["RunStatus"], p["VehicleType"],"", p);
+            var key = p["q"];
+            return Vehicle.Search(p["vehicleId"], p["PlateColor"], p["RunStatus"], p["VehicleType"], p["AreaID"], key, p);
         }
         /// <summary>
         /// 
@@ -138,7 +139,42 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         {
             var rs = -1;
             rs = base.OnUpdate(entity);
+            if (rs > 0)
+            {
+                VehicleInfoModifyRecord vehicleInfoModifyRecord = new VehicleInfoModifyRecord();
+                vehicleInfoModifyRecord.VehicleId = entity.ID;
+                vehicleInfoModifyRecord.Owner = entity.Owner;
+                vehicleInfoModifyRecord.Detail = "修改更新";
+                vehicleInfoModifyRecord.CreateUserID = ManageProvider.User.ID;
+                vehicleInfoModifyRecord.CreateTime = DateTime.Now;
+                vehicleInfoModifyRecord.CreateIP = entity.CreateIP;
+                vehicleInfoModifyRecord.TenantId = entity.TenantId;
+                vehicleInfoModifyRecord.Type = "Edit";
+                vehicleInfoModifyRecord.Insert();
+            }
             return rs;
+        }
+        /// <summary>批量删除</summary>
+        /// <returns></returns>
+        [EntityAuthorize(PermissionFlags.Update)]
+        public ActionResult RefreshStock()
+        {
+            var count = 0;
+            var ids = GetRequest("keys").SplitAsInt();
+            if (ids.Length > 0)
+            {
+                foreach (var id in ids)
+                {
+                    var entity = Vehicle.FindByKey(id);
+                    if (entity != null)
+                    {
+                        entity.Deleted = true;
+                        count += entity.Update();
+                    }
+                }
+            }
+
+            return JsonRefresh($"共删除[{count}]个");
         }
     }
 }

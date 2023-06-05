@@ -140,16 +140,16 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>车辆类型</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public VehicleType Vehicle_Type => Extends.Get(nameof(VehicleType), k => VehicleType.FindByCode(VehicleTypeCode));
+        public VehicleType __VehicleType => Extends.Get(nameof(VehicleType), k => VehicleType.FindByCode(VehicleTypeCode));
 
         /// <summary>车辆类型名称</summary>
-        [Map(nameof(VehicleType), typeof(VehicleType), "Code")]
-        public String VehicleTypeName => Vehicle_Type?.Name;
+        [Map(nameof(VehicleTypeCode), typeof(VehicleType), "Code")]
+        public String VehicleTypeName => __VehicleType?.Name;
 
         /// <summary>运营状态</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public RunStatus __RunStatus => Extends.Get(nameof(RunStatus), k => RunStatus.FindByCode(RunStatusCode));
+        public RunStatus __RunStatus => Extends.Get(nameof(RunStatus), k => RunStatus.FindByID(RunStatusCode));
 
         /// <summary>运营状态名称</summary>
         [Map(nameof(RunStatusCode), typeof(RunStatus), "Code")]
@@ -282,14 +282,15 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <param name="key"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public static IList<Vehicle> Search(String plateNo, string plateColorCode, string runStatusCode,string vehicleTypeCode, String key, PageParameter page)
+        public static IList<Vehicle> Search(String VehicleID, string plateColorCode, string runStatusCode,string vehicleTypeCode, string areaID, String key, PageParameter page)
         {
             var exp = new WhereExpression();
 
-            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!VehicleID.IsNullOrEmpty()) exp &= _.ID == VehicleID;
             if (!plateColorCode.IsNullOrEmpty()) exp &= _.PlateColorCode == plateColorCode;
             if (!runStatusCode.IsNullOrEmpty()) exp &= _.RunStatusCode == runStatusCode;
             if (!vehicleTypeCode.IsNullOrEmpty()) exp &= _.VehicleTypeCode == vehicleTypeCode;
+            if(!areaID.IsNullOrEmpty()) exp&=_.Region==areaID;  
             exp &= _.Deleted == false;
             if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
 

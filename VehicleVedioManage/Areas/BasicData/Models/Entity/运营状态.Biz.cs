@@ -128,15 +128,15 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>根据编码查找</summary>
         /// <param name="code">编码</param>
         /// <returns>实体对象</returns>
-        public static RunStatus FindByCode(Int32 code)
+        public static RunStatus FindByCode(string name)
         {
-            if (code<0) return null;
+            if (string.IsNullOrEmpty(name)) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Code == code);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name == name);
 
             // 单对象缓存
-            return Meta.SingleCache[code];
+            return Meta.SingleCache[name];
 
             //return Find(_.ID == id);
         }
@@ -145,10 +145,10 @@ namespace VehicleVedioManage.BasicData.Entity
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public static bool isExistCode(Int32 code)
+        public static bool isExistCode(string name)
         {
             var isExist = false;
-            var list = FindByCode(code);
+            var list = FindByCode(name);
              if(list != null)
             {
                 isExist=true;

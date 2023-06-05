@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using NewLife;
 using NewLife.Data;
@@ -91,6 +92,45 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>父级</summary>
+        [XmlIgnore, ScriptIgnore, IgnoreDataMember]
+        public IndustryType Parent => Extends.Get(nameof(IndustryType), k => FindByID(ParentID));
+
+        /// <summary>父级</summary>
+        [Map(__.ParentID, typeof(IndustryType), __.Id)]
+        public String ParentName => Parent?.ToString();
+
+        /// <summary>父级路径</summary>
+        public String ParentPath
+        {
+            get
+            {
+                var list = new List<IndustryType>();
+                var ids = new List<Int32>();
+                var p = Parent;
+                while (p != null && !ids.Contains(p.Id))
+                {
+                    list.Add(p);
+                    ids.Add(p.Id);
+
+                    p = p.Parent;
+                }
+                if (list != null && list.Count > 0) return list.Join("/", r => r.Description);
+
+                return Parent?.ParentName;
+            }
+        }
+
+        /// <summary>路径</summary>
+        public String Path
+        {
+            get
+            {
+                var p = ParentPath;
+                if (p.IsNullOrEmpty()) return Description;
+                return p + "/" + Description;
+            }
+        }
         #endregion
 
         #region 扩展查询

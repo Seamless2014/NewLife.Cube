@@ -27,14 +27,6 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("ID", "编号", "")]
         public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
-        private Int32 _Code;
-        /// <summary>编码</summary>
-        [DisplayName("编码")]
-        [Description("编码")]
-        [DataObjectField(false, false, false, 0)]
-        [BindColumn("Code", "编码", "")]
-        public Int32 Code { get => _Code; set { if (OnPropertyChanging("Code", value)) { _Code = value; OnPropertyChanged("Code"); } } }
-
         private String _Name;
         /// <summary>名称</summary>
         [DisplayName("名称")]
@@ -127,7 +119,6 @@ namespace VehicleVedioManage.BasicData.Entity
                 switch (name)
                 {
                     case "ID": return _ID;
-                    case "Code": return _Code;
                     case "Name": return _Name;
                     case "CreateUser": return _CreateUser;
                     case "CreateUserID": return _CreateUserID;
@@ -146,7 +137,6 @@ namespace VehicleVedioManage.BasicData.Entity
                 switch (name)
                 {
                     case "ID": _ID = value.ToInt(); break;
-                    case "Code": _Code = value.ToInt(); break;
                     case "Name": _Name = Convert.ToString(value); break;
                     case "CreateUser": _CreateUser = Convert.ToString(value); break;
                     case "CreateUserID": _CreateUserID = value.ToInt(); break;
@@ -169,9 +159,6 @@ namespace VehicleVedioManage.BasicData.Entity
         {
             /// <summary>编号</summary>
             public static readonly Field ID = FindByName("ID");
-
-            /// <summary>编码</summary>
-            public static readonly Field Code = FindByName("Code");
 
             /// <summary>名称</summary>
             public static readonly Field Name = FindByName("Name");
@@ -211,9 +198,6 @@ namespace VehicleVedioManage.BasicData.Entity
         {
             /// <summary>编号</summary>
             public const String ID = "ID";
-
-            /// <summary>编码</summary>
-            public const String Code = "Code";
 
             /// <summary>名称</summary>
             public const String Name = "Name";

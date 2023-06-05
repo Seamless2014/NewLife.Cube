@@ -113,22 +113,22 @@ namespace VehicleVedioManage.BasicData.Entity
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public static UseType FindByCode(string code)
+        public static UseType FindByCode(string name)
         {
-            if (string.IsNullOrEmpty(code)) return null;
+            if (string.IsNullOrEmpty(name)) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Code == code);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name == name);
 
             // 单对象缓存
-            return Meta.SingleCache[code];
+            return Meta.SingleCache[name];
 
             //return Find(_.ID == id);
         }
-        public static bool isExistCode(string code)
+        public static bool isExistCode(string Name)
         {
             var isExist = false;
-            var list = FindByCode(code);
+            var list = FindByCode(Name);
             if (list != null)
             {
                 isExist = true;
@@ -165,7 +165,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
             if (!name.IsNullOrEmpty()) exp &= _.Name == name;
             exp &= _.UpdateTime.Between(start, end);
-            if (!key.IsNullOrEmpty()) exp &= _.Code.Contains(key) | _.Name.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
+            if (!key.IsNullOrEmpty()) exp &= _.Name.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
 
             return FindAll(exp, page);
         }

@@ -18,7 +18,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
 
             PageSetting.EnableTableDoubleClick = true;
             _tracer = provider?.GetService<ITracer>();
-            ListFields.RemoveField("ID");
+            ListFields.RemoveField("ID", "CreateUserID", "CreateIP", "UpdateUserID", "UpdateIP");
         }
 
         protected override UseType Find(Object key)
@@ -39,13 +39,13 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         protected override Int32 OnInsert(UseType entity)
         {
             var rs = -1;
-            if (!UseType.isExistCode(entity.Code.Trim()))
+            if (!UseType.isExistCode(entity.Name.Trim()))
             {
                 rs = base.OnInsert(entity);
             }
             else
             {
-                throw new InvalidOperationException("编码已经存在！请重新输入");
+                throw new InvalidOperationException("已经存在！请重新输入");
             }
             return rs;
         }
@@ -53,13 +53,13 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         protected override Int32 OnUpdate(UseType entity)
         {
             var rs = -1;
-            if (!UseType.isExistCode(entity.Code.Trim()))
+            if (!UseType.isExistCode(entity.Name.Trim()))
             {
                 rs = base.OnUpdate(entity);
             }
             else
             {
-                throw new InvalidOperationException("编码已经存在！请重新输入");
+                throw new InvalidOperationException("已经存在！请重新输入");
             }
             return rs;
         }

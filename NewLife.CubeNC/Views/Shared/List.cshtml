@@ -6,6 +6,7 @@
     var theme = NewLife.Cube.CubeSetting.Current.Theme;
     if (String.IsNullOrEmpty(theme)) theme = "ACE";
 
+    //注释这个是为了 不同的视图页面，可以使用不同的布局（主要是为了个别页面有个性化需求）
     Layout = "~/Views/" + theme + "/_Layout.cshtml";
 
     var fact = ViewBag.Factory as IEntityFactory;

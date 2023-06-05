@@ -174,7 +174,6 @@
     <Table Name="UseType" Description="使用性质">
     <Columns>
       <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" />
-      <Column Name="Code" DataType="String" Length="20" Description="编码" />
       <Column Name="Name" DataType="String" Master="True" Length="20" Description="名称" />
       <Column Name="CreateUser" DataType="String" Nullable="True" Description="创建者" />
       <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />
@@ -195,7 +194,7 @@
       <Column Name="Id" DataType="Int32" PrimaryKey="True" Description="主键" />
       <Column Name="Code" DataType="Int32" Nullable="True" Description="编码" />
       <Column Name="Description" DataType="String" Nullable="True" Master="True" RawType="varchar(200)" Length="200" Description="描述" />
-      <Column Name="ParentCode" DataType="Int32" Nullable="True" Description="父编码" />
+      <Column Name="ParentID" DataType="Int32" Nullable="True" Description="父级" />
       <Column Name="Industry_Type" DataType="String" RawType="varchar(32)" Length="32" Description="行业类型" />
     </Columns>
     <Indexes>
@@ -225,7 +224,6 @@
     <Table Name="RunStatus" Description="运营状态">
     <Columns>
       <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
-      <Column Name="Code" DataType="Int32" Nullable="False" Description="编码" />
       <Column Name="Name" DataType="String" Master="True" Length="20" Description="名称" />
       <Column Name="CreateUser" DataType="String" Nullable="True" Description="创建者" />
       <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />

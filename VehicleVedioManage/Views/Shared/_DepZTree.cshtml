@@ -1,0 +1,60 @@
+﻿@using NewLife;
+@using NewLife.Web;
+@using XCode;
+@using System.Linq;
+@{
+    var prefix = (Object)Model + "";
+    var page = ViewBag.Page as Pager;
+
+    var set = NewLife.Cube.CubeSetting.Current;
+    var res = set.ResourceUrl;
+    if (String.IsNullOrEmpty(res)) res = "/Content";
+    res = res.TrimEnd('/');
+}
+<link href="@res/ZTree/css/ztree/metroStyle.css" rel="stylesheet" />
+
+<div id="vehicleTree" class="ztree"></div>
+<script src="@res/zTree_v3/js/jquery-1.4.4.min.js"></script>
+<script src="@res/ZTree/js/jquery.min.js"></script>
+<script src="@res/ZTree/js/ztree/jquery.ztree.all.js"></script>
+<script src="@res/ZTree/js/json2.js"></script>
+
+<script>
+    var tree;
+
+    var setting = {
+        check: {
+            enable: true,
+            chkStyle: "checkbox",
+            chkboxType: {
+                "Y": "s",
+                "N": "s"
+            }
+        },
+        view: {
+            selectedMulti: true,
+            showLine: false
+        },
+        data: {
+            key: {
+                name: "name"
+            },
+            simpleData: {
+                enable: true,
+                id: "pid",
+            }
+        },
+        async: {
+            autoParam: ["id=pid"],
+            contentType: "application/x-www-form-urlencoded",
+            enable: true,
+            dataType: "text",
+            type: "post",
+            url: "/BasicData/Vehicle/Tree"
+        }
+    };
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#vehicleTree"), setting);
+    });
+    </script>

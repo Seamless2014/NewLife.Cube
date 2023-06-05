@@ -39,13 +39,13 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("Description", "描述", "varchar(200)", Master = true)]
         public String Description { get => _Description; set { if (OnPropertyChanging("Description", value)) { _Description = value; OnPropertyChanged("Description"); } } }
 
-        private Int32 _ParentCode;
-        /// <summary>父编码</summary>
-        [DisplayName("父编码")]
-        [Description("父编码")]
+        private Int32 _ParentID;
+        /// <summary>父级</summary>
+        [DisplayName("父级")]
+        [Description("父级")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("ParentCode", "父编码", "")]
-        public Int32 ParentCode { get => _ParentCode; set { if (OnPropertyChanging("ParentCode", value)) { _ParentCode = value; OnPropertyChanged("ParentCode"); } } }
+        [BindColumn("ParentID", "父级", "")]
+        public Int32 ParentID { get => _ParentID; set { if (OnPropertyChanging("ParentID", value)) { _ParentID = value; OnPropertyChanged("ParentID"); } } }
 
         private String _IndustryType;
         /// <summary>行业类型</summary>
@@ -69,7 +69,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "Id": return _Id;
                     case "Code": return _Code;
                     case "Description": return _Description;
-                    case "ParentCode": return _ParentCode;
+                    case "ParentID": return _ParentID;
                     case "IndustryType": return _IndustryType;
                     default: return base[name];
                 }
@@ -81,7 +81,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "Id": _Id = value.ToInt(); break;
                     case "Code": _Code = value.ToInt(); break;
                     case "Description": _Description = Convert.ToString(value); break;
-                    case "ParentCode": _ParentCode = value.ToInt(); break;
+                    case "ParentID": _ParentID = value.ToInt(); break;
                     case "IndustryType": _IndustryType = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
@@ -103,7 +103,7 @@ namespace VehicleVedioManage.BasicData.Entity
             public static readonly Field Description = FindByName("Description");
 
             /// <summary>父编码</summary>
-            public static readonly Field ParentCode = FindByName("ParentCode");
+            public static readonly Field ParentID = FindByName("ParentID");
 
             /// <summary>行业类型</summary>
             public static readonly Field Industry_Type = FindByName("Industry_Type");
@@ -124,7 +124,7 @@ namespace VehicleVedioManage.BasicData.Entity
             public const String Description = "Description";
 
             /// <summary>父编码</summary>
-            public const String ParentCode = "ParentCode";
+            public const String ParentID = "ParentID";
 
             /// <summary>行业类型</summary>
             public const String Industry_Type = "Industry_Type";

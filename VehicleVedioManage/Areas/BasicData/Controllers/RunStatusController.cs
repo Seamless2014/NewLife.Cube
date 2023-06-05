@@ -13,7 +13,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
     {
         public override ActionResult Index(Pager p = null)
         {
-            ListFields.RemoveField("ID", "CreateUserID", "UpdateUserID");
+            ListFields.RemoveField("ID", "CreateUserID", "UpdateUserID", "CreateIP", "UpdateIP");
             return base.Index(p);
         }
 
@@ -49,13 +49,13 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         protected override Int32 OnInsert(RunStatus entity)
         {
             var rs = -1;
-            if (!RunStatus.isExistCode(entity.Code))
+            if (!RunStatus.isExistCode(entity.Name))
             {
                 rs = base.OnInsert(entity);
             }
             else
             {
-                throw new InvalidOperationException("编码已经存在！请重新输入");
+                throw new InvalidOperationException("已经存在！请重新输入");
             }
             return rs;
         }
@@ -63,13 +63,13 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         protected override Int32 OnUpdate(RunStatus entity)
         {
             var rs = -1;
-            if (!RunStatus.isExistCode(entity.Code))
+            if (!RunStatus.isExistCode(entity.Name))
             {
                 rs = base.OnUpdate(entity);
             }
             else
             {
-                throw new InvalidOperationException("编码已经存在！请重新输入");
+                throw new InvalidOperationException("已经存在！请重新输入");
             }
             return rs;
         }
