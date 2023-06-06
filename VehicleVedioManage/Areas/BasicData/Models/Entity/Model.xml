@@ -56,9 +56,9 @@
     <Columns>
       <Column Name="ID" DataType="Int32" PrimaryKey="True" Description="编号" />
       <Column Name="Code" DataType="Int32" Nullable="True" Description="编码" />
-      <Column Name="Description" DataType="String" RawType="varchar(64)" Length="64" Description="描述" />
-      <Column Name="ParentCode" DataType="Int32" Nullable="True" Description="父编码" />
       <Column Name="Name" DataType="String" RawType="varchar(32)" Master="True" Length="32" Description="名称" />
+      <Column Name="Description" DataType="String" RawType="varchar(64)" Length="64" Description="描述" />
+      <Column Name="ParentID" DataType="Int32" Nullable="True" Description="父级" />
       <Column Name="CreateUser" DataType="String" Description="创建者" />
       <Column Name="CreateUserID" DataType="Int32" Nullable="True" Description="创建人" />
       <Column Name="CreateIP" DataType="String" Description="创建地址" />
@@ -158,7 +158,7 @@
       <Column Name="BaseId" DataType="Int32" Identity="True" PrimaryKey="True" Description="基础数据编码" />
       <Column Name="Name" DataType="String" Master="True" Length="255" Description="名称" />
       <Column Name="Code" DataType="String" Length="255" Description="编码" />
-      <Column Name="Parent" DataType="String" Length="255" Description="父编码" />
+      <Column Name="ParentID" DataType="Int32" Length="20" Description="父级" />
       <Column Name="MetaData" DataType="String" Nullable="True" Length="255" Description="元数据" />
       <Column Name="Deleted" DataType="Boolean" Nullable="True" Description="启用" />
       <Column Name="CreateTime" DataType="DateTime" Nullable="True" Scale="3" Description="创建时间" />

@@ -36,6 +36,14 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("Code", "编码", "")]
         public Int32 Code { get => _Code; set { if (OnPropertyChanging("Code", value)) { _Code = value; OnPropertyChanged("Code"); } } }
 
+        private String _Name;
+        /// <summary>名称</summary>
+        [DisplayName("名称")]
+        [Description("名称")]
+        [DataObjectField(false, false, true, 32)]
+        [BindColumn("Name", "名称", "varchar(32)", Master = true)]
+        public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
+
         private String _Description;
         /// <summary>描述</summary>
         [DisplayName("描述")]
@@ -44,21 +52,13 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("Description", "描述", "varchar(64)")]
         public String Description { get => _Description; set { if (OnPropertyChanging("Description", value)) { _Description = value; OnPropertyChanged("Description"); } } }
 
-        private Int32 _ParentCode;
-        /// <summary>父编码</summary>
-        [DisplayName("父编码")]
-        [Description("父编码")]
+        private Int32 _ParentID;
+        /// <summary>父级</summary>
+        [DisplayName("父级")]
+        [Description("父级")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("ParentCode", "父编码", "")]
-        public Int32 ParentCode { get => _ParentCode; set { if (OnPropertyChanging("ParentCode", value)) { _ParentCode = value; OnPropertyChanged("ParentCode"); } } }
-
-        private String _Name;
-        /// <summary>名称</summary>
-        [DisplayName("名称")]
-        [Description("名称")]
-        [DataObjectField(false, false, true, 32)]
-        [BindColumn("Name", "名称", "varchar(32)", Master = true)]
-        public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
+        [BindColumn("ParentID", "父级", "")]
+        public Int32 ParentID { get => _ParentID; set { if (OnPropertyChanging("ParentID", value)) { _ParentID = value; OnPropertyChanged("ParentID"); } } }
 
         private String _CreateUser;
         /// <summary>创建者</summary>
@@ -146,7 +146,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "ID": return _ID;
                     case "Code": return _Code;
                     case "Description": return _Description;
-                    case "ParentCode": return _ParentCode;
+                    case "ParentID": return _ParentID;
                     case "Name": return _Name;
                     case "CreateUser": return _CreateUser;
                     case "CreateUserID": return _CreateUserID;
@@ -167,7 +167,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "ID": _ID = value.ToInt(); break;
                     case "Code": _Code = value.ToInt(); break;
                     case "Description": _Description = Convert.ToString(value); break;
-                    case "ParentCode": _ParentCode = value.ToInt(); break;
+                    case "ParentID": _ParentID = value.ToInt(); break;
                     case "Name": _Name = Convert.ToString(value); break;
                     case "CreateUser": _CreateUser = Convert.ToString(value); break;
                     case "CreateUserID": _CreateUserID = value.ToInt(); break;
@@ -197,8 +197,8 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>描述</summary>
             public static readonly Field Description = FindByName("Description");
 
-            /// <summary>父编码</summary>
-            public static readonly Field ParentCode = FindByName("ParentCode");
+            /// <summary>父级</summary>
+            public static readonly Field ParentID = FindByName("ParentID");
 
             /// <summary>名称</summary>
             public static readonly Field Name = FindByName("Name");
@@ -245,8 +245,8 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>描述</summary>
             public const String Description = "Description";
 
-            /// <summary>父编码</summary>
-            public const String ParentCode = "ParentCode";
+            /// <summary>父级</summary>
+            public const String ParentID = "ParentID";
 
             /// <summary>名称</summary>
             public const String Name = "Name";

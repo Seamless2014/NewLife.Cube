@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -51,13 +51,13 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("alarmType", "报警类型", "")]
         public String alarmType { get => _alarmType; set { if (OnPropertyChanging("alarmType", value)) { _alarmType = value; OnPropertyChanged("alarmType"); } } }
 
-        private Boolean _Enabled;
+        private Boolean _Enable;
         /// <summary>启用</summary>
         [DisplayName("启用")]
         [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Enabled", "启用", "")]
-        public Boolean Enabled { get => _Enabled; set { if (OnPropertyChanging("Enabled", value)) { _Enabled = value; OnPropertyChanged("Enabled"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private Boolean _soundEnabled;
         /// <summary>声音</summary>
@@ -106,7 +106,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Code": return _Code;
                     case "Name": return _Name;
                     case "alarmType": return _alarmType;
-                    case "Enabled": return _Enabled;
+                    case "Enable": return _Enable;
                     case "soundEnabled": return _soundEnabled;
                     case "popupEnabled": return _popupEnabled;
                     case "alarmSource": return _alarmSource;
@@ -122,7 +122,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Code": _Code = Convert.ToString(value); break;
                     case "Name": _Name = Convert.ToString(value); break;
                     case "alarmType": _alarmType = Convert.ToString(value); break;
-                    case "Enabled": _Enabled = value.ToBoolean(); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "soundEnabled": _soundEnabled = value.ToBoolean(); break;
                     case "popupEnabled": _popupEnabled = value.ToBoolean(); break;
                     case "alarmSource": _alarmSource = Convert.ToString(value); break;
@@ -150,7 +150,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             public static readonly Field alarmType = FindByName("alarmType");
 
             /// <summary>启用</summary>
-            public static readonly Field Enabled = FindByName("Enabled");
+            public static readonly Field Enable = FindByName("_Enable");
 
             /// <summary>声音</summary>
             public static readonly Field soundEnabled = FindByName("soundEnabled");
@@ -183,7 +183,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             public const String alarmType = "alarmType";
 
             /// <summary>启用</summary>
-            public const String Enabled = "Enabled";
+            public const String Enable = "Enable";
 
             /// <summary>声音</summary>
             public const String soundEnabled = "soundEnabled";

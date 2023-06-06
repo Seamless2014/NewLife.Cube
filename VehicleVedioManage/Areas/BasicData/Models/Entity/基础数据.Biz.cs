@@ -98,6 +98,45 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>父级</summary>
+        [XmlIgnore, ScriptIgnore, IgnoreDataMember]
+        public BasicInfo Parent => Extends.Get(nameof(BasicInfo), k => FindByBaseId(ParentID));
+
+        /// <summary>父级</summary>
+        [Map(__.ParentID, typeof(BasicInfo), __.BaseId)]
+        public String ParentName => Parent?.ToString();
+
+        /// <summary>父级路径</summary>
+        public String ParentPath
+        {
+            get
+            {
+                var list = new List<BasicInfo>();
+                var ids = new List<Int32>();
+                var p = Parent;
+                while (p != null && !ids.Contains(p.BaseId))
+                {
+                    list.Add(p);
+                    ids.Add(p.BaseId);
+
+                    p = p.Parent;
+                }
+                if (list != null && list.Count > 0) return list.Join("/", r => r.Name);
+
+                return Parent?.ParentName;
+            }
+        }
+
+        /// <summary>路径</summary>
+        public String Path
+        {
+            get
+            {
+                var p = ParentPath;
+                if (p.IsNullOrEmpty()) return Name;
+                return p + "/" + Name;
+            }
+        }
         #endregion
 
         #region 扩展查询
@@ -106,7 +145,7 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <returns>实体对象</returns>
         public static BasicInfo FindByBaseId(Int32 baseId)
         {
-            if (baseId <= 0) return null;
+            if (baseId < 0) return null;
 
             // 实体缓存
             if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.BaseId == baseId);
@@ -145,7 +184,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
             if (!name.IsNullOrEmpty()) exp &= _.Name == name;
             exp &= _.CreateTime.Between(start, end);
-            if (!key.IsNullOrEmpty()) exp &= _.Name.Contains(key) | _.Code.Contains(key) | _.Parent.Contains(key) | _.MetaData.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
+            if (!key.IsNullOrEmpty()) exp &= _.Name.Contains(key) | _.Code.Contains(key) | _.MetaData.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
 
             return FindAll(exp, page);
         }

@@ -164,10 +164,10 @@
   </Table>
   <Table Name="DriverInfo" Description="司机信息。驾驶员基本信息">
     <Columns>
-      <Column Name="DriverId" DataType="Int32" Identity="True" PrimaryKey="True" Description="驾驶员编码" />
+      <Column Name="DriverId" DataType="Int32" Identity="True" PrimaryKey="True" Description="司机编码" />
       <Column Name="DepartmentID" DataType="Int32" Length="20" Description="部门编码" />
       <Column Name="DepartmentName" DataType="String" Length="50" Description="部门名称" />
-      <Column Name="DriverName" DataType="String" Length="32" Description="驾驶员姓名" />
+      <Column Name="DriverName" DataType="String" Length="32" Description="司机姓名" />
       <Column Name="Sex" DataType="String" Length="8" Description="性别" />
       <Column Name="DriverLicence" DataType="String" Nullable="True" Description="驾驶执照" />
       <Column Name="IdentityCard" DataType="String" Nullable="True" Description="身份证" />
@@ -181,17 +181,16 @@
       <Column Name="HarnessesAge" DataType="Byte" Nullable="True" />
       <Column Name="Status" DataType="Int16" Nullable="True" Description="状态" />
       <Column Name="Appointment" DataType="DateTime" Scale="3" Nullable="True" Description="预约时间" />
-      <Column Name="BaseSalary" DataType="Single" Nullable="True" Description="基本工资" />
       <Column Name="RoyaltiesScale" DataType="Single" Nullable="True" Description="使用规模" Category="扩展信息" />
       <Column Name="AppraisalIntegral" DataType="Single" Nullable="True" Description="评估" Category="扩展信息" />
-      <Column Name="DriverRFID" DataType="String" RawType="varchar(40)" Nullable="True" Length="40" Description="驾驶员Sim卡" Category="扩展信息" />
+      <Column Name="DriverRFID" DataType="String" RawType="varchar(40)" Nullable="True" Length="40" Description="司机Sim卡" Category="扩展信息" />
       <Column Name="Password" DataType="String" RawType="varchar(16)" Nullable="True" Length="16" Description="密码" />
       <Column Name="Register" DataType="DateTime" Scale="3" Nullable="True" Description="注册" Category="扩展信息" />
       <Column Name="Remark" DataType="String" Length="256" Nullable="True" Description="备注" Category="扩展信息" />
       <Column Name="UpdateTime" DataType="DateTime" Scale="3" Nullable="True" Description="更新时间" Category="扩展信息" />
       <Column Name="LicenseAgency" DataType="String" Length="64" Nullable="True" Description="许可证机构" Category="扩展信息" />
       <Column Name="CertificationDate" DataType="DateTime" Scale="3" Nullable="True" Description="认证日期" Category="扩展信息" />
-      <Column Name="InvalidDate" DataType="DateTime" Scale="3" Nullable="True" Description="无效期" Category="扩展信息" />
+      <Column Name="InvalidDate" DataType="DateTime" Scale="3" Nullable="True" Description="无效日期" Category="扩展信息" />
       <Column Name="ServiceLevel" DataType="Int32" Nullable="True" Description="服务层级" />
       <Column Name="BgTitle" DataType="String" RawType="varchar(32)" Nullable="True" Length="32" Description="背景标题" />
       <Column Name="Location" DataType="String" RawType="varchar(32)" Nullable="True" Length="32" Description="位置" />

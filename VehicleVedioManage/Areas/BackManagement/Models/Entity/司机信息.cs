@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -36,29 +36,21 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("DepartmentID", "部门编码", "")]
         public Int32 DepartmentID { get => _DepartmentID; set { if (OnPropertyChanging("DepartmentID", value)) { _DepartmentID = value; OnPropertyChanged("DepartmentID"); } } }
 
-        private String _DepartmentName;
-        /// <summary>部门名称</summary>
-        [DisplayName("部门名称")]
-        [Description("部门名称")]
-        [DataObjectField(false, false, true, 50)]
-        [BindColumn("DepartmentName", "部门名称", "")]
-        public String DepartmentName { get => _DepartmentName; set { if (OnPropertyChanging("DepartmentName", value)) { _DepartmentName = value; OnPropertyChanged("DepartmentName"); } } }
-
         private String _DriverName;
-        /// <summary>驾驶员姓名</summary>
-        [DisplayName("驾驶员姓名")]
-        [Description("驾驶员姓名")]
+        /// <summary>司机姓名</summary>
+        [DisplayName("司机姓名")]
+        [Description("司机姓名")]
         [DataObjectField(false, false, true, 32)]
-        [BindColumn("DriverName", "驾驶员姓名", "")]
+        [BindColumn("DriverName", "司机姓名", "")]
         public String DriverName { get => _DriverName; set { if (OnPropertyChanging("DriverName", value)) { _DriverName = value; OnPropertyChanged("DriverName"); } } }
 
-        private String _Sex;
+        private Int32 _Sex;
         /// <summary>性别</summary>
         [DisplayName("性别")]
         [Description("性别")]
         [DataObjectField(false, false, true, 8)]
         [BindColumn("Sex", "性别", "")]
-        public String Sex { get => _Sex; set { if (OnPropertyChanging("Sex", value)) { _Sex = value; OnPropertyChanged("Sex"); } } }
+        public Int32 Sex { get => _Sex; set { if (OnPropertyChanging("Sex", value)) { _Sex = value; OnPropertyChanged("Sex"); } } }
 
         private String _DriverLicence;
         /// <summary>驾驶执照</summary>
@@ -92,21 +84,21 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("Address", "地址", "")]
         public String Address { get => _Address; set { if (OnPropertyChanging("Address", value)) { _Address = value; OnPropertyChanged("Address"); } } }
 
-        private String _Telephone;
+        private Int32 _Telephone;
         /// <summary>电话</summary>
         [DisplayName("电话")]
         [Description("电话")]
-        [DataObjectField(false, false, true, 20)]
-        [BindColumn("Telephone", "电话", "varchar(20)")]
-        public String Telephone { get => _Telephone; set { if (OnPropertyChanging("Telephone", value)) { _Telephone = value; OnPropertyChanged("Telephone"); } } }
+        [DataObjectField(false, false, true, 30)]
+        [BindColumn("Telephone", "电话", "")]
+        public Int32 Telephone { get => _Telephone; set { if (OnPropertyChanging("Telephone", value)) { _Telephone = value; OnPropertyChanged("Telephone"); } } }
 
-        private String _MobilePhone;
+        private Int32 _MobilePhone;
         /// <summary>手机号</summary>
         [DisplayName("手机号")]
         [Description("手机号")]
-        [DataObjectField(false, false, true, 20)]
+        [DataObjectField(false, false, true, 30)]
         [BindColumn("MobilePhone", "手机号", "varchar(20)")]
-        public String MobilePhone { get => _MobilePhone; set { if (OnPropertyChanging("MobilePhone", value)) { _MobilePhone = value; OnPropertyChanged("MobilePhone"); } } }
+        public Int32 MobilePhone { get => _MobilePhone; set { if (OnPropertyChanging("MobilePhone", value)) { _MobilePhone = value; OnPropertyChanged("MobilePhone"); } } }
 
         private DateTime _Birthday;
         /// <summary>生日</summary>
@@ -155,14 +147,6 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("Appointment", "预约时间", "", Precision = 0, Scale = 3)]
         public DateTime Appointment { get => _Appointment; set { if (OnPropertyChanging("Appointment", value)) { _Appointment = value; OnPropertyChanged("Appointment"); } } }
 
-        private Single _BaseSalary;
-        /// <summary>基本工资</summary>
-        [DisplayName("基本工资")]
-        [Description("基本工资")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("BaseSalary", "基本工资", "")]
-        public Single BaseSalary { get => _BaseSalary; set { if (OnPropertyChanging("BaseSalary", value)) { _BaseSalary = value; OnPropertyChanged("BaseSalary"); } } }
-
         private Single _RoyaltiesScale;
         /// <summary>使用规模</summary>
         [Category("扩展信息")]
@@ -182,12 +166,11 @@ namespace VehicleVedioManage.BackManagement.Entity
         public Single AppraisalIntegral { get => _AppraisalIntegral; set { if (OnPropertyChanging("AppraisalIntegral", value)) { _AppraisalIntegral = value; OnPropertyChanged("AppraisalIntegral"); } } }
 
         private String _DriverRFID;
-        /// <summary>驾驶员Sim卡</summary>
-        [Category("扩展信息")]
-        [DisplayName("驾驶员Sim卡")]
-        [Description("驾驶员Sim卡")]
+        /// <summary>司机Sim卡</summary>
+        [DisplayName("司机Sim卡")]
+        [Description("司机Sim卡")]
         [DataObjectField(false, false, true, 40)]
-        [BindColumn("DriverRFID", "驾驶员Sim卡", "varchar(40)")]
+        [BindColumn("DriverRFID", "司机Sim卡", "varchar(40)")]
         public String DriverRFID { get => _DriverRFID; set { if (OnPropertyChanging("DriverRFID", value)) { _DriverRFID = value; OnPropertyChanged("DriverRFID"); } } }
 
         private String _Password;
@@ -212,8 +195,8 @@ namespace VehicleVedioManage.BackManagement.Entity
         [Category("扩展信息")]
         [DisplayName("备注")]
         [Description("备注")]
-        [DataObjectField(false, false, true, 256)]
-        [BindColumn("Remark", "备注", "")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "varchar(500)")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private DateTime _UpdateTime;
@@ -357,7 +340,6 @@ namespace VehicleVedioManage.BackManagement.Entity
                 {
                     case "DriverId": return _DriverId;
                     case "DepartmentID": return _DepartmentID;
-                    case "DepartmentName": return _DepartmentName;
                     case "DriverName": return _DriverName;
                     case "Sex": return _Sex;
                     case "DriverLicence": return _DriverLicence;
@@ -372,7 +354,6 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "HarnessesAge": return _HarnessesAge;
                     case "Status": return _Status;
                     case "Appointment": return _Appointment;
-                    case "BaseSalary": return _BaseSalary;
                     case "RoyaltiesScale": return _RoyaltiesScale;
                     case "AppraisalIntegral": return _AppraisalIntegral;
                     case "DriverRFID": return _DriverRFID;
@@ -403,22 +384,20 @@ namespace VehicleVedioManage.BackManagement.Entity
                 {
                     case "DriverId": _DriverId = value.ToInt(); break;
                     case "DepartmentID": _DepartmentID = value.ToInt(); break;
-                    case "DepartmentName": _DepartmentName = Convert.ToString(value); break;
                     case "DriverName": _DriverName = Convert.ToString(value); break;
-                    case "Sex": _Sex = Convert.ToString(value); break;
+                    case "Sex": _Sex = value.ToInt(); break;
                     case "DriverLicence": _DriverLicence = Convert.ToString(value); break;
                     case "IdentityCard": _IdentityCard = Convert.ToString(value); break;
                     case "NativePlace": _NativePlace = Convert.ToString(value); break;
                     case "Address": _Address = Convert.ToString(value); break;
-                    case "Telephone": _Telephone = Convert.ToString(value); break;
-                    case "MobilePhone": _MobilePhone = Convert.ToString(value); break;
+                    case "Telephone": _Telephone = value.ToInt(); break;
+                    case "MobilePhone": _MobilePhone = value.ToInt(); break;
                     case "Birthday": _Birthday = value.ToDateTime(); break;
                     case "DrivingType": _DrivingType = Convert.ToString(value); break;
                     case "ExamineYear": _ExamineYear = value.ToDateTime(); break;
                     case "HarnessesAge": _HarnessesAge = Convert.ToByte(value); break;
                     case "Status": _Status = Convert.ToInt16(value); break;
                     case "Appointment": _Appointment = value.ToDateTime(); break;
-                    case "BaseSalary": _BaseSalary = Convert.ToSingle(value); break;
                     case "RoyaltiesScale": _RoyaltiesScale = Convert.ToSingle(value); break;
                     case "AppraisalIntegral": _AppraisalIntegral = Convert.ToSingle(value); break;
                     case "DriverRFID": _DriverRFID = Convert.ToString(value); break;
@@ -500,9 +479,6 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             /// <summary>预约时间</summary>
             public static readonly Field Appointment = FindByName("Appointment");
-
-            /// <summary>基本工资</summary>
-            public static readonly Field BaseSalary = FindByName("BaseSalary");
 
             /// <summary>使用规模</summary>
             public static readonly Field RoyaltiesScale = FindByName("RoyaltiesScale");

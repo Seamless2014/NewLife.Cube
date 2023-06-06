@@ -16,7 +16,7 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
         {
             ListFields.RemoveField("DriverId", "Birthday", "DrivingType", "ExamineYear", "HarnessesAge", "Appointment", "BaseSalary", 
                 "RoyaltiesScale", "AppraisalIntegral", "Password", "Register", "BgTitle", "PhotoFormat", "PhotoLength", "Deleted", "CreateTime", 
-                "TenantId", "JobCard", "BgTitle", "UpdateTime");
+                "TenantId", "JobCard", "BgTitle", "UpdateTime", "DepartmentID");
             return base.Index(p);
         }
     }

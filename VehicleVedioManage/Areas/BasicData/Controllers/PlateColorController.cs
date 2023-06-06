@@ -18,7 +18,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
 
             PageSetting.EnableTableDoubleClick = true;
             _tracer = provider?.GetService<ITracer>();
-            ListFields.RemoveField("ID", "CreateUserID", "UpdateUserID");
+            ListFields.RemoveField("ID", "CreateUserID", "UpdateUserID", "CreateIP", "UpdateIP");
         }
 
         protected override PlateColor Find(Object key)

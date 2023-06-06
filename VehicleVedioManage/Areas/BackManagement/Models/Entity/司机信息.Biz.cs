@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -126,6 +126,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>部门</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public Department _Department => Extends.Get(nameof(Department), k => Department.FindByID(DepartmentID));
+
+        /// <summary>部门名称</summary>
+        [Map(nameof(DepartmentID), typeof(Department), "ID")]
+        [BindColumn("DepartmentName", "部门名称", "nvarchar(50)")]
+        public String DepartmentName => _Department?.Name;
         #endregion
 
         #region 扩展查询

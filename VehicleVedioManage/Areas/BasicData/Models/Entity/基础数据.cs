@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -43,13 +43,13 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("Code", "编码", "")]
         public String Code { get => _Code; set { if (OnPropertyChanging("Code", value)) { _Code = value; OnPropertyChanged("Code"); } } }
 
-        private String _Parent;
-        /// <summary>父编码</summary>
-        [DisplayName("父编码")]
-        [Description("父编码")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Parent", "父编码", "")]
-        public String Parent { get => _Parent; set { if (OnPropertyChanging("Parent", value)) { _Parent = value; OnPropertyChanged("Parent"); } } }
+        private Int32 _ParentID;
+        /// <summary>父级</summary>
+        [DisplayName("父级")]
+        [Description("父级")]
+        [DataObjectField(false, false, true, 10)]
+        [BindColumn("ParentID", "父级", "")]
+        public Int32 ParentID { get => _ParentID; set { if (OnPropertyChanging("ParentID", value)) { _ParentID = value; OnPropertyChanged("ParentID"); } } }
 
         private String _MetaData;
         /// <summary>元数据</summary>
@@ -121,7 +121,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "BaseId": return _BaseId;
                     case "Name": return _Name;
                     case "Code": return _Code;
-                    case "Parent": return _Parent;
+                    case "ParentID": return _ParentID;
                     case "MetaData": return _MetaData;
                     case "Deleted": return _Deleted;
                     case "CreateTime": return _CreateTime;
@@ -139,7 +139,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "BaseId": _BaseId = value.ToInt(); break;
                     case "Name": _Name = Convert.ToString(value); break;
                     case "Code": _Code = Convert.ToString(value); break;
-                    case "Parent": _Parent = Convert.ToString(value); break;
+                    case "ParentID": _ParentID = value.ToInt(); break;
                     case "MetaData": _MetaData = Convert.ToString(value); break;
                     case "Deleted": _Deleted = value.ToBoolean(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
@@ -166,8 +166,8 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>编码</summary>
             public static readonly Field Code = FindByName("Code");
 
-            /// <summary>父编码</summary>
-            public static readonly Field Parent = FindByName("Parent");
+            /// <summary>父级</summary>
+            public static readonly Field ParentID = FindByName("ParentID");
 
             /// <summary>元数据</summary>
             public static readonly Field MetaData = FindByName("MetaData");
@@ -205,8 +205,8 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>编码</summary>
             public const String Code = "Code";
 
-            /// <summary>父编码</summary>
-            public const String Parent = "Parent";
+            /// <summary>父级</summary>
+            public const String ParentID = "ParentID";
 
             /// <summary>元数据</summary>
             public const String MetaData = "MetaData";

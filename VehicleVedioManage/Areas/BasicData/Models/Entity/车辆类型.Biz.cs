@@ -114,6 +114,45 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>父级</summary>
+        [XmlIgnore, ScriptIgnore, IgnoreDataMember]
+        public VehicleType Parent => Extends.Get(nameof(VehicleType), k => FindByID(ParentID));
+
+        /// <summary>父级</summary>
+        [Map(__.ParentID, typeof(VehicleType), __.ID)]
+        public String ParentName => Parent?.ToString();
+
+        /// <summary>父级路径</summary>
+        public String ParentPath
+        {
+            get
+            {
+                var list = new List<VehicleType>();
+                var ids = new List<Int32>();
+                var p = Parent;
+                while (p != null && !ids.Contains(p.ID))
+                {
+                    list.Add(p);
+                    ids.Add(p.ID);
+
+                    p = p.Parent;
+                }
+                if (list != null && list.Count > 0) return list.Join("/", r => r.Description);
+
+                return Parent?.ParentName;
+            }
+        }
+
+        /// <summary>路径</summary>
+        public String Path
+        {
+            get
+            {
+                var p = ParentPath;
+                if (p.IsNullOrEmpty()) return Description;
+                return p + "/" + Description;
+            }
+        }
         #endregion
 
         #region 扩展查询
