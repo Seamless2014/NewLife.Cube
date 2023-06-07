@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -101,15 +101,6 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("Owner", "拥有者", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
-        private String _Remark;
-        /// <summary>备注</summary>
-        [Category("扩展信息")]
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 500)]
-        [BindColumn("Remark", "备注", "")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
-
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
         [Category("扩展信息")]
@@ -118,6 +109,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DataObjectField(false, false, true, 0)]
         [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [Category("扩展信息")]
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Int32 _MaxOfflineDays;
         /// <summary>最大离线天数</summary>

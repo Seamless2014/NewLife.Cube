@@ -48,7 +48,7 @@ namespace VehicleVedioManage.Web.IService
         /// </summary>
         /// <param name="termNo"></param>
         /// <returns></returns>
-        Terminal getTerminalByTermNo(String termNo);
+        TerminalInfo getTerminalByTermNo(String termNo);
         /// <summary>
         /// 根据车牌号获取车辆数据
         /// </summary>

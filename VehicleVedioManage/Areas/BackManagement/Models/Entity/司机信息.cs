@@ -20,20 +20,20 @@ namespace VehicleVedioManage.BackManagement.Entity
     public partial class DriverInfo
     {
         #region 属性
-        private Int32 _DriverId;
+        private Int32 _ID;
         /// <summary>驾驶员编码</summary>
         [DisplayName("驾驶员编码")]
         [Description("驾驶员编码")]
         [DataObjectField(true, true, false, 0)]
-        [BindColumn("DriverId", "驾驶员编码", "")]
-        public Int32 DriverId { get => _DriverId; set { if (OnPropertyChanging("DriverId", value)) { _DriverId = value; OnPropertyChanged("DriverId"); } } }
+        [BindColumn("ID", "驾驶员编码", "")]
+        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private Int32 _DepartmentID;
-        /// <summary>部门编码</summary>
-        [DisplayName("部门编码")]
-        [Description("部门编码")]
+        /// <summary>企业编码</summary>
+        [DisplayName("企业编码")]
+        [Description("企业编码")]
         [DataObjectField(false, false, false, 20)]
-        [BindColumn("DepartmentID", "部门编码", "")]
+        [BindColumn("DepartmentID", "企业编码", "")]
         public Int32 DepartmentID { get => _DepartmentID; set { if (OnPropertyChanging("DepartmentID", value)) { _DepartmentID = value; OnPropertyChanged("DepartmentID"); } } }
 
         private String _DriverName;
@@ -124,13 +124,6 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("ExamineYear", "检查年份", "", Precision = 0, Scale = 3)]
         public DateTime ExamineYear { get => _ExamineYear; set { if (OnPropertyChanging("ExamineYear", value)) { _ExamineYear = value; OnPropertyChanged("ExamineYear"); } } }
 
-        private Byte _HarnessesAge;
-        /// <summary></summary>
-        [DisplayName("HarnessesAge")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("HarnessesAge", "", "")]
-        public Byte HarnessesAge { get => _HarnessesAge; set { if (OnPropertyChanging("HarnessesAge", value)) { _HarnessesAge = value; OnPropertyChanged("HarnessesAge"); } } }
-
         private Int16 _Status;
         /// <summary>状态</summary>
         [DisplayName("状态")]
@@ -166,11 +159,11 @@ namespace VehicleVedioManage.BackManagement.Entity
         public Single AppraisalIntegral { get => _AppraisalIntegral; set { if (OnPropertyChanging("AppraisalIntegral", value)) { _AppraisalIntegral = value; OnPropertyChanged("AppraisalIntegral"); } } }
 
         private String _DriverRFID;
-        /// <summary>司机Sim卡</summary>
-        [DisplayName("司机Sim卡")]
-        [Description("司机Sim卡")]
+        /// <summary>Sim卡</summary>
+        [DisplayName("Sim卡")]
+        [Description("Sim卡")]
         [DataObjectField(false, false, true, 40)]
-        [BindColumn("DriverRFID", "司机Sim卡", "varchar(40)")]
+        [BindColumn("DriverRFID", "Sim卡", "varchar(40)")]
         public String DriverRFID { get => _DriverRFID; set { if (OnPropertyChanging("DriverRFID", value)) { _DriverRFID = value; OnPropertyChanged("DriverRFID"); } } }
 
         private String _Password;
@@ -189,15 +182,6 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DataObjectField(false, false, true, 0)]
         [BindColumn("Register", "注册", "", Precision = 0, Scale = 3)]
         public DateTime Register { get => _Register; set { if (OnPropertyChanging("Register", value)) { _Register = value; OnPropertyChanged("Register"); } } }
-
-        private String _Remark;
-        /// <summary>备注</summary>
-        [Category("扩展信息")]
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 500)]
-        [BindColumn("Remark", "备注", "varchar(500)")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
@@ -326,6 +310,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DataObjectField(false, false, true, 0)]
         [BindColumn("MainDriver", "主驾驶员", "")]
         public Byte MainDriver { get => _MainDriver; set { if (OnPropertyChanging("MainDriver", value)) { _MainDriver = value; OnPropertyChanged("MainDriver"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [Category("扩展信息")]
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "varchar(500)")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
         #endregion
 
         #region 获取/设置 字段值
@@ -338,7 +331,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "DriverId": return _DriverId;
+                    case "ID": return _ID;
                     case "DepartmentID": return _DepartmentID;
                     case "DriverName": return _DriverName;
                     case "Sex": return _Sex;
@@ -351,7 +344,6 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Birthday": return _Birthday;
                     case "DrivingType": return _DrivingType;
                     case "ExamineYear": return _ExamineYear;
-                    case "HarnessesAge": return _HarnessesAge;
                     case "Status": return _Status;
                     case "Appointment": return _Appointment;
                     case "RoyaltiesScale": return _RoyaltiesScale;
@@ -382,7 +374,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "DriverId": _DriverId = value.ToInt(); break;
+                    case "ID": _ID = value.ToInt(); break;
                     case "DepartmentID": _DepartmentID = value.ToInt(); break;
                     case "DriverName": _DriverName = Convert.ToString(value); break;
                     case "Sex": _Sex = value.ToInt(); break;
@@ -395,7 +387,6 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Birthday": _Birthday = value.ToDateTime(); break;
                     case "DrivingType": _DrivingType = Convert.ToString(value); break;
                     case "ExamineYear": _ExamineYear = value.ToDateTime(); break;
-                    case "HarnessesAge": _HarnessesAge = Convert.ToByte(value); break;
                     case "Status": _Status = Convert.ToInt16(value); break;
                     case "Appointment": _Appointment = value.ToDateTime(); break;
                     case "RoyaltiesScale": _RoyaltiesScale = Convert.ToSingle(value); break;
@@ -430,7 +421,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class _
         {
             /// <summary>驾驶员编码</summary>
-            public static readonly Field DriverId = FindByName("DriverId");
+            public static readonly Field ID = FindByName("ID");
 
             /// <summary>部门编码</summary>
             public static readonly Field DepartmentID = FindByName("DepartmentID");
@@ -471,9 +462,6 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>检查年份</summary>
             public static readonly Field ExamineYear = FindByName("ExamineYear");
 
-            /// <summary></summary>
-            public static readonly Field HarnessesAge = FindByName("HarnessesAge");
-
             /// <summary>状态</summary>
             public static readonly Field Status = FindByName("Status");
 
@@ -486,7 +474,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>评估</summary>
             public static readonly Field AppraisalIntegral = FindByName("AppraisalIntegral");
 
-            /// <summary>驾驶员Sim卡</summary>
+            /// <summary>Sim卡</summary>
             public static readonly Field DriverRFID = FindByName("DriverRFID");
 
             /// <summary>密码</summary>
@@ -550,7 +538,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class __
         {
             /// <summary>驾驶员编码</summary>
-            public const String DriverId = "DriverId";
+            public const String ID = "ID";
 
             /// <summary>部门编码</summary>
             public const String DepartmentID = "DepartmentID";
@@ -591,9 +579,6 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>检查年份</summary>
             public const String ExamineYear = "ExamineYear";
 
-            /// <summary></summary>
-            public const String HarnessesAge = "HarnessesAge";
-
             /// <summary>状态</summary>
             public const String Status = "Status";
 
@@ -609,7 +594,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>评估</summary>
             public const String AppraisalIntegral = "AppraisalIntegral";
 
-            /// <summary>驾驶员Sim卡</summary>
+            /// <summary>Sim卡</summary>
             public const String DriverRFID = "DriverRFID";
 
             /// <summary>密码</summary>

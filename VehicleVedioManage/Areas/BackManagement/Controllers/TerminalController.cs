@@ -13,7 +13,7 @@ namespace VehicleVedioManage.BackManagement.Controllers
 {
     [BackManagementArea]
     [DisplayName("终端信息")]
-    public class TerminalController : EntityController<Terminal>
+    public class TerminalController : EntityController<TerminalInfo>
     {
         private readonly ITracer _tracer;
         public TerminalController(IServiceProvider provider)
@@ -24,21 +24,21 @@ namespace VehicleVedioManage.BackManagement.Controllers
             _tracer = provider?.GetService<ITracer>();
         }
 
-        protected override Terminal Find(Object key)
+        protected override TerminalInfo Find(Object key)
         {
             return base.Find(key);
         }
 
-        protected override IEnumerable<Terminal> Search(Pager p)
+        protected override IEnumerable<TerminalInfo> Search(Pager p)
         {
             using var span = _tracer?.NewSpan(nameof(Search), p);
             var id = p["Deleted"].ToBoolean();
             if (!id)
             {
-                var entity = Terminal.FindByDeleted(id);
-                return entity.Count == 0 ? new List<Terminal>() : entity;
+                var entity = TerminalInfo.FindByDeleted(id);
+                return entity.Count == 0 ? new List<TerminalInfo>() : entity;
             }
-            return Terminal.Search(p["Deleted"], p);
+            return TerminalInfo.Search(p["Deleted"], p);
         }
 
         public override ActionResult Index(Pager p = null)

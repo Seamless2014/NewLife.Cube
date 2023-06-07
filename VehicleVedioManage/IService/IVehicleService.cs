@@ -51,13 +51,13 @@ namespace VehicleVedioManage.Web.IService
         /// </summary>
         /// <param name="terminalId"></param>
         /// <returns></returns>
-        Terminal getTerminal(int terminalId);
+        TerminalInfo getTerminal(int terminalId);
         /// <summary>
         /// 根据终端编号获取终端
         /// </summary>
         /// <param name="terminalNo"></param>
         /// <returns></returns>
-        Terminal getTerminalByTermNo(String terminalNo);
+        TerminalInfo getTerminalByTermNo(String terminalNo);
         /// <summary>
         /// 根据车牌号获取车辆
         /// </summary>
@@ -68,7 +68,7 @@ namespace VehicleVedioManage.Web.IService
         /// 保存终端
         /// </summary>
         /// <param name="t"></param>
-        void saveTerminal(Terminal t);
+        void saveTerminal(TerminalInfo t);
         /// <summary>
         /// 根据车辆Id删除车辆
         /// </summary>

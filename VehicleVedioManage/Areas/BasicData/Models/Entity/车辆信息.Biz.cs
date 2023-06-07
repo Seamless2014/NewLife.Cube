@@ -114,9 +114,9 @@ namespace VehicleVedioManage.BasicData.Entity
         //[ScriptIgnore]
         public Department _Department => Extends.Get(nameof(Department), k => Department.FindByID(DepartmentID));
 
-        /// <summary>部门名称</summary>
+        /// <summary>企业名称</summary>
         [Map(nameof(DepartmentID), typeof(Department), "ID")]
-        [BindColumn("DepartmentName", "部门名称", "nvarchar(50)")]
+        [BindColumn("DepartmentName", "企业名称", "nvarchar(50)")]
         public String DepartmentName => _Department?.Name;
 
         /// <summary>行业类型</summary>
@@ -152,7 +152,7 @@ namespace VehicleVedioManage.BasicData.Entity
         public RunStatus __RunStatus => Extends.Get(nameof(RunStatus), k => RunStatus.FindByID(RunStatusCode));
 
         /// <summary>运营状态名称</summary>
-        [Map(nameof(RunStatusCode), typeof(RunStatus), "Code")]
+        [Map(nameof(RunStatusCode), typeof(RunStatus), "ID")]
         public String RunStatusName => __RunStatus?.Name;
 
         /// <summary>使用性质</summary>

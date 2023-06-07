@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -92,15 +92,6 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("Status", "状态", "")]
         public String Status { get => _Status; set { if (OnPropertyChanging("Status", value)) { _Status = value; OnPropertyChanged("Status"); } } }
 
-        private String _Remark;
-        /// <summary>备注</summary>
-        [Category("扩展信息")]
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 100)]
-        [BindColumn("Remark", "备注", "")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
-
         private String _Owner;
         /// <summary>拥有者</summary>
         [Category("扩展信息")]
@@ -159,6 +150,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DataObjectField(false, false, true, 255)]
         [BindColumn("Data", "数据", "")]
         public String Data { get => _Data; set { if (OnPropertyChanging("Data", value)) { _Data = value; OnPropertyChanged("Data"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [Category("扩展信息")]
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
         #endregion
 
         #region 获取/设置 字段值

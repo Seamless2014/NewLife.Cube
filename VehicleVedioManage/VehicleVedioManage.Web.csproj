@@ -69,4 +69,11 @@
     <None Include="wwwroot\lib\zTree_v3\js\jquery.ztree.exhide.min.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Areas\BackManagement\Views\JT809Command\_List_Data_Action.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

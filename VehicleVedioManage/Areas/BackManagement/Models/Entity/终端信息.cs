@@ -15,7 +15,7 @@ namespace VehicleVedioManage.BackManagement.Entity
     [DataObject]
     [Description("终端信息。设备终端信息")]
     [BindTable("Terminal", Description = "终端信息。设备终端信息", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
-    public partial class Terminal
+    public partial class TerminalInfo
     {
         #region 属性
         private Int32 _TermId;
@@ -106,15 +106,6 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DataObjectField(false, false, true, 4)]
         [BindColumn("Reserve", "预留", "")]
         public String Reserve { get => _Reserve; set { if (OnPropertyChanging("Reserve", value)) { _Reserve = value; OnPropertyChanged("Reserve"); } } }
-
-        private String _Remark;
-        /// <summary>备注</summary>
-        [Category("扩展信息")]
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private DateTime _InstallTime;
         /// <summary>安装时间</summary>
@@ -257,6 +248,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DataObjectField(false, false, true, 255)]
         [BindColumn("CertString", "认证字符串", "")]
         public String CertString { get => _CertString; set { if (OnPropertyChanging("CertString", value)) { _CertString = value; OnPropertyChanged("CertString"); } } }
+        private String _Remark;
+        /// <summary>备注</summary>
+        [Category("扩展信息")]
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("Remark", "备注", "")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
+
         #endregion
 
         #region 获取/设置 字段值

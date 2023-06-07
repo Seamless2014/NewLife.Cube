@@ -112,7 +112,6 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         /// <summary>用户名称</summary>
         [Map(nameof(UserId), typeof(User), "ID")]
-        [Category("基本信息")]
         public String UserName => User?.Name;
 
         /// <summary>车牌颜色</summary>
@@ -122,7 +121,6 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         /// <summary>车牌颜色名称</summary>
         [Map(nameof(PlateColor), typeof(PlateColor), "Code")]
-        [Category("基本信息")]
         public String? PlateColorName => __PlateColor?.Name;
 
         #endregion

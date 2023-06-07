@@ -26,10 +26,10 @@ using XCode.Shards;
 
 namespace VehicleVedioManage.BackManagement.Entity
 {
-    public partial class Terminal : Entity<Terminal>
+    public partial class TerminalInfo : Entity<TerminalInfo>
     {
         #region 对象操作
-        static Terminal()
+        static TerminalInfo()
         {
             // 累加字段，生成 Update xx Set Count=Count+1234 Where xxx
             //var df = Meta.Factory.AdditionalFields;
@@ -61,9 +61,9 @@ namespace VehicleVedioManage.BackManagement.Entity
         //    // InitData一般用于当数据表没有数据时添加一些默认数据，该实体类的任何第一次数据库操作都会触发该方法，默认异步调用
         //    if (Meta.Session.Count > 0) return;
 
-        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化Terminal[终端信息]数据……");
+        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化TerminalInfo[终端信息]数据……");
 
-        //    var entity = new Terminal();
+        //    var entity = new TerminalInfo();
         //    entity.DevNo = "abc";
         //    entity.TermNo = "abc";
         //    entity.VerSoftware = 0;
@@ -94,7 +94,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         //    entity.CertString = "abc";
         //    entity.Insert();
 
-        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化Terminal[终端信息]数据！");
+        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化TerminalInfo[终端信息]数据！");
         //}
 
         ///// <summary>已重载。基类先调用Valid(true)验证数据，然后在事务保护内调用OnInsert</summary>
@@ -119,7 +119,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>根据终端编码查找</summary>
         /// <param name="termId">终端编码</param>
         /// <returns>实体对象</returns>
-        public static Terminal FindByTermId(Int32 termId)
+        public static TerminalInfo FindByTermId(Int32 termId)
         {
             if (termId <= 0) return null;
 
@@ -131,7 +131,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             //return Find(_.TermId == termId);
         }
-        public static IList<Terminal> FindByDeleted(bool deletedTermId)
+        public static IList<TerminalInfo> FindByDeleted(bool deletedTermId)
         {
             // 实体缓存
             if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Deleted == deletedTermId);
@@ -145,8 +145,8 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         #region 高级查询
 
-        // Select Count(TermId) as TermId,Category From Terminal Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By TermId Desc limit 20
-        //static readonly FieldCache<Terminal> _CategoryCache = new FieldCache<Terminal>(nameof(Category))
+        // Select Count(TermId) as TermId,Category From TerminalInfo Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By TermId Desc limit 20
+        //static readonly FieldCache<TerminalInfo> _CategoryCache = new FieldCache<TerminalInfo>(nameof(Category))
         //{
         //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
         //};

@@ -1,0 +1,4 @@
+﻿@using VehicleVedioManage.Web.Models;
+@Html.ActionLink("所有省份", "Index", new { ParentID = 0 })
+@await Html.PartialAsync("_Area3", "")
+@await Html.PartialAsync("_SelectDepartment")

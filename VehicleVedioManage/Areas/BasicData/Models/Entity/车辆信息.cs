@@ -257,11 +257,11 @@ namespace VehicleVedioManage.BasicData.Entity
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Int32 _RunStatusCode;
-        /// <summary>车辆运行状态</summary>
-        [DisplayName("车辆运行状态")]
-        [Description("车辆运行状态")]
+        /// <summary>运行状态</summary>
+        [DisplayName("运行状态")]
+        [Description("运行状态")]
         [DataObjectField(false, false, true, 20)]
-        [BindColumn("RunStatusCode", "车辆运行状态", "")]
+        [BindColumn("RunStatusCode", "运行状态", "")]
         public Int32 RunStatusCode { get => _RunStatusCode; set { if (OnPropertyChanging("RunStatusCode", value)) { _RunStatusCode = value; OnPropertyChanged("RunStatusCode"); } } }
 
         private String _UseTypeCode;

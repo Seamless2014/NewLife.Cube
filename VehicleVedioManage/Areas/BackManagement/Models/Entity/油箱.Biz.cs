@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -17,6 +17,7 @@ using NewLife.Model;
 using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
+using VehicleVedioManage.BasicData.Entity;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -47,17 +48,6 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             // 建议先调用基类方法，基类方法会做一些统一处理
             base.Valid(isNew);
-
-            // 在新插入数据或者修改了指定字段时进行修正
-            // 货币保留6位小数
-            Width = Math.Round(Width, 6);
-            Length = Math.Round(Length, 6);
-            Height = Math.Round(Height, 6);
-            SensorLength = Math.Round(SensorLength, 6);
-            Capacity = Math.Round(Capacity, 6);
-            Radius = Math.Round(Radius, 6);
-            BlindHeight = Math.Round(BlindHeight, 6);
-            NormalFuelConsum = Math.Round(NormalFuelConsum, 6);
 
             // 检查唯一索引
             // CheckExist(isNew, nameof(PlateNo));
@@ -109,6 +99,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>车牌号</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public Vehicle _Vehicle => Extends.Get(nameof(Vehicle), k => Vehicle.FindByID(VehicleId));
+
+        /// <summary>车牌号</summary>
+        [Map(nameof(VehicleId), typeof(Vehicle), "ID")]
+        [BindColumn("PlateNo", "车牌号", "nvarchar(50)")]
+        public String PlateNo => _Vehicle?.PlateNo;
         #endregion
 
         #region 扩展查询
@@ -120,7 +119,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             if (tankId <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.TankId == tankId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ID == tankId);
 
             // 单对象缓存
             return Meta.SingleCache[tankId];
@@ -136,22 +135,20 @@ namespace VehicleVedioManage.BackManagement.Entity
             // 实体缓存
             if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
 
-            return Find(_.PlateNo == plateNo);
+            return Find(_.VehicleId == plateNo);
         }
         #endregion
 
         #region 高级查询
         /// <summary>高级查询</summary>
-        /// <param name="plateNo">车牌号</param>
         /// <param name="key">关键字</param>
         /// <param name="page">分页参数信息。可携带统计和数据权限扩展查询等信息</param>
         /// <returns>实体列表</returns>
-        public static IList<FuelTank> Search(String plateNo, String key, PageParameter page)
+        public static IList<FuelTank> Search(String key, PageParameter page)
         {
             var exp = new WhereExpression();
 
-            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
-            if (!key.IsNullOrEmpty()) exp &= _.TankType.Contains(key) | _.PlateNo.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
+            if (!key.IsNullOrEmpty()) exp &= _.TankType.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
 
             return FindAll(exp, page);
         }

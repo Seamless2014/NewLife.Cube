@@ -131,9 +131,9 @@ namespace VehicleVedioManage.BackManagement.Entity
         //[ScriptIgnore]
         public Department _Department => Extends.Get(nameof(Department), k => Department.FindByID(DepartmentID));
 
-        /// <summary>部门名称</summary>
+        /// <summary>企业名称</summary>
         [Map(nameof(DepartmentID), typeof(Department), "ID")]
-        [BindColumn("DepartmentName", "部门名称", "nvarchar(50)")]
+        [BindColumn("DepartmentName", "企业名称", "nvarchar(50)")]
         public String DepartmentName => _Department?.Name;
         #endregion
 
@@ -146,7 +146,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             if (driverId <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.DriverId == driverId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ID == driverId);
 
             // 单对象缓存
             return Meta.SingleCache[driverId];
@@ -194,6 +194,22 @@ namespace VehicleVedioManage.BackManagement.Entity
             if (!driverName.IsNullOrEmpty()) exp &= _.DriverName == driverName;
             exp &= _.UpdateTime.Between(start, end);
             if (!key.IsNullOrEmpty()) exp &= _.DepartmentName.Contains(key) | _.DriverName.Contains(key) | _.Sex.Contains(key) | _.DriverLicence.Contains(key) | _.IdentityCard.Contains(key) | _.NativePlace.Contains(key) | _.Address.Contains(key) | _.Telephone.Contains(key) | _.MobilePhone.Contains(key) | _.DrivingType.Contains(key) | _.DriverRFID.Contains(key) | _.Password.Contains(key) | _.Remark.Contains(key) | _.LicenseAgency.Contains(key) | _.BgTitle.Contains(key) | _.Location.Contains(key) | _.PhotoFormat.Contains(key) | _.Owner.Contains(key) | _.JobCard.Contains(key);
+
+            return FindAll(exp, page);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="departmentID"></param>
+        /// <param name="key"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public static IList<DriverInfo> Search(int departmentID,String key, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (departmentID>0) exp &= _.DepartmentID == departmentID;
+            if (!key.IsNullOrEmpty()) exp &= _.DepartmentName.Contains(key) | _.DriverName.Contains(key) | _.DriverLicence.Contains(key) | _.IdentityCard.Contains(key) | _.NativePlace.Contains(key) | _.Address.Contains(key) | _.DrivingType.Contains(key) | _.DriverRFID.Contains(key) | _.Password.Contains(key) | _.Remark.Contains(key) | _.LicenseAgency.Contains(key) | _.BgTitle.Contains(key) | _.Location.Contains(key) | _.PhotoFormat.Contains(key) | _.Owner.Contains(key) | _.JobCard.Contains(key);
 
             return FindAll(exp, page);
         }

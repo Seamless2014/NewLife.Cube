@@ -12,7 +12,7 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
     {
         public override ActionResult Index(Pager p = null)
         {
-            ListFields.RemoveField("TankId", "Deleted");
+            ListFields.RemoveField("TankId", "Deleted", "VehicleId");
             return base.Index(p);
         }
     }

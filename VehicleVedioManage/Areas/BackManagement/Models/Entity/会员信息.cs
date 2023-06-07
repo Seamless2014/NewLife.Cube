@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -19,13 +19,13 @@ namespace VehicleVedioManage.BackManagement.Entity
     public partial class MemberInfo
     {
         #region 属性
-        private Int32 _Id;
+        private Int32 _ID;
         /// <summary>会员编号</summary>
         [DisplayName("会员编号")]
         [Description("会员编号")]
         [DataObjectField(true, true, false, 0)]
-        [BindColumn("Id", "会员编号", "")]
-        public Int32 Id { get => _Id; set { if (OnPropertyChanging("Id", value)) { _Id = value; OnPropertyChanged("Id"); } } }
+        [BindColumn("ID", "会员编号", "")]
+        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private Int16 _MemberType;
         /// <summary>会员类型</summary>
@@ -136,15 +136,6 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("BusinessScope", "业务范围", "")]
         public String BusinessScope { get => _BusinessScope; set { if (OnPropertyChanging("BusinessScope", value)) { _BusinessScope = value; OnPropertyChanged("BusinessScope"); } } }
 
-        private String _Remark;
-        /// <summary>备注</summary>
-        [Category("扩展信息")]
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 500)]
-        [BindColumn("Remark", "备注", "")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
-
         private String _BankName;
         /// <summary>银行名称</summary>
         [Category("扩展信息")]
@@ -179,6 +170,16 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DataObjectField(false, false, true, 0)]
         [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [Category("扩展信息")]
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
+
         #endregion
 
         #region 获取/设置 字段值
@@ -191,7 +192,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "Id": return _Id;
+                    case "ID": return _ID;
                     case "MemberType": return _MemberType;
                     case "MemberFormNo": return _MemberFormNo;
                     case "MemberTime": return _MemberTime;
@@ -217,7 +218,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "Id": _Id = value.ToInt(); break;
+                    case "ID": _ID = value.ToInt(); break;
                     case "MemberType": _MemberType = Convert.ToInt16(value); break;
                     case "MemberFormNo": _MemberFormNo = Convert.ToString(value); break;
                     case "MemberTime": _MemberTime = value.ToDateTime(); break;
@@ -247,7 +248,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class _
         {
             /// <summary>会员编号</summary>
-            public static readonly Field Id = FindByName("Id");
+            public static readonly Field ID = FindByName("ID");
 
             /// <summary>会员类型</summary>
             public static readonly Field MemberType = FindByName("MemberType");
@@ -310,7 +311,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class __
         {
             /// <summary>会员编号</summary>
-            public const String Id = "Id";
+            public const String ID = "ID";
 
             /// <summary>会员类型</summary>
             public const String MemberType = "MemberType";

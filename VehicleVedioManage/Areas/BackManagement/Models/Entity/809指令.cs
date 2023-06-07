@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -78,7 +78,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Owner;
         /// <summary>物主</summary>
-        [Category("扩展")]
+        [Category("扩展信息")]
         [DisplayName("物主")]
         [Description("物主")]
         [DataObjectField(false, false, true, 255)]
@@ -92,18 +92,9 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("Status", "", "")]
         public String Status { get => _Status; set { if (OnPropertyChanging("Status", value)) { _Status = value; OnPropertyChanged("Status"); } } }
 
-        private String _Remark;
-        /// <summary>备注</summary>
-        [Category("扩展")]
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
-
         private Int32 _SN;
         /// <summary>序号</summary>
-        [Category("扩展")]
+        [Category("扩展信息")]
         [DisplayName("序号")]
         [Description("序号")]
         [DataObjectField(false, false, true, 0)]
@@ -120,7 +111,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Boolean _Deleted;
         /// <summary>删除</summary>
-        [Category("扩展")]
+        [Category("扩展信息")]
         [DisplayName("删除")]
         [Description("删除")]
         [DataObjectField(false, false, true, 0)]
@@ -145,7 +136,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
-        [Category("扩展")]
+        [Category("扩展信息")]
         [DisplayName("租户编码")]
         [Description("租户编码")]
         [DataObjectField(false, false, true, 0)]
@@ -162,7 +153,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
-        [Category("扩展")]
+        [Category("扩展信息")]
         [DisplayName("更新时间")]
         [Description("更新时间")]
         [DataObjectField(false, false, true, 0)]
@@ -171,7 +162,7 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _GpsId;
         /// <summary>GPS编码</summary>
-        [Category("扩展")]
+        [Category("扩展信息")]
         [DisplayName("GPS编码")]
         [Description("GPS编码")]
         [DataObjectField(false, false, true, 255)]
@@ -180,12 +171,21 @@ namespace VehicleVedioManage.BackManagement.Entity
 
         private String _Data;
         /// <summary>数据</summary>
-        [Category("扩展")]
+        [Category("扩展信息")]
         [DisplayName("数据")]
         [Description("数据")]
         [DataObjectField(false, false, true, 255)]
         [BindColumn("Data", "数据", "")]
         public String Data { get => _Data; set { if (OnPropertyChanging("Data", value)) { _Data = value; OnPropertyChanged("Data"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [Category("扩展信息")]
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
         #endregion
 
         #region 获取/设置 字段值

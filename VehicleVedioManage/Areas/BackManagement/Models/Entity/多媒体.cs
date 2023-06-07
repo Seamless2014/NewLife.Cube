@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -177,15 +177,6 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("Owner", "物主", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
-        private String _Remark;
-        /// <summary>备注</summary>
-        [Category("扩展信息")]
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 500)]
-        [BindColumn("Remark", "备注", "")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
-
         private String _Location;
         /// <summary>位置</summary>
         [DisplayName("位置")]
@@ -229,6 +220,16 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DataObjectField(false, false, true, 0)]
         [BindColumn("MultidediaCodeFormat", "多媒体编码格式", "")]
         public Byte MultidediaCodeFormat { get => _MultidediaCodeFormat; set { if (OnPropertyChanging("MultidediaCodeFormat", value)) { _MultidediaCodeFormat = value; OnPropertyChanged("MultidediaCodeFormat"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [Category("扩展信息")]
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
+
         #endregion
 
         #region 获取/设置 字段值
