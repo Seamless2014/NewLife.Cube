@@ -129,9 +129,9 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         public static FuelRecord FindByPlateNo(String plateNo)
         {
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.VehicleId.EqualIgnoreCase(plateNo));
 
-            return Find(_.PlateNo == plateNo);
+            return Find(_.VehicleId == plateNo);
         }
         #endregion
 
@@ -147,9 +147,9 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         {
             var exp = new WhereExpression();
 
-            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!plateNo.IsNullOrEmpty()) exp &= _.VehicleId == plateNo;
             exp &= _.CreateTime.Between(start, end);
-            if (!key.IsNullOrEmpty()) exp &= _.VehicleId.Contains(key) | _.PlateNo.Contains(key) | _.OrderId.Contains(key) | _.Location.Contains(key) | _.AlarmState.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
+            if (!key.IsNullOrEmpty()) exp &= _.VehicleId.Contains(key) | _.VehicleId.Contains(key) | _.OrderId.Contains(key) | _.Location.Contains(key) | _.AlarmState.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
 
             return FindAll(exp, page);
         }

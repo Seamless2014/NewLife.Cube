@@ -14,17 +14,17 @@ namespace VehicleVedioManage.BackManagement.Entity
     [Serializable]
     [DataObject]
     [Description("终端信息。设备终端信息")]
-    [BindTable("Terminal", Description = "终端信息。设备终端信息", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
+    [BindTable("TerminalInfo", Description = "终端信息。设备终端信息", ConnName = "VehicleGPSVideo", DbType = DatabaseType.None)]
     public partial class TerminalInfo
     {
         #region 属性
-        private Int32 _TermId;
+        private Int32 _ID;
         /// <summary>终端编码</summary>
         [DisplayName("终端编码")]
         [Description("终端编码")]
         [DataObjectField(true, true, false, 0)]
-        [BindColumn("TermId", "终端编码", "")]
-        public Int32 TermId { get => _TermId; set { if (OnPropertyChanging("TermId", value)) { _TermId = value; OnPropertyChanged("TermId"); } } }
+        [BindColumn("ID", "终端编码", "")]
+        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private String _DevNo;
         /// <summary>开发编号</summary>
@@ -189,14 +189,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("Owner", "拥有者", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
+        private Boolean _Enable;
+        /// <summary>启用</summary>
         [Category("扩展信息")]
-        [DisplayName("删除")]
-        [Description("删除")]
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private String _SeqNo;
         /// <summary>序列号</summary>
@@ -269,7 +269,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "TermId": return _TermId;
+                    case "ID": return _ID;
                     case "DevNo": return _DevNo;
                     case "TermNo": return _TermNo;
                     case "VerSoftware": return _VerSoftware;
@@ -291,7 +291,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "TenantId": return _TenantId;
                     case "CreateTime": return _CreateTime;
                     case "Owner": return _Owner;
-                    case "Deleted": return _Deleted;
+                    case "Enable": return _Enable;
                     case "SeqNo": return _SeqNo;
                     case "Vendor": return _Vendor;
                     case "ModelNo": return _ModelNo;
@@ -305,7 +305,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "TermId": _TermId = value.ToInt(); break;
+                    case "ID": _ID = value.ToInt(); break;
                     case "DevNo": _DevNo = Convert.ToString(value); break;
                     case "TermNo": _TermNo = Convert.ToString(value); break;
                     case "VerSoftware": _VerSoftware = Convert.ToInt16(value); break;
@@ -327,7 +327,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "SeqNo": _SeqNo = Convert.ToString(value); break;
                     case "Vendor": _Vendor = Convert.ToString(value); break;
                     case "ModelNo": _ModelNo = Convert.ToString(value); break;
@@ -345,7 +345,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class _
         {
             /// <summary>终端编码</summary>
-            public static readonly Field TermId = FindByName("TermId");
+            public static readonly Field ID = FindByName("ID");
 
             /// <summary>开发编号</summary>
             public static readonly Field DevNo = FindByName("DevNo");
@@ -410,8 +410,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>拥有者</summary>
             public static readonly Field Owner = FindByName("Owner");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
+            /// <summary>启用</summary>
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>序列号</summary>
             public static readonly Field SeqNo = FindByName("SeqNo");
@@ -438,7 +438,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class __
         {
             /// <summary>终端编码</summary>
-            public const String TermId = "TermId";
+            public const String ID = "ID";
 
             /// <summary>开发编号</summary>
             public const String DevNo = "DevNo";
@@ -503,8 +503,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>拥有者</summary>
             public const String Owner = "Owner";
 
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>序列号</summary>
             public const String SeqNo = "SeqNo";

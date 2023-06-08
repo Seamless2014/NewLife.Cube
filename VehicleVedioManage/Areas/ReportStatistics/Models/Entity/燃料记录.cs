@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -34,14 +34,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DataObjectField(false, false, true, 30)]
         [BindColumn("VehicleId", "车辆编码", "")]
         public String VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
-
-        private String _PlateNo;
-        /// <summary>车牌号</summary>
-        [DisplayName("车牌号")]
-        [Description("车牌号")]
-        [DataObjectField(false, false, true, 30)]
-        [BindColumn("PlateNo", "车牌号", "")]
-        public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
 
         private Int32 _CommandId;
         /// <summary>指令编码</summary>
@@ -171,6 +163,14 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
+        private String _Owner;
+        /// <summary>物主</summary>
+        [DisplayName("物主")]
+        [Description("物主")]
+        [DataObjectField(false, false, true, 30)]
+        [BindColumn("Owner", "物主", "")]
+        public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
+
         private String _Remark;
         /// <summary>备注</summary>
         [DisplayName("备注")]
@@ -179,21 +179,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
-        [DisplayName("删除")]
-        [Description("删除")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
-
-        private String _Owner;
-        /// <summary>物主</summary>
-        [DisplayName("物主")]
-        [Description("物主")]
-        [DataObjectField(false, false, true, 30)]
-        [BindColumn("Owner", "物主", "")]
-        public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
         #endregion
 
         #region 获取/设置 字段值
@@ -208,7 +193,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                 {
                     case "ID": return _ID;
                     case "VehicleId": return _VehicleId;
-                    case "PlateNo": return _PlateNo;
                     case "CommandId": return _CommandId;
                     case "OrderId": return _OrderId;
                     case "SendTime": return _SendTime;
@@ -226,7 +210,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "TenantId": return _TenantId;
                     case "CreateTime": return _CreateTime;
                     case "Remark": return _Remark;
-                    case "Deleted": return _Deleted;
                     case "Owner": return _Owner;
                     default: return base[name];
                 }
@@ -237,7 +220,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                 {
                     case "ID": _ID = value.ToInt(); break;
                     case "VehicleId": _VehicleId = Convert.ToString(value); break;
-                    case "PlateNo": _PlateNo = Convert.ToString(value); break;
                     case "CommandId": _CommandId = value.ToInt(); break;
                     case "OrderId": _OrderId = Convert.ToString(value); break;
                     case "SendTime": _SendTime = value.ToDateTime(); break;
@@ -255,7 +237,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
@@ -272,9 +253,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>车辆编码</summary>
             public static readonly Field VehicleId = FindByName("VehicleId");
-
-            /// <summary>车牌号</summary>
-            public static readonly Field PlateNo = FindByName("PlateNo");
 
             /// <summary>指令编码</summary>
             public static readonly Field CommandId = FindByName("CommandId");
@@ -327,9 +305,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             /// <summary>备注</summary>
             public static readonly Field Remark = FindByName("Remark");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
-
             /// <summary>物主</summary>
             public static readonly Field Owner = FindByName("Owner");
 
@@ -344,9 +319,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>车辆编码</summary>
             public const String VehicleId = "VehicleId";
-
-            /// <summary>车牌号</summary>
-            public const String PlateNo = "PlateNo";
 
             /// <summary>指令编码</summary>
             public const String CommandId = "CommandId";
@@ -398,9 +370,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>备注</summary>
             public const String Remark = "Remark";
-
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
 
             /// <summary>物主</summary>
             public const String Owner = "Owner";

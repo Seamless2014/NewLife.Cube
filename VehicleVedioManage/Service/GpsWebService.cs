@@ -173,11 +173,11 @@
 
 //                UserInfo u = (UserInfo)BaseDao.find(hsql, new Object[] { UserName, false });
 
-                
+
 //                if (u == null)
 //                    return null;
 //                string strPass = u.Password;// 
-                
+
 //                String encrypt = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(u.Password, "SHA1");
 
 //                if (strPass != Password && encrypt != Password)
@@ -260,7 +260,7 @@
 //                logger.Error(ex.Message, ex);
 //                throw new FaultException(ex.Message);
 //            }
-            
+
 //        }
 
 //        public List<ReportModel> GetReportModelList()
@@ -493,7 +493,7 @@
 
 //        }
 
-     
+
 
 //        /// <summary>
 //        /// 得到最新的报警记录
@@ -857,7 +857,7 @@
 //                PageData<AlarmRecord> pd = new PageData<AlarmRecord>();
 //                pd.Data = new List<AlarmRecord>();
 //                Hashtable parameters = new Hashtable();
-               
+
 //                parameters["userId"] = this.onlineUser.EntityId;
 //                //设置查询参数
 //                foreach (string key in qp.Param.Keys)
@@ -1039,7 +1039,7 @@
 
 
 
-        
+
 //        /// <summary>
 //        /// 获得用户权限下的所有部门
 //        /// </summary>
@@ -1348,7 +1348,7 @@
 //        }
 
 
-      
+
 
 //        public void BindRoute(List<string> PlateNoList, string routeIdList)
 //        {
@@ -1363,8 +1363,8 @@
 //            BaseDao.saveOrUpdateAll(vds);
 //        }
 
-        
-       
+
+
 //        public MapArea SaveRoute(MapArea ec, List<LineSegment> segs)
 //        {
 //            try
@@ -1385,7 +1385,7 @@
 //        }
 
 
-        
+
 
 //        public void SaveBasicData(List<BasicData> basicDatas)
 //        {
@@ -1413,7 +1413,7 @@
 //            }
 //        }
 
-     
+
 //        public RequestEntity SaveEntity(RequestEntity te)
 //        {
 //            try
@@ -1590,7 +1590,7 @@
 //                            mrList.Add(mr);
 //                        }
 //                    }
-                    
+
 
 //                    if (mrList.Count > 0)
 //                    {
@@ -1600,12 +1600,12 @@
 //                if (vd.Deleted == false)
 //                {
 //                    /**
-//                    Terminal t = null;
+//                    TerminalInfo t = null;
 //                    if (vd.TermId > 0)
 //                    {
 //                        try
 //                        {
-//                            t = (Terminal)this.BaseDao.load(typeof(Terminal),
+//                            t = (TerminalInfo)this.BaseDao.load(typeof(TerminalInfo),
 //                                    vd.TermId);
 //                        }
 //                        catch (Exception e)
@@ -1615,11 +1615,11 @@
 //                    }
 //                    else
 //                    {
-//                        String hql = "from Terminal where EntityId = ? and Deleted = ?";
+//                        String hql = "from TerminalInfo where EntityId = ? and Deleted = ?";
 //                        Object obj = BaseDao.find(hql, new Object[] { vd.TermId, false });
 //                        if (obj != null)
 //                            throw new FaultException("终端编号对应的终端已经存在，请重新录入");
-//                        t = new Terminal();
+//                        t = new TerminalInfo();
 //                    }
 //                    if (t != null)
 //                    {                        
@@ -1639,7 +1639,7 @@
 //                        BaseDao.saveOrUpdate(rd);
 //                    }
 
-                    
+
 //                }
 //                else
 //                {
@@ -1664,8 +1664,8 @@
 //                        d.DriverName = vd.Driver;
 //                        d.Monitor = vd.Monitor;
 //                        d.Telephone = vd.DriverMobile;
-                        
-                       
+
+
 //                    }
 //                    else
 //                    {
@@ -1986,7 +1986,7 @@
 //                    {
 //                        qp.QueryId = "selectProcessedAlarmsIn2Months";
 //                    }
-                    
+
 
 //                }
 
@@ -2044,7 +2044,7 @@
 //                {
 //                    ht[key] = param.Param[key];
 //                }
-                
+
 //                string queryId = "selectTerminalCommand";
 //                int skipRows = (param.StartPageNo - 1) * param.Limit;
 //                Pagination ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
@@ -2451,7 +2451,7 @@
 //                    {
 //                        if (vd.TermId > 0)
 //                        {
-//                            Terminal t = (Terminal)BaseDao.load(typeof(Terminal), vd.TermId);
+//                            TerminalInfo t = (TerminalInfo)BaseDao.load(typeof(TerminalInfo), vd.TermId);
 //                            vd.TermId = t.EntityId;
 //                            vd.GpsTerminalType = t.TermType;
 //                        }
@@ -2519,7 +2519,7 @@
 //                        ht[key] = param.Param[key];
 //                    }
 //                }
-                
+
 //                IList ls = QueryService.QueryForList(queryId, ht);
 
 //                foreach (Hashtable item in ls)
@@ -2571,7 +2571,7 @@
 //                throw new FaultException("用户没有登录");
 //        }
 
-       
+
 
 //        /// <summary>
 //        /// 得到车辆树节点
@@ -2636,7 +2636,7 @@
 //                    }
 //                    String runStatus = "" + item["runStatus"];
 //                    //如果车辆不在运行状态，就强行归入到休息状态
-                    
+
 
 //                    VehicleTreeNode oldVd = null;
 //                    if (treeNodeMap.TryGetValue(vd.VehicleId, out oldVd))
@@ -2688,7 +2688,7 @@
 //            }
 //        }
 
-        
+
 //        //根据租户获取所有的实时数据
 //        public List<GPSRealData> GetRealDatas()
 //        {
@@ -2736,7 +2736,7 @@
 //                    rd.Location = "" + ht["location"];
 //                    rd.Velocity = double.Parse(""+ht["velocity"]);
 //                    rd.Valid = (Boolean)ht["valid"];
-                    
+
 //                    rds.Add(rd);
 //                }
 
@@ -2898,6 +2898,6 @@
 //        }
 
 
-        
+
 //    }
 //}

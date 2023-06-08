@@ -17,6 +17,7 @@ using NewLife.Model;
 using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
+using VehicleVedioManage.BasicData.Entity;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -95,6 +96,15 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>车牌号</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public Vehicle _Vehicle => Extends.Get(nameof(Vehicle), k => Vehicle.FindByID(VehicleId));
+
+        /// <summary>车牌号</summary>
+        [Map(nameof(VehicleId), typeof(Vehicle), "ID")]
+        [BindColumn("PlateNo", "车牌号", "nvarchar(50)")]
+        public String PlateNo => _Vehicle?.PlateNo;
         #endregion
 
         #region 扩展查询

@@ -193,7 +193,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             if (!simNo.IsNullOrEmpty()) exp &= _.SimNo == simNo;
             if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
             if (plateColor >= 0) exp &= _.PlateColor == plateColor;
-            exp &= _.UpdateTime.Between(start, end);
+            exp &= _.CreateTime.Between(start, end);
             if (!key.IsNullOrEmpty()) exp &= _.SimNo.Contains(key) | _.PlateNo.Contains(key) | _.Descr.Contains(key) | _.CmdData.Contains(key) | _.Owner.Contains(key) | _.Status.Contains(key) | _.Remark.Contains(key) | _.Source.Contains(key) | _.GpsId.Contains(key) | _.Data.Contains(key);
 
             return FindAll(exp, page);

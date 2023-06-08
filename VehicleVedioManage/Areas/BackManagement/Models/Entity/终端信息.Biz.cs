@@ -1,28 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Script.Serialization;
-using System.Xml.Serialization;
-using NewLife;
-using NewLife.Data;
-using NewLife.Log;
-using NewLife.Model;
-using NewLife.Reflection;
-using NewLife.Threading;
-using NewLife.Web;
-using XCode;
-using XCode.Cache;
-using XCode.Configuration;
-using XCode.DataAccessLayer;
+﻿using XCode;
 using XCode.Membership;
-using XCode.Shards;
 
 namespace VehicleVedioManage.BackManagement.Entity
 {
@@ -37,6 +14,8 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             // 过滤器 UserModule、TimeModule、IPModule
             Meta.Modules.Add<TimeModule>();
+            Meta.Modules.Add<TimeModule>();
+            Meta.Modules.Add<IPModule>();
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -119,12 +98,12 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>根据终端编码查找</summary>
         /// <param name="termId">终端编码</param>
         /// <returns>实体对象</returns>
-        public static TerminalInfo FindByTermId(Int32 termId)
+        public static TerminalInfo FindByID(Int32 termId)
         {
             if (termId <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.TermId == termId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ID == termId);
 
             // 单对象缓存
             return Meta.SingleCache[termId];
@@ -134,12 +113,12 @@ namespace VehicleVedioManage.BackManagement.Entity
         public static IList<TerminalInfo> FindByDeleted(bool deletedTermId)
         {
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Deleted == deletedTermId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Enable == deletedTermId);
 
             // 单对象缓存
             //return Meta.SingleCache[deletedTermId];
 
-            return FindAll(_.Deleted == deletedTermId);
+            return FindAll(_.Enable == deletedTermId);
         }
         #endregion
 

@@ -77,7 +77,7 @@
 //        /// <summary>
 //        /// 实时数据服务工厂
 //        /// </summary>
-  
+
 //        private ChannelFactory<IRealDataService> RealDataServiceFactory = null;
 //        /// <summary>
 //        /// 创建实时数据服务
@@ -105,7 +105,7 @@
 //            ((IClientChannel)client).Faulted += new EventHandler(ProxyServiceFactory_Faulted);
 //            //((IClientChannel)client).Open();
 //            IClientChannel channel = (IClientChannel)client;
-            
+
 //            return client;
 //        }
 //        /// <summary>
@@ -133,7 +133,7 @@
 //                CreateRealDataService();
 //            }
 //        }
-        
+
 //        /// <summary>
 //        /// 获取实时数据
 //        /// </summary>
@@ -250,7 +250,7 @@
 //        /// </summary>
 //        /// <param name="termNo"></param>
 //        /// <returns></returns>
-//        public Domain.Terminal getTerminalByTermNo(string termNo)
+//        public Domain.TerminalInfo getTerminalByTermNo(string termNo)
 //        {
 //            return RealDataService.getTerminalByTermNo(termNo);
 //        }

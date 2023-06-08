@@ -159,7 +159,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
             exp &= _.CreateTime.Between(start, end);
-            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.IntervalDescr.Contains(key) | _.Deleted.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.IntervalDescr.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key);
 
             return FindAll(exp, page);
         }

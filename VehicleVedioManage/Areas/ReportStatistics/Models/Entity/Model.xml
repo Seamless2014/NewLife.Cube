@@ -9,7 +9,6 @@
       <Column Name="TimeSpan" DataType="Double" Description="时间跨度" />
       <Column Name="Velocity" DataType="Double" Description="速度" />
       <Column Name="Status" DataType="String" Description="状态" />
-      <Column Name="Driver" DataType="String" Description="驾驶员" />
       <Column Name="Latitude" DataType="Double" Description="纬度" />
       <Column Name="Longitude" DataType="Double" Description="经度" />
       <Column Name="Location" DataType="String" Description="位置" />
@@ -29,9 +28,7 @@
       <Column Name="Mileage2" DataType="Double" Description="里程2" />
       <Column Name="VideoFileName" DataType="String" Description="视频文件名称" />
       <Column Name="Flag" DataType="String" Description="标识" />
-      <Column Name="Remark" DataType="String" Description="备注" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" />
       <Column Name="Owner" DataType="String" Description="物主" />
       <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
@@ -40,6 +37,7 @@
       <Column Name="ProcessedUserName" DataType="String" Description="处理用户名称" />
       <Column Name="AlarmSource" DataType="String" Description="报警源" />
       <Column Name="AlarmType" DataType="String" Description="报警类型" />
+      <Column Name="Remark" DataType="String" Description="备注" />
     </Columns>
     <Indexes>
       <Index Columns="PlateNo,StartTime,EndTime,AlarmType" Unique="True" />
@@ -91,7 +89,6 @@
       <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
       <Column Name="Remark" DataType="String" Description="备注" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" />
     </Columns>
     <Indexes>
       <Index Columns="DriverName" Unique="True" />
@@ -102,14 +99,13 @@
   <Table Name="EWayBill" Description="电子运单">
     <Columns>
       <Column Name="BillId" DataType="Int32" Identity="True" PrimaryKey="True" Description="电子运单编码" />
-      <Column Name="PlateNo" DataType="String" Description="车牌号" />
-      <Column Name="PlateColor" DataType="Int32" Description="车牌颜色" />
+      <!--<Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="PlateColor" DataType="Int32" Description="车牌颜色" />-->
       <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
       <Column Name="EBContent" DataType="String" Length="500" Description="电子运单内容" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
       <Column Name="Owner" DataType="String" Description="物主" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" />
     </Columns>
     <Indexes>
@@ -125,7 +121,6 @@
       <Column Name="Type" DataType="String" Description="燃料类型" />
       <Column Name="HappenTime" DataType="DateTime" Description="发生时间" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" />
       <Column Name="Manual" DataType="String" Description="手动" />
       <Column Name="Location" DataType="String" Length="100" Description="位置" />
       <Column Name="Latitude" DataType="Double" Description="纬度" />
@@ -156,7 +151,6 @@
       <Column Name="Gas2" DataType="Decimal" Scale="2" Description="油气2" />
       <Column Name="Mileage2" DataType="Decimal" Scale="2" Description="里程2" />
       <Column Name="Gas" DataType="Decimal" Scale="2" Description="油气" />
-      <Column Name="Deleted" DataType="String" Length="1" Description="删除" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" />
       <Column Name="Remark" DataType="String" Description="备注" />
       <Column Name="Owner" DataType="String" Description="物主" />
@@ -173,7 +167,6 @@
     <Columns>
       <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编码" />
       <Column Name="VehicleId" DataType="String" Length="30" Description="车辆编码" />
-      <Column Name="PlateNo" DataType="String" Length="30" Description="车牌号" />
       <Column Name="CommandId" DataType="Int32" Description="指令编码" />
       <Column Name="OrderId" DataType="String" Description="命令编码" />
       <Column Name="SendTime" DataType="DateTime" Description="发送时间" />
@@ -191,7 +184,6 @@
       <Column Name="TenantId" DataType="Int32" Description="租户编码" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" />
       <Column Name="Owner" DataType="String" Length="30" Description="物主" />
     </Columns>
     <Indexes>

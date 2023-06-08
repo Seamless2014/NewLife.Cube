@@ -259,7 +259,7 @@
   </Table>
   <Table Name="TerminalInfo" Description="终端信息。设备终端信息">
     <Columns>
-      <Column Name="TermId" DataType="Int32" Identity="True" PrimaryKey="True" Description="终端编码" />
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="终端编码" />
       <Column Name="DevNo" DataType="String" Description="开发编号" />
       <Column Name="TermNo" DataType="String" Description="终端编号" />
       <Column Name="VerSoftware" DataType="Int16" Description="软件版本号" />
@@ -301,7 +301,7 @@
       <Column Name="SimNo" DataType="String" Description="Sim卡" />
       <Column Name="Status" DataType="String" Description="状态" />
       <Column Name="UserId" DataType="Int32" Description="用户编码" />
-      <Column Name="UpdateDate" DataType="DateTime" Description="更新时间" />
+      <Column Name="UpdateTime" DataType="DateTime" Description="更新时间" />
       <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
       <Column Name="Data" DataType="String" Description="数据" />
       <Column Name="SN" DataType="Int32" Description="序号" Category="扩展信息" />

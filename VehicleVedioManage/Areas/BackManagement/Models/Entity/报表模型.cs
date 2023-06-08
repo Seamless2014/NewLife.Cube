@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -19,13 +19,13 @@ namespace VehicleVedioManage.BackManagement.Entity
     public partial class ReportModel
     {
         #region 属性
-        private Int32 _ReportId;
+        private Int32 _ID;
         /// <summary>报表编码</summary>
         [DisplayName("报表编码")]
         [Description("报表编码")]
         [DataObjectField(true, true, false, 0)]
-        [BindColumn("ReportId", "报表编码", "")]
-        public Int32 ReportId { get => _ReportId; set { if (OnPropertyChanging("ReportId", value)) { _ReportId = value; OnPropertyChanged("ReportId"); } } }
+        [BindColumn("ID", "报表编码", "")]
+        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private String _Name;
         /// <summary>名称</summary>
@@ -59,13 +59,13 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
-        [DisplayName("删除")]
-        [Description("删除")]
+        private Boolean _Enable;
+        /// <summary>启用</summary>
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private String _Owner;
         /// <summary>拥有者</summary>
@@ -86,12 +86,12 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "ReportId": return _ReportId;
+                    case "ID": return _ID;
                     case "Name": return _Name;
                     case "QueryId": return _QueryId;
                     case "Code": return _Code;
                     case "CreateTime": return _CreateTime;
-                    case "Deleted": return _Deleted;
+                    case "Enable": return _Enable;
                     case "Owner": return _Owner;
                     default: return base[name];
                 }
@@ -100,12 +100,12 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "ReportId": _ReportId = value.ToInt(); break;
+                    case "ID": _ID = value.ToInt(); break;
                     case "Name": _Name = Convert.ToString(value); break;
                     case "QueryId": _QueryId = Convert.ToString(value); break;
                     case "Code": _Code = Convert.ToString(value); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
@@ -118,7 +118,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class _
         {
             /// <summary>报表编码</summary>
-            public static readonly Field ReportId = FindByName("ReportId");
+            public static readonly Field ID = FindByName("ID");
 
             /// <summary>名称</summary>
             public static readonly Field Name = FindByName("Name");
@@ -132,8 +132,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>创建时间</summary>
             public static readonly Field CreateTime = FindByName("CreateTime");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
+            /// <summary>启用</summary>
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>拥有者</summary>
             public static readonly Field Owner = FindByName("Owner");
@@ -145,7 +145,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class __
         {
             /// <summary>报表编码</summary>
-            public const String ReportId = "ReportId";
+            public const String ID = "ID";
 
             /// <summary>名称</summary>
             public const String Name = "Name";
@@ -159,8 +159,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>创建时间</summary>
             public const String CreateTime = "CreateTime";
 
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>拥有者</summary>
             public const String Owner = "Owner";

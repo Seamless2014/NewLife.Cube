@@ -170,7 +170,7 @@
 //        /// </summary>
 //        /// <param name="termNo"></param>
 //        /// <returns></returns>
-//        public Terminal getTerminalByTermNo(string termNo)
+//        public TerminalInfo getTerminalByTermNo(string termNo)
 //        {
 //            throw new NotImplementedException();
 //        }

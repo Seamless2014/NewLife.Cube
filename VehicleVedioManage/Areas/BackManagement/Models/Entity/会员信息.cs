@@ -27,6 +27,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("ID", "会员编号", "")]
         public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
+        private String _Name;
+        /// <summary>名称</summary>
+        [DisplayName("名称")]
+        [Description("名称")]
+        [DataObjectField(false, false, true, 50)]
+        [BindColumn("Name", "名称", "", Master = true)]
+        public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
+
         private Int16 _MemberType;
         /// <summary>会员类型</summary>
         [DisplayName("会员类型")]
@@ -48,7 +56,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("会员时间")]
         [Description("会员时间")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("MemberTime", "会员时间", "", Precision = 0, Scale = 3)]
+        [BindColumn("MemberTime", "会员时间", "")]
         public DateTime MemberTime { get => _MemberTime; set { if (OnPropertyChanging("MemberTime", value)) { _MemberTime = value; OnPropertyChanged("MemberTime"); } } }
 
         private String _Address;
@@ -67,13 +75,13 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("LicenseNo", "许可编码(许可证)", "")]
         public String LicenseNo { get => _LicenseNo; set { if (OnPropertyChanging("LicenseNo", value)) { _LicenseNo = value; OnPropertyChanged("LicenseNo"); } } }
 
-        private String _DepartmentID;
+        private Int32 _DepartmentID;
         /// <summary>部门编码</summary>
         [DisplayName("部门编码")]
         [Description("部门编码")]
-        [DataObjectField(false, false, true, 30)]
+        [DataObjectField(false, false, true, 0)]
         [BindColumn("DepartmentID", "部门编码", "")]
-        public String DepartmentID { get => _DepartmentID; set { if (OnPropertyChanging("DepartmentID", value)) { _DepartmentID = value; OnPropertyChanged("DepartmentID"); } } }
+        public Int32 DepartmentID { get => _DepartmentID; set { if (OnPropertyChanging("DepartmentID", value)) { _DepartmentID = value; OnPropertyChanged("DepartmentID"); } } }
 
         private String _ContactPhone;
         /// <summary>联系电话</summary>
@@ -109,14 +117,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
+        private Boolean _Enable;
+        /// <summary>启用</summary>
         [Category("扩展信息")]
-        [DisplayName("删除")]
-        [Description("删除")]
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private String _BankCode;
         /// <summary>银行代码</summary>
@@ -154,21 +162,13 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("AccountName", "账户名", "")]
         public String AccountName { get => _AccountName; set { if (OnPropertyChanging("AccountName", value)) { _AccountName = value; OnPropertyChanged("AccountName"); } } }
 
-        private String _Name;
-        /// <summary>名称</summary>
-        [DisplayName("名称")]
-        [Description("名称")]
-        [DataObjectField(false, false, true, 50)]
-        [BindColumn("Name", "名称", "", Master = true)]
-        public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
-
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
         [Category("扩展信息")]
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
+        [BindColumn("CreateTime", "创建时间", "")]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
         private String _Remark;
@@ -203,7 +203,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Contact": return _Contact;
                     case "Owner": return _Owner;
                     case "TenantId": return _TenantId;
-                    case "Deleted": return _Deleted;
+                    case "Enable": return _Enable;
                     case "BankCode": return _BankCode;
                     case "BusinessScope": return _BusinessScope;
                     case "Remark": return _Remark;
@@ -224,12 +224,12 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "MemberTime": _MemberTime = value.ToDateTime(); break;
                     case "Address": _Address = Convert.ToString(value); break;
                     case "LicenseNo": _LicenseNo = Convert.ToString(value); break;
-                    case "DepartmentID": _DepartmentID = Convert.ToString(value); break;
+                    case "DepartmentID": _DepartmentID = value.ToInt(); break;
                     case "ContactPhone": _ContactPhone = Convert.ToString(value); break;
                     case "Contact": _Contact = Convert.ToString(value); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "BankCode": _BankCode = Convert.ToString(value); break;
                     case "BusinessScope": _BusinessScope = Convert.ToString(value); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
@@ -280,8 +280,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>租户编码</summary>
             public static readonly Field TenantId = FindByName("TenantId");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
+            /// <summary>启用</summary>
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>银行代码</summary>
             public static readonly Field BankCode = FindByName("BankCode");
@@ -343,8 +343,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>租户编码</summary>
             public const String TenantId = "TenantId";
 
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>银行代码</summary>
             public const String BankCode = "BankCode";

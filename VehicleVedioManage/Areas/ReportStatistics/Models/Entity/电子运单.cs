@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -26,22 +26,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DataObjectField(true, true, false, 0)]
         [BindColumn("BillId", "电子运单编码", "")]
         public Int32 BillId { get => _BillId; set { if (OnPropertyChanging("BillId", value)) { _BillId = value; OnPropertyChanged("BillId"); } } }
-
-        private String _PlateNo;
-        /// <summary>车牌号</summary>
-        [DisplayName("车牌号")]
-        [Description("车牌号")]
-        [DataObjectField(false, false, true, 50)]
-        [BindColumn("PlateNo", "车牌号", "")]
-        public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
-
-        private Int32 _PlateColor;
-        /// <summary>车牌颜色</summary>
-        [DisplayName("车牌颜色")]
-        [Description("车牌颜色")]
-        [DataObjectField(false, false, false, 0)]
-        [BindColumn("PlateColor", "车牌颜色", "")]
-        public Int32 PlateColor { get => _PlateColor; set { if (OnPropertyChanging("PlateColor", value)) { _PlateColor = value; OnPropertyChanged("PlateColor"); } } }
 
         private Int32 _VehicleId;
         /// <summary>车辆编码</summary>
@@ -83,14 +67,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("Owner", "物主", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
-        [DisplayName("删除")]
-        [Description("删除")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
-
         private String _Remark;
         /// <summary>备注</summary>
         [DisplayName("备注")]
@@ -111,14 +87,11 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                 switch (name)
                 {
                     case "BillId": return _BillId;
-                    case "PlateNo": return _PlateNo;
-                    case "PlateColor": return _PlateColor;
                     case "VehicleId": return _VehicleId;
                     case "EBContent": return _EBContent;
                     case "TenantId": return _TenantId;
                     case "CreateTime": return _CreateTime;
                     case "Owner": return _Owner;
-                    case "Deleted": return _Deleted;
                     case "Remark": return _Remark;
                     default: return base[name];
                 }
@@ -128,14 +101,11 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                 switch (name)
                 {
                     case "BillId": _BillId = value.ToInt(); break;
-                    case "PlateNo": _PlateNo = Convert.ToString(value); break;
-                    case "PlateColor": _PlateColor = value.ToInt(); break;
                     case "VehicleId": _VehicleId = value.ToInt(); break;
                     case "EBContent": _EBContent = Convert.ToString(value); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
@@ -149,12 +119,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         {
             /// <summary>电子运单编码</summary>
             public static readonly Field BillId = FindByName("BillId");
-
-            /// <summary>车牌号</summary>
-            public static readonly Field PlateNo = FindByName("PlateNo");
-
-            /// <summary>车牌颜色</summary>
-            public static readonly Field PlateColor = FindByName("PlateColor");
 
             /// <summary>车辆编码</summary>
             public static readonly Field VehicleId = FindByName("VehicleId");
@@ -171,9 +135,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             /// <summary>物主</summary>
             public static readonly Field Owner = FindByName("Owner");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
-
             /// <summary>备注</summary>
             public static readonly Field Remark = FindByName("Remark");
 
@@ -185,12 +146,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         {
             /// <summary>电子运单编码</summary>
             public const String BillId = "BillId";
-
-            /// <summary>车牌号</summary>
-            public const String PlateNo = "PlateNo";
-
-            /// <summary>车牌颜色</summary>
-            public const String PlateColor = "PlateColor";
 
             /// <summary>车辆编码</summary>
             public const String VehicleId = "VehicleId";
@@ -206,9 +161,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>物主</summary>
             public const String Owner = "Owner";
-
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
 
             /// <summary>备注</summary>
             public const String Remark = "Remark";

@@ -94,14 +94,15 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         #endregion
 
         #region 扩展属性
-        /// <summary>车牌颜色</summary>
+        /// <summary>车牌号</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public PlateColor __PlateColor => Extends.Get(nameof(BasicData.Entity.PlateColor), k => BasicData.Entity.PlateColor.FindByCode(PlateColor));
+        public Vehicle _Vehicle => Extends.Get(nameof(Vehicle), k => Vehicle.FindByID(VehicleId));
 
-        /// <summary>车牌颜色名称</summary>
-        [Map(nameof(PlateColor), typeof(PlateColor), "Code")]
-        public String? PlateColorName => __PlateColor?.Name;
+        /// <summary>车牌号</summary>
+        [Map(nameof(VehicleId), typeof(Vehicle), "ID")]
+        [BindColumn("PlateNo", "车牌号", "nvarchar(50)")]
+        public String PlateNo => _Vehicle?.PlateNo;
         #endregion
 
         #region 扩展查询
@@ -128,7 +129,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             // 实体缓存
             if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
 
-            return Find(_.PlateNo == plateNo);
+            return Find(_.VehicleId == plateNo);
         }
         #endregion
 
@@ -144,9 +145,9 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         {
             var exp = new WhereExpression();
 
-            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!plateNo.IsNullOrEmpty()) exp &= _.VehicleId == plateNo;
             exp &= _.CreateTime.Between(start, end);
-            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.EBContent.Contains(key) | _.Owner.Contains(key) | _.Remark.Contains(key);
+            if (!key.IsNullOrEmpty()) exp &= _.VehicleId.Contains(key) | _.EBContent.Contains(key) | _.Owner.Contains(key) | _.Remark.Contains(key);
 
             return FindAll(exp, page);
         }

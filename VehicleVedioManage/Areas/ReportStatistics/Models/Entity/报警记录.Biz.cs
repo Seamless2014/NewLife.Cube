@@ -176,7 +176,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
             if (!alarmType.IsNullOrEmpty()) exp &= _.AlarmType == alarmType;
             exp &= _.StartTime.Between(start, end);
-            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.Status.Contains(key) | _.Driver.Contains(key) | _.Location.Contains(key) | _.Location1.Contains(key) | _.Type.Contains(key) | _.ChildType.Contains(key) | _.ValveState.Contains(key) | _.ValveState1.Contains(key) | _.VideoFileName.Contains(key) | _.Flag.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key) | _.ProcessedUserName.Contains(key) | _.AlarmSource.Contains(key) | _.AlarmType.Contains(key);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.Status.Contains(key) | _.Location.Contains(key) | _.Location1.Contains(key) | _.Type.Contains(key) | _.ChildType.Contains(key) | _.ValveState.Contains(key) | _.ValveState1.Contains(key) | _.VideoFileName.Contains(key) | _.Flag.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key) | _.ProcessedUserName.Contains(key) | _.AlarmSource.Contains(key) | _.AlarmType.Contains(key);
 
             return FindAll(exp, page);
         }

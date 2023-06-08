@@ -72,19 +72,19 @@
 //        /// </summary>
 //        /// <param name="terminalId"></param>
 //        /// <returns></returns>
-//        public Terminal getTerminal(int terminalId)
+//        public TerminalInfo getTerminal(int terminalId)
 //        {
-//            return (Terminal)BaseDao.load(typeof(Terminal), terminalId);
+//            return (TerminalInfo)BaseDao.load(typeof(TerminalInfo), terminalId);
 //        }
 //        /// <summary>
 //        /// 根据终端编号获取终端
 //        /// </summary>
 //        /// <param name="terminalNo"></param>
 //        /// <returns></returns>
-//        public Terminal getTerminalByTermNo(String terminalNo)
+//        public TerminalInfo getTerminalByTermNo(String terminalNo)
 //        {
-//            String hql = "from Terminal where TermNo = ? and Deleted = ?";
-//            return (Terminal)BaseDao.find(hql, new Object[] { terminalNo, false });
+//            String hql = "from TerminalInfo where TermNo = ? and Deleted = ?";
+//            return (TerminalInfo)BaseDao.find(hql, new Object[] { terminalNo, false });
 //        }
 
 //        /// <summary>
@@ -118,10 +118,10 @@
 //        /// 保存终端
 //        /// </summary>
 //        /// <param name="t"></param>
-//        public void saveTerminal(Terminal t)
+//        public void saveTerminal(TerminalInfo t)
 //        {
-//            String hsql = "from Terminal where TermNo = ? and EntityId <> ? and Deleted = ? ";
-//            Terminal otherVd = (Terminal)BaseDao.find(hsql,
+//            String hsql = "from TerminalInfo where TermNo = ? and EntityId <> ? and Deleted = ? ";
+//            TerminalInfo otherVd = (TerminalInfo)BaseDao.find(hsql,
 //                    new Object[] { t.TermNo, t.EntityId, false });
 //            if (otherVd != null)
 //            {

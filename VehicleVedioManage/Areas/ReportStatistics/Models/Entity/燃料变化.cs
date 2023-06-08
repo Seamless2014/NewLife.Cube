@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -68,14 +68,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
-        [DisplayName("删除")]
-        [Description("删除")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
-
         private String _Manual;
         /// <summary>手动</summary>
         [DisplayName("手动")]
@@ -124,14 +116,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("Owner", "物主", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
-        private String _Remark;
-        /// <summary>备注</summary>
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 500)]
-        [BindColumn("Remark", "备注", "")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
-
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
         [DisplayName("租户编码")]
@@ -147,6 +131,15 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DataObjectField(false, false, true, 0)]
         [BindColumn("EnclosureId", "围栏编码", "")]
         public Int32 EnclosureId { get => _EnclosureId; set { if (OnPropertyChanging("EnclosureId", value)) { _EnclosureId = value; OnPropertyChanged("EnclosureId"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
+
         #endregion
 
         #region 获取/设置 字段值
@@ -165,7 +158,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "Type": return _Type;
                     case "HappenTime": return _HappenTime;
                     case "CreateTime": return _CreateTime;
-                    case "Deleted": return _Deleted;
                     case "Manual": return _Manual;
                     case "Location": return _Location;
                     case "Latitude": return _Latitude;
@@ -188,7 +180,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "Type": _Type = Convert.ToString(value); break;
                     case "HappenTime": _HappenTime = value.ToDateTime(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
                     case "Manual": _Manual = Convert.ToString(value); break;
                     case "Location": _Location = Convert.ToString(value); break;
                     case "Latitude": _Latitude = value.ToDouble(); break;
@@ -225,9 +216,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>创建时间</summary>
             public static readonly Field CreateTime = FindByName("CreateTime");
-
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
 
             /// <summary>手动</summary>
             public static readonly Field Manual = FindByName("Manual");
@@ -279,9 +267,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>创建时间</summary>
             public const String CreateTime = "CreateTime";
-
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
 
             /// <summary>手动</summary>
             public const String Manual = "Manual";

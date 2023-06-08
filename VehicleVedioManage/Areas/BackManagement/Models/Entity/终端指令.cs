@@ -51,6 +51,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("Cmd", "指令", "")]
         public String Cmd { get => _Cmd; set { if (OnPropertyChanging("Cmd", value)) { _Cmd = value; OnPropertyChanged("Cmd"); } } }
 
+        private String _Data;
+        /// <summary>数据</summary>
+        [DisplayName("数据")]
+        [Description("数据")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("Data", "数据", "")]
+        public String Data { get => _Data; set { if (OnPropertyChanging("Data", value)) { _Data = value; OnPropertyChanged("Data"); } } }
+
         private String _CmdData;
         /// <summary>指令数据</summary>
         [DisplayName("指令数据")]
@@ -64,7 +72,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DisplayName("创建时间")]
         [Description("创建时间")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("CreateDate", "创建时间", "", Precision = 0, Scale = 3)]
+        [BindColumn("CreateDate", "创建时间", "")]
         public DateTime CreateDate { get => _CreateDate; set { if (OnPropertyChanging("CreateDate", value)) { _CreateDate = value; OnPropertyChanged("CreateDate"); } } }
 
         private Boolean _Deleted;
@@ -127,13 +135,13 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
-        private DateTime _UpdateDate;
+        private DateTime _UpdateTime;
         /// <summary>更新时间</summary>
         [DisplayName("更新时间")]
         [Description("更新时间")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("UpdateDate", "更新时间", "", Precision = 0, Scale = 3)]
-        public DateTime UpdateDate { get => _UpdateDate; set { if (OnPropertyChanging("UpdateDate", value)) { _UpdateDate = value; OnPropertyChanged("UpdateDate"); } } }
+        [BindColumn("UpdateTime", "更新时间", "")]
+        public DateTime UpdateTime { get => _UpdateTime; set { if (OnPropertyChanging("UpdateTime", value)) { _UpdateTime = value; OnPropertyChanged("UpdateTime"); } } }
 
         private Int32 _VehicleId;
         /// <summary>车辆编码</summary>
@@ -142,14 +150,6 @@ namespace VehicleVedioManage.BackManagement.Entity
         [DataObjectField(false, false, false, 0)]
         [BindColumn("VehicleId", "车辆编码", "")]
         public Int32 VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
-
-        private String _Data;
-        /// <summary>数据</summary>
-        [DisplayName("数据")]
-        [Description("数据")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Data", "数据", "")]
-        public String Data { get => _Data; set { if (OnPropertyChanging("Data", value)) { _Data = value; OnPropertyChanged("Data"); } } }
 
         private String _Remark;
         /// <summary>备注</summary>
@@ -185,7 +185,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "UserId": return _UserId;
                     case "SN": return _SN;
                     case "TenantId": return _TenantId;
-                    case "UpdateDate": return _UpdateDate;
+                    case "UpdateTime": return _UpdateTime;
                     case "VehicleId": return _VehicleId;
                     case "Data": return _Data;
                     default: return base[name];
@@ -209,7 +209,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "UserId": _UserId = value.ToInt(); break;
                     case "SN": _SN = value.ToInt(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
-                    case "UpdateDate": _UpdateDate = value.ToDateTime(); break;
+                    case "UpdateTime": _UpdateTime = value.ToDateTime(); break;
                     case "VehicleId": _VehicleId = value.ToInt(); break;
                     case "Data": _Data = Convert.ToString(value); break;
                     default: base[name] = value; break;
@@ -265,7 +265,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             public static readonly Field TenantId = FindByName("TenantId");
 
             /// <summary>更新时间</summary>
-            public static readonly Field UpdateDate = FindByName("UpdateDate");
+            public static readonly Field UpdateTime = FindByName("UpdateTime");
 
             /// <summary>车辆编码</summary>
             public static readonly Field VehicleId = FindByName("VehicleId");
@@ -322,7 +322,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             public const String TenantId = "TenantId";
 
             /// <summary>更新时间</summary>
-            public const String UpdateDate = "UpdateDate";
+            public const String UpdateTime = "UpdateTime";
 
             /// <summary>车辆编码</summary>
             public const String VehicleId = "VehicleId";

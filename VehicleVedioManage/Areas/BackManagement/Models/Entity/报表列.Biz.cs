@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -114,7 +114,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             if (reportColumnId <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ReportColumnId == reportColumnId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ID == reportColumnId);
 
             // 单对象缓存
             return Meta.SingleCache[reportColumnId];

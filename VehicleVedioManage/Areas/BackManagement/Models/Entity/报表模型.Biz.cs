@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -101,12 +101,12 @@ namespace VehicleVedioManage.BackManagement.Entity
         /// <summary>根据报表编码查找</summary>
         /// <param name="reportId">报表编码</param>
         /// <returns>实体对象</returns>
-        public static ReportModel FindByReportId(Int32 reportId)
+        public static ReportModel FindByID(Int32 reportId)
         {
             if (reportId <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ReportId == reportId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ID == reportId);
 
             // 单对象缓存
             return Meta.SingleCache[reportId];

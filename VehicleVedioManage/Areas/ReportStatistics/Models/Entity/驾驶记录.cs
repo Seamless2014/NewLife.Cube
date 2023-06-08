@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -28,11 +28,11 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         public Int32 DriverId { get => _DriverId; set { if (OnPropertyChanging("DriverId", value)) { _DriverId = value; OnPropertyChanged("DriverId"); } } }
 
         private Int32 _CardState;
-        /// <summary>卡片状态</summary>
-        [DisplayName("卡片状态")]
-        [Description("卡片状态")]
+        /// <summary>登签状态</summary>
+        [DisplayName("登签状态")]
+        [Description("登签状态")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("CardState", "卡片状态", "")]
+        [BindColumn("CardState", "登签状态", "")]
         public Int32 CardState { get => _CardState; set { if (OnPropertyChanging("CardState", value)) { _CardState = value; OnPropertyChanged("CardState"); } } }
 
         private DateTime _OperTime;
@@ -106,14 +106,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DataObjectField(false, false, true, 255)]
         [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
-
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
-        [DisplayName("删除")]
-        [Description("删除")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
         #endregion
 
         #region 获取/设置 字段值
@@ -137,7 +129,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "VehicleId": return _VehicleId;
                     case "CreateTime": return _CreateTime;
                     case "Remark": return _Remark;
-                    case "Deleted": return _Deleted;
                     default: return base[name];
                 }
             }
@@ -156,7 +147,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "VehicleId": _VehicleId = value.ToInt(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
                     default: base[name] = value; break;
                 }
             }
@@ -200,9 +190,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             /// <summary>备注</summary>
             public static readonly Field Remark = FindByName("Remark");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
-
             static Field FindByName(String name) => Meta.Table.FindByName(name);
         }
 
@@ -241,9 +228,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>备注</summary>
             public const String Remark = "Remark";
-
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
         }
         #endregion
     }

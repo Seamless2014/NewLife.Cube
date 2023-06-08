@@ -13,10 +13,10 @@ namespace VehicleVedioManage.BackManagement.Controllers
 {
     [BackManagementArea]
     [DisplayName("终端信息")]
-    public class TerminalController : EntityController<TerminalInfo>
+    public class TerminalInfoController : EntityController<TerminalInfo>
     {
         private readonly ITracer _tracer;
-        public TerminalController(IServiceProvider provider)
+        public TerminalInfoController(IServiceProvider provider)
         {
 
             ListFields.RemoveField("TermId", "Reserve", "TenantId", "Owner", "CertPassword", "Deleted");
@@ -32,13 +32,8 @@ namespace VehicleVedioManage.BackManagement.Controllers
         protected override IEnumerable<TerminalInfo> Search(Pager p)
         {
             using var span = _tracer?.NewSpan(nameof(Search), p);
-            var id = p["Deleted"].ToBoolean();
-            if (!id)
-            {
-                var entity = TerminalInfo.FindByDeleted(id);
-                return entity.Count == 0 ? new List<TerminalInfo>() : entity;
-            }
-            return TerminalInfo.Search(p["Deleted"], p);
+            var key = p["q"];
+            return TerminalInfo.Search(key, p);
         }
 
         public override ActionResult Index(Pager p = null)
@@ -58,7 +53,7 @@ namespace VehicleVedioManage.BackManagement.Controllers
             {
                 if (Valid(entity, DataObjectMethodType.Delete, true))
                 {
-                    entity.Deleted = true;
+                    entity.Enable = true;
                     OnUpdate(entity);
                     rs = true;
                 }
