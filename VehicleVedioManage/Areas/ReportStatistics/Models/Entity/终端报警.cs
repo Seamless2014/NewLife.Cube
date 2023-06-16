@@ -116,15 +116,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("Location", "位置", "nvarchar(80)")]
         public String Location { get => _Location; set { if (OnPropertyChanging("Location", value)) { _Location = value; OnPropertyChanged("Location"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
-        [Category("扩展信息")]
-        [DisplayName("删除")]
-        [Description("删除")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
-
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
         [Category("扩展信息")]
@@ -133,15 +124,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DataObjectField(false, false, true, 10)]
         [BindColumn("TenantId", "租户编码", "int")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
-
-        private String _Remark;
-        /// <summary>备注</summary>
-        [Category("扩展信息")]
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 50)]
-        [BindColumn("Remark", "备注", "nvarchar(50)")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private String _Owner;
         /// <summary>物主</summary>
@@ -261,6 +243,16 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DataObjectField(false, false, true, 53)]
         [BindColumn("Mileage1", "里程", "float")]
         public Double Mileage1 { get => _Mileage1; set { if (OnPropertyChanging("Mileage1", value)) { _Mileage1 = value; OnPropertyChanged("Mileage1"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [Category("扩展信息")]
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 50)]
+        [BindColumn("Remark", "备注", "nvarchar(50)")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
+
         #endregion
 
         #region 获取/设置 字段值
@@ -285,7 +277,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "Longitude": return _Longitude;
                     case "Speed": return _Speed;
                     case "Location": return _Location;
-                    case "Deleted": return _Deleted;
                     case "TenantId": return _TenantId;
                     case "Remark": return _Remark;
                     case "Owner": return _Owner;
@@ -321,7 +312,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "Longitude": _Longitude = value.ToDouble(); break;
                     case "Speed": _Speed = value.ToDouble(); break;
                     case "Location": _Location = Convert.ToString(value); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
@@ -383,9 +373,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>位置</summary>
             public static readonly Field Location = FindByName("Location");
-
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
 
             /// <summary>租户编码</summary>
             public static readonly Field TenantId = FindByName("TenantId");
@@ -476,9 +463,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>位置</summary>
             public const String Location = "Location";
-
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
 
             /// <summary>租户编码</summary>
             public const String TenantId = "TenantId";

@@ -168,8 +168,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             var exp = new WhereExpression();
 
             if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
-            exp &= _.UpdateTime.Between(start, end);
-            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.IntervalDescr.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
+            exp &= _.StaticDate.Between(start, end);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.IntervalDescr.Contains(key) | _.Owner.Contains(key) | _.Remark.Contains(key);
 
             return FindAll(exp, page);
         }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -35,14 +35,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
-        private Byte _Deleted;
-        /// <summary>删除</summary>
-        [DisplayName("删除")]
-        [Description("删除")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Byte Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
-
         private String _Owner;
         /// <summary>物主</summary>
         [DisplayName("物主")]
@@ -50,14 +42,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DataObjectField(false, false, true, 30)]
         [BindColumn("Owner", "物主", "varchar(30)")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
-
-        private String _Remark;
-        /// <summary>备注</summary>
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 500)]
-        [BindColumn("Remark", "备注", "varchar(500)")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
@@ -146,6 +130,15 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DataObjectField(false, false, true, 20)]
         [BindColumn("PlateNo", "车牌号", "varchar(20)")]
         public String PlateNo { get => _PlateNo; set { if (OnPropertyChanging("PlateNo", value)) { _PlateNo = value; OnPropertyChanged("PlateNo"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "varchar(500)")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
+
         #endregion
 
         #region 获取/设置 字段值
@@ -160,7 +153,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                 {
                     case "Id": return _Id;
                     case "CreateTime": return _CreateTime;
-                    case "Deleted": return _Deleted;
                     case "Owner": return _Owner;
                     case "Remark": return _Remark;
                     case "TenantId": return _TenantId;
@@ -183,7 +175,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                 {
                     case "Id": _Id = value.ToInt(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
-                    case "Deleted": _Deleted = Convert.ToByte(value); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
@@ -212,9 +203,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>创建时间</summary>
             public static readonly Field CreateTime = FindByName("CreateTime");
-
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
 
             /// <summary>物主</summary>
             public static readonly Field Owner = FindByName("Owner");
@@ -266,9 +254,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>创建时间</summary>
             public const String CreateTime = "CreateTime";
-
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
 
             /// <summary>物主</summary>
             public const String Owner = "Owner";

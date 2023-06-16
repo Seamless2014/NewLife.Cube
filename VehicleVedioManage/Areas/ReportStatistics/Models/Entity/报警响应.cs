@@ -147,15 +147,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("WarnType", "报警类型", "int")]
         public Int32 WarnType { get => _WarnType; set { if (OnPropertyChanging("WarnType", value)) { _WarnType = value; OnPropertyChanged("WarnType"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
-        [Category("扩展信息")]
-        [DisplayName("删除")]
-        [Description("删除")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "bit")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
-
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
         [Category("扩展信息")]
@@ -226,7 +217,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "WarnSrc": return _WarnSrc;
                     case "WarnTime": return _WarnTime;
                     case "WarnType": return _WarnType;
-                    case "Deleted": return _Deleted;
                     case "TenantId": return _TenantId;
                     case "Owner": return _Owner;
                     case "Remark": return _Remark;
@@ -255,7 +245,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "WarnSrc": _WarnSrc = Convert.ToString(value); break;
                     case "WarnTime": _WarnTime = value.ToDateTime(); break;
                     case "WarnType": _WarnType = value.ToInt(); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
@@ -318,9 +307,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>报警类型</summary>
             public static readonly Field WarnType = FindByName("WarnType");
-
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
 
             /// <summary>租户编码</summary>
             public static readonly Field TenantId = FindByName("TenantId");
@@ -390,9 +376,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>报警类型</summary>
             public const String WarnType = "WarnType";
-
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
 
             /// <summary>租户编码</summary>
             public const String TenantId = "TenantId";

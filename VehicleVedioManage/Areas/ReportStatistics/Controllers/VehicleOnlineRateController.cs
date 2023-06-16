@@ -12,7 +12,7 @@ namespace VehicleVedioManage.Areas.ReportStatistics.Controllers
     {
         public override ActionResult Index(Pager p = null)
         {
-            ListFields.RemoveField("ID", "Deleted", "Owner", "TenantId", "UpdateUserID");
+            ListFields.RemoveField("ID", "Owner", "TenantId");
             return base.Index(p);
         }
     }

@@ -83,22 +83,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
-        [DisplayName("删除")]
-        [Description("删除")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
-
-        private String _Remark;
-        /// <summary>备注</summary>
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 500)]
-        [BindColumn("Remark", "备注", "")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
-
         private String _Owner;
         /// <summary>拥有者</summary>
         [DisplayName("拥有者")]
@@ -138,6 +122,15 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DataObjectField(false, false, true, 0)]
         [BindColumn("Interval", "间隔", "")]
         public Int32 Interval { get => _Interval; set { if (OnPropertyChanging("Interval", value)) { _Interval = value; OnPropertyChanged("Interval"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 500)]
+        [BindColumn("Remark", "备注", "")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
+
         #endregion
 
         #region 获取/设置 字段值
@@ -158,7 +151,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "StatisticDate": return _StatisticDate;
                     case "IntervalType": return _IntervalType;
                     case "TenantId": return _TenantId;
-                    case "Deleted": return _Deleted;
                     case "Remark": return _Remark;
                     case "Owner": return _Owner;
                     case "CreateTime": return _CreateTime;
@@ -180,7 +172,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "StatisticDate": _StatisticDate = value.ToDateTime(); break;
                     case "IntervalType": _IntervalType = value.ToInt(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
@@ -223,9 +214,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>租户编码</summary>
             public static readonly Field TenantId = FindByName("TenantId");
-
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
 
             /// <summary>备注</summary>
             public static readonly Field Remark = FindByName("Remark");
@@ -277,9 +265,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>租户编码</summary>
             public const String TenantId = "TenantId";
-
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
 
             /// <summary>备注</summary>
             public const String Remark = "Remark";

@@ -195,7 +195,6 @@
     <Columns>
       <Column Name="Id" DataType="Int32" Identity="True" PrimaryKey="True" Description="编码" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
-      <Column Name="Deleted" DataType="Byte" Description="删除" />
       <Column Name="Owner" DataType="String" Length="30" Description="物主" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" />
@@ -292,7 +291,6 @@
       <Column Name="Flag" DataType="String" Description="标识" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" Category="扩展信息" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" Category="扩展信息" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" Category="扩展信息" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" Category="扩展信息" />
       <Column Name="Owner" DataType="String" Description="物主" Category="扩展信息" />
       <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
@@ -323,11 +321,10 @@
       <Column Name="Mileage1" DataType="Double" Description="里程1" />
       <Column Name="Mileage2" DataType="Double" Description="里程2" />
       <Column Name="DepName" DataType="String" Description="部门名称" />
-      <Column Name="TenantId" DataType="Int32" Description="租户编码" Category="扩展信息" />
-      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" Category="扩展信息" />
-      <Column Name="Remark" DataType="String" Length="500" Description="备注" Category="扩展信息" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" Category="扩展信息" />
-      <Column Name="Owner" DataType="String" Description="物主" Category="扩展信息" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码"/>
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间"  />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+      <Column Name="Owner" DataType="String" Description="物主" />
     </Columns>
     <Indexes>
       <Index Columns="PlateNo" Unique="True" />
@@ -363,7 +360,6 @@
       <Column Name="Flag" DataType="String" Description="标识" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" />
       <Column Name="Owner" DataType="String" Description="拥有者" />
       <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
@@ -389,7 +385,6 @@
       <Column Name="StatisticDate" DataType="DateTime" Description="统计日期" />
       <Column Name="IntervalType" DataType="Int32" Description="间隔类型" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" />
       <Column Name="Owner" DataType="String" Description="拥有者" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
@@ -414,7 +409,6 @@
       <Column Name="TenantId" DataType="Int32" Description="租户编码" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建日期" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" />
       <Column Name="Owner" DataType="String" Description="拥有者" />
     </Columns>
   </Table>
@@ -460,19 +454,10 @@
       <Column Name="IntervalType" DataType="Int32" Description="间隔类型" />
       <Column Name="OfflineTime" DataType="Decimal" Scale="2" Description="离线时间" />
       <Column Name="TotalTime" DataType="Double" Description="总计时间" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" Category="扩展信息" />
-      <Column Name="Owner" DataType="String" Description="拥有者" Category="扩展信息" />
-      <Column Name="TenantId" DataType="Int32" Description="租户编码" Category="扩展信息" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
       <Column Name="OnlineRate" DataType="Decimal" Scale="2" Description="上线日期" />
-      <Column Name="CreateUser" DataType="String" Description="创建者" Category="扩展信息" />
-      <Column Name="CreateUserID" DataType="Int32" Description="创建人" Category="扩展信息" />
-      <Column Name="CreateIP" DataType="String" Description="创建地址" Category="扩展信息" />
-      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" Category="扩展信息" />
-      <Column Name="UpdateUser" DataType="String" Description="更新者" Category="扩展信息" />
-      <Column Name="UpdateUserID" DataType="Int32" Description="更新人" Category="扩展信息" />
-      <Column Name="UpdateIP" DataType="String" Description="更新地址" Category="扩展信息" />
-      <Column Name="UpdateTime" DataType="DateTime" Description="更新时间" Category="扩展信息" />
-      <Column Name="Remark" DataType="String" Length="500" Description="备注" Category="扩展信息" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
     </Columns>
     <Indexes>
       <Index Columns="PlateNo" Unique="True" />
