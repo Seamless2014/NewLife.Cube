@@ -149,18 +149,18 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>运营状态</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public RunStatus __RunStatus => Extends.Get(nameof(RunStatus), k => RunStatus.FindByID(RunStatusCode));
+        public RunStatus __RunStatus => Extends.Get(nameof(RunStatus), k => RunStatus.FindByID(RunStatusID));
 
         /// <summary>运营状态名称</summary>
-        [Map(nameof(RunStatusCode), typeof(RunStatus), "ID")]
+        [Map(nameof(RunStatusID), typeof(RunStatus), "ID")]
         public String RunStatusName => __RunStatus?.Name;
 
         /// <summary>使用性质</summary>
         [XmlIgnore, IgnoreDataMember]
         //[ScriptIgnore]
-        public UseType _UserTypeCode => Extends.Get(nameof(UseType), k => UseType.FindByCode(UseTypeCode));
+        public UseType _UserTypeCode => Extends.Get(nameof(UseType), k => UseType.FindByID(UseTypeCode));
         /// <summary>使用性质名称</summary>
-        [Map(nameof(UseTypeCode), typeof(UseType), "Code")]
+        [Map(nameof(UseTypeCode), typeof(UseType), "ID")]
         public String UseTypeName => _UserTypeCode?.Name;
         #endregion
 
@@ -288,7 +288,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
             if (!VehicleID.IsNullOrEmpty()) exp &= _.ID == VehicleID;
             if (!plateColorCode.IsNullOrEmpty()) exp &= _.PlateColorCode == plateColorCode;
-            if (!runStatusCode.IsNullOrEmpty()) exp &= _.RunStatusCode == runStatusCode;
+            if (!runStatusCode.IsNullOrEmpty()) exp &= _.RunStatusID == runStatusCode;
             if (!vehicleTypeCode.IsNullOrEmpty()) exp &= _.VehicleTypeCode == vehicleTypeCode;
             if(!areaID.IsNullOrEmpty()) exp&=_.Region==areaID;  
             exp &= _.Deleted == false;
@@ -343,7 +343,7 @@ namespace VehicleVedioManage.BasicData.Entity
             if (!simNo.IsNullOrEmpty()) exp &= _.SimNo == simNo;
             if (!departmentName.IsNullOrEmpty()) exp &= _.DepartmentName == departmentName;
             exp &= _.UpdateTime.Between(start, end);
-            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DepartmentName.Contains(key) | _.Region.Contains(key) | _.Industry.Contains(key) | _.UseType.Contains(key) | _.PlateformId.Contains(key) | _.TerminalId.Contains(key) | _.TerminalModel.Contains(key) | _.TerminalVendorId.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key) | _.RunStatusCode.Contains(key) | _.UseTypeCode.Contains(key);
+            if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DepartmentName.Contains(key) | _.Region.Contains(key) | _.Industry.Contains(key) | _.UseType.Contains(key) | _.PlateformId.Contains(key) | _.TerminalId.Contains(key) | _.TerminalModel.Contains(key) | _.TerminalVendorId.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key) | _.UseTypeCode.Contains(key);
 
             return FindAll(exp, page);
         }

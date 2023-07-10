@@ -1,4 +1,4 @@
-﻿@model IList<VehicleVedioManage.BasicData.Entity.Vehicle>
+﻿@*@model IList<VehicleVedioManage.BasicData.Entity.Vehicle>
 @using NewLife.Web;
 @using NewLife.Cube;
 @using XCode.Membership;
@@ -17,10 +17,10 @@
             <th class="text-center hidden-md hidden-sm hidden-xs"><a href="@Html.Raw(page.GetSortUrl("PlateNo"))">车牌号</a></th>
             <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("VehicleType"))">车辆类型</a></th>
             <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("PlateColor"))">车牌颜色</a></th>
-            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("RunStatus"))">运行状态</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("RunStatusID"))">运行状态</a></th>
             <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("SimNo"))">Sim卡号</a></th>
             <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("CreateTime"))">创建时间</a></th>
-            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("DepartmentName"))">部门名称</a></th>
+            <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("DepartmentID"))">部门名称</a></th>
             <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("IndustryTypeName"))">行业类型</a></th>
             <th class="text-center"><a href="@Html.Raw(page.GetSortUrl("Remark"))">备注</a></th>
             @if (this.Has(PermissionFlags.Detail, PermissionFlags.Update, PermissionFlags.Delete))
@@ -55,4 +55,4 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@

@@ -108,33 +108,7 @@ namespace VehicleVedioManage.BasicData.Entity
 
             //return Find(_.ID == id);
         }
-        /// <summary>
-        /// 通过编码Code查找
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public static UseType FindByCode(string name)
-        {
-            if (string.IsNullOrEmpty(name)) return null;
 
-            // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name == name);
-
-            // 单对象缓存
-            return Meta.SingleCache[name];
-
-            //return Find(_.ID == id);
-        }
-        public static bool isExistCode(string Name)
-        {
-            var isExist = false;
-            var list = FindByCode(Name);
-            if (list != null)
-            {
-                isExist = true;
-            }
-            return isExist;
-        }
         /// <summary>根据名称查找</summary>
         /// <param name="name">名称</param>
         /// <returns>实体对象</returns>

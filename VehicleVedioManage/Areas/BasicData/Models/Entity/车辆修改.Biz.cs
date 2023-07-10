@@ -112,6 +112,14 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 扩展属性
+        /// <summary>车牌号</summary>
+        [XmlIgnore, IgnoreDataMember]
+        //[ScriptIgnore]
+        public Vehicle __PlateNo => Extends.Get(nameof(Vehicle), k => Vehicle.FindByID(VehicleId));
+
+        /// <summary>车牌号</summary>
+        [Map(nameof(VehicleId), typeof(Vehicle), "ID")]
+        public String PlateNo => __PlateNo?.PlateNo;
         #endregion
 
         #region 扩展查询

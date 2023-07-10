@@ -108,7 +108,7 @@
       <Column Name="UpdateIP" DataType="String" Description="更新地址" Category="扩展信息"/>
       <Column Name="UpdateTime" DataType="DateTime" Description="更新时间" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" Category="扩展信息"/>
-      <Column Name="RunStatusCode" DataType="String" Description="车辆运行状态" />
+      <Column Name="RunStatusCode" DataType="Int32" Description="车辆运行状态" />
       <Column Name="UseTypeCode" DataType="String" Description="使用性质" />
     </Columns>
     <Indexes>

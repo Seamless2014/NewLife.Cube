@@ -36,32 +36,5 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         {
             return base.Index(p);
         }
-        protected override Int32 OnInsert(UseType entity)
-        {
-            var rs = -1;
-            if (!UseType.isExistCode(entity.Name.Trim()))
-            {
-                rs = base.OnInsert(entity);
-            }
-            else
-            {
-                throw new InvalidOperationException("已经存在！请重新输入");
-            }
-            return rs;
-        }
-
-        protected override Int32 OnUpdate(UseType entity)
-        {
-            var rs = -1;
-            if (!UseType.isExistCode(entity.Name.Trim()))
-            {
-                rs = base.OnUpdate(entity);
-            }
-            else
-            {
-                throw new InvalidOperationException("已经存在！请重新输入");
-            }
-            return rs;
-        }
     }
 }

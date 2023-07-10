@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Content Remove="Areas\BasicData\Views\Vehicle\_Form_Body.cshtml" />
+    <Content Remove="Areas\BasicData\Views\Vehicle\_List_Data.cshtml" />
     <Content Remove="wwwroot\content\js\jquery\jquery.ztree.texttree.js" />
   </ItemGroup>
 

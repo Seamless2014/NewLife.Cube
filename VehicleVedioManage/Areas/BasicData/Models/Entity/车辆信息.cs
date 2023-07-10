@@ -247,6 +247,22 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("UpdateTime", "更新时间", "", Precision = 0, Scale = 3)]
         public DateTime UpdateTime { get => _UpdateTime; set { if (OnPropertyChanging("UpdateTime", value)) { _UpdateTime = value; OnPropertyChanged("UpdateTime"); } } }
 
+        private Int32 _RunStatusID;
+        /// <summary>运营状态</summary>
+        [DisplayName("运营状态")]
+        [Description("运营状态")]
+        [DataObjectField(false, false, true, 20)]
+        [BindColumn("RunStatusID", "运营状态", "")]
+        public Int32 RunStatusID { get => _RunStatusID; set { if (OnPropertyChanging("RunStatusID", value)) { _RunStatusID = value; OnPropertyChanged("RunStatusID"); } } }
+
+        private Int32 _UseTypeCode;
+        /// <summary>使用性质</summary>
+        [DisplayName("使用性质")]
+        [Description("使用性质")]
+        [DataObjectField(false, false, true, 25)]
+        [BindColumn("UseTypeCode", "使用性质", "")]
+        public Int32 UseTypeCode { get => _UseTypeCode; set { if (OnPropertyChanging("UseTypeCode", value)) { _UseTypeCode = value; OnPropertyChanged("UseTypeCode"); } } }
+       
         private String _Remark;
         /// <summary>备注</summary>
         [Category("扩展信息")]
@@ -256,21 +272,6 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
 
-        private Int32 _RunStatusCode;
-        /// <summary>运行状态</summary>
-        [DisplayName("运行状态")]
-        [Description("运行状态")]
-        [DataObjectField(false, false, true, 20)]
-        [BindColumn("RunStatusCode", "运行状态", "")]
-        public Int32 RunStatusCode { get => _RunStatusCode; set { if (OnPropertyChanging("RunStatusCode", value)) { _RunStatusCode = value; OnPropertyChanged("RunStatusCode"); } } }
-
-        private String _UseTypeCode;
-        /// <summary>使用性质</summary>
-        [DisplayName("使用性质")]
-        [Description("使用性质")]
-        [DataObjectField(false, false, true, 25)]
-        [BindColumn("UseTypeCode", "使用性质", "")]
-        public String UseTypeCode { get => _UseTypeCode; set { if (OnPropertyChanging("UseTypeCode", value)) { _UseTypeCode = value; OnPropertyChanged("UseTypeCode"); } } }
         #endregion
 
         #region 获取/设置 字段值
@@ -311,7 +312,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "UpdateIP": return _UpdateIP;
                     case "UpdateTime": return _UpdateTime;
                     case "Remark": return _Remark;
-                    case "RunStatusCode": return _RunStatusCode;
+                    case "RunStatusID": return _RunStatusID;
                     case "UseTypeCode": return _UseTypeCode;
                     default: return base[name];
                 }
@@ -348,8 +349,8 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "UpdateIP": _UpdateIP = Convert.ToString(value); break;
                     case "UpdateTime": _UpdateTime = value.ToDateTime(); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
-                    case "RunStatusCode": _RunStatusCode = value.ToInt(); break;
-                    case "UseTypeCode": _UseTypeCode = Convert.ToString(value); break;
+                    case "RunStatusID": _RunStatusID = value.ToInt(); break;
+                    case "UseTypeCode": _UseTypeCode = value.ToInt(); break;
                     default: base[name] = value; break;
                 }
             }
@@ -451,7 +452,7 @@ namespace VehicleVedioManage.BasicData.Entity
             public static readonly Field Remark = FindByName("Remark");
 
             /// <summary>车辆运行状态</summary>
-            public static readonly Field RunStatusCode = FindByName("RunStatusCode");
+            public static readonly Field RunStatusID = FindByName("RunStatusID");
 
             /// <summary>使用性质</summary>
             public static readonly Field UseTypeCode = FindByName("UseTypeCode");
@@ -553,7 +554,7 @@ namespace VehicleVedioManage.BasicData.Entity
             public const String Remark = "Remark";
 
             /// <summary>车辆运行状态</summary>
-            public const String RunStatusCode = "RunStatusCode";
+            public const String RunStatusID = "RunStatusID";
 
             /// <summary>使用性质</summary>
             public const String UseTypeCode = "UseTypeCode";

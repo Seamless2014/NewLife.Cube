@@ -25,7 +25,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
 
             PageSetting.EnableTableDoubleClick = true;
             _tracer = provider?.GetService<ITracer>();
-            ListFields.RemoveField("ID", "Deleted", "DepartmentID","CreateUserID","UpdateUserID", "TenantID");
+            ListFields.RemoveField("ID", "Deleted","CreateUserID","UpdateUserID", "TenantID", "UpdateIP", "CreateIP", "Owner");
         }
 
         protected override Vehicle Find(Object key)
