@@ -8,7 +8,7 @@ using XCode;
 using XCode.Configuration;
 using XCode.DataAccessLayer;
 
-namespace VehicleVedioManage.BasicData.Entity
+namespace VehicleVedioManage.ReportStatistics.Entity
 {
     [Serializable]
     [DataObject]

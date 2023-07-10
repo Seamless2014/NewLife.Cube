@@ -1,0 +1,124 @@
+2023-06-16 22:47:45.6991 Info Message Template Auto Format enabled
+2023-06-16 22:47:45.7802 Debug Adding target NLog.Targets.FileTarget(Name=Gateway)
+2023-06-16 22:47:45.7802 Info Registered target NLog.Targets.FileTarget(Name=Gateway)
+2023-06-16 22:47:45.9179 Debug Adding target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-06-16 22:47:45.9179 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-06-16 22:47:45.9444 Debug Watching file-filter 'nlog.Win32NT.config' in directory: F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs
+2023-06-16 22:47:45.9456 Debug --- NLog configuration dump ---
+2023-06-16 22:47:45.9456 Debug Targets:
+2023-06-16 22:47:45.9456 Debug FileTarget(Name=Gateway)
+2023-06-16 22:47:45.9456 Debug ColoredConsoleTarget(Name=console)
+2023-06-16 22:47:45.9456 Debug Rules:
+2023-06-16 22:47:45.9456 Debug logNamePattern: (JT808.:StartsWith) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ Gateway console ]
+2023-06-16 22:47:45.9456 Debug --- End of NLog configuration dump ---
+2023-06-16 22:47:46.0105 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionRelationalExpression
+2023-06-16 22:47:46.0105 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLevelExpression
+2023-06-16 22:47:46.0105 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLiteralExpression
+2023-06-16 22:47:46.0105 Info Validating config: TargetNames=Gateway, console, ConfigItems=57, FilePath=F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs\nlog.Win32NT.config
+2023-06-16 22:47:46.0105 Debug Unused target checking is started... Rule Count: 1, Target Count: 2
+2023-06-16 22:47:46.0282 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 2, Unused Target Count: 0
+2023-06-16 22:50:18.6406 Info Message Template Auto Format enabled
+2023-06-16 22:50:18.7582 Debug Adding target NLog.Targets.FileTarget(Name=Gateway)
+2023-06-16 22:50:18.7582 Info Registered target NLog.Targets.FileTarget(Name=Gateway)
+2023-06-16 22:50:18.8395 Debug Adding target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-06-16 22:50:18.8395 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-06-16 22:50:18.8517 Debug Watching file-filter 'nlog.Win32NT.config' in directory: F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs
+2023-06-16 22:50:18.8517 Debug --- NLog configuration dump ---
+2023-06-16 22:50:18.8517 Debug Targets:
+2023-06-16 22:50:18.8517 Debug FileTarget(Name=Gateway)
+2023-06-16 22:50:18.8517 Debug ColoredConsoleTarget(Name=console)
+2023-06-16 22:50:18.8517 Debug Rules:
+2023-06-16 22:50:18.8517 Debug logNamePattern: (JT808.:StartsWith) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ Gateway console ]
+2023-06-16 22:50:18.8517 Debug --- End of NLog configuration dump ---
+2023-06-16 22:50:18.8517 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionRelationalExpression
+2023-06-16 22:50:18.8668 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLevelExpression
+2023-06-16 22:50:18.8668 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLiteralExpression
+2023-06-16 22:50:18.8668 Info Validating config: TargetNames=Gateway, console, ConfigItems=57, FilePath=F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs\nlog.Win32NT.config
+2023-06-16 22:50:18.8668 Debug Unused target checking is started... Rule Count: 1, Target Count: 2
+2023-06-16 22:50:18.8668 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 2, Unused Target Count: 0
+2023-06-16 22:53:11.7691 Info Message Template Auto Format enabled
+2023-06-16 22:53:11.8860 Debug Adding target NLog.Targets.FileTarget(Name=Gateway)
+2023-06-16 22:53:11.8860 Info Registered target NLog.Targets.FileTarget(Name=Gateway)
+2023-06-16 22:53:11.9821 Debug Adding target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-06-16 22:53:11.9821 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-06-16 22:53:11.9980 Debug Watching file-filter 'nlog.Win32NT.config' in directory: F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs
+2023-06-16 22:53:11.9980 Debug --- NLog configuration dump ---
+2023-06-16 22:53:11.9980 Debug Targets:
+2023-06-16 22:53:11.9980 Debug FileTarget(Name=Gateway)
+2023-06-16 22:53:11.9980 Debug ColoredConsoleTarget(Name=console)
+2023-06-16 22:53:11.9980 Debug Rules:
+2023-06-16 22:53:11.9980 Debug logNamePattern: (JT808.:StartsWith) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ Gateway console ]
+2023-06-16 22:53:11.9980 Debug --- End of NLog configuration dump ---
+2023-06-16 22:53:12.0179 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionRelationalExpression
+2023-06-16 22:53:12.0179 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLevelExpression
+2023-06-16 22:53:12.0179 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLiteralExpression
+2023-06-16 22:53:12.0241 Info Validating config: TargetNames=Gateway, console, ConfigItems=57, FilePath=F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs\nlog.Win32NT.config
+2023-06-16 22:53:12.0241 Debug Unused target checking is started... Rule Count: 1, Target Count: 2
+2023-06-16 22:53:12.0241 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 2, Unused Target Count: 0
+2023-06-16 22:58:27.1459 Info AppDomain Shutting down. LogFactory closing...
+2023-06-16 22:58:27.1483 Debug Stopping file watching for path 'F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs' filter 'nlog.Win32NT.config'
+2023-06-16 22:58:27.1483 Debug Flush completed
+2023-06-16 22:58:27.1483 Debug Closing logging configuration...
+2023-06-16 22:58:27.1483 Debug FileTarget(Name=Gateway): Closing...
+2023-06-16 22:58:27.1483 Debug FileTarget(Name=Gateway): Closed.
+2023-06-16 22:58:27.1483 Debug ColoredConsoleTarget(Name=console): Closing...
+2023-06-16 22:58:27.1483 Debug ColoredConsoleTarget(Name=console): Closed.
+2023-06-16 22:58:27.1483 Debug Finished closing logging configuration.
+2023-06-16 22:58:27.1483 Info LogFactory has been closed.
+2023-06-16 22:58:35.0487 Info Message Template Auto Format enabled
+2023-06-16 22:58:35.1324 Debug Adding target NLog.Targets.FileTarget(Name=Gateway)
+2023-06-16 22:58:35.1324 Info Registered target NLog.Targets.FileTarget(Name=Gateway)
+2023-06-16 22:58:35.2037 Debug Adding target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-06-16 22:58:35.2037 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-06-16 22:58:35.2218 Debug Watching file-filter 'nlog.Win32NT.config' in directory: F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs
+2023-06-16 22:58:35.2367 Debug --- NLog configuration dump ---
+2023-06-16 22:58:35.2367 Debug Targets:
+2023-06-16 22:58:35.2367 Debug FileTarget(Name=Gateway)
+2023-06-16 22:58:35.2367 Debug ColoredConsoleTarget(Name=console)
+2023-06-16 22:58:35.2416 Debug Rules:
+2023-06-16 22:58:35.2416 Debug logNamePattern: (JT808.:StartsWith) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ Gateway console ]
+2023-06-16 22:58:35.2416 Debug --- End of NLog configuration dump ---
+2023-06-16 22:58:35.2567 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionRelationalExpression
+2023-06-16 22:58:35.2567 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLevelExpression
+2023-06-16 22:58:35.2567 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLiteralExpression
+2023-06-16 22:58:35.2567 Info Validating config: TargetNames=Gateway, console, ConfigItems=57, FilePath=F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs\nlog.Win32NT.config
+2023-06-16 22:58:35.2567 Debug Unused target checking is started... Rule Count: 1, Target Count: 2
+2023-06-16 22:58:35.2567 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 2, Unused Target Count: 0
+2023-07-03 10:53:28.6134 Info Message Template Auto Format enabled
+2023-07-03 10:53:28.7161 Debug Adding target NLog.Targets.FileTarget(Name=Gateway)
+2023-07-03 10:53:28.7161 Info Registered target NLog.Targets.FileTarget(Name=Gateway)
+2023-07-03 10:53:28.8250 Debug Adding target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-07-03 10:53:28.8250 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-07-03 10:53:28.8428 Debug Watching file-filter 'nlog.Win32NT.config' in directory: F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs
+2023-07-03 10:53:28.8428 Debug --- NLog configuration dump ---
+2023-07-03 10:53:28.8529 Debug Targets:
+2023-07-03 10:53:28.8529 Debug FileTarget(Name=Gateway)
+2023-07-03 10:53:28.8529 Debug ColoredConsoleTarget(Name=console)
+2023-07-03 10:53:28.8529 Debug Rules:
+2023-07-03 10:53:28.8529 Debug logNamePattern: (JT808.:StartsWith) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ Gateway console ]
+2023-07-03 10:53:28.8529 Debug --- End of NLog configuration dump ---
+2023-07-03 10:53:28.8736 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionRelationalExpression
+2023-07-03 10:53:28.8736 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLevelExpression
+2023-07-03 10:53:28.8736 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLiteralExpression
+2023-07-03 10:53:28.8736 Info Validating config: TargetNames=Gateway, console, ConfigItems=57, FilePath=F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs\nlog.Win32NT.config
+2023-07-03 10:53:28.8736 Debug Unused target checking is started... Rule Count: 1, Target Count: 2
+2023-07-03 10:53:28.8882 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 2, Unused Target Count: 0
+2023-07-03 11:03:34.5818 Info Message Template Auto Format enabled
+2023-07-03 11:03:34.6654 Debug Adding target NLog.Targets.FileTarget(Name=Gateway)
+2023-07-03 11:03:34.6654 Info Registered target NLog.Targets.FileTarget(Name=Gateway)
+2023-07-03 11:03:34.7327 Debug Adding target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-07-03 11:03:34.7327 Info Registered target NLog.Targets.ColoredConsoleTarget(Name=console)
+2023-07-03 11:03:34.7469 Debug Watching file-filter 'nlog.Win32NT.config' in directory: F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs
+2023-07-03 11:03:34.7469 Debug --- NLog configuration dump ---
+2023-07-03 11:03:34.7469 Debug Targets:
+2023-07-03 11:03:34.7469 Debug FileTarget(Name=Gateway)
+2023-07-03 11:03:34.7469 Debug ColoredConsoleTarget(Name=console)
+2023-07-03 11:03:34.7469 Debug Rules:
+2023-07-03 11:03:34.7469 Debug logNamePattern: (JT808.:StartsWith) levels: [ Trace Debug Info Warn Error Fatal ] writeTo: [ Gateway console ]
+2023-07-03 11:03:34.7469 Debug --- End of NLog configuration dump ---
+2023-07-03 11:03:34.7717 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionRelationalExpression
+2023-07-03 11:03:34.7717 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLevelExpression
+2023-07-03 11:03:34.7738 Debug Object reflection needed for unknown type: NLog.Conditions.ConditionLiteralExpression
+2023-07-03 11:03:34.7738 Info Validating config: TargetNames=Gateway, console, ConfigItems=57, FilePath=F:\Newlife\NewLife.Cude\VehicleVedioManage\bin\Debug\net7.0\Configs\nlog.Win32NT.config
+2023-07-03 11:03:34.7738 Debug Unused target checking is started... Rule Count: 1, Target Count: 2
+2023-07-03 11:03:34.7738 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 2, Unused Target Count: 0

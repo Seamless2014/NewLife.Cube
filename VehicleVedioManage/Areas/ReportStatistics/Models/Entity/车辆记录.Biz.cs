@@ -17,6 +17,7 @@ using NewLife.Model;
 using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
+using VehicleVedioManage.BasicData.Entity;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -24,7 +25,7 @@ using XCode.DataAccessLayer;
 using XCode.Membership;
 using XCode.Shards;
 
-namespace VehicleVedioManage.BasicData.Entity
+namespace VehicleVedioManage.ReportStatistics.Entity
 {
     public partial class VehicleRecord : Entity<VehicleRecord>
     {

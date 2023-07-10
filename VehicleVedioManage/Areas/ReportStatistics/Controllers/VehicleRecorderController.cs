@@ -5,10 +5,11 @@ using VehicleVedioManage.ReportStatistics.Entity;
 using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube;
 using NewLife.Web;
+using VehicleVedioManage.Areas.BasicData;
 
-namespace VehicleVedioManage.Areas.BasicData.Controllers
+namespace VehicleVedioManage.Web.Areas.ReportStatistics.Controllers
 {
-    [BasicDataArea]
+    [ReportStatisticsArea]
     [DisplayName("行车记录仪")]
     public class VehicleRecorderController : EntityController<VehicleRecord>
     {
