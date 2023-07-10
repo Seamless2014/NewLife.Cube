@@ -43,14 +43,14 @@ public class UserController : EntityController<User, UserModel>
         {
             var df = ListFields.AddListField("AvatarImage", "Name");
             df.Header = "";
-            df.Text = "<img src=\"{Avatar}&w=64&h=64\" style=\"width:64px;height:64px;\" />";
+            df.Text = "<img src=\"{Avatar}\" style=\"width:64px;height:64px;\" />";
             df.Url = "/Admin/User/Detail?id={ID}";
-            df.Target = "_blank";
             df.DataVisible = entity => !(entity as User).Avatar.IsNullOrEmpty();
         }
         {
-            var df = ListFields.GetField("Name") as ListField;
+            var df = ListFields.GetField("DisplayName") as ListField;
             df.Url = "/Admin/User/Detail?id={ID}";
+            df.Target = "_blank";
         }
         //{
         //    var df = ListFields.GetField("DisplayName") as ListField;
@@ -121,39 +121,39 @@ public class UserController : EntityController<User, UserModel>
         }
     }
 
-    /// <summary>获取字段信息。支持用户重载并根据上下文定制界面</summary>
-    /// <param name="kind">字段类型：1-列表List、2-详情Detail、3-添加AddForm、4-编辑EditForm、5-搜索Search</param>
-    /// <param name="model"></param>
-    /// <returns></returns>
-    protected override FieldCollection OnGetFields(ViewKinds kind, Object model)
-    {
-        var fields = base.OnGetFields(kind, model);
-        if (fields == null) return fields;
+    ///// <summary>获取字段信息。支持用户重载并根据上下文定制界面</summary>
+    ///// <param name="kind">字段类型：1-列表List、2-详情Detail、3-添加AddForm、4-编辑EditForm、5-搜索Search</param>
+    ///// <param name="model"></param>
+    ///// <returns></returns>
+    //protected override FieldCollection OnGetFields(ViewKinds kind, Object model)
+    //{
+    //    var fields = base.OnGetFields(kind, model);
+    //    if (fields == null) return fields;
 
-        var user = ManageProvider.User;//理论上肯定大于0
-        var roles = Role.FindAllWithCache().Where(w => w.IsSystem == false).OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
-        if (user != null)
-        {
-            if (user.Role.IsSystem)
-            {
-                roles = Role.FindAllWithCache().OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
-            }
-        }
+    //    var user = ManageProvider.User;//理论上肯定大于0
+    //    var roles = Role.FindAllWithCache().Where(w => w.IsSystem == false).OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
+    //    if (user != null)
+    //    {
+    //        if (user.Role.IsSystem)
+    //        {
+    //            roles = Role.FindAllWithCache().OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
+    //        }
+    //    }
 
-        switch (kind)
-        {
-            case ViewKinds.AddForm:
-            case ViewKinds.EditForm:
-                var df = fields.GetField("RoleID");
-                if (df != null) df.DataSource = entity => roles;
+    //    switch (kind)
+    //    {
+    //        case ViewKinds.AddForm:
+    //        case ViewKinds.EditForm:
+    //            var df = fields.GetField("RoleID");
+    //            if (df != null) df.DataSource = entity => roles;
 
-                var df2 = fields.GetField("RoleIds");
-                if (df2 != null) df2.DataSource = entity => roles;
-                break;
-        }
+    //            var df2 = fields.GetField("RoleIds");
+    //            if (df2 != null) df2.DataSource = entity => roles;
+    //            break;
+    //    }
 
-        return fields;
-    }
+    //    return fields;
+    //}
 
     /// <summary>
     /// 实例化用户控制器
@@ -249,11 +249,22 @@ public class UserController : EntityController<User, UserModel>
     /// <returns></returns>
     protected override Boolean Valid(User entity, DataObjectMethodType type, Boolean post)
     {
-        if (!post && type == DataObjectMethodType.Update)
+        if (!post)
         {
             // 清空密码，不向浏览器输出
             //entity.Password = null;
             entity["Password"] = null;
+        }
+
+        if (post)
+        {
+            // 非系统管理员，禁止修改任何人的角色
+            var user = ManageProvider.User;
+            if (!user.Roles.Any(e => e.IsSystem) && entity is IEntity entity2)
+            {
+                if (entity2.Dirtys["RoleID"]) throw new Exception("禁止修改角色！");
+                if (entity2.Dirtys["RoleIds"]) throw new Exception("禁止修改角色！");
+            }
         }
 
         if (post && type == DataObjectMethodType.Update)
@@ -575,6 +586,7 @@ public class UserController : EntityController<User, UserModel>
         var entity = user as IEntity;
         if (entity.Dirtys["Name"]) throw new Exception("禁止修改用户名！");
         if (entity.Dirtys["RoleID"]) throw new Exception("禁止修改角色！");
+        if (entity.Dirtys["RoleIds"]) throw new Exception("禁止修改角色！");
         if (entity.Dirtys["Enable"]) throw new Exception("禁止修改禁用！");
 
         var file = HttpContext.Request.Form.Files["avatar"];
