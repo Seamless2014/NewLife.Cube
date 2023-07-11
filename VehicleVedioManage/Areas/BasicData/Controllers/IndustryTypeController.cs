@@ -10,9 +10,21 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
     [DisplayName("行业类型")]
     public class IndustryTypeController : EntityController<IndustryType>
     {
+
+        static IndustryTypeController()
+        {
+            LogOnChange = true;
+
+            ListFields.RemoveField("Id", "CreateUserID", "UpdateUserID", "CreateIP", "UpdateIP","Code");
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=行业类型&linkId={Id}";
+            }
+        }
         public override ActionResult Index(Pager p = null)
         {
-            ListFields.RemoveField("Id");
             return base.Index(p);
         }
     }

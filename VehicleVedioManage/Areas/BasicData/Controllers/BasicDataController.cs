@@ -10,6 +10,17 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
     [DisplayName("基础信息")]
     public class BasicInfoController : EntityController<BasicInfo>
     {
+        static BasicInfoController()
+        {
+            LogOnChange = true;
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=基础信息&linkId={BaseId}";
+            }
+        }
+        
         public override ActionResult Index(Pager p = null)
         {
             ListFields.RemoveField("BaseId", "Deleted", "Owner", "TenantId");

@@ -12,13 +12,17 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
     public class PlateColorController : EntityController<PlateColor>
     {
 
-        private readonly ITracer _tracer;
-        public PlateColorController(IServiceProvider provider)
+        
+        static PlateColorController()
         {
+            LogOnChange = true;
 
-            PageSetting.EnableTableDoubleClick = true;
-            _tracer = provider?.GetService<ITracer>();
             ListFields.RemoveField("ID", "CreateUserID", "UpdateUserID", "CreateIP", "UpdateIP");
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=车牌颜色&linkId={ID}";
+            }
         }
 
         protected override PlateColor Find(Object key)

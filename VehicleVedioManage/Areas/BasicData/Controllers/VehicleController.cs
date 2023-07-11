@@ -19,13 +19,18 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
     [DisplayName("车辆信息")]
     public class VehicleController : EntityController<Vehicle>
     {
-        private readonly ITracer _tracer;
-        public VehicleController(IServiceProvider provider)
+       
+        static VehicleController()
         {
+            LogOnChange = true;
 
-            PageSetting.EnableTableDoubleClick = true;
-            _tracer = provider?.GetService<ITracer>();
             ListFields.RemoveField("ID", "Deleted","CreateUserID","UpdateUserID", "TenantID", "UpdateIP", "CreateIP", "Owner");
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=车辆信息&linkId={ID}";
+            }
         }
 
         protected override Vehicle Find(Object key)
@@ -36,7 +41,6 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
 
         protected override IEnumerable<Vehicle> Search(Pager p)
         {
-            using var span = _tracer?.NewSpan(nameof(Search), p);
             //var id = p["Deleted"].ToBoolean();
             //p["PlateColor"],p["RunStatus"],p["VehicleType"]
             //if (!id)

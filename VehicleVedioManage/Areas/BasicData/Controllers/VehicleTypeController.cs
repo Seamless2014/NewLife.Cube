@@ -12,12 +12,18 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
     public class VehicleTypeController : EntityController<VehicleType>
     {
 
-        private readonly ITracer _tracer;
-        public VehicleTypeController(IServiceProvider provider)
+       
+        static VehicleTypeController()
         {
-            PageSetting.EnableTableDoubleClick = true;
-            _tracer = provider?.GetService<ITracer>();
+            LogOnChange = true;
+
             ListFields.RemoveField("ID","CreateUserID","UpdateUserID", "UpdateIP", "CreateIP");
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=车辆类型&linkId={ID}";
+            }
         }
 
         protected override VehicleType Find(Object key)

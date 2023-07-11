@@ -10,9 +10,14 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
     [DisplayName("改车记录")]
     public class VehicleInfoModifyRecordController : EntityController<VehicleInfoModifyRecord>
     {
+        static VehicleInfoModifyRecordController()
+        {
+            LogOnChange = true;
+            ListFields.RemoveField("ID", "Deleted", "Owner", "TenantId", "UpdateUserID", "CreateUserID", "CreateIP");
+        }
+
         public override ActionResult Index(Pager p = null)
         {
-            ListFields.RemoveField("ID", "Deleted", "Owner", "TenantId", "UpdateUserID", "CreateUserID", "CreateIP");
             return base.Index(p);
         }
     }

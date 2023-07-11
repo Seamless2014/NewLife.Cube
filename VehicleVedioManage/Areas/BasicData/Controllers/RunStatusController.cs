@@ -11,9 +11,20 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
     [DisplayName("运营状态")]
     public class RunStatusController : EntityController<RunStatus>
     {
+        static RunStatusController()
+        {
+            LogOnChange = true;
+
+            ListFields.RemoveField("ID", "CreateUserID", "UpdateUserID", "CreateIP", "UpdateIP");
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=运营状态&linkId={ID}";
+            }
+        }
         public override ActionResult Index(Pager p = null)
         {
-            ListFields.RemoveField("ID", "CreateUserID", "UpdateUserID", "CreateIP", "UpdateIP");
             return base.Index(p);
         }
 

@@ -19,8 +19,34 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\BackManagement\Views\JT809Command\_List_Data.cshtml" />
+    <Content Remove="Areas\BackManagement\Views\PlatformInfo\_List_Data.cshtml" />
+    <Content Remove="Areas\BackManagement\Views\TerminalCommand\_List_Data.cshtml" />
+    <Content Remove="Areas\BasicData\Views\VehicleInfoModifyRecord\_List_Data.cshtml" />
     <Content Remove="Areas\BasicData\Views\Vehicle\_Form_Body.cshtml" />
     <Content Remove="Areas\BasicData\Views\Vehicle\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\AlarmRecord\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\AlarmStatic\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\CheckRecord\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\DriverRecord\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\EWayBill\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\FuelChangeRecord\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\FuelConsumption\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\FuelRecord\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\GpsMileage\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\GPSRealData\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\HisAlarmRecord\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\MileageStatistic\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\OnlineRecord\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\OnlineStatic\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\PlatformState\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\SpeedRecorder\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\TerminalAlarm\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\UserGpsRealData\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\VehicleOnlineRate\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\VehicleRecorder\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\WarnMsgInform\_List_Data.cshtml" />
+    <Content Remove="Areas\ReportStatistics\Views\WarnMsgUrgTodoReq\_List_Data.cshtml" />
     <Content Remove="wwwroot\content\js\jquery\jquery.ztree.texttree.js" />
   </ItemGroup>
 
