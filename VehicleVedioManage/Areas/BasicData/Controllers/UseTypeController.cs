@@ -25,10 +25,6 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
             }
         }
 
-        public UseTypeController()
-        {
-
-        }
         protected override UseType Find(Object key)
         {
             return base.Find(key);
@@ -39,10 +35,5 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
             return base.Search(p);
         }
 
-
-        public override ActionResult Index(Pager p = null)
-        {
-            return base.Index(p);
-        }
     }
 }

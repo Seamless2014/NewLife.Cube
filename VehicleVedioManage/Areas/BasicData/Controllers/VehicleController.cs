@@ -33,12 +33,6 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
             }
         }
 
-        protected override Vehicle Find(Object key)
-        {
-            
-            return base.Find(key);
-        }
-
         protected override IEnumerable<Vehicle> Search(Pager p)
         {
             //var id = p["Deleted"].ToBoolean();
@@ -114,7 +108,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
             {
                 if (Valid(entity, DataObjectMethodType.Delete, true))
                 {
-                    entity.Deleted = true;
+                    entity.Enable = true;
                     OnUpdate(entity);
                      rs = true;
                 }
@@ -172,7 +166,7 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
                     var entity = Vehicle.FindByKey(id);
                     if (entity != null)
                     {
-                        entity.Deleted = true;
+                        entity.Enable = true;
                         count += entity.Update();
                     }
                 }

@@ -34,12 +34,6 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         {
             return base.Search(p);
         }
-
-
-        public override ActionResult Index(Pager p = null)
-        {
-            return base.Index(p);
-        }
     }
 }
 

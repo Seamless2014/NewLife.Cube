@@ -23,10 +23,6 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
                 df.Url = "/Admin/Log?category=运营状态&linkId={ID}";
             }
         }
-        public override ActionResult Index(Pager p = null)
-        {
-            return base.Index(p);
-        }
 
         /// <summary>
         /// 检验数据的有效性
@@ -57,33 +53,33 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         //    return base.Valid(entity, type, post);
         //}
 
-        protected override Int32 OnInsert(RunStatus entity)
-        {
-            var rs = -1;
-            if (!RunStatus.isExistCode(entity.Name))
-            {
-                rs = base.OnInsert(entity);
-            }
-            else
-            {
-                throw new InvalidOperationException("已经存在！请重新输入");
-            }
-            return rs;
-        }
+        //protected override Int32 OnInsert(RunStatus entity)
+        //{
+        //    var rs = -1;
+        //    if (!RunStatus.isExistCode(entity.Name))
+        //    {
+        //        rs = base.OnInsert(entity);
+        //    }
+        //    else
+        //    {
+        //        throw new InvalidOperationException("已经存在！请重新输入");
+        //    }
+        //    return rs;
+        //}
 
-        protected override Int32 OnUpdate(RunStatus entity)
-        {
-            var rs = -1;
-            if (!RunStatus.isExistCode(entity.Name))
-            {
-                rs = base.OnUpdate(entity);
-            }
-            else
-            {
-                throw new InvalidOperationException("已经存在！请重新输入");
-            }
-            return rs;
-        }
+        //protected override Int32 OnUpdate(RunStatus entity)
+        //{
+        //    var rs = -1;
+        //    if (!RunStatus.isExistCode(entity.Name))
+        //    {
+        //        rs = base.OnUpdate(entity);
+        //    }
+        //    else
+        //    {
+        //        throw new InvalidOperationException("已经存在！请重新输入");
+        //    }
+        //    return rs;
+        //}
 
     }
 }

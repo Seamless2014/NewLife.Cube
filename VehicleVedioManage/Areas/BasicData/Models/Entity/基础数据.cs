@@ -19,13 +19,13 @@ namespace VehicleVedioManage.BasicData.Entity
     public partial class BasicInfo
     {
         #region 属性
-        private Int32 _BaseId;
+        private Int32 _ID;
         /// <summary>基础数据编码</summary>
         [DisplayName("基础数据编码")]
         [Description("基础数据编码")]
         [DataObjectField(true, true, false, 0)]
-        [BindColumn("BaseId", "基础数据编码", "")]
-        public Int32 BaseId { get => _BaseId; set { if (OnPropertyChanging("BaseId", value)) { _BaseId = value; OnPropertyChanged("BaseId"); } } }
+        [BindColumn("ID", "基础数据编码", "")]
+        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private String _Name;
         /// <summary>名称</summary>
@@ -59,13 +59,13 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("MetaData", "元数据", "")]
         public String MetaData { get => _MetaData; set { if (OnPropertyChanging("MetaData", value)) { _MetaData = value; OnPropertyChanged("MetaData"); } } }
 
-        private Boolean _Deleted;
+        private Boolean _Enable;
         /// <summary>启用</summary>
         [DisplayName("启用")]
         [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "启用", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
@@ -83,20 +83,12 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
-        private String _Remark;
-        /// <summary>备注</summary>
-        [DisplayName("备注")]
-        [Description("备注")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Remark", "备注", "")]
-        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
-
         private String _Owner;
         /// <summary>物主</summary>
         [DisplayName("物主")]
         [Description("物主")]
         [DataObjectField(false, false, true, 50)]
-        [BindColumn("Owner", "物主", "")]
+        [BindColumn("Owner", "", "")]
         public String Owner { get => _Owner; set { if (OnPropertyChanging("Owner", value)) { _Owner = value; OnPropertyChanged("Owner"); } } }
 
         private Int32 _SN;
@@ -106,6 +98,15 @@ namespace VehicleVedioManage.BasicData.Entity
         [DataObjectField(false, false, true, 0)]
         [BindColumn("SN", "序号", "")]
         public Int32 SN { get => _SN; set { if (OnPropertyChanging("SN", value)) { _SN = value; OnPropertyChanged("SN"); } } }
+
+        private String _Remark;
+        /// <summary>备注</summary>
+        [DisplayName("备注")]
+        [Description("备注")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("Remark", "备注", "")]
+        public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
+
         #endregion
 
         #region 获取/设置 字段值
@@ -118,12 +119,12 @@ namespace VehicleVedioManage.BasicData.Entity
             {
                 switch (name)
                 {
-                    case "BaseId": return _BaseId;
+                    case "ID": return _ID;
                     case "Name": return _Name;
                     case "Code": return _Code;
                     case "ParentID": return _ParentID;
                     case "MetaData": return _MetaData;
-                    case "Deleted": return _Deleted;
+                    case "Enable": return _Enable;
                     case "CreateTime": return _CreateTime;
                     case "TenantId": return _TenantId;
                     case "Remark": return _Remark;
@@ -136,12 +137,12 @@ namespace VehicleVedioManage.BasicData.Entity
             {
                 switch (name)
                 {
-                    case "BaseId": _BaseId = value.ToInt(); break;
+                    case "ID": _ID = value.ToInt(); break;
                     case "Name": _Name = Convert.ToString(value); break;
                     case "Code": _Code = Convert.ToString(value); break;
                     case "ParentID": _ParentID = value.ToInt(); break;
                     case "MetaData": _MetaData = Convert.ToString(value); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
@@ -158,7 +159,7 @@ namespace VehicleVedioManage.BasicData.Entity
         public partial class _
         {
             /// <summary>基础数据编码</summary>
-            public static readonly Field BaseId = FindByName("BaseId");
+            public static readonly Field ID = FindByName("ID");
 
             /// <summary>名称</summary>
             public static readonly Field Name = FindByName("Name");
@@ -173,7 +174,7 @@ namespace VehicleVedioManage.BasicData.Entity
             public static readonly Field MetaData = FindByName("MetaData");
 
             /// <summary>启用</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>创建时间</summary>
             public static readonly Field CreateTime = FindByName("CreateTime");
@@ -197,7 +198,7 @@ namespace VehicleVedioManage.BasicData.Entity
         public partial class __
         {
             /// <summary>基础数据编码</summary>
-            public const String BaseId = "BaseId";
+            public const String ID = "ID";
 
             /// <summary>名称</summary>
             public const String Name = "Name";
@@ -212,7 +213,7 @@ namespace VehicleVedioManage.BasicData.Entity
             public const String MetaData = "MetaData";
 
             /// <summary>启用</summary>
-            public const String Deleted = "Deleted";
+            public const String Enable = "Enable";
 
             /// <summary>创建时间</summary>
             public const String CreateTime = "CreateTime";

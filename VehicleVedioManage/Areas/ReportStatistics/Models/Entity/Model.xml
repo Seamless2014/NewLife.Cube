@@ -463,4 +463,39 @@
       <Index Columns="PlateNo" Unique="True" />
     </Indexes>
   </Table>
+  <Table Name="VehicleRecorder" Description="行车记录仪">
+    <Columns>
+      <Column Name="RecorderID" DataType="Int32" Identity="True" PrimaryKey="True" Description="记录仪编码" />
+      <Column Name="CommandID" DataType="Int32" Description="命令编码" />
+      <Column Name="Cmd" DataType="Int32" Description="指令" />
+      <Column Name="CmdData" DataType="String" Description="指令数据" />
+      <Column Name="DriverCode" DataType="String" Description="驱动程序代码" Category="扩展信息"/>
+      <Column Name="DriverLicense" DataType="String" Description="驱动许可证" Category="扩展信息"/>
+      <Column Name="VinNo" DataType="String" Description="VIN编号" Category="扩展信息"/>
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="PlateType" DataType="String" Description="车辆类型" />
+      <Column Name="FeatureFactor" DataType="String" Description="特征因数" />
+      <Column Name="Enable" DataType="Boolean" Description="删除" Category="扩展信息"/>
+      <Column Name="TenantID" DataType="Int32" Description="租户编码" Category="扩展信息"/>
+      <Column Name="PlateColor" DataType="Byte" Description="车牌颜色" />
+      <Column Name="StartTime" DataType="DateTime" Description="开始时间" />
+      <Column Name="Owner" DataType="String" Description="拥有者" Category="扩展信息"/>
+      <Column Name="Speed" DataType="Double" Description="速度" />
+      <Column Name="Signal" DataType="Int32" Description="信号" />
+      <Column Name="SortID" DataType="Int32" Description="排序" Category="扩展信息"/>
+      <Column Name="EndTime" DataType="DateTime" Description="结束时间" />
+      <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
+      <Column Name="Altitude" DataType="Double" Description="海拔高度" />
+      <Column Name="Latitude" DataType="Double" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Description="经度" />
+      <!--<Column Name="Command" DataType="Int32" Description="指令" />-->
+      <Column Name="RecorderData" DataType="String" Description="记录仪数据" />
+      <Column Name="RecorderDate" DataType="DateTime" Description="记录仪日期" />
+      <Column Name="SpeedList" DataType="Int32" Description="速度列表" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+      <Index Columns="StartTime,EndTime" />
+    </Indexes>
+  </Table>
 </Tables>

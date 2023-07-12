@@ -187,7 +187,7 @@ namespace VehicleVedioManage.BasicData.Entity
         public static IList<Vehicle> FindAllByPlateNo(String plateNo)
         {
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.PlateNo.EqualIgnoreCase(plateNo)&&e.Deleted==false);
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.PlateNo.EqualIgnoreCase(plateNo)&&e.Enable == false);
 
             return FindAll(_.PlateNo == plateNo);
         }
@@ -198,12 +198,12 @@ namespace VehicleVedioManage.BasicData.Entity
         public static IList<Vehicle> FindByDeleted(bool isDeleted)
         {
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Deleted == isDeleted);
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Enable == isDeleted);
 
             // 单对象缓存
             //return Meta.SingleCache[id];
 
-            return FindAll(_.Deleted == isDeleted);
+            return FindAll(_.Enable == isDeleted);
         }
         /// <summary>根据车牌号查找</summary>
         /// <param name="plateNo">车牌号</param>
@@ -247,9 +247,9 @@ namespace VehicleVedioManage.BasicData.Entity
         public static IList<Vehicle> FindAll()
         {
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Deleted==false);
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Enable == false);
 
-            return FindAll(_.Deleted == false);
+            return FindAll();
         }
         #endregion
 
@@ -267,7 +267,6 @@ namespace VehicleVedioManage.BasicData.Entity
 
             if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
             exp &= _.UpdateTime.Between(start, end);
-            exp &= _.Deleted == false;
             if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DepartmentName.Contains(key) | _.Region.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
 
             return FindAll(exp, page);
@@ -291,7 +290,6 @@ namespace VehicleVedioManage.BasicData.Entity
             if (!runStatusCode.IsNullOrEmpty()) exp &= _.RunStatusID == runStatusCode;
             if (!vehicleTypeCode.IsNullOrEmpty()) exp &= _.VehicleTypeCode == vehicleTypeCode;
             if(!areaID.IsNullOrEmpty()) exp&=_.Region==areaID;  
-            exp &= _.Deleted == false;
             if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key) | _.DriverMobile.Contains(key) | _.Owner.Contains(key) | _.CreateUser.Contains(key) | _.CreateIP.Contains(key) | _.UpdateUser.Contains(key) | _.UpdateIP.Contains(key) | _.Remark.Contains(key);
 
             return FindAll(exp, page);
@@ -310,7 +308,7 @@ namespace VehicleVedioManage.BasicData.Entity
         {
             var exp = new WhereExpression();
             if (vehicleIds != null && vehicleIds.Count > 0) exp &= _.ID.In(vehicleIds);
-            if (enable != null) exp &= _.Deleted == enable;
+            if (enable != null) exp &= _.Enable == enable;
             exp &= _.UpdateTime.Between(start, end);
             if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.SimNo.Contains(key) | _.Driver.Contains(key);
             return FindAll(exp, page);

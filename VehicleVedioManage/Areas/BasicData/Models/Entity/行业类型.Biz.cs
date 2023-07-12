@@ -76,12 +76,12 @@ namespace VehicleVedioManage.BasicData.Entity
         //    if (XTrace.Debug) XTrace.WriteLine("完成初始化IndustryType[行业类型]数据！");
         //}
 
-        ///// <summary>已重载。基类先调用Valid(true)验证数据，然后在事务保护内调用OnInsert</summary>
-        ///// <returns></returns>
-        //public override Int32 Insert()
-        //{
-        //    return base.Insert();
-        //}
+        /// <summary>已重载。基类先调用Valid(true)验证数据，然后在事务保护内调用OnInsert</summary>
+        /// <returns></returns>
+        public override Int32 Insert()
+        {
+            return base.Insert();
+        }
 
         ///// <summary>已重载。在事务保护范围内处理业务，位于Valid之后</summary>
         ///// <returns></returns>
@@ -97,7 +97,7 @@ namespace VehicleVedioManage.BasicData.Entity
         public IndustryType Parent => Extends.Get(nameof(IndustryType), k => FindByID(ParentID));
 
         /// <summary>父级</summary>
-        [Map(__.ParentID, typeof(IndustryType), __.Id)]
+        [Map(__.ParentID, typeof(IndustryType), __.ID)]
         public String ParentName => Parent?.ToString();
 
         /// <summary>父级路径</summary>
@@ -108,10 +108,10 @@ namespace VehicleVedioManage.BasicData.Entity
                 var list = new List<IndustryType>();
                 var ids = new List<Int32>();
                 var p = Parent;
-                while (p != null && !ids.Contains(p.Id))
+                while (p != null && !ids.Contains(p.ID))
                 {
                     list.Add(p);
-                    ids.Add(p.Id);
+                    ids.Add(p.ID);
 
                     p = p.Parent;
                 }
@@ -142,7 +142,7 @@ namespace VehicleVedioManage.BasicData.Entity
             if (id <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Id == id);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ID == id);
 
             // 单对象缓存
             return Meta.SingleCache[id];

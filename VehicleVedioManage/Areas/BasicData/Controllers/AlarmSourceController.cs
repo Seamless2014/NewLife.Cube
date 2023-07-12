@@ -15,16 +15,13 @@ namespace VehicleVedioManage.Areas.BasicData.Controllers
         {
             LogOnChange = true;
 
+            ListFields.RemoveField("ID");
+
             {
                 var df = ListFields.AddListField("Log", "UpdateUser");
                 df.DisplayName = "日志";
                 df.Url = "/Admin/Log?category=报警源&linkId={ID}";
             }
-        }
-        public override ActionResult Index(Pager p = null)
-        {
-            ListFields.RemoveField("ID");
-            return base.Index(p);
         }
     }
 }

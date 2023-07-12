@@ -103,7 +103,7 @@ namespace VehicleVedioManage.BasicData.Entity
         public BasicInfo Parent => Extends.Get(nameof(BasicInfo), k => FindByBaseId(ParentID));
 
         /// <summary>父级</summary>
-        [Map(__.ParentID, typeof(BasicInfo), __.BaseId)]
+        [Map(__.ParentID, typeof(BasicInfo), __.ID)]
         public String ParentName => Parent?.ToString();
 
         /// <summary>父级路径</summary>
@@ -114,10 +114,10 @@ namespace VehicleVedioManage.BasicData.Entity
                 var list = new List<BasicInfo>();
                 var ids = new List<Int32>();
                 var p = Parent;
-                while (p != null && !ids.Contains(p.BaseId))
+                while (p != null && !ids.Contains(p.ID))
                 {
                     list.Add(p);
-                    ids.Add(p.BaseId);
+                    ids.Add(p.ID);
 
                     p = p.Parent;
                 }
@@ -148,7 +148,7 @@ namespace VehicleVedioManage.BasicData.Entity
             if (baseId < 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.BaseId == baseId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.ID == baseId);
 
             // 单对象缓存
             return Meta.SingleCache[baseId];
