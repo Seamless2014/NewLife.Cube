@@ -10,10 +10,16 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
     [DisplayName("报表列")]
     public class ReportColumnController : EntityController<ReportColumn>
     {
-        public override ActionResult Index(Pager p = null)
+        static ReportColumnController()
         {
-            ListFields.RemoveField("ReportColumnId", "No", "Deleted");
-            return base.Index(p);
+            LogOnChange = true;
+            ListFields.RemoveField("ID", "No");
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=报表列&linkId={ID}";
+            }
         }
     }
 }

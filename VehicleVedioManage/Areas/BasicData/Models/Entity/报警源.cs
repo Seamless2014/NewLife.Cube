@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -42,6 +42,14 @@ namespace VehicleVedioManage.BasicData.Entity
         [DataObjectField(false, false, false, 50)]
         [BindColumn("Name", "名称", "", Master = true)]
         public String Name { get => _Name; set { if (OnPropertyChanging("Name", value)) { _Name = value; OnPropertyChanged("Name"); } } }
+
+        private Boolean _Enable;
+        /// <summary>启用</summary>
+        [DisplayName("启用")]
+        [Description("启用")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private DateTime _CreateDate;
         /// <summary>创建时间</summary>
@@ -89,6 +97,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "ID": return _ID;
                     case "Code": return _Code;
                     case "Name": return _Name;
+                    case "Enable": return _Enable;
                     case "CreateDate": return _CreateDate;
                     case "CreateUserId": return _CreateUserId;
                     case "UpdateDate": return _UpdateDate;
@@ -103,6 +112,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "ID": _ID = value.ToInt(); break;
                     case "Code": _Code = Convert.ToString(value); break;
                     case "Name": _Name = Convert.ToString(value); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "CreateDate": _CreateDate = value.ToDateTime(); break;
                     case "CreateUserId": _CreateUserId = value.ToInt(); break;
                     case "UpdateDate": _UpdateDate = value.ToDateTime(); break;
@@ -125,6 +135,9 @@ namespace VehicleVedioManage.BasicData.Entity
 
             /// <summary>名称</summary>
             public static readonly Field Name = FindByName("Name");
+
+            /// <summary>启用</summary>
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>创建时间</summary>
             public static readonly Field CreateDate = FindByName("CreateDate");
@@ -152,6 +165,9 @@ namespace VehicleVedioManage.BasicData.Entity
 
             /// <summary>名称</summary>
             public const String Name = "Name";
+
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>创建时间</summary>
             public const String CreateDate = "CreateDate";

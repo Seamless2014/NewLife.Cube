@@ -10,10 +10,16 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
     [DisplayName("终端指令")]
     public class TerminalCommandController : EntityController<TerminalCommand>
     {
-        public override ActionResult Index(Pager p = null)
+        static TerminalCommandController()
         {
-            ListFields.RemoveField("CmdId", "Owner", "UserId", "TenantId", "VehicleId", "Deleted");
-            return base.Index(p);
+            LogOnChange = true;
+            ListFields.RemoveField("ID", "Owner", "UserId", "TenantId", "VehicleId");
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=终端指令&linkId={ID}";
+            }
         }
     }
 }

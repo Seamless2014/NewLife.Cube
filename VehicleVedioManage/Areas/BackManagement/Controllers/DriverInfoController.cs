@@ -13,24 +13,22 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
     [DisplayName("司机信息")]
     public class DriverInfoController : EntityController<DriverInfo>
     {
-        private readonly ITracer _tracer;
-        public DriverInfoController(IServiceProvider provider)
+       
+        static DriverInfoController()
         {
-            PageSetting.EnableTableDoubleClick = true;
-            _tracer = provider?.GetService<ITracer>();
-        }
-        public override ActionResult Index(Pager p = null)
-        {
-            
-            ListFields.RemoveField("ID", "Birthday", "DrivingType", "ExamineYear", "HarnessesAge", "Appointment", "BaseSalary", 
-                "RoyaltiesScale", "AppraisalIntegral", "Password", "Register", "BgTitle", "PhotoFormat", "PhotoLength", "Deleted", "CreateTime", 
+            LogOnChange = true;
+            ListFields.RemoveField("ID", "Birthday", "DrivingType", "ExamineYear", "HarnessesAge", "Appointment", "BaseSalary",
+                "RoyaltiesScale", "AppraisalIntegral", "Password", "Register", "BgTitle", "PhotoFormat", "PhotoLength", "Deleted", "CreateTime",
                 "TenantId", "JobCard", "BgTitle", "UpdateTime", "DepartmentID");
-            return base.Index(p);
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=司机信息&linkId={ID}";
+            }
         }
 
         protected override IEnumerable<DriverInfo> Search(Pager p)
         {
-            using var span = _tracer?.NewSpan(nameof(Search), p);
             var key = p["q"];
             int _depID = 0;
             if (p["Department"] != null)

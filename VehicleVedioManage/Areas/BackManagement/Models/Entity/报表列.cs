@@ -236,7 +236,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>显示</summary>
             public const String Visible = "Visible";
 
-            /// <summary>删除</summary>
+            /// <summary>启用</summary>
             public const String Enable = "Enable";
 
             /// <summary>拥有者</summary>

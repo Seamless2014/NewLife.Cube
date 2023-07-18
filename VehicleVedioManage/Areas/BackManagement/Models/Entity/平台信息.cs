@@ -36,14 +36,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
         public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
 
-        private Byte _Deleted;
-        /// <summary>删除</summary>
+        private Byte _Enable;
+        /// <summary>启用</summary>
         [Category("扩展信息")]
-        [DisplayName("删除")]
-        [Description("删除")]
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Byte Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Byte Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private String _Owner;
         /// <summary>拥有者</summary>
@@ -183,7 +183,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                 {
                     case "ID": return _ID;
                     case "CreateTime": return _CreateTime;
-                    case "Deleted": return _Deleted;
+                    case "Enable": return _Enable;
                     case "Owner": return _Owner;
                     case "Remark": return _Remark;
                     case "TenantId": return _TenantId;
@@ -208,7 +208,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                 {
                     case "ID": _ID = value.ToInt(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
-                    case "Deleted": _Deleted = Convert.ToByte(value); break;
+                    case "Enable": _Enable = Convert.ToByte(value); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
@@ -240,8 +240,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>创建时间</summary>
             public static readonly Field CreateTime = FindByName("CreateTime");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
+            /// <summary>启用</summary>
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>拥有者</summary>
             public static readonly Field Owner = FindByName("Owner");
@@ -300,8 +300,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>创建时间</summary>
             public const String CreateTime = "CreateTime";
 
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>拥有者</summary>
             public const String Owner = "Owner";

@@ -10,10 +10,16 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
     [DisplayName("报表模型")]
     public class ReportModelController : EntityController<ReportModel>
     {
-        public override ActionResult Index(Pager p = null)
+        static ReportModelController()
         {
+            LogOnChange = true;
             ListFields.RemoveField("ID");
-            return base.Index(p);
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=报表模型&linkId={ID}";
+            }
         }
     }
 }

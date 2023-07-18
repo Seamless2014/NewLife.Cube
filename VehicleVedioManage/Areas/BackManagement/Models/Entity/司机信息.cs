@@ -276,14 +276,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("JobCard", "工作证", "")]
         public String JobCard { get => _JobCard; set { if (OnPropertyChanging("JobCard", value)) { _JobCard = value; OnPropertyChanged("JobCard"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
+        private Boolean _Enable;
+        /// <summary>启用</summary>
         [Category("扩展信息")]
-        [DisplayName("删除")]
-        [Description("删除")]
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private DateTime _CreateTime;
         /// <summary>创建时间</summary>
@@ -363,7 +363,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "PhotoLength": return _PhotoLength;
                     case "Owner": return _Owner;
                     case "JobCard": return _JobCard;
-                    case "Deleted": return _Deleted;
+                    case "Enable": return _Enable;
                     case "CreateTime": return _CreateTime;
                     case "TenantId": return _TenantId;
                     case "MainDriver": return _MainDriver;
@@ -406,7 +406,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "PhotoLength": _PhotoLength = value.ToInt(); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "JobCard": _JobCard = Convert.ToString(value); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "MainDriver": _MainDriver = Convert.ToByte(value); break;
@@ -519,8 +519,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>工作证</summary>
             public static readonly Field JobCard = FindByName("JobCard");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
+            /// <summary>启用</summary>
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>创建时间</summary>
             public static readonly Field CreateTime = FindByName("CreateTime");
@@ -639,8 +639,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>工作证</summary>
             public const String JobCard = "JobCard";
 
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>创建时间</summary>
             public const String CreateTime = "CreateTime";

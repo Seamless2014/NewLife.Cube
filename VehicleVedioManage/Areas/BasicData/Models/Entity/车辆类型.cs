@@ -60,6 +60,14 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("ParentID", "父级", "")]
         public Int32 ParentID { get => _ParentID; set { if (OnPropertyChanging("ParentID", value)) { _ParentID = value; OnPropertyChanged("ParentID"); } } }
 
+        private Boolean _Enable;
+        /// <summary>启用</summary>
+        [DisplayName("启用")]
+        [Description("启用")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
+
         private String _CreateUser;
         /// <summary>创建者</summary>
         [DisplayName("创建者")]

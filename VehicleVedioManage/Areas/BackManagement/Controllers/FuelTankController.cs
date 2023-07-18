@@ -10,10 +10,16 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
     [DisplayName("油箱")]
     public class FuelTankController : EntityController<FuelTank>
     {
-        public override ActionResult Index(Pager p = null)
+        static FuelTankController()
         {
-            ListFields.RemoveField("TankId", "Deleted", "VehicleId");
-            return base.Index(p);
+            LogOnChange = true;
+            ListFields.RemoveField("ID", "VehicleId");
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=油箱&linkId={ID}";
+            }
         }
     }
 }

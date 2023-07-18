@@ -10,10 +10,16 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
     [DisplayName("终端参数")]
     public class TerminalParamController : EntityController<TerminalParam>
     {
-        public override ActionResult Index(Pager p = null)
+        static TerminalParamController()
         {
-            ListFields.RemoveField("ParamId", "TenantId", "Owner", "GPSId", "Deleted");
-            return base.Index(p);
+            LogOnChange = true;
+            ListFields.RemoveField("ID", "TenantId", "Owner", "GPSId");
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=终端参数&linkId={ID}";
+            }
         }
     }
 }

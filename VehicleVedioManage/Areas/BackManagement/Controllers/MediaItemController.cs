@@ -10,10 +10,16 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
     [DisplayName("多媒体")]
     public class MediaItemController : EntityController<MediaItem>
     {
-        public override ActionResult Index(Pager p = null)
+        static MediaItemController()
         {
-            ListFields.RemoveField("MediaItemId", "TenantId", "Owner", "GPSId", "Deleted");
-            return base.Index(p);
+            LogOnChange=true;
+            ListFields.RemoveField("ID", "TenantId", "Owner", "GPSId");
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=多媒体&linkId={ID}";
+            }
         }
     }
 }

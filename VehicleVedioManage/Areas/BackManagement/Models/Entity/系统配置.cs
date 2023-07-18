@@ -74,14 +74,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("SmartKey", "图商密钥", "varchar(50)")]
         public String SmartKey { get => _SmartKey; set { if (OnPropertyChanging("SmartKey", value)) { _SmartKey = value; OnPropertyChanged("SmartKey"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
+        private Boolean _Enable;
+        /// <summary>启用</summary>
         [Category("扩展信息")]
-        [DisplayName("删除")]
-        [Description("删除")]
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
@@ -233,7 +233,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "InitZoomLevel": return _InitZoomLevel;
                     case "MapType": return _MapType;
                     case "SmartKey": return _SmartKey;
-                    case "Deleted": return _Deleted;
+                    case "Enable": return _Enable;
                     case "TenantId": return _TenantId;
                     case "Owner": return _Owner;
                     case "Remark": return _Remark;
@@ -264,7 +264,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "InitZoomLevel": _InitZoomLevel = value.ToInt(); break;
                     case "MapType": _MapType = Convert.ToString(value); break;
                     case "SmartKey": _SmartKey = Convert.ToString(value); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
@@ -312,8 +312,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>图商密钥</summary>
             public static readonly Field SmartKey = FindByName("SmartKey");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
+            /// <summary>启用</summary>
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>租户编码</summary>
             public static readonly Field TenantId = FindByName("TenantId");
@@ -390,8 +390,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>图商密钥</summary>
             public const String SmartKey = "SmartKey";
 
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>租户编码</summary>
             public const String TenantId = "TenantId";

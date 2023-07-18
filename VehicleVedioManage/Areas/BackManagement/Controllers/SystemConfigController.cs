@@ -10,10 +10,16 @@ namespace VehicleVedioManage.Areas.BackManagement.Controllers
     [DisplayName("系统配置")]
     public class SystemConfigController : EntityController<SystemConfig>
     {
-        public override ActionResult Index(Pager p = null)
+        static SystemConfigController()
         {
-            ListFields.RemoveField("Id", "TenantId", "Deleted");
-            return base.Index(p);
+            LogOnChange = true;
+            ListFields.RemoveField("ID", "TenantId");
+
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=系统配置&linkId={ID}";
+            }
         }
     }
 }

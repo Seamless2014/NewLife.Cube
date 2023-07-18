@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -20,13 +20,13 @@ namespace VehicleVedioManage.BackManagement.Entity
     public partial class TerminalParam
     {
         #region 属性
-        private Int32 _ParamId;
+        private Int32 _ID;
         /// <summary>参数编码</summary>
         [DisplayName("参数编码")]
         [Description("参数编码")]
         [DataObjectField(true, true, false, 0)]
-        [BindColumn("ParamId", "参数编码", "")]
-        public Int32 ParamId { get => _ParamId; set { if (OnPropertyChanging("ParamId", value)) { _ParamId = value; OnPropertyChanged("ParamId"); } } }
+        [BindColumn("ID", "参数编码", "")]
+        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private String _SimNo;
         /// <summary>Sim卡</summary>
@@ -110,14 +110,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("TenantId", "租户编码", "")]
         public Int32 TenantId { get => _TenantId; set { if (OnPropertyChanging("TenantId", value)) { _TenantId = value; OnPropertyChanged("TenantId"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
+        private Boolean _Enable;
+        /// <summary>启用</summary>
         [Category("扩展信息")]
-        [DisplayName("删除")]
-        [Description("删除")]
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private String _Owner;
         /// <summary>拥有者</summary>
@@ -164,7 +164,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "ParamId": return _ParamId;
+                    case "ID": return _ID;
                     case "SimNo": return _SimNo;
                     case "PlateNo": return _PlateNo;
                     case "Code": return _Code;
@@ -175,7 +175,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Status": return _Status;
                     case "SN": return _SN;
                     case "TenantId": return _TenantId;
-                    case "Deleted": return _Deleted;
+                    case "Enable": return _Enable;
                     case "Owner": return _Owner;
                     case "Remark": return _Remark;
                     case "CommandId": return _CommandId;
@@ -187,7 +187,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "ParamId": _ParamId = value.ToInt(); break;
+                    case "ID": _ID = value.ToInt(); break;
                     case "SimNo": _SimNo = Convert.ToString(value); break;
                     case "PlateNo": _PlateNo = Convert.ToString(value); break;
                     case "Code": _Code = Convert.ToString(value); break;
@@ -198,7 +198,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Status": _Status = Convert.ToString(value); break;
                     case "SN": _SN = value.ToInt(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
                     case "CommandId": _CommandId = value.ToInt(); break;
@@ -214,7 +214,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class _
         {
             /// <summary>参数编码</summary>
-            public static readonly Field ParamId = FindByName("ParamId");
+            public static readonly Field ID = FindByName("ID");
 
             /// <summary>Sim卡</summary>
             public static readonly Field SimNo = FindByName("SimNo");
@@ -246,8 +246,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>租户编码</summary>
             public static readonly Field TenantId = FindByName("TenantId");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
+            /// <summary>启用</summary>
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>拥有者</summary>
             public static readonly Field Owner = FindByName("Owner");
@@ -268,7 +268,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class __
         {
             /// <summary>参数编码</summary>
-            public const String ParamId = "ParamId";
+            public const String ID = "ID";
 
             /// <summary>Sim卡</summary>
             public const String SimNo = "SimNo";
@@ -300,8 +300,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>租户编码</summary>
             public const String TenantId = "TenantId";
 
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>拥有者</summary>
             public const String Owner = "Owner";

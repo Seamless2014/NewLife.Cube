@@ -21,13 +21,13 @@ namespace VehicleVedioManage.BackManagement.Entity
     public partial class MediaItem
     {
         #region 属性
-        private Int32 _MediaItemId;
+        private Int32 _ID;
         /// <summary>多媒体项编码</summary>
         [DisplayName("多媒体项编码")]
         [Description("多媒体项编码")]
         [DataObjectField(true, true, false, 0)]
-        [BindColumn("MediaItemId", "多媒体项编码", "")]
-        public Int32 MediaItemId { get => _MediaItemId; set { if (OnPropertyChanging("MediaItemId", value)) { _MediaItemId = value; OnPropertyChanged("MediaItemId"); } } }
+        [BindColumn("ID", "多媒体项编码", "")]
+        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private Int32 _CommandId;
         /// <summary>指令编码</summary>
@@ -159,14 +159,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("Speed", "速度", "")]
         public Double Speed { get => _Speed; set { if (OnPropertyChanging("Speed", value)) { _Speed = value; OnPropertyChanged("Speed"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
+        private Boolean _Enable;
+        /// <summary>启用</summary>
         [Category("扩展信息")]
-        [DisplayName("删除")]
-        [Description("删除")]
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private String _Owner;
         /// <summary>物主</summary>
@@ -242,7 +242,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "MediaItemId": return _MediaItemId;
+                    case "ID": return _ID;
                     case "CommandId": return _CommandId;
                     case "CommandType": return _CommandType;
                     case "PlateNo": return _PlateNo;
@@ -259,7 +259,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Latitude": return _Latitude;
                     case "Longitude": return _Longitude;
                     case "Speed": return _Speed;
-                    case "Deleted": return _Deleted;
+                    case "Enable": return _Enable;
                     case "Owner": return _Owner;
                     case "Remark": return _Remark;
                     case "Location": return _Location;
@@ -274,7 +274,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "MediaItemId": _MediaItemId = value.ToInt(); break;
+                    case "ID": _ID = value.ToInt(); break;
                     case "CommandId": _CommandId = value.ToInt(); break;
                     case "CommandType": _CommandType = Convert.ToString(value); break;
                     case "PlateNo": _PlateNo = Convert.ToString(value); break;
@@ -291,7 +291,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Latitude": _Latitude = value.ToDouble(); break;
                     case "Longitude": _Longitude = value.ToDouble(); break;
                     case "Speed": _Speed = value.ToDouble(); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
                     case "Location": _Location = Convert.ToString(value); break;
@@ -310,7 +310,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class _
         {
             /// <summary>多媒体项编码</summary>
-            public static readonly Field MediaItemId = FindByName("MediaItemId");
+            public static readonly Field ID = FindByName("ID");
 
             /// <summary>指令编码</summary>
             public static readonly Field CommandId = FindByName("CommandId");
@@ -361,7 +361,7 @@ namespace VehicleVedioManage.BackManagement.Entity
             public static readonly Field Speed = FindByName("Speed");
 
             /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>物主</summary>
             public static readonly Field Owner = FindByName("Owner");
@@ -391,7 +391,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class __
         {
             /// <summary>多媒体项编码</summary>
-            public const String MediaItemId = "MediaItemId";
+            public const String ID = "ID";
 
             /// <summary>指令编码</summary>
             public const String CommandId = "CommandId";
@@ -441,8 +441,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>速度</summary>
             public const String Speed = "Speed";
 
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>物主</summary>
             public const String Owner = "Owner";

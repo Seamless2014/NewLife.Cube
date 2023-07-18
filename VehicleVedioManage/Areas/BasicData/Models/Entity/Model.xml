@@ -6,6 +6,7 @@
       <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="主键" />
       <Column Name="Code" DataType="String" Description="编码" />
       <Column Name="Name" DataType="String" Master="True" Description="名称" />
+      <Column Name="Enable" DataType="Boolean" Description="启用" />
       <Column Name="CreateDate" DataType="DateTime" Description="创建时间" />
       <Column Name="CreateUserId" DataType="Int32" Description="更新人" />
       <Column Name="UpdateDate" DataType="DateTime" Description="更新时间" />
@@ -23,6 +24,7 @@
       <Column Name="Name" DataType="String" Master="True" Description="名称" />
       <Column Name="Description" DataType="String" Description="描述" />
       <Column Name="ParentID" DataType="Int32" Description="父级" />
+      <Column Name="Enable" DataType="Boolean" Description="启用" />
       <Column Name="CreateUser" DataType="String" Description="创建者" />
       <Column Name="CreateUserID" DataType="Int32" Description="创建人" />
       <Column Name="CreateIP" DataType="String" Description="创建地址" />
@@ -102,6 +104,7 @@
       <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
       <Column Name="Code" DataType="Int32" Description="编码" />
       <Column Name="Name" DataType="String" Master="True" Length="20" Description="名称" />
+      <Column Name="Enable" DataType="Boolean" Description="启用"/>
       <Column Name="CreateUser" DataType="String" Description="创建者" />
       <Column Name="CreateUserID" DataType="Int32" Description="创建人" />
       <Column Name="CreateIP" DataType="String" Description="创建地址" />
@@ -139,6 +142,7 @@
     <Columns>
       <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" />
       <Column Name="Name" DataType="String" Master="True" Length="20" Description="名称" />
+      <Column Name="Enable" DataType="Boolean" Description="启用" />
       <Column Name="CreateUser" DataType="String" Description="创建者" />
       <Column Name="CreateUserID" DataType="Int32" Description="创建人" />
       <Column Name="CreateIP" DataType="String" Description="创建地址" />
@@ -160,6 +164,7 @@
       <Column Name="Description" DataType="String" Master="True" Length="200" Description="描述" />
       <Column Name="ParentID" DataType="Int32" Description="父级" />
       <Column Name="Industry_Type" DataType="String" Length="32" Description="行业类型" />
+      <Column Name="Enable" DataType="Boolean" Description="启用" />
       <Column Name="CreateUser" DataType="String" Description="创建者" />
       <Column Name="CreateUserID" DataType="Int32" Description="创建人" />
       <Column Name="CreateIP" DataType="String" Description="创建地址" />
@@ -198,6 +203,7 @@
     <Columns>
       <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
       <Column Name="Name" DataType="String" Master="True" Length="20" Description="名称" />
+      <Column Name="Enable" DataType="Boolean" Description="启用" />
       <Column Name="CreateUser" DataType="String" Description="创建者" />
       <Column Name="CreateUserID" DataType="Int32" Description="创建人" />
       <Column Name="CreateIP" DataType="String" Description="创建地址" />

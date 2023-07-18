@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Security.Cryptography;
 using System.Web.Script.Serialization;
 using System.Xml.Serialization;
 using XCode;
@@ -19,13 +20,13 @@ namespace VehicleVedioManage.BackManagement.Entity
     public partial class TerminalCommand
     {
         #region 属性
-        private Int32 _CmdId;
+        private Int32 _ID;
         /// <summary>指令编码</summary>
         [DisplayName("指令编码")]
         [Description("指令编码")]
         [DataObjectField(true, true, false, 0)]
-        [BindColumn("CmdId", "指令编码", "")]
-        public Int32 CmdId { get => _CmdId; set { if (OnPropertyChanging("CmdId", value)) { _CmdId = value; OnPropertyChanged("CmdId"); } } }
+        [BindColumn("ID", "指令编码", "")]
+        public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
         private String _PlateNo;
         /// <summary>车牌号</summary>
@@ -75,14 +76,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("CreateDate", "创建时间", "")]
         public DateTime CreateDate { get => _CreateDate; set { if (OnPropertyChanging("CreateDate", value)) { _CreateDate = value; OnPropertyChanged("CreateDate"); } } }
 
-        private Boolean _Deleted;
-        /// <summary>删除</summary>
+        private Boolean _Enable;
+        /// <summary>启用</summary>
         [Category("扩展信息")]
-        [DisplayName("删除")]
-        [Description("删除")]
+        [DisplayName("启用")]
+        [Description("启用")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("Deleted", "删除", "")]
-        public Boolean Deleted { get => _Deleted; set { if (OnPropertyChanging("Deleted", value)) { _Deleted = value; OnPropertyChanged("Deleted"); } } }
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
         private String _SimNo;
         /// <summary>Sim卡</summary>
@@ -171,13 +172,13 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "CmdId": return _CmdId;
+                    case "ID": return _ID;
                     case "PlateNo": return _PlateNo;
                     case "CmdType": return _CmdType;
                     case "Cmd": return _Cmd;
                     case "CmdData": return _CmdData;
                     case "CreateDate": return _CreateDate;
-                    case "Deleted": return _Deleted;
+                    case "Enable": return _Enable;
                     case "SimNo": return _SimNo;
                     case "Status": return _Status;
                     case "Remark": return _Remark;
@@ -195,13 +196,13 @@ namespace VehicleVedioManage.BackManagement.Entity
             {
                 switch (name)
                 {
-                    case "CmdId": _CmdId = value.ToInt(); break;
+                    case "ID": _ID = value.ToInt(); break;
                     case "PlateNo": _PlateNo = Convert.ToString(value); break;
                     case "CmdType": _CmdType = value.ToInt(); break;
                     case "Cmd": _Cmd = Convert.ToString(value); break;
                     case "CmdData": _CmdData = Convert.ToString(value); break;
                     case "CreateDate": _CreateDate = value.ToDateTime(); break;
-                    case "Deleted": _Deleted = value.ToBoolean(); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "SimNo": _SimNo = Convert.ToString(value); break;
                     case "Status": _Status = Convert.ToString(value); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
@@ -223,7 +224,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class _
         {
             /// <summary>指令编码</summary>
-            public static readonly Field CmdId = FindByName("CmdId");
+            public static readonly Field ID = FindByName("ID");
 
             /// <summary>车牌号</summary>
             public static readonly Field PlateNo = FindByName("PlateNo");
@@ -240,8 +241,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>创建时间</summary>
             public static readonly Field CreateDate = FindByName("CreateDate");
 
-            /// <summary>删除</summary>
-            public static readonly Field Deleted = FindByName("Deleted");
+            /// <summary>启用</summary>
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>Sim卡</summary>
             public static readonly Field SimNo = FindByName("SimNo");
@@ -280,7 +281,7 @@ namespace VehicleVedioManage.BackManagement.Entity
         public partial class __
         {
             /// <summary>指令编码</summary>
-            public const String CmdId = "CmdId";
+            public const String ID = "ID";
 
             /// <summary>车牌号</summary>
             public const String PlateNo = "PlateNo";
@@ -297,8 +298,8 @@ namespace VehicleVedioManage.BackManagement.Entity
             /// <summary>创建时间</summary>
             public const String CreateDate = "CreateDate";
 
-            /// <summary>删除</summary>
-            public const String Deleted = "Deleted";
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>Sim卡</summary>
             public const String SimNo = "SimNo";

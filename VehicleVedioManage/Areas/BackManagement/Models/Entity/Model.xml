@@ -33,7 +33,7 @@
       <Column Name="Owner" DataType="String" Description="物主" Category="扩展信息"/>
       <Column Name="Remark" DataType="String" Description="备注" Category="扩展信息"/>
       <Column Name="SN" DataType="Int32" Description="序号" Category="扩展信息"/>
-      <Column Name="Deleted" DataType="Boolean" Description="删除" Category="扩展信息"/>
+      <Column Name="Enable" DataType="Enable" Description="启用" Category="扩展信息"/>
       <Column Name="TenantId" DataType="Int32" Description="租户编码" Category="扩展信息"/>
       <Column Name="UpdateTime" DataType="DateTime" Description="更新时间" Category="扩展信息"/>
       <Column Name="GpsId" DataType="String" Description="GPS编码" Category="扩展信息"/>
@@ -79,7 +79,7 @@
   </Table>
   <Table Name="MediaItem" Description="多媒体。多媒体信息">
     <Columns>
-      <Column Name="MediaItemId" DataType="Int32" Identity="True" PrimaryKey="True" Description="多媒体项编码" />
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="多媒体项编码" />
       <Column Name="CommandId" DataType="Int32" Description="指令编码" />
       <Column Name="CommandType" DataType="String" Description="指令类型" />
       <Column Name="PlateNo" DataType="String" Description="车牌号" />
@@ -97,7 +97,7 @@
       <Column Name="Location" DataType="String" Description="位置" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间"  Category="扩展信息" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" Category="扩展信息" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" Category="扩展信息" />
+      <Column Name="Enable" DataType="Boolean" Description="启用" Category="扩展信息" />
       <Column Name="Owner" DataType="String" Length="45" Description="物主" Category="扩展信息" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" Category="扩展信息" />
       <Column Name="GPSId" DataType="String" Description="GPS编码" Category="扩展信息" />
@@ -153,7 +153,7 @@
       <Column Name="CheckQuestion" DataType="String" Description="检查问题" />
       <Column Name="UpdateTime" DataType="DateTime" Description="更新时间" Category="扩展信息" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" Category="扩展信息" />
-      <Column Name="Deleted" DataType="Byte" Description="删除" Category="扩展信息" />
+      <Column Name="Enable" DataType="Byte" Description="启用" Category="扩展信息" />
       <Column Name="Owner" DataType="String" Description="拥有者" Category="扩展信息" />
       <Column Name="Remark" DataType="String" Description="备注" Category="扩展信息" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" Category="扩展信息" />
@@ -195,7 +195,7 @@
       <Column Name="LicenseAgency" DataType="String" Description="许可证机构" Category="扩展信息" />
       <Column Name="CertificationDate" DataType="DateTime" Description="认证日期" Category="扩展信息" />
       <Column Name="InvalidDate" DataType="DateTime" Description="无效日期" Category="扩展信息" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" Category="扩展信息" />
+      <Column Name="Enable" DataType="Boolean" Description="启用" Category="扩展信息" />
       <Column Name="CreateTime" DataType="DateTime" Description="创建时间" Category="扩展信息" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" Category="扩展信息" />
       <Column Name="RoyaltiesScale" DataType="Single" Description="使用规模" Category="扩展信息" />
@@ -228,7 +228,7 @@
       <Column Name="ShowVehicleOnMap" DataType="Boolean" Description="在地图上显示车辆" />
       <Column Name="ShowDepNameOnMap" DataType="Boolean" Description="在地图上显示部门" />
       <Column Name="BaiduWebServiceKey" DataType="String"  Description="百度Web服务Key" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" Category="扩展信息" />
+      <Column Name="Enable" DataType="Boolean" Description="启用" Category="扩展信息" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" Category="扩展信息" />
       <Column Name="Owner" DataType="String" Description="拥有者" Category="扩展信息" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" Category="扩展信息" />
@@ -316,7 +316,7 @@
   </Table>
   <Table Name="TerminalParam" Description="终端参数">
     <Columns>
-      <Column Name="ParamId" DataType="Int32" Identity="True" PrimaryKey="True" Description="参数编码" />
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="参数编码" />
       <Column Name="SimNo" DataType="String" Description="Sim卡" />
       <Column Name="PlateNo" DataType="String" Description="车牌号" />
       <Column Name="Code" DataType="String" Description="代码" />
@@ -329,7 +329,7 @@
       <Column Name="GPSId" DataType="String" Description="GPS编码" />
       <Column Name="SN" DataType="Int32" Description="序号" Category="扩展信息" />
       <Column Name="TenantId" DataType="Int32" Description="租户编码" Category="扩展信息" />
-      <Column Name="Deleted" DataType="Boolean" Description="删除" Category="扩展信息" />
+      <Column Name="Enable" DataType="Boolean" Description="启用" Category="扩展信息" />
       <Column Name="Owner" DataType="String" Description="拥有者" Category="扩展信息" />
       <Column Name="Remark" DataType="String" Length="500" Description="备注" Category="扩展信息" />
     </Columns>

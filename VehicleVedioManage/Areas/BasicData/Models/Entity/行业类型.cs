@@ -47,6 +47,14 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("Industry_Type", "行业类型", "varchar(32)")]
         public String Industry_Type { get => _IndustryType; set { if (OnPropertyChanging("IndustryType", value)) { _IndustryType = value; OnPropertyChanged("IndustryType"); } } }
 
+        private Boolean _Enable;
+        /// <summary>启用</summary>
+        [DisplayName("启用")]
+        [Description("启用")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Enable", "启用", "")]
+        public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
+
         private String _CreateUser;
         /// <summary>创建者</summary>
         [DisplayName("创建者")]
@@ -143,6 +151,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "Description": return _Description;
                     case "ParentID": return _ParentID;
                     case "IndustryType": return _IndustryType;
+                    case "Enable": return _Enable;
                     case "CreateUser": return _CreateUser;
                     case "CreateUserID": return _CreateUserID;
                     case "CreateIP": return _CreateIP;
@@ -164,6 +173,7 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "Description": _Description = Convert.ToString(value); break;
                     case "ParentID": _ParentID = value.ToInt(); break;
                     case "IndustryType": _IndustryType = Convert.ToString(value); break;
+                    case "Enable": _Enable = value.ToBoolean(); break;
                     case "CreateUser": _CreateUser = Convert.ToString(value); break;
                     case "CreateUserID": _CreateUserID = value.ToInt(); break;
                     case "CreateIP": _CreateIP = Convert.ToString(value); break;
@@ -197,6 +207,9 @@ namespace VehicleVedioManage.BasicData.Entity
 
             /// <summary>行业类型</summary>
             public static readonly Field Industry_Type = FindByName("Industry_Type");
+
+            /// <summary>启用</summary>
+            public static readonly Field Enable = FindByName("Enable");
 
             /// <summary>创建者</summary>
             public static readonly Field CreateUser = FindByName("CreateUser");
@@ -245,6 +258,9 @@ namespace VehicleVedioManage.BasicData.Entity
 
             /// <summary>行业类型</summary>
             public const String Industry_Type = "Industry_Type";
+
+            /// <summary>启用</summary>
+            public const String Enable = "Enable";
 
             /// <summary>创建者</summary>
             public const String CreateUser = "CreateUser";

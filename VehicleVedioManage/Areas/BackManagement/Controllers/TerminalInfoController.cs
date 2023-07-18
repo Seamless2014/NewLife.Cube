@@ -15,13 +15,16 @@ namespace VehicleVedioManage.BackManagement.Controllers
     [DisplayName("终端信息")]
     public class TerminalInfoController : EntityController<TerminalInfo>
     {
-        private readonly ITracer _tracer;
-        public TerminalInfoController(IServiceProvider provider)
+        static TerminalInfoController()
         {
+            LogOnChange = true;
 
-            ListFields.RemoveField("TermId", "Reserve", "TenantId", "Owner", "CertPassword", "Deleted");
-            PageSetting.EnableTableDoubleClick = true;
-            _tracer = provider?.GetService<ITracer>();
+            ListFields.RemoveField("ID", "Reserve", "TenantId", "Owner", "CertPassword", "Deleted");
+            {
+                var df = ListFields.AddListField("Log", "UpdateUser");
+                df.DisplayName = "日志";
+                df.Url = "/Admin/Log?category=终端信息&linkId={ID}";
+            }
         }
 
         protected override TerminalInfo Find(Object key)
@@ -31,7 +34,6 @@ namespace VehicleVedioManage.BackManagement.Controllers
 
         protected override IEnumerable<TerminalInfo> Search(Pager p)
         {
-            using var span = _tracer?.NewSpan(nameof(Search), p);
             var key = p["q"];
             return TerminalInfo.Search(key, p);
         }

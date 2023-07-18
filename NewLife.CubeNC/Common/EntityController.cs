@@ -415,7 +415,6 @@ public class EntityController<TEntity, TModel> : ReadOnlyEntityController<TEntit
     /// <returns></returns>
     [EntityAuthorize(PermissionFlags.Update)]
     public virtual ActionResult DisableSelect(String keys, String reason) => EnableOrDisableSelect(false, reason);
-
     /// <summary>
     /// 批量启用或禁用
     /// </summary>
