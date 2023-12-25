@@ -355,7 +355,7 @@ public class EntityController<TEntity, TModel> : ReadOnlyEntityController<TEntit
     {
         if (fileName.IsNullOrEmpty()) fileName = file.FileName;
 
-        using var span = DefaultTracer.Instance?.NewSpan(nameof(SaveFile), fileName ?? file.FileName);
+        using var span = DefaultTracer.Instance?.NewSpan(nameof(SaveFile), new { name = file.Name, fileName, uploadPath });
 
         var id = Factory.Unique != null ? entity[Factory.Unique] : null;
         var att = new Attachment
@@ -395,7 +395,7 @@ public class EntityController<TEntity, TModel> : ReadOnlyEntityController<TEntit
             // 写日志
             var type = entity.GetType();
             var log = LogProvider.Provider.CreateLog(type, "上传", rs, $"上传 {file.FileName} ，目录 {uploadPath} ，保存为 {att.FilePath} " + msg, 0, null, UserHost);
-            log.LinkID = id.ToInt();
+            log.LinkID = id.ToLong();
             log.SaveAsync();
         }
 
@@ -596,7 +596,7 @@ public class EntityController<TEntity, TModel> : ReadOnlyEntityController<TEntit
     /// <param name="enable"></param>
     /// <returns></returns>
     [EntityAuthorize(PermissionFlags.Update)]
-    public virtual ActionResult SetEnable(Int32 id = 0, Boolean enable = true)
+    public virtual ActionResult SetEnable(Int64 id = 0, Boolean enable = true)
     {
         var fi = Factory.Fields.FirstOrDefault(e => e.Name.EqualIgnoreCase("Enable"));
         if (fi == null) throw new InvalidOperationException($"启用/禁用仅支持Enable字段。");

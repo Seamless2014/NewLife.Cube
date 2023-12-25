@@ -9,14 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Net.Http.Headers;
 using NewLife.Common;
-using NewLife.Cube.Common;
 using NewLife.Cube.Entity;
 using NewLife.Cube.Extensions;
 using NewLife.Cube.ViewModels;
-using NewLife.Data;
 using NewLife.IO;
 using NewLife.Log;
-using NewLife.Reflection;
 using NewLife.Security;
 using NewLife.Serialization;
 using NewLife.Web;
@@ -78,11 +75,11 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
 
             // 默认加上分页给前台
             var ps = filterContext.ActionArguments.ToNullable();
-            var p = ps["p"] as Pager ?? new Pager();
+            var p = ps["p"] as Pager ?? new Pager(WebHelper.Params);
             ViewBag.Page = p;
 
             //// 用于显示的列
-            //if (!ps.ContainsKey("entity")) ViewBag.Fields = OnGetFields(ViewKinds.List, null);
+            if (!ps.ContainsKey("entity")) ViewBag.Fields = OnGetFields(ViewKinds.List, null);//注释掉后会导致分享的页面报错。2023-09-15 取消注释
 
             var txt = (String)ViewBag.HeaderContent;
             if (txt.IsNullOrEmpty()) txt = Menu?.Remark;
@@ -243,10 +240,20 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
             {
                 HttpContext.Items["TenantId"] = tenant.Id;
 
-                if (!exp.IsNullOrEmpty())
-                    exp = "TenantId={#TenantId} and " + exp;
+                if (typeof(TEntity) == typeof(Tenant))
+                {
+                    if (!exp.IsNullOrEmpty())
+                        exp = "Id={#TenantId} and " + exp;
+                    else
+                        exp = "Id={#TenantId}";
+                }
                 else
-                    exp = "TenantId={#TenantId}";
+                {
+                    if (!exp.IsNullOrEmpty())
+                        exp = "TenantId={#TenantId} and " + exp;
+                    else
+                        exp = "TenantId={#TenantId}";
+                }
             }
         }
 
@@ -266,7 +273,7 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     }
 
     /// <summary>是否租户实体类</summary>
-    protected Boolean IsTenantSource => typeof(TEntity).GetInterfaces().Any(e => e == typeof(ITenantSource));
+    public Boolean IsTenantSource => typeof(TEntity).GetInterfaces().Any(e => e == typeof(ITenantSource));
 
     /// <summary>获取选中键</summary>
     /// <returns></returns>

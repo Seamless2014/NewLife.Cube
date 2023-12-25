@@ -55,6 +55,9 @@ layui.use(['element_cube', 'layer', 'util'], function () {
             var title = othis.data('title');
 
             cubeAddTab(url, title);
+
+            // 将链接记录到url的hash，下次打开该链接将自动打开该标签页
+            location.hash = url;
         }
     });
 
@@ -77,19 +80,56 @@ layui.use(['element_cube', 'layer', 'util'], function () {
         });
     }
 
-    // 添加消息监听
-    window.addEventListener('message', function (event) {
+    //// 添加消息监听
+    //window.addEventListener('message', function (event) {
 
-        if (event.origin != this.location.origin) return false;
+    //    if (event.origin != this.location.origin) return false;
 
-        switch (event.data.kind) {
-            case 'tab':
-                cubeAddTab(event.data.url, event.data.title, true);
-                break;
-            default:
-        }
-    });
+    //    switch (event.data.kind) {
+    //        case 'tab':
+    //            cubeAddTab(event.data.url, event.data.title, true);
+    //            break;
+    //        default:
+    //    }
+    //});
 
     // 标识框架名称
     window.frameName = 'layui';
+
+    // 添加标签
+    window.cubeAddTab = function cubeAddTab(url, title, isRandom) {
+        var idmark = url;
+        if (isRandom) idmark = url + Math.random();
+
+        var li = $('.cube-tab-title').children('ul').children('li[lay-id="' + idmark + '"]');
+
+        if (li && li.length > 0) {
+            cube.tabChangeCube('cube-layout-tabs', url);
+            return true;
+        }
+
+        cube.tabAddCube('cube-layout-tabs', {
+            title: title,
+            content: '<iframe src="' + url + '" frameborder="0" class="cube-iframe">',
+            id: idmark
+        });
+
+        return false;
+    };
+
+    // 判断url是否存在hash，自动打开该标签页
+    if (location.hash && location.hash.startsWith('#/')) {
+        const url = location.hash.replace('#', '');
+        const eleA = $(`.layui-nav .layui-nav-item dd a[data-url="${url}"]`)
+        if (eleA) {
+            // 点击对应菜单
+            eleA.click()
+            // 菜单对应父级
+            const eleLi = eleA.parents('.layui-nav-item')
+            // 关闭其他打开菜单
+            eleLi.siblings('.layui-nav-itemed').find('>a').click()
+            // 展开父级菜单
+            if (!eleLi.hasClass('layui-nav-itemed')) eleLi.find('>a').click()            
+        }
+    }
 });

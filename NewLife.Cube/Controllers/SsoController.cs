@@ -54,7 +54,7 @@ public class SsoController : ControllerBaseX
     public static OAuthServer OAuth { get; set; }
 
     /// <summary>存储最近用过的code，避免用户刷新页面</summary>
-    private static readonly ICache _codeCache = new MemoryCache { Period = 60 };
+    private readonly ICache _cache;
 
     static SsoController()
     {
@@ -64,6 +64,10 @@ public class SsoController : ControllerBaseX
             Log = LogProvider.Provider.AsLog("OAuth")
         };
     }
+
+    /// <summary>实例化单点登录控制器</summary>
+    /// <param name="cacheProvider"></param>
+    public SsoController(ICacheProvider cacheProvider) => _cache = cacheProvider.Cache;
 
     #region 单点登录客户端
     private String GetUserAgent() => Request.Headers["User-Agent"] + "";
@@ -149,7 +153,7 @@ public class SsoController : ControllerBaseX
             return Redirect(OnLogin(client, null, null, log));
         }
         // 短期内用过的code也跳回
-        if (!_codeCache.Add(code, code, 600))
+        if (!_cache.Add(code, code, 600))
             return Redirect(OnLogin(client, null, null, log));
 
         // 构造redirect_uri，部分提供商（百度）要求获取AccessToken的时候也要传递
@@ -204,7 +208,7 @@ public class SsoController : ControllerBaseX
             if (uc.ID == 0) uc = prov.GetConnect(client);
             uc.Fill(client);
 
-            var url = prov.OnLogin(client, HttpContext.RequestServices, uc, log.Action == "Bind");
+            var url = prov.OnLogin(client, HttpContext.RequestServices, uc, log.Action == "Bind", log.UserId);
 
             log.ConnectId = uc.ID;
             log.UserId = uc.UserID;
@@ -351,6 +355,7 @@ public class SsoController : ControllerBaseX
             Scope = client.Scope,
             State = null,
             RedirectUri = url,
+            UserId = user.ID,
             TraceId = DefaultSpan.Current?.TraceId,
         };
         log.Insert();
@@ -519,7 +524,7 @@ public class SsoController : ControllerBaseX
     /// <returns></returns>
     [AllowAnonymous]
     [HttpGet]
-    public virtual ActionResult Token(String client_id, String client_secret, String username, String password, String refresh_token, String grant_type = null)
+    public new virtual ActionResult Token(String client_id, String client_secret, String username, String password, String refresh_token, String grant_type = null)
     {
         if (client_id.IsNullOrEmpty()) throw new ArgumentNullException(nameof(client_id));
         if (grant_type.IsNullOrEmpty()) grant_type = "password";

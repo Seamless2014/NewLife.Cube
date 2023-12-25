@@ -145,6 +145,27 @@ public class FieldCollection : List<DataField>
         return df;
     }
 
+    /// <summary>为指定属性创建数据字段</summary>
+    /// <param name="property"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public DataField Add(PropertyInfo property)
+    {
+        DataField df = Kind switch
+        {
+            ViewKinds.List => new ListField(),
+            ViewKinds.Detail or ViewKinds.AddForm or ViewKinds.EditForm => new FormField(),
+            ViewKinds.Search => new SearchField(),
+            _ => throw new NotImplementedException(),
+        };
+
+        if (property != null) df.Fill(property);
+
+        Add(df);
+
+        return df;
+    }
+
     /// <summary>设置扩展关系</summary>
     /// <param name="isForm">是否表单使用</param>
     /// <returns></returns>
@@ -203,7 +224,7 @@ public class FieldCollection : List<DataField>
     }
 
     /// <summary>删除字段</summary>
-    /// <param name="names"></param>
+    /// <param name="names">要删除的字段名称，支持*模糊匹配</param>
     /// <returns></returns>
     public FieldCollection RemoveField(params String[] names)
     {
@@ -212,10 +233,31 @@ public class FieldCollection : List<DataField>
             if (!item.IsNullOrEmpty())
             {
                 // 模糊匹配
-                if (item.Contains("*"))
+                if (item.Contains('*'))
                     RemoveAll(e => item.IsMatch(e.Name));
                 else
                     RemoveAll(e => e.Name.EqualIgnoreCase(item));
+            }
+        }
+
+        return this;
+    }
+
+    /// <summary>删除从指定字段开始的所有字段</summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public FieldCollection RemoveBegin(String name)
+    {
+        if (!name.IsNullOrEmpty())
+        {
+            for (var i = 0; i < Count; i++)
+            {
+                var str = this[i].Name;
+                if (name.Contains('*') && str.IsMatch(name) || str.EqualIgnoreCase(name))
+                {
+                    RemoveRange(i, Count - i);
+                    break;
+                }
             }
         }
 

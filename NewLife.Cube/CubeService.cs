@@ -3,22 +3,23 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.WebEncoders;
 using Microsoft.Net.Http.Headers;
+using NewLife.Caching.Services;
+using NewLife.Caching;
 using NewLife.Common;
 using NewLife.Cube.Modules;
 using NewLife.Cube.Services;
 using NewLife.Cube.WebMiddleware;
 using NewLife.IP;
 using NewLife.Log;
-using NewLife.Reflection;
 using NewLife.Serialization;
 using NewLife.Web;
 using Stardust;
 using Stardust.Registry;
 using XCode.DataAccessLayer;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace NewLife.Cube;
 
@@ -63,6 +64,7 @@ public static class CubeService
         }
 
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        IpResolver.Register();
 
         // 连接字符串
         DAL.ConnStrs.TryAdd("Cube", "MapTo=Membership");
@@ -95,6 +97,14 @@ public static class CubeService
         // 添加管理提供者
         services.AddManageProvider();
 
+        // 添加数据保护，优先在外部支持Redis持久化，这里默认使用数据库持久化
+        //if (services.Any(e => e.ServiceType == typeof(FullRedis) || e.ServiceType == typeof(ICacheProvider) && e.ImplementationType == typeof(RedisCacheProvider)))
+        //    services.AddDataProtection().PersistKeysToRedis();
+        //else
+        //    services.AddDataProtection().PersistKeysToDb();
+        services.AddDataProtection()
+            .PersistKeysToDb();
+
         // 配置Json
         services.Configure<JsonOptions>(options =>
         {
@@ -108,11 +118,15 @@ public static class CubeService
             options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
         });
 
+        //默认注入缓存实现
+        services.TryAddSingleton<ICacheProvider, CacheProvider>();
+
         // UI服务
         services.AddSingleton<PasswordService>();
         services.AddSingleton<UserService>();
 
         services.AddHostedService<JobService>();
+        services.AddHostedService<DataRetentionService>();
 
         // 注册IP地址库
         IpResolver.Register();
@@ -120,7 +134,7 @@ public static class CubeService
         // 插件
         var moduleManager = new ModuleManager();
         services.AddSingleton(moduleManager);
-        var modules = moduleManager.LoadAll();
+        var modules = moduleManager.LoadAll(services);
         if (modules.Count > 0)
         {
             XTrace.WriteLine("加载功能插件[{0}]个", modules.Count);
@@ -179,7 +193,20 @@ public static class CubeService
         app.UseStaticHttpContext();
 
         // 注册中间件
-        //app.UseStaticFiles();
+
+        // 如果，头像目录设置不为空，开启静态文件中间件
+        if (!set.AvatarPath.IsNullOrWhiteSpace())
+        {
+            var root = env.ContentRootPath;
+            var path = root.CombinePath(set.AvatarPath);
+            path.EnsureDirectory(false);
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(path),
+                RequestPath = set.AvatarPath.EnsureStart("/")
+            });
+        }
+
         app.UseCookiePolicy();
         //app.UseSession();
         app.UseAuthentication();
