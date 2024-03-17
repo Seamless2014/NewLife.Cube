@@ -1,16 +1,20 @@
-﻿using System.Reflection;
+﻿using System.Collections.Concurrent;
+using System.Reflection;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.WebEncoders;
 using Microsoft.Net.Http.Headers;
+
 using NewLife.Caching;
 using NewLife.Common;
 using NewLife.Cube.Extensions;
+using NewLife.Cube.Jobs;
 using NewLife.Cube.Modules;
 using NewLife.Cube.Services;
 using NewLife.Cube.WebMiddleware;
@@ -19,8 +23,10 @@ using NewLife.Log;
 using NewLife.Reflection;
 using NewLife.Serialization;
 using NewLife.Web;
+
 using Stardust;
 using Stardust.Registry;
+
 using XCode;
 using XCode.DataAccessLayer;
 
@@ -156,7 +162,7 @@ public static class CubeService
         });
 
         // 配置Json
-        services.Configure<JsonOptions>(options =>
+        services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
         {
 #if NET7_0_OR_GREATER
             // 支持模型类中的DataMember特性
@@ -175,9 +181,11 @@ public static class CubeService
         services.AddSingleton<PasswordService>();
         services.AddSingleton<UserService>();
 
-        services.AddHostedService<JobService>();
-        //services.AddHostedService<UserService>();
+        //services.AddHostedService<JobService>();
         services.AddHostedService<DataRetentionService>();
+
+        // 添加定时作业
+        services.AddCubeJob();
 
         // 注册IP地址库
         IpResolver.Register();
@@ -205,6 +213,8 @@ public static class CubeService
     /// <param name="services"></param>
     public static void AddCustomApplicationParts(this IServiceCollection services)
     {
+        using var span = DefaultTracer.Instance?.NewSpan(nameof(AddCustomApplicationParts));
+
         var manager = services.LastOrDefault(e => e.ServiceType == typeof(ApplicationPartManager))?.ImplementationInstance as ApplicationPartManager;
         manager ??= new ApplicationPartManager();
 
@@ -226,25 +236,29 @@ public static class CubeService
     /// <returns></returns>
     private static List<Assembly> FindAllArea()
     {
-        var list = new List<Assembly>();
-        var cs = typeof(ControllerBaseX).GetAllSubclasses().ToArray();
-        foreach (var item in cs)
+        var bag = new ConcurrentBag<Assembly>();
+        var baseType = typeof(ControllerBaseX);
+        var baseType2 = typeof(RazorPage);
+        Parallel.ForEach(AppDomain.CurrentDomain.GetAssemblies(), asm =>
         {
-            var asm = item.Assembly;
-            if (!list.Contains(asm))
+            try
             {
-                list.Add(asm);
+                foreach (var type in asm.GetTypes())
+                {
+                    if (type.IsInterface || type.IsAbstract || type.IsGenericType) continue;
+                    if (type != baseType && type.As(baseType) || type.As(baseType2))
+                    {
+                        bag.Add(asm);
+                        break;
+                    }
+                }
             }
-        }
-        cs = typeof(RazorPage).GetAllSubclasses().ToArray();
-        foreach (var item in cs)
-        {
-            var asm = item.Assembly;
-            if (!list.Contains(asm))
+            catch (Exception ex)
             {
-                list.Add(asm);
+                XTrace.WriteLine("在[{0}]中扫描视图报错：{1}", asm.GetName().Name, ex.Message);
             }
-        }
+        });
+        var list = bag.ToList();
 
 #if !NET6_0_OR_GREATER
         // 反射 *.Views.dll

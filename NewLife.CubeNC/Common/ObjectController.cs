@@ -154,7 +154,7 @@ public abstract class ObjectController<TObject> : ControllerBaseX
         WriteLog("修改", true, sb.ToString());
     }
 
-    private static readonly Dictionary<Type, IList<DataField>> _cache = new();
+    private static readonly Dictionary<Type, IList<DataField>> _cache = [];
     /// <summary>获取指定类型的成员集合（带缓存）</summary>
     /// <param name="type"></param>
     /// <returns></returns>

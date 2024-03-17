@@ -20,6 +20,7 @@ using Stardust;
 using Stardust.Registry;
 using XCode.DataAccessLayer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using XCode;
 
 namespace NewLife.Cube;
 
@@ -66,12 +67,14 @@ public static class CubeService
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         IpResolver.Register();
 
+        var set = CubeSetting.Current;
+        services.AddSingleton(set);
+
         // 连接字符串
         DAL.ConnStrs.TryAdd("Cube", "MapTo=Membership");
 
         // 配置跨域处理，允许所有来源
         // CORS，全称 Cross-Origin Resource Sharing （跨域资源共享），是一种允许当前域的资源能被其他域访问的机制
-        var set = CubeSetting.Current;
         if (set.CorsOrigins == "*")
             services.AddCors(options => options.AddPolicy("cube_cors", builder => builder
             .AllowAnyMethod()
@@ -106,7 +109,7 @@ public static class CubeService
             .PersistKeysToDb();
 
         // 配置Json
-        services.Configure<JsonOptions>(options =>
+        services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
         {
 #if NET7_0_OR_GREATER
             // 支持模型类中的DataMember特性
@@ -125,8 +128,11 @@ public static class CubeService
         services.AddSingleton<PasswordService>();
         services.AddSingleton<UserService>();
 
-        services.AddHostedService<JobService>();
+        //services.AddHostedService<JobService>();
         services.AddHostedService<DataRetentionService>();
+
+        // 添加定时作业
+        services.AddCubeJob();
 
         // 注册IP地址库
         IpResolver.Register();
@@ -163,10 +169,15 @@ public static class CubeService
 
         XTrace.WriteLine("{0} Start 初始化魔方 {0}", new String('=', 32));
 
+        // 初始化数据库连接
+        var set = CubeSetting.Current;
+        if (set.IsNew)
+            EntityFactory.InitAll();
+        else
+            EntityFactory.InitAllAsync();
+
         // 使用管理提供者
         app.UseManagerProvider();
-
-        var set = CubeSetting.Current;
 
         // 使用Cube前添加自己的管道
         if (env != null)
