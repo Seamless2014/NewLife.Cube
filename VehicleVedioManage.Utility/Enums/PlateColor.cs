@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace VehicleVedioManage.Enums
+namespace VehicleVedioManage.Utility.Enums
 {
     /// <summary>
     /// 车牌颜色枚举

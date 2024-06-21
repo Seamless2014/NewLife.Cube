@@ -1,5 +1,6 @@
 ﻿//using System.Collections;
 //using System.Collections.Concurrent;
+//using System.Diagnostics;
 //using NewLife.Log;
 //using VehicleVedioManage.FenceManagement.Entity;
 //using VehicleVedioManage.IService;
@@ -78,8 +79,18 @@
 //        /// </summary>
 //        public INewAlarmService NewAlarmService { get; set; }
 
-
-
+//        private readonly ITracer _tracer;
+//        /// <summary>
+//        /// 
+//        /// </summary>
+//        /// <param name="provider"></param>
+//        public AlarmService(IServiceProvider provider)
+//        {
+//            _tracer = provider?.GetService<ITracer>();
+//        }
+//        /// <summary>
+//        /// 
+//        /// </summary>
 //        public AlarmService()
 //        {
 //            Interval = 100;
@@ -93,7 +104,6 @@
 //            XTrace.Log.Info("启动报警分析服务");
 //            processThread = new Thread(new ThreadStart(ProcessRealDataThreadFunc));
 //            processThread.Start();
-
 //            try
 //            {
 //                String hql = "from AlarmRecord where status = ?";

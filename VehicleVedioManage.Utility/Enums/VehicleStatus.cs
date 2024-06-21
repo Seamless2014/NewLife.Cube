@@ -1,4 +1,4 @@
-﻿namespace VehicleVedioManage.Utility
+﻿namespace VehicleVedioManage.Utility.Enums
 {
     /// <summary>
     /// 车辆状态

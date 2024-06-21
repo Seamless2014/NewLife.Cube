@@ -1,4 +1,4 @@
-﻿namespace VehicleVedioManage.Enums
+﻿namespace VehicleVedioManage.Utility.Enums
 {
     public enum RunStatus
     {

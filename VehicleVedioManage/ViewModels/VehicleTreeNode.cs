@@ -1,4 +1,4 @@
-﻿using VehicleVedioManage.Utility;
+﻿using VehicleVedioManage.Utility.Enums;
 
 namespace VehicleVedioManage.Web.ViewModels
 {

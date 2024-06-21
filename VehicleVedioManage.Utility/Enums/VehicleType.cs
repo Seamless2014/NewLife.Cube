@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace VehicleVedioManage.Enums
+namespace VehicleVedioManage.Utility.Enums
 {
     /// <summary>
     /// 车辆类型
