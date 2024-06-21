@@ -1,8 +1,11 @@
 ﻿//using System.Collections;
 //using System.Collections.Concurrent;
+//using NewLife.Log;
 //using VehicleVedioManage.FenceManagement.Entity;
 //using VehicleVedioManage.IService;
 //using VehicleVedioManage.ReportStatistics.Entity;
+//using VehicleVedioManage.Web.Enums;
+//using VehicleVedioManage.Web.IService;
 
 //namespace VehicleVedioManage.Web.Service
 //{
@@ -15,8 +18,6 @@
 //        /// ORM
 //        /// </summary>
 //        public IBaseDao BaseDao { get; set; }
-
-//        private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(AlarmService));
 //        /// <summary>
 //        /// 电子围栏
 //        /// </summary>
@@ -89,14 +90,14 @@
 //        /// </summary>
 //        public void Start()
 //        {
-//            logger.Info("启动报警分析服务");
+//            XTrace.Log.Info("启动报警分析服务");
 //            processThread = new Thread(new ThreadStart(ProcessRealDataThreadFunc));
 //            processThread.Start();
 
 //            try
 //            {
 //                String hql = "from AlarmRecord where status = ?";
-//                IList ls = this.BaseDao.query(hql, AlarmRecord.STATUS_NEW);
+//                IList ls = this.BaseDao.query(hql, AlarmRecordEnum.STATUS_NEW);
 //                foreach (AlarmRecord r in ls)
 //                {
 //                    String key = r.PlateNo + "_" + r.AlarmType + "_"
@@ -106,8 +107,7 @@
 //            }
 //            catch (Exception ex)
 //            {
-//                logger.Error(ex.Message);
-//                logger.Error(ex.StackTrace);
+//                XTrace.Log.Error(ex.Message);
 //            }
 //        }
 
@@ -117,7 +117,7 @@
 //        /// </summary>
 //        private void ProcessRealDataThreadFunc()
 //        {
-//            //logger.Info("处理报警队列");
+//            //XTrace.Log.Info("处理报警队列");
 //            int k = 0;
 //            while (IsContinue)
 //            {
@@ -142,8 +142,7 @@
 //                }
 //                catch (Exception ex)
 //                {
-//                    logger.Error(ex.Message);
-//                    logger.Error(ex.StackTrace);
+//                    XTrace.Log.Error(ex.Message);
 //                }
 
 
@@ -162,7 +161,7 @@
 //            {
 //                try
 //                {
-//                    if (r.Status.Equals(AlarmRecord.STATUS_NEW))
+//                    if (r.Status.Equals(AlarmRecordEnum.STATUS_NEW))
 //                    {
 //                        this.BaseDao.saveOrUpdate(r);
 //                    }
@@ -173,7 +172,7 @@
 //                }
 //                catch (Exception ex)
 //                {
-//                    logger.Error(ex.Message, ex);
+//                    XTrace.Log.Error(ex.Message, ex);
 //                }
 //            }
 
@@ -194,7 +193,7 @@
 //            }
 //            catch (Exception ex)
 //            {
-//                logger.Error(ex.Message, ex);
+//                XTrace.Log.Error(ex.Message, ex);
 //            }
 //        }
 
@@ -229,7 +228,7 @@
 //                string newStatus = rd.Status;
 //                string newAlarmState = rd.AlarmState;
 
-//                CreateChangeRecord(AlarmRecord.STATE_FROM_TERM, newStatus, rd);
+//                CreateChangeRecord(AlarmRecordEnum.STATE_FROM_TERM, newStatus, rd);
 //                CreateChangeRecord(AlarmRecord.ALARM_FROM_TERM, newAlarmState, rd);
 //                // 停车报警
 //                if (this.NewAlarmService.isAlarmEnabled(AlarmRecord.TYPE_PARKING,
@@ -246,7 +245,7 @@
 //            }
 //            catch (Exception ex)
 //            {
-//                logger.Error(ex.Message, ex);
+//                XTrace.Log.Error(ex.Message, ex);
 //            }
 //        }
 //        /// <summary>
@@ -380,7 +379,7 @@
 //                        }
 //                        catch (Exception ex)
 //                        {
-//                            logger.Error(ex.Message, ex);
+//                            XTrace.Log.Error(ex.Message, ex);
 //                        }
 //                    }
 //                    NewAlarmService.insertAlarm(alarmSource, alarmType, rd);

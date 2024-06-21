@@ -13,5 +13,14 @@
         /// 按天统计
         /// </summary>
         void StaticByDay();
+        /// <summary>
+        /// 按月统计
+        /// </summary>
+        void StaticByMonth();
+        /// <summary>
+        /// 按年统计
+        /// </summary>
+        void StaticByYear();
+
     }
 }

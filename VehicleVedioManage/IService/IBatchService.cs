@@ -13,6 +13,11 @@ namespace VehicleVedioManage.Web.IService
         /// <param name="g"></param>
         void EnQueue(GpsInfo g);
         /// <summary>
+        /// 出队列
+        /// </summary>
+        /// <returns></returns>
+        GpsInfo DeQueue();
+        /// <summary>
         /// /停止服务
         /// </summary>
         void Stop();
