@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <RootNamespace>NewLife.Cube</RootNamespace>
     <AssemblyName>NewLife.Cube</AssemblyName>
     <AssemblyTitle>魔方快速开发平台</AssemblyTitle>
     <Description>Web快速开发平台，搭建管理后台，灵活可扩展！内部集成了用户权限管理、模板继承、SSO登录、OAuth服务端、数据导出与分享等多个功能模块，在真实项目中经历过单表100亿数据添删改查的考验。</Description>
     <Company>新生命开发团队</Company>
-    <Copyright>©2002-2023 NewLife</Copyright>
-    <VersionPrefix>5.5</VersionPrefix>
+    <Copyright>©2002-2024 NewLife</Copyright>
+    <VersionPrefix>6.1</VersionPrefix>
     <VersionSuffix>$([System.DateTime]::Now.ToString(`yyyy.MMdd`))</VersionSuffix>
     <Version>$(VersionPrefix).$(VersionSuffix)</Version>
     <FileVersion>$(Version)</FileVersion>
@@ -22,6 +22,7 @@
     <LangVersion>latest</LangVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Doc\newlife.snk</AssemblyOriginatorKeyFile>
+    <DefineConstants>$(DefineConstants);MVC</DefineConstants>
     <NoWarn>1701;1702;NU5104;NETSDK1138;CS7035</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -33,25 +34,13 @@
     <RepositoryUrl>https://github.com/NewLifeX/NewLife.Cube</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>新生命团队;X组件;NewLife;$(AssemblyName)</PackageTags>
-    <PackageReleaseNotes>完善附件功能支持；增加魔方模块接口；升级EChart对时间轴的支持；表单页支持Category分组</PackageReleaseNotes>
+    <PackageReleaseNotes>重构定时作业</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageReadmeFile>Readme.MD</PackageReadmeFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
-    <DefineConstants>$(DefineConstants);MVC</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
-    <DefineConstants>$(DefineConstants);MVC</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0|AnyCPU'">
-    <DefineConstants>$(DefineConstants);MVC</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0|AnyCPU'">
-    <DefineConstants>$(DefineConstants);MVC</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
@@ -61,16 +50,20 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NewLife.Core" Version="10.3.2023.527-beta0038" />
-    <PackageReference Include="NewLife.IP" Version="2.0.2023.401" />
-    <PackageReference Include="NewLife.Stardust" Version="2.8.2023.528-beta1513" />
-    <PackageReference Include="NewLife.XCode" Version="11.8.2023.528-beta1511" />
+    <PackageReference Include="NewLife.Core" Version="10.10.2024.507" />
+    <PackageReference Include="NewLife.IP" Version="2.1.2024.407" />
+    <PackageReference Include="NewLife.Stardust" Version="2.9.2024.417-beta1339" />
+    <PackageReference Include="NewLife.XCode" Version="11.12.2024.515" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\NewLife.Cube\Common\ApiFilterAttribute.cs" Link="Common\ApiFilterAttribute.cs" />
+    <Compile Include="..\NewLife.Cube\Common\AppControllerBase.cs" Link="Common\AppControllerBase.cs" />
+    <Compile Include="..\NewLife.Cube\Common\BaseController.cs" Link="Common\BaseController.cs" />
     <Compile Include="..\NewLife.Cube\Common\DataPermissionAttribute.cs" Link="Common\DataPermissionAttribute.cs" />
     <Compile Include="..\NewLife.Cube\Common\MembershipExtensions.cs" Link="Common\MembershipExtensions.cs" />
     <Compile Include="..\NewLife.Cube\Common\NoPermissionException.cs" Link="Common\NoPermissionException.cs" />
+    <Compile Include="..\NewLife.Cube\Common\OAuthController.cs" Link="Common\OAuthController.cs" />
     <Compile Include="..\NewLife.Cube\Common\PageSetting.cs" Link="Common\PageSetting.cs" />
     <Compile Include="..\NewLife.Cube\Common\ViewHelper.cs" Link="Common\ViewHelper.cs" />
     <Compile Include="..\NewLife.Cube\Entity\OAuth日志.Biz.cs" Link="Entity\OAuth日志.Biz.cs" />
@@ -99,11 +92,15 @@
     <Compile Include="..\NewLife.Cube\Entity\用户链接.cs">
       <Link>Entity\用户链接.cs</Link>
     </Compile>
+    <Compile Include="..\NewLife.Cube\Entity\访问规则.Biz.cs" Link="Entity\访问规则.Biz.cs" />
+    <Compile Include="..\NewLife.Cube\Entity\访问规则.cs" Link="Entity\访问规则.cs" />
     <Compile Include="..\NewLife.Cube\Entity\附件.Biz.cs" Link="Entity\附件.Biz.cs" />
     <Compile Include="..\NewLife.Cube\Entity\附件.cs" Link="Entity\附件.cs" />
     <Compile Include="..\NewLife.Cube\Extensions\Pager.cs" Link="Extensions\Pager.cs" />
     <Compile Include="..\NewLife.Cube\Extensions\PagerHelper.cs" Link="Extensions\PagerHelper.cs" />
     <Compile Include="..\NewLife.Cube\Extensions\WebHelper.cs" Link="Extensions\WebHelper.cs" />
+    <Compile Include="..\NewLife.Cube\Models\TokenInModel.cs" Link="Models\TokenInModel.cs" />
+    <Compile Include="..\NewLife.Cube\Services\TokenService.cs" Link="Services\TokenService.cs" />
     <Compile Include="..\NewLife.Cube\Web\AttachmentProvider.cs" Link="Web\AttachmentProvider.cs" />
     <Compile Include="..\NewLife.Cube\Web\Models\ApprovalInfo.cs" Link="Web\Models\ApprovalInfo.cs" />
     <Compile Include="..\NewLife.Cube\Web\Models\CheckInData.cs" Link="Web\Models\CheckInData.cs" />
@@ -146,6 +143,7 @@
   <ItemGroup>
     <Compile Remove="Areas\Cube\Controllers\ModelColumnController.cs" />
     <Compile Remove="Areas\Cube\Controllers\ModelTableController.cs" />
+    <Compile Remove="Common\ITenantController.cs" />
     <Compile Remove="Extensions\ItemsExtend.cs" />
     <Compile Remove="ViewModels\FieldModel.cs" />
   </ItemGroup>
@@ -174,5 +172,8 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

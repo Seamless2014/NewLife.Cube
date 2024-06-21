@@ -12,7 +12,7 @@ namespace NewLife.Cube.Admin.Controllers;
 [DataPermission(null, "UserID={#userId}")]
 [DisplayName("用户链接")]
 [Description("第三方登录信息")]
-[Area("Admin")]
+[AdminArea]
 [Menu(0, false)]
 public class UserConnectController : EntityController<UserConnect>
 {
@@ -34,8 +34,8 @@ public class UserConnectController : EntityController<UserConnect>
             df.Header = "用户";
             df.HeaderTitle = "对应的本地用户信息";
             //df.DisplayName = "{UserName}";
-            df.Url = "/Admin/User/Detail?id={UserID}";
-            df.Target = "_frame";
+            df.Url = "/Admin/User/Edit?id={UserID}";
+            df.Target = "_blank";
         }
 
         {

@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using XCode.Membership;
+﻿using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using NewLife.Cube.Extensions;
+using XCode.Membership;
 
 namespace NewLife.Cube.Admin.Controllers;
 
 /// <summary>文件管理</summary>
 [DisplayName("文件")]
 [EntityAuthorize(PermissionFlags.Detail)]
-[Area("Admin")]
+[AdminArea]
 [Menu(28, false, Icon = "fa-file")]
 public class FileController : ControllerBaseX
 {
@@ -166,8 +160,7 @@ public class FileController : ControllerBaseX
         }
         else
         {
-            var di = GetDirectory(r);
-            if (di == null) throw new Exception("找不到文件或目录！");
+            var di = GetDirectory(r) ?? throw new Exception("找不到文件或目录！");
 
             p = GetFullName(di.Parent.FullName);
             WriteLog("删除", true, di.FullName);
@@ -306,7 +299,7 @@ public class FileController : ControllerBaseX
     private List<FileItem> GetClip()
     {
         var list = Session[CLIPKEY] as List<FileItem>;
-        if (list == null) Session[CLIPKEY] = list = new List<FileItem>();
+        if (list == null) Session[CLIPKEY] = list = [];
 
         return list;
     }

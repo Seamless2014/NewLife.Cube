@@ -1,4 +1,4 @@
-<style>
+﻿<style>
     table {
         border-collapse: collapse;
         border: 1px solid;
@@ -433,7 +433,7 @@
             <td>TraceId</td>
             <td>追踪</td>
             <td>String</td>
-            <td>50</td>
+            <td>200</td>
             <td></td>
             <td></td>
             <td></td>
@@ -741,6 +741,17 @@
             <td></td>
             <td></td>
             <td>SSO用户字段如何映射到OAuthClient内部属性</td>
+        </tr>
+
+        <tr>
+            <td>FetchAvatar</td>
+            <td>抓取头像</td>
+            <td>Boolean</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td>是否抓取头像并保存到本地</td>
         </tr>
 
         <tr>
@@ -1229,17 +1240,6 @@
         </tr>
 
         <tr>
-            <td>TraceId</td>
-            <td>追踪</td>
-            <td>String</td>
-            <td>50</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>链路追踪，用于APM性能追踪定位，还原该事件的调用链</td>
-        </tr>
-
-        <tr>
             <td>Address</td>
             <td>地址</td>
             <td>String</td>
@@ -1248,6 +1248,17 @@
             <td></td>
             <td></td>
             <td>根据IP计算</td>
+        </tr>
+
+        <tr>
+            <td>TraceId</td>
+            <td>追踪</td>
+            <td>String</td>
+            <td>200</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>链路追踪，用于APM性能追踪定位，还原该事件的调用链</td>
         </tr>
 
         <tr>
@@ -1549,6 +1560,28 @@
         </tr>
 
         <tr>
+            <td>Category</td>
+            <td>类别</td>
+            <td>String</td>
+            <td>50</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Enable</td>
+            <td>启用</td>
+            <td>Boolean</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td></td>
+        </tr>
+
+        <tr>
             <td>HomePage</td>
             <td>首页</td>
             <td>String</td>
@@ -1572,35 +1605,24 @@
 
         <tr>
             <td>White</td>
-            <td>白名单</td>
+            <td>IP白名单</td>
             <td>String</td>
-            <td>200</td>
+            <td>50</td>
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td>符合条件的来源IP才允许访问，支持*通配符，多个逗号隔开</td>
         </tr>
 
         <tr>
             <td>Black</td>
-            <td>黑名单</td>
+            <td>IP黑名单</td>
             <td>String</td>
-            <td>200</td>
+            <td>50</td>
             <td></td>
             <td></td>
             <td></td>
-            <td>黑名单优先于白名单</td>
-        </tr>
-
-        <tr>
-            <td>Enable</td>
-            <td>启用</td>
-            <td>Boolean</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>N</td>
-            <td></td>
+            <td>符合条件的来源IP禁止访问，支持*通配符，多个逗号隔开</td>
         </tr>
 
         <tr>
@@ -1910,22 +1932,11 @@
             <td>TraceId</td>
             <td>追踪</td>
             <td>String</td>
-            <td>50</td>
+            <td>200</td>
             <td></td>
             <td></td>
             <td></td>
             <td>链路追踪，用于APM性能追踪定位，还原该事件的调用链</td>
-        </tr>
-
-        <tr>
-            <td>Remark</td>
-            <td>详细信息</td>
-            <td>String</td>
-            <td>2000</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
         </tr>
 
         <tr>
@@ -1977,6 +1988,17 @@
             <td>更新时间</td>
             <td>DateTime</td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Remark</td>
+            <td>备注</td>
+            <td>String</td>
+            <td>2000</td>
             <td></td>
             <td></td>
             <td></td>
@@ -2152,6 +2174,17 @@
             <td></td>
             <td></td>
             <td>用于远程抓取的附件来源地址，本地文件不存在时自动依次抓取</td>
+        </tr>
+
+        <tr>
+            <td>TraceId</td>
+            <td>追踪</td>
+            <td>String</td>
+            <td>50</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>链路追踪，用于APM性能追踪定位，还原该事件的调用链</td>
         </tr>
 
         <tr>
@@ -3110,7 +3143,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>作业方法全名，含命名空间和类名，静态方法，包含一个String参数</td>
+            <td>ICubeJob类名或静态方法全名(包含一个String参数)</td>
         </tr>
 
         <tr>
@@ -3125,8 +3158,30 @@
         </tr>
 
         <tr>
+            <td>Data</td>
+            <td>数据</td>
+            <td>String</td>
+            <td>200</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>作业运行中的小量数据，可传递给下一次作业执行，例如记录数据统计的时间点</td>
+        </tr>
+
+        <tr>
             <td>Enable</td>
             <td>启用</td>
+            <td>Boolean</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>EnableLog</td>
+            <td>启用日志</td>
             <td>Boolean</td>
             <td></td>
             <td></td>
@@ -3567,6 +3622,254 @@
 
         <tr>
             <td>UpdateUserId</td>
+            <td>更新者</td>
+            <td>Int32</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>UpdateTime</td>
+            <td>更新时间</td>
+            <td>DateTime</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>UpdateIP</td>
+            <td>更新地址</td>
+            <td>String</td>
+            <td>50</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Remark</td>
+            <td>内容</td>
+            <td>String</td>
+            <td>500</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<br></br>
+<h3>访问规则（AccessRule）</h3>
+<table>
+    <thead>
+        <tr>
+            <th>名称</th>
+            <th>显示名</th>
+            <th>类型</th>
+            <th>长度</th>
+            <th>精度</th>
+            <th>主键</th>
+            <th>允许空</th>
+            <th>备注</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Id</td>
+            <td>编号</td>
+            <td>Int32</td>
+            <td></td>
+            <td></td>
+            <td title="自增">AI</td>
+            <td>N</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Name</td>
+            <td>名称</td>
+            <td>String</td>
+            <td>50</td>
+            <td></td>
+            <td title="唯一索引">UQ</td>
+            <td>N</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Enable</td>
+            <td>启用</td>
+            <td>Boolean</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Priority</td>
+            <td>优先级</td>
+            <td>Int32</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td>较大优先</td>
+        </tr>
+
+        <tr>
+            <td>Url</td>
+            <td>URL路径</td>
+            <td>String</td>
+            <td>500</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>支持*模糊匹配，多个逗号隔开</td>
+        </tr>
+
+        <tr>
+            <td>UserAgent</td>
+            <td>用户代理</td>
+            <td>String</td>
+            <td>500</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>支持*模糊匹配，多个逗号隔开</td>
+        </tr>
+
+        <tr>
+            <td>IP</td>
+            <td>来源IP</td>
+            <td>String</td>
+            <td>500</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>支持*模糊匹配，多个逗号隔开</td>
+        </tr>
+
+        <tr>
+            <td>LoginedUser</td>
+            <td>登录用户</td>
+            <td>String</td>
+            <td>500</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>支持*模糊匹配，多个逗号隔开</td>
+        </tr>
+
+        <tr>
+            <td>ActionKind</td>
+            <td>动作</td>
+            <td>Int32</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td>放行/拦截/限流</td>
+        </tr>
+
+        <tr>
+            <td>BlockCode</td>
+            <td>拦截代码</td>
+            <td>Int32</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td>拦截时返回Http代码，如404/500/302等</td>
+        </tr>
+
+        <tr>
+            <td>BlockContent</td>
+            <td>拦截内容</td>
+            <td>String</td>
+            <td>500</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>拦截时返回内容，返回302时此处调目标地址</td>
+        </tr>
+
+        <tr>
+            <td>LimitDimension</td>
+            <td>限流维度</td>
+            <td>Int32</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td>IP/用户</td>
+        </tr>
+
+        <tr>
+            <td>LimitCycle</td>
+            <td>限流时间</td>
+            <td>Int32</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td>限流时的考察时间，期间累加规则触发次数，如600秒</td>
+        </tr>
+
+        <tr>
+            <td>LimitTimes</td>
+            <td>限流次数</td>
+            <td>Int32</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td>限流考察期间达到该阈值时，执行拦截</td>
+        </tr>
+
+        <tr>
+            <td>CreateUserID</td>
+            <td>创建者</td>
+            <td>Int32</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>N</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>CreateTime</td>
+            <td>创建时间</td>
+            <td>DateTime</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>CreateIP</td>
+            <td>创建地址</td>
+            <td>String</td>
+            <td>50</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>UpdateUserID</td>
             <td>更新者</td>
             <td>Int32</td>
             <td></td>

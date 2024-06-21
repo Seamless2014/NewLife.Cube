@@ -9,7 +9,7 @@
     //Layout = NewLife.Cube.Setting.Current.Layout;
 
     var fact = ViewBag.Factory as IEntityFactory;
-    var pager = ViewBag.Page as Pager;
+    var page2 = ViewBag.Page as Pager;
     var set = ViewBag.PageSetting as PageSetting ?? PageSetting.Global;
 
     var charts = ViewBag.Charts as ECharts[];
@@ -33,7 +33,7 @@
     var isdis = an.Contains("add") || an.Contains("edit") || an.Contains("delete") || an.Contains("info")
     || an.Contains("changepassword") || an.Contains("binds");
 
-    var rv = pager.GetRouteValue();
+    var rv = page2.GetRouteValue();
 }
 
 @section css{
@@ -43,6 +43,7 @@
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
                 <div class="layui-card">
+                    @await Html.PartialAsync("_List_Serch")
                     <div class="layui-card-body">
                         <table lay-filter="parse-table" id="parse-table" class="layui-hide">
                             <thead>
@@ -53,16 +54,16 @@
                                 }
                                 @foreach (var item in fields)
                                 {
-                                    var sortUrl = !item.MapField.IsNullOrEmpty() ? pager.GetSortUrl(item.MapField) : pager.GetSortUrl(item.Name);
+                                    var sortUrl = !item.MapField.IsNullOrEmpty() ? page2.GetSortUrl(item.MapField) : page2.GetSortUrl(item.Name);
                                     var df = item as ListField;
                                     var name = df?.Header ?? item.DisplayName;
                                     var title = df?.HeaderTitle ?? item.Description;
                                     //高级筛选使用
                                     var isfilter = fields.Exists(a => a.Name == item.Name);
 
-                                    if (item.Type == typeof(DateTime))
+                                    if (item.Type == typeof(DateTime) && item.Services.Count == 0)
                                     {
-                                        var width = item.Name.EndsWithIgnoreCase("Date") ? 96 : 150;
+                                        var width = item.ItemType == "Date" ? 96 : 150;
                                         var filterDatetime = isfilter ? ",filter: {type: 'date[yyyy-MM-dd HH:mm:ss]'}" : "";
                                         <th lay-data="{field:'@item.Name',minWidth:@width,title:'@item.Description',sort:true @filterDatetime }">@item.DisplayName</th>
                                     }
@@ -97,24 +98,20 @@
                                     @foreach (var item in fields)
                                     {
                                         var df = item as ListField;
-                                        var url = (String)df?.GetUrl(entity);
+                                        var txt = "";
                                         if (df != null && df.DataVisible != null && !df.DataVisible(entity))
                                         {
                                             <td></td>
                                         }
-                                        else if (df != null && !df.DataAction.IsNullOrEmpty())
+                                        else if (df != null && (txt = df.GetLink(entity, page2)) != null)
                                         {
-                                            // 在数据列中，实体对象取属性值优先于显示名
-                                            var name = (df.Field != null && df.DisplayName == df.Field.DisplayName) ? entity[df.Name] : df.GetDisplayName(entity);
-                                            var title = df.GetTitle(entity);
-                                            <td class="text-center" title="@title"><a href="@Html.Raw(url)" data-action="@df.DataAction">@name</a></td>
+                                            var tdClass = df.GetTextClass();
+                                            <td class="@(tdClass??"text-center")">@Html.Raw(txt)</td>
                                         }
-                                        else if (df != null && !url.IsNullOrEmpty())
+                                        else if (df != null && (txt = df.GetText(entity, page2)) != null)
                                         {
-                                            // 在数据列中，实体对象取属性值优先于显示名
-                                            var name = (df.Field != null && df.DisplayName == df.Field.DisplayName) ? entity[df.Name] : df.GetDisplayName(entity);
-                                            var title = df.GetTitle(entity);
-                                            <td class="text-center" title="@title"><a href="@Html.Raw(url)" target="@df.Target">@name</a></td>
+                                            var tdClass = df.GetTextClass();
+                                            <td class="@tdClass)">@Html.Raw(txt)</td>
                                         }
                                         else
                                         {
@@ -144,7 +141,7 @@
 
         table.init('parse-table', { //转化静态表格
             page: false,
-            limit: @pager.PageSize,
+            limit: @page2.PageSize,
             limits: [20, 50, 100],
             even: true,
             defaultToolbar: ['filter','print',"exports"],
@@ -202,6 +199,7 @@
                           area: ['300px', '300px'],
                           anim: 5,
                           shadeClose: true,
+                          closeBtn:2,
                           content: laytpl($('#list-imp-excel').html()).render({}),
                           cancel : function() {
                                 layer.close();
@@ -306,106 +304,10 @@
                     location.href = jumpUrl+'/'+data["@fact.Unique.Name"];
     });
 
-        //开始日期
-    var insStart = laydate.render({
-      elem: '#test-laydate-start'
-      ,min: '1999-1-1' //最小范围内的日期时间值
-      ,max:0
-      ,done: function(value, date){
-        //更新结束日期的最小日期
-        insEnd.config.min = lay.extend({}, date, {
-          month: date.month - 1
-        });
-        
-        //自动弹出结束日期的选择器
-       insEnd.config.elem[0].focus();
-      }
-    });
-    
-    //结束日期
-    var insEnd = laydate.render({
-      elem: '#test-laydate-end'
-      ,min: '1999-1-1' //最小范围内的日期时间值
-      ,max:0
-      ,done: function(value, date){
-        //更新开始日期的最大日期
-        insStart.config.max = lay.extend({}, date, {
-          month: date.month - 1
-        });
-      }
-    });
-
 
 }
 @section scripts{
-<script type="text/html" id="table-toolbar">
-      <div class="layui-row layui-col-space5">
-        <div class="layui-col-md3" style="text-align:left;">
-              <div class="layui-btn-container">
-                  @if (this.Has(PermissionFlags.Delete))
-                  {
-                    <button class="layui-btn layui-btn-sm layui-btn-danger icon-btn" lay-event="B_Detele_Data"><i class="layui-icon">&#xe640;</i>批量删除</button>
-                  }
-                  @if (set.EnableAdd && !set.IsReadOnly && this.Has(PermissionFlags.Insert))
-                  {
-                    <button class="layui-btn layui-btn-sm icon-btn" lay-event="Add_Data"><i class="layui-icon">&#xe654;</i>新增</button>
-                    <button class="layui-btn layui-btn-sm icon-btn" lay-event="ImpExcel"><i class="layui-icon">&#xe654;</i>导入</button>
-                  }
-                  <button class="layui-btn layui-btn-sm icon-btn" id="toolMore">更多<i class="layui-icon layui-icon-down layui-font-12"></i></button>
-            </div>
-        </div>
-        @if (pager != null)
-        {
-            if (!isdis)
-            {
-                <div class="layui-col-md9" style="text-align:right;">
-                    <form action="@Html.Raw(pager.GetFormAction(act))" method="post" role="form">
-                    <div class="layui-row layui-col-space5">
-                        @foreach (var item in fields)
-                        {
-                            if (!item.MapField.IsNullOrEmpty())
-                            {
-                                if (item.MapProvider != null)
-                                {
-                                    var factory=item.MapProvider.EntityType.AsFactory();
-                                    var list=factory.FindAll();
-                                    var result = new Dictionary<string,string>();
-                                    foreach (var item1 in list)
-                                    {
-                                        var displayName=$"{item1["Name"]}[{item1[factory.Master.Name].ToString()}]";
-                                        if(item1[factory.Master.Name]!=null&&item1[factory.Master.Name].ToString()==item1["Name"])
-                                            displayName=item1[factory.Master.Name].ToString();
-
-                                        result.Add(item1[factory.Unique.Name].ToString(), displayName);
-                                    }
-
-                                    <div class="layui-inline">
-                                      <label class="layui-form-label" style="width:auto;">@item.DisplayName:</label>
-                                      <div class="layui-input-inline">
-                                        @Html.ForDropDownList(item.MapField, result, pager[item.MapField], "全部", true)
-                                      </div>
-                                    </div>
-                                }
-                            }
-                        }
-                    <div class="layui-inline"><input type="text" class="layui-input" id="test-laydate-start" autocomplete="off" name="dtStart" placeholder="开始日期" value="@Context.Request.GetRequestValue("dtStart")"></div>
-                    <div class="layui-inline"><label class="layui-form-label" style="width:20px">~</label></div>
-                    <div class="layui-inline">
-                        <input type="text" class="layui-input" id="test-laydate-end" name="dtEnd" autocomplete="off" placeholder="结束日期" value="@Context.Request.GetRequestValue("dtEnd")"></div>
-                    <div class="layui-inline">
-                    <label class="layui-form-label">关键字:</label>
-                    <div class="layui-inline">
-                    <input class="layui-input" name="q" id="test-table-demoReload" autocomplete="off" placeholder="多关键词空格隔开" value="@Context.Request.GetRequestValue("q")">
-                    </div>
-                    <button class="layui-btn" data-type="reload" type="submit"><i class="layui-icon">&#xe615;</i>搜索</button>
-                    </div>
-                    </div>
-                    </form>
-                </div>
-            }
-        }
-      </div>
-</script>
+    @await Html.PartialAsync("_List_Toolbar")
 
     @* 设置行操作按钮*@
     @if (this.Has(PermissionFlags.Detail, PermissionFlags.Update, PermissionFlags.Delete))

@@ -1,19 +1,10 @@
-﻿using System.Linq;
-using System.Security.Principal;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Net.Http.Headers;
-using NewLife.Common;
-using NewLife.Cube.Entity;
-using NewLife.Cube.Extensions;
+﻿using NewLife.Cube.Entity;
 using NewLife.Cube.Services;
 using NewLife.Cube.Web;
 using NewLife.Log;
 using NewLife.Model;
 using NewLife.Serialization;
-using XCode;
 using XCode.Membership;
-using IServiceCollection = Microsoft.Extensions.DependencyInjection.IServiceCollection;
-using JwtBuilder = NewLife.Web.JwtBuilder;
 
 namespace NewLife.Cube;
 
@@ -33,9 +24,6 @@ public class ManageProvider2 : ManageProvider
     /// <summary>保存于Session的凭证</summary>
     public String SessionKey { get; set; } = "Admin";
     #endregion
-
-    ///// <summary>当前管理提供者</summary>
-    //public new static IManageProvider Provider => ObjectContainer.Current.ResolveInstance<IManageProvider>();
 
     #region IManageProvider 接口
     /// <summary>获取当前用户</summary>

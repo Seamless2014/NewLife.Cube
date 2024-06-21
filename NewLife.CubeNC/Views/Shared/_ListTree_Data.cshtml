@@ -25,9 +25,9 @@
                 var name = df?.Header ?? item.DisplayName ?? item.Name;
                 var title = df?.HeaderTitle ?? item.Description;
 
-                if (item.Type == typeof(DateTime))
+                if (item.Type == typeof(DateTime) && item.Services.Count == 0)
                 {
-                    var width = item.Name.EndsWithIgnoreCase("Date") ? 80 : 134;
+                    var width = item.ItemType == "Date" ? 80 : 134;
                     <th class="text-center" style="min-width:@(width)px;" title="@title"><a href="@Html.Raw(sortUrl)">@name</a></th>
                 }
                 else if (item.Type == null)
@@ -64,29 +64,20 @@
                 @foreach (var item in fields)
                 {
                     var df = item as ListField;
-                    var url = (String)df?.GetUrl(entity);
+                    var txt = "";
                     if (df != null && df.DataVisible != null && !df.DataVisible(entity))
                     {
                         <td></td>
                     }
-                    else if (df != null && !df.DataAction.IsNullOrEmpty())
+                    else if (df != null && (txt = df.GetLink(entity, page)) != null)
                     {
-                        var name = df.GetDisplayName(entity);
-                        var title = df.GetTitle(entity);
-                        <td class="text-center" title="@title"><a href="@Html.Raw(url)" data-action="@df.DataAction">@name</a></td>
+                        var tdClass = df.GetTextClass();
+                        <td class="@(tdClass??"text-center")">@Html.Raw(txt)</td>
                     }
-                    else if (df != null && !url.IsNullOrEmpty())
+                    else if (df != null && (txt = df.GetText(entity, page)) != null)
                     {
-                        var name = df.GetLinkName(entity);
-                        var title = df.GetTitle(entity);
-                        if (!String.IsNullOrEmpty(name) && name.StartsWith("<") && name.EndsWith(">"))
-                        {
-                            <td class="text-center" title="@title"><a href="@Html.Raw(url)" target="@df.Target">@(Html.Raw(name))</a></td>
-                        }
-                        else
-                        {
-                            <td class="text-center" title="@title"><a href="@Html.Raw(url)" target="@df.Target">@name</a></td>
-                        }
+                        var tdClass = df.GetTextClass();
+                        <td class="@tdClass)">@Html.Raw(txt)</td>
                     }
                     else
                     {

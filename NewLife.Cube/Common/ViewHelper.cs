@@ -176,9 +176,9 @@ public static class ViewHelper
             sb.Append(@"<th class=""text-center""");
 
             // 固定宽度
-            if (item.Type == typeof(DateTime))
+            if (item.Type == typeof(DateTime) && item.Services.Count == 0)
             {
-                var width = item.Name.EndsWithIgnoreCase("Date") ? 80 : 134;
+                var width = item.ItemType == "Date" ? 80 : 134;
                 sb.AppendFormat(@" style=""min-width:{0}px;""", width);
             }
 
@@ -236,7 +236,7 @@ public static class ViewHelper
                         break;
                     case TypeCode.Single:
                     case TypeCode.Double:
-                        if (name2.EndsWith("Rate") || name2.EndsWith("Ratio"))
+                        if (name2.EndsWith("Rate") || name2.EndsWith("Ratio") || item.ItemType.EqualIgnoreCase("percent", "Percentage"))
                         {
                             var des = item.Description + "";
                             if (des.Contains("十分之一"))
@@ -267,17 +267,17 @@ public static class ViewHelper
                             sb.AppendFormat(@"<td class=""text-center"">@entity.{0}</td>", item.Name);
                         else if (item.Name.EqualIgnoreCase("CreateUserID", "UpdateUserID"))
                             BuildUser(item, sb);
-                        else if (name2.EndsWith("Rate") || name2.EndsWith("Ratio"))
+                        else if (name2.EndsWith("Rate") || name2.EndsWith("Ratio") || item.ItemType.EqualIgnoreCase("percent", "Percentage"))
                         {
                             var des = item.Description + "";
                             if (des.Contains("十分之一"))
-                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 10).ToString(""p2""))</td>", item.Name);
+                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 10d).ToString(""p2""))</td>", item.Name);
                             else if (des.Contains("百分之一"))
-                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 100).ToString(""p2""))</td>", item.Name);
+                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 100d).ToString(""p2""))</td>", item.Name);
                             else if (des.Contains("千分之一"))
-                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 1000).ToString(""p2""))</td>", item.Name);
+                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 1000d).ToString(""p2""))</td>", item.Name);
                             else if (des.Contains("万分之一"))
-                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 10000).ToString(""p2""))</td>", item.Name);
+                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 10000d).ToString(""p2""))</td>", item.Name);
                             else
                                 sb.AppendFormat(@"<td class=""text-center"">@entity.{0}.ToString(""p2"")</td>", item.Name);
                         }
@@ -354,7 +354,7 @@ public static class ViewHelper
                         break;
                     case TypeCode.Single:
                     case TypeCode.Double:
-                        if (name2.EndsWith("Rate") || name2.EndsWith("Ratio"))
+                        if (name2.EndsWith("Rate") || name2.EndsWith("Ratio") || item.ItemType.EqualIgnoreCase("percent", "Percentage"))
                         {
                             var des = item.Description + "";
                             if (des.Contains("十分之一"))
@@ -386,17 +386,17 @@ public static class ViewHelper
                             sb.Append(@"<td></td>");
                         else if (item.Name.EqualIgnoreCase("CreateUserID", "UpdateUserID"))
                             sb.Append(@"<td></td>");
-                        else if (name2.EndsWith("Rate") || name2.EndsWith("Ratio"))
+                        else if (name2.EndsWith("Rate") || name2.EndsWith("Ratio") || item.ItemType.EqualIgnoreCase("percent", "Percentage"))
                         {
                             var des = item.Description + "";
                             if (des.Contains("十分之一"))
-                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 10).ToString(""p2""))</td>", item.Name);
+                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 10d).ToString(""p2""))</td>", item.Name);
                             else if (des.Contains("百分之一"))
-                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 100).ToString(""p2""))</td>", item.Name);
+                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 100d).ToString(""p2""))</td>", item.Name);
                             else if (des.Contains("千分之一"))
-                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 1000).ToString(""p2""))</td>", item.Name);
+                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 1000d).ToString(""p2""))</td>", item.Name);
                             else if (des.Contains("万分之一"))
-                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 10000).ToString(""p2""))</td>", item.Name);
+                                sb.AppendFormat(@"<td class=""text-center"">@((entity.{0} / 10000d).ToString(""p2""))</td>", item.Name);
                             else
                                 sb.AppendFormat(@"<td class=""text-center"">@entity.{0}.ToString(""p2"")</td>", item.Name);
                         }
@@ -582,7 +582,7 @@ public static class ViewHelper
         {
             sb.AppendLine($"        @Html.ForDropDownList(\"{field.MapField}\", {fact.EntityType.Name}.Meta.AllFields.First(e=>e.Name==\"{field.Name}\").Map.Provider.GetDataSource(), @entity.{field.Name})");
         }
-        else if (field.Readonly)
+        else if (field.ReadOnly)
             sb.AppendLine($"        <label class=\"form-control\">@entity.{field.Name}</label>");
         else if (field.Type == typeof(String))
             BuildStringItem(field, sb);
@@ -739,9 +739,12 @@ public static class ViewHelper
     {
         if (user == null || user.Avatar.IsNullOrEmpty()) return null;
 
+        // 绝对路径
+        if (user.Avatar.StartsWithIgnoreCase("http://", "https://", "/")) return user.Avatar;
+
         var set = CubeSetting.Current;
 
-        if (!user.Avatar.IsNullOrEmpty() && !user.Avatar.StartsWithIgnoreCase("/Sso/"))
+        if (!user.Avatar.StartsWithIgnoreCase("/Sso/"))
         {
             var av = set.AvatarPath.CombinePath(user.Avatar).GetBasePath();
             if (File.Exists(av)) return "/Cube/Avatar?id=" + user.ID;
@@ -862,6 +865,7 @@ public static class ViewHelper
                                 ID = menu.ID,
                                 Name = menu.Name,
                                 DisplayName = menu.DisplayName ?? menu.Name,
+                                FullName = menu.FullName,
                                 Url = menu.Url,
                                 Icon = menu.Icon,
                                 Visible = menu.Visible,
@@ -890,6 +894,47 @@ public static class ViewHelper
     /// <param name="dc"></param>
     /// <returns></returns>
     public static Boolean IsAttachment(this IDataColumn dc) => dc.ItemType.EqualIgnoreCase("file", "image") || dc.ItemType.StartsWithIgnoreCase("file-", "image-");
+
+    /// <summary>获取文本样式</summary>
+    /// <param name="listField"></param>
+    /// <returns></returns>
+    public static String GetTextClass(this ListField listField)
+    {
+        // 文本对齐方式
+        var tdClass = "";
+        switch (listField.TextAlign)
+        {
+            case TextAligns.Default:
+                tdClass = "";
+                break;
+            case TextAligns.Left:
+                tdClass = "text-left";
+                break;
+            case TextAligns.Center:
+                tdClass = "text-center";
+                break;
+            case TextAligns.Right:
+                tdClass = "text-right";
+                break;
+            case TextAligns.Justify:
+                tdClass = "text-justify";
+                break;
+            case TextAligns.Nowrap:
+                tdClass = "text-nowrap;max-width:600px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;";
+                break;
+        }
+        // 叠加样式
+        if (!listField.Class.IsNullOrEmpty())
+        {
+            if (tdClass.IsNullOrEmpty() || listField.Class.Contains("text-"))
+                tdClass = listField.Class;
+            else
+                tdClass += ";" + listField.Class;
+        }
+        if (tdClass.IsNullOrEmpty()) tdClass = null;
+
+        return tdClass;
+    }
 }
 
 /// <summary>Bootstrap页面控制。允许继承</summary>

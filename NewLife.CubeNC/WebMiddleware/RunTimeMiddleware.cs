@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Net;
 using System.Web;
 using NewLife.Common;
 using NewLife.Cube.Entity;
@@ -7,6 +6,7 @@ using NewLife.Cube.Services;
 using NewLife.Cube.ViewModels;
 using NewLife.Cube.Web;
 using NewLife.Log;
+using NewLife.Remoting;
 using NewLife.Security;
 using NewLife.Web;
 using XCode.DataAccessLayer;
@@ -20,17 +20,20 @@ public class RunTimeMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly UserService _userService;
+    private readonly AccessService _accessService;
 
     /// <summary>会话提供者</summary>
-    static readonly SessionProvider _sessionProvider = new SessionProvider();
+    static readonly SessionProvider _sessionProvider = new();
 
     /// <summary>实例化</summary>
     /// <param name="next"></param>
     /// <param name="userService"></param>
-    public RunTimeMiddleware(RequestDelegate next, UserService userService)
+    /// <param name="accessService"></param>
+    public RunTimeMiddleware(RequestDelegate next, UserService userService, AccessService accessService)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
         _userService = userService;
+        _accessService = accessService;
     }
 
     /// <summary>调用</summary>
@@ -38,18 +41,47 @@ public class RunTimeMiddleware
     /// <returns></returns>
     public async Task Invoke(HttpContext ctx)
     {
-        var userAgent = ctx.Request.Headers["User-Agent"] + "";
+        var userAgent = ctx.Request.Headers.UserAgent + "";
         var ua = new UserAgentParser();
         ua.Parse(userAgent);
+        ctx.Items["UserAgent"] = ua;
 
         // 识别拦截爬虫
-        if (!ValidRobot(ctx, ua)) return;
+        if (!WebHelper.ValidRobot(ctx, ua)) return;
 
+        // 强制访问Https
+        if (MiddlewareHelper.CheckForceRedirect(ctx)) return;
+
+        var url = ctx.Request.GetRawUrl();
         var ip = ctx.GetUserHost();
         ManageProvider.UserHost = ip;
+        var user = ManageProvider.User;
 
         // 创建Session集合
-        var token = CreateSession(ctx);
+        var (token, session) = CreateSession(ctx);
+
+        // 安全访问
+        var rule = _accessService.Valid(url + "", ua, ip, user, session);
+        if (rule != null && rule.ActionKind is AccessActionKinds.Block or AccessActionKinds.Limit)
+        {
+            if (rule.BlockCode == 302)
+            {
+                ctx.Response.Redirect(rule.BlockContent);
+            }
+            else if (rule.BlockCode > 0)
+            {
+                ctx.Response.StatusCode = rule.BlockCode;
+                ctx.Response.ContentType = "text/html";
+                await ctx.Response.WriteAsync(rule.BlockContent);
+                await ctx.Response.CompleteAsync();
+            }
+            else
+            {
+                ctx.Abort();
+            }
+
+            return;
+        }
 
         var inf = new RunTimeInfo();
         ctx.Items[nameof(RunTimeInfo)] = inf;
@@ -65,15 +97,14 @@ public class RunTimeMiddleware
         // 设计时收集执行的SQL语句
         if (SysConfig.Current.Develop)
         {
-            inf.Sqls = new List<String>();
+            inf.Sqls = [];
             DAL.LocalFilter = s => inf.Sqls.Add(s);
         }
 
         // 日志控制，精确标注Web类型线程
         WriteLogEventArgs.Current.IsWeb = true;
 
-        UserOnline olt = null;
-        var user = ManageProvider.User;
+        var online = session["Online"] as UserOnline;
         try
         {
             var set = CubeSetting.Current;
@@ -82,19 +113,20 @@ public class RunTimeMiddleware
                 (set.EnableUserOnline == 2 || set.EnableUserOnline == 1 && user != null))
             {
                 // 浏览器设备标识作为会话标识
-                var deviceId = FillDeviceId(ctx);
+                var deviceId = WebHelper.FillDeviceId(ctx);
                 //var sessionId = token?.MD5_16() ?? ip;
                 var sessionId = deviceId;
-                olt = _userService.SetWebStatus(sessionId, deviceId, p, userAgent, ua, user, ip);
+                online = _userService.SetWebStatus(online, sessionId, deviceId, p, userAgent, ua, user, ip);
                 //FillDeviceId(ctx, olt);
-                ctx.Items["Cube_Online"] = olt;
+                session["Online"] = online;
+                ctx.Items["Cube_Online"] = online;
             }
             await _next.Invoke(ctx);
         }
         catch (Exception ex)
         {
             var uri = ctx.Request.GetRawUrl();
-            olt?.SetError(ex.Message);
+            online?.SetError(ex.Message);
 
             XTrace.Log.Error("[{0}]的错误[{1}] {2}", uri, ip, ctx.TraceIdentifier);
 
@@ -132,8 +164,7 @@ public class RunTimeMiddleware
     /// <returns></returns>
     public static String GetInfo(HttpContext ctx)
     {
-        var rtinf = ctx.Items[nameof(RunTimeInfo)] as RunTimeInfo;
-        if (rtinf == null) return null;
+        if (ctx.Items[nameof(RunTimeInfo)] is not RunTimeInfo rtinf) return null;
 
         var inf = String.Format(DbRunTimeFormat,
                                 DAL.QueryTimes - rtinf.QueryTimes,
@@ -150,7 +181,7 @@ public class RunTimeMiddleware
         return inf;
     }
 
-    private static String CreateSession(HttpContext ctx)
+    private static (String, IDictionary<String, Object>) CreateSession(HttpContext ctx)
     {
         // 准备Session
         var ss = ctx.Session;
@@ -166,12 +197,13 @@ public class RunTimeMiddleware
             }
 
             //Session = _sessionProvider.GetSession(ss.Id);
-            ctx.Items["Session"] = _sessionProvider.GetSession(token);
+            var session = _sessionProvider.GetSession(token);
+            ctx.Items["Session"] = session;
 
-            return token;
+            return (token, session);
         }
 
-        return null;
+        return (null, null);
     }
 
     /// <summary>忽略的后缀</summary>
@@ -179,85 +211,6 @@ public class RunTimeMiddleware
         ".html", ".htm", ".js", ".css", ".map", ".png", ".jpg", ".gif", ".ico",  // 脚本样式图片
         ".woff", ".woff2", ".svg", ".ttf", ".otf", ".eot"   // 字体
     };
-
-    private static Boolean ValidRobot(HttpContext ctx, UserAgentParser ua)
-    {
-        if (ua.Compatible.IsNullOrEmpty()) return true;
-
-        // 判断爬虫
-        var code = CubeSetting.Current.RobotError;
-        if (code > 0 && ua.IsRobot && !ua.Brower.IsNullOrEmpty())
-        {
-            var name = ua.Brower;
-            var p = name.IndexOf('/');
-            if (p > 0) name = name[..p];
-
-            // 埋点
-            using var span = DefaultTracer.Instance?.NewSpan($"bot:{name}", ua.UserAgent);
-
-            ctx.Response.StatusCode = code;
-            return false;
-        }
-
-        return true;
-    }
-
-    private static String FillDeviceId(HttpContext ctx)
-    {
-        //if (!online.DeviceId.IsNullOrEmpty()) return;
-
-        var id = ctx.Request.Cookies["CubeDeviceId"];
-        if (id.IsNullOrEmpty())
-        {
-            id = Rand.NextString(16);
-
-            //// 顶级域名
-            //var url = ctx.Request.GetRawUrl();
-            //var domain = url.Host;
-            //var ss = domain.Split('.');
-            //if (ss.Length >= 3 && !IPAddress.TryParse(domain, out _))
-            //{
-            //    // 国家顶级域名
-            //    if (ss[^1].Length == 2 && ss[^2].EqualIgnoreCase("com", "net", "org", "gov", "edu"))
-            //        domain = $"{ss[^3]}.{ss[^2]}.{ss[^1]}";
-            //    // 全球顶级域名
-            //    else
-            //        domain = $"{ss[^2]}.{ss[^1]}";
-            //}
-
-            var opt = new CookieOptions
-            {
-                HttpOnly = true,
-                //Domain = domain,
-                Expires = DateTimeOffset.Now.AddYears(10),
-                SameSite = SameSiteMode.Unspecified,
-                //Secure = true,
-            };
-
-            // https时，SameSite使用None，此时可以让cookie写入有最好的兼容性
-            if (ctx.Request.GetRawUrl().Scheme.EqualIgnoreCase("https"))
-            {
-                var domain = CubeSetting.Current.CookieDomain;
-                if (!domain.IsNullOrEmpty())
-                {
-                    opt.Domain = domain;
-                    opt.SameSite = SameSiteMode.None;
-                    opt.Secure = true;
-                }
-
-                //opt.HttpOnly = true;
-                //opt.SameSite = SameSiteMode.None;
-                //opt.Secure = true;
-            }
-
-            ctx.Response.Cookies.Append("CubeDeviceId", id, opt);
-        }
-
-        //online.DeviceId = id;
-        //online.SaveAsync();
-
-        return id;
-    }
 }
 
 /// <summary>运行时间信息</summary>

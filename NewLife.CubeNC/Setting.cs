@@ -16,6 +16,7 @@ public class Setting : CubeSetting { }
 public class CubeSetting : Config<CubeSetting>
 {
     #region 静态
+    /// <summary>指向数据库参数字典表</summary>
     static CubeSetting() => Provider = new DbConfigProvider { UserId = 0, Category = "Cube" };
     #endregion
 
@@ -60,15 +61,15 @@ public class CubeSetting : Config<CubeSetting>
     [Category("通用")]
     public String XFrameOptions { get; set; }
 
-    /// <summary>Cookie模式。token的cookies默认模式（ -1 Unspecified，0 None，1 Lax，2 Strict）</summary>
-    [Description("Cookie模式。token的cookies默认模式（ -1 Unspecified，0 None，1 Lax，2 Strict）")]
-    [Category("通用")]
-    public Int32 SameSiteMode { get; set; } = -1;
+    ///// <summary>Cookie模式。token的cookies默认模式（ -1 Unspecified，0 None，1 Lax，2 Strict）</summary>
+    //[Description("Cookie模式。token的cookies默认模式（ -1 Unspecified，0 None，1 Lax，2 Strict）")]
+    //[Category("通用")]
+    //public Int32 SameSiteMode { get; set; } = -1;
 
-    /// <summary>Cookie域名。可用于把Cookie写到顶级域名，默认为空写当前域。写顶级域要求https，同时会导致普通http无法在本地域写同名键值</summary>
-    [Description("Cookie域名。可用于把Cookie写到顶级域名，默认为空写当前域。写顶级域要求https，同时会导致普通http无法在本地域写同名键值")]
-    [Category("通用")]
-    public String CookieDomain { get; set; }
+    ///// <summary>Cookie域名。可用于把Cookie写到顶级域名，默认为空写当前域。写顶级域要求https，同时会导致普通http无法在本地域写同名键值</summary>
+    //[Description("Cookie域名。可用于把Cookie写到顶级域名，默认为空写当前域。写顶级域要求https，同时会导致普通http无法在本地域写同名键值")]
+    //[Category("通用")]
+    //public String CookieDomain { get; set; }
 
     /// <summary>分享有效期。分享令牌的有效期，默认7200秒</summary>
     [Description("分享有效期。分享令牌的有效期，默认7200秒")]
@@ -80,15 +81,15 @@ public class CubeSetting : Config<CubeSetting>
     [Category("通用")]
     public Int32 RobotError { get; set; }
 
-    /// <summary>用户在线。是否记录用户在线信息，0表示不记录，1表示仅记录已登录用户，2表示记录所有访客。默认2</summary>
-    [Description("用户在线。是否记录用户在线信息，0表示不记录，1表示仅记录已登录用户，2表示记录所有访客。默认2")]
-    [Category("通用")]
-    public Int32 EnableUserOnline { get; set; } = 2;
+    ///// <summary>强制使用SSL。强制访问https，使用http访问时跳转</summary>
+    //[Description("强制使用SSL。强制访问https，使用http访问时跳转")]
+    //[Category("通用")]
+    //public Boolean ForceSSL { get; set; }
 
-    /// <summary>用户统计。是否统计用户访问，默认true</summary>
-    [Description("用户统计。是否统计用户访问，默认true")]
+    /// <summary>强制跳转。指定目标schema和host，在GET访问发现不一致时强制跳转，host支持*。常用于强制跳转https，如https://*:8081</summary>
+    [Description("强制跳转。指定目标schema和host，在GET访问发现不一致时强制跳转，host支持*。常用于强制跳转https，如https://*:8081")]
     [Category("通用")]
-    public Boolean EnableUserStat { get; set; } = true;
+    public String ForceRedirect { get; set; }
     #endregion
 
     #region 用户登录
@@ -117,8 +118,8 @@ public class CubeSetting : Config<CubeSetting>
     //[Category("用户登录")]
     //public Int32 MinPasswordLength { get; set; } = 6;
 
-    /// <summary>密码强度。*表示无限制，默认8位起，数字大小写字母和符号</summary>
-    [Description("密码强度。*表示无限制，默认8位起，数字大小写字母和符号")]
+    /// <summary>密码强度。*表示无限制，默认8位起，数字大小写字母和符号。简易版^(?=.*\\d.*)(?=.*[a-zA-Z].*).{6,32}$</summary>
+    [Description("密码强度。*表示无限制，默认8位起，数字大小写字母和符号。简易版^(?=.*\\d.*)(?=.*[a-zA-Z].*).{6,32}$")]
     [Category("用户登录")]
     public String PaswordStrength { get; set; } = @"^(?=.*\d.*)(?=.*[a-z].*)(?=.*[A-Z].*)(?=.*[^(0-9a-zA-Z)].*).{8,32}$";
 
@@ -264,8 +265,8 @@ public class CubeSetting : Config<CubeSetting>
     [Category("界面配置")]
     public Boolean TitlePrefix { get; set; } = true;
 
-    /// <summary>双击事件禁用。列表页表格行双击事件禁用，默认true(启用)</summary>
-    [Description("双击事件禁用。列表页表格行双击事件禁用，默认true(启用)")]
+    /// <summary>表格双击事件。列表页表格行双击事件禁用，默认true(启用)</summary>
+    [Description("表格双击事件。列表页表格行双击事件禁用，默认true(启用)")]
     [Category("界面配置")]
     public Boolean EnableTableDoubleClick { get; set; } = true;
 
@@ -273,6 +274,48 @@ public class CubeSetting : Config<CubeSetting>
     [Description("星尘Web。星尘控制台地址，支持直达调用链 /trace?id={traceId} 或 /graph?id={traceId}")]
     [Category("界面配置")]
     public String StarWeb { get; set; }
+    #endregion
+
+    #region 系统功能
+    /// <summary>多租户。是否支持多租户，租户模式禁止访问系统管理，平台管理模式禁止访问租户页面</summary>
+    [Description("多租户。是否支持多租户，租户模式禁止访问系统管理，平台管理模式禁止访问租户页面")]
+    [Category("系统功能")]
+    public Boolean EnableTenant { get; set; }
+
+    /// <summary>用户在线。是否记录用户在线信息，0表示不记录，1表示仅记录已登录用户，2表示记录所有访客。默认2</summary>
+    [Description("用户在线。是否记录用户在线信息，0表示不记录，1表示仅记录已登录用户，2表示记录所有访客。默认2")]
+    [Category("系统功能")]
+    public Int32 EnableUserOnline { get; set; } = 2;
+
+    /// <summary>用户统计。是否统计用户访问，默认true</summary>
+    [Description("用户统计。是否统计用户访问，默认true")]
+    [Category("系统功能")]
+    public Boolean EnableUserStat { get; set; } = true;
+
+    /// <summary>数据保留时间。审计日志与OAuth日志，默认30天</summary>
+    [Description("数据保留时间。审计日志与OAuth日志，默认30天")]
+    [Category("系统功能")]
+    public Int32 DataRetention { get; set; } = 30;
+
+    /// <summary>文件保留时间。备份文件保留时间，默认15天</summary>
+    [Description("文件保留时间。备份文件保留时间，默认15天")]
+    [Category("系统功能")]
+    public Int32 FileRetention { get; set; } = 15;
+
+    /// <summary>保留文件大小。小于该大小的文件将不会被删除，即使超过保留时间，单位K字节，默认1024K</summary>
+    [Description("保留文件大小。小于该大小的文件将不会被删除，即使超过保留时间，单位K字节，默认1024K")]
+    [Category("系统功能")]
+    public Int32 FileRetentionSize { get; set; } = 1024;
+
+    /// <summary>最大导出行数。页面允许导出的最大行数，默认10_000_000</summary>
+    [Description("最大导出行数。页面允许导出的最大行数，默认10_000_000")]
+    [Category("系统功能")]
+    public Int32 MaxExport { get; set; } = 10_000_000;
+
+    /// <summary>最大备份行数。页面允许备份的最大行数，默认10_000_000</summary>
+    [Description("最大备份行数。页面允许备份的最大行数，默认10_000_000")]
+    [Category("系统功能")]
+    public Int32 MaxBackup { get; set; } = 10_000_000;
     #endregion
 
     #region 方法

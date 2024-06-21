@@ -5,11 +5,14 @@ using NewLife.Cube.ViewModels;
 using NewLife.Log;
 using NewLife.School.Entity;
 using NewLife.Web;
+using XCode;
+using XCode.Membership;
 
 namespace CubeDemo.Areas.School.Controllers;
 
 [SchoolArea]
 [DisplayName("班级")]
+[Menu(0, true, Mode = MenuModes.Admin | MenuModes.Tenant)]
 public class ClassController : EntityController<Class, ClassModel>
 {
     private readonly ITracer _tracer;
@@ -21,6 +24,7 @@ public class ClassController : EntityController<Class, ClassModel>
             df.DisplayName = "AJAX操作请求";
             df.Url = "/School/Class/Hello";
             df.DataAction = "action";
+            df.Title= "Title";
         }
 
         {
@@ -35,6 +39,7 @@ public class ClassController : EntityController<Class, ClassModel>
             df.DisplayName = "浏览器多标签页打开";
             df.Url = "/School/Student";
             df.Target = TargetEnum._blank + "";
+            df.Title = "Title";
         }
     }
 
@@ -68,6 +73,49 @@ public class ClassController : EntityController<Class, ClassModel>
         var start = p["dtStart"].ToDateTime();
         var end = p["dtEnd"].ToDateTime();
 
-        return Class.Search(start, end, p["Q"], p);
+        var exp = new WhereExpression();
+        // var  list = Class.Search(start, end, p["Q"], p);
+        var list = Class.FindAll(exp, p);
+        return list;
+    }
+
+    /// <summary>获取字段信息</summary>
+    /// <param name="kind"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    protected override FieldCollection OnGetFields(ViewKinds kind, Object model)
+    {
+        var rs = base.OnGetFields(kind, model);
+
+        if (TenantContext.CurrentId > 0)
+        {
+            switch (kind)
+            {
+                case ViewKinds.Detail:
+                case ViewKinds.AddForm:
+                case ViewKinds.EditForm:
+                    rs.RemoveField("TenantId", "TenantName");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return rs;
+    }
+
+    /// <summary>验证数据</summary>
+    /// <param name="entity"></param>
+    /// <param name="type"></param>
+    /// <param name="post"></param>
+    /// <returns></returns>
+    protected override Boolean Valid(Class entity, DataObjectMethodType type, Boolean post)
+    {
+        if (/*!post &&*/ type == DataObjectMethodType.Insert)
+        {
+            if (entity.TenantId == 0) entity.TenantId = TenantContext.CurrentId;
+        }
+
+        return base.Valid(entity, type, post);
     }
 }

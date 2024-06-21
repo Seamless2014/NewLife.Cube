@@ -83,15 +83,10 @@ public class CubeSetting : Config<CubeSetting>
     [Category("通用")]
     public Int32 RobotError { get; set; }
 
-    /// <summary>用户在线。是否记录用户在线信息，0表示不记录，1表示仅记录已登录用户，2表示记录所有访客。默认2</summary>
-    [Description("用户在线。是否记录用户在线信息，0表示不记录，1表示仅记录已登录用户，2表示记录所有访客。默认2")]
+    /// <summary>强制跳转。指定目标schema和host，在GET访问发现不一致时强制跳转，host支持*。常用于强制跳转https，如https://*:8081</summary>
+    [Description("强制跳转。指定目标schema和host，在GET访问发现不一致时强制跳转，host支持*。常用于强制跳转https，如https://*:8081")]
     [Category("通用")]
-    public Int32 EnableUserOnline { get; set; } = 2;
-
-    /// <summary>用户统计。是否统计用户访问，默认true</summary>
-    [Description("用户统计。是否统计用户访问，默认true")]
-    [Category("通用")]
-    public Boolean EnableUserStat { get; set; } = true;
+    public String ForceRedirect { get; set; }
     #endregion
 
     #region 用户登录
@@ -276,6 +271,48 @@ public class CubeSetting : Config<CubeSetting>
     [Description("星尘Web。星尘控制台地址，支持直达调用链 /trace?id={traceId} 或 /graph?id={traceId}")]
     [Category("界面配置")]
     public String StarWeb { get; set; }
+    #endregion
+
+    #region 系统功能
+    /// <summary>多租户。是否支持多租户，租户模式禁止访问系统管理，平台管理模式禁止访问租户页面</summary>
+    [Description("多租户。是否支持多租户，租户模式禁止访问系统管理，平台管理模式禁止访问租户页面")]
+    [Category("系统功能")]
+    public Boolean EnableTenant { get; set; }
+
+    /// <summary>用户在线。是否记录用户在线信息，0表示不记录，1表示仅记录已登录用户，2表示记录所有访客。默认2</summary>
+    [Description("用户在线。是否记录用户在线信息，0表示不记录，1表示仅记录已登录用户，2表示记录所有访客。默认2")]
+    [Category("系统功能")]
+    public Int32 EnableUserOnline { get; set; } = 2;
+
+    /// <summary>用户统计。是否统计用户访问，默认true</summary>
+    [Description("用户统计。是否统计用户访问，默认true")]
+    [Category("系统功能")]
+    public Boolean EnableUserStat { get; set; } = true;
+
+    /// <summary>数据保留时间。审计日志与OAuth日志，默认30天</summary>
+    [Description("数据保留时间。审计日志与OAuth日志，默认30天")]
+    [Category("系统功能")]
+    public Int32 DataRetention { get; set; } = 30;
+
+    /// <summary>文件保留时间。备份文件保留时间，默认15天</summary>
+    [Description("文件保留时间。备份文件保留时间，默认15天")]
+    [Category("系统功能")]
+    public Int32 FileRetention { get; set; } = 15;
+
+    /// <summary>保留文件大小。小于该大小的文件将不会被删除，即使超过保留时间，单位K字节，默认1024K</summary>
+    [Description("保留文件大小。小于该大小的文件将不会被删除，即使超过保留时间，单位K字节，默认1024K")]
+    [Category("系统功能")]
+    public Int32 FileRetentionSize { get; set; } = 1024;
+
+    /// <summary>最大导出行数。页面允许导出的最大行数，默认10_000_000</summary>
+    [Description("最大导出行数。页面允许导出的最大行数，默认10_000_000")]
+    [Category("系统功能")]
+    public Int32 MaxExport { get; set; } = 10_000_000;
+
+    /// <summary>最大备份行数。页面允许备份的最大行数，默认10_000_000</summary>
+    [Description("最大备份行数。页面允许备份的最大行数，默认10_000_000")]
+    [Category("系统功能")]
+    public Int32 MaxBackup { get; set; } = 10_000_000;
     #endregion
 
     #region 方法

@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <AssemblyTitle>魔方快速开发平台</AssemblyTitle>
     <Description>Web快速开发平台，搭建管理后台，灵活可扩展！内部集成了用户权限管理、模板继承、SSO登录、OAuth服务端、数据导出与分享等多个功能模块，在真实项目中经历过单表100亿数据添删改查的考验。</Description>
     <Company>新生命开发团队</Company>
-    <Copyright>©2002-2023 NewLife</Copyright>
-    <VersionPrefix>6.0</VersionPrefix>
+    <Copyright>©2002-2024 NewLife</Copyright>
+    <VersionPrefix>6.1</VersionPrefix>
     <VersionSuffix>$([System.DateTime]::Now.ToString(`yyyy.MMdd`))</VersionSuffix>
     <Version>$(VersionPrefix).$(VersionSuffix)</Version>
     <FileVersion>$(Version)</FileVersion>
@@ -59,9 +59,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\NewLife.CubeNC\Jobs\BackupDbService.cs" Link="Jobs\BackupDbService.cs" />
+    <Compile Include="..\NewLife.CubeNC\Jobs\CronJobAttribute.cs" Link="Jobs\CronJobAttribute.cs" />
+    <Compile Include="..\NewLife.CubeNC\Jobs\CubeJobBase.cs" Link="Jobs\CubeJobBase.cs" />
+    <Compile Include="..\NewLife.CubeNC\Jobs\HttpService.cs" Link="Jobs\HttpService.cs" />
+    <Compile Include="..\NewLife.CubeNC\Jobs\ICubeJob.cs" Link="Jobs\ICubeJob.cs" />
+    <Compile Include="..\NewLife.CubeNC\Jobs\SqlService.cs" Link="Jobs\SqlService.cs" />
+    <Compile Include="..\NewLife.CubeNC\Membership\ManagerProviderHelper.cs" Link="Membership\ManagerProviderHelper.cs" />
     <Compile Include="..\NewLife.CubeNC\Modules\IModule.cs" Link="Modules\IModule.cs" />
     <Compile Include="..\NewLife.CubeNC\Modules\ModuleAttribute.cs" Link="Modules\ModuleAttribute.cs" />
     <Compile Include="..\NewLife.CubeNC\Modules\ModuleManager.cs" Link="Modules\ModuleManager.cs" />
+    <Compile Include="..\NewLife.CubeNC\Services\AccessService.cs" Link="Services\AccessService.cs" />
+    <Compile Include="..\NewLife.CubeNC\Services\DataRetentionService.cs" Link="Services\DataRetentionService.cs" />
+    <Compile Include="..\NewLife.CubeNC\Services\DbDataProtectionBuilderExtensions.cs" Link="Services\DbDataProtectionBuilderExtensions.cs" />
+    <Compile Include="..\NewLife.CubeNC\Services\DbXmlRepository.cs" Link="Services\DbXmlRepository.cs" />
     <Compile Include="..\NewLife.CubeNC\Services\JobService.cs" Link="Services\JobService.cs" />
     <Compile Include="..\NewLife.CubeNC\Services\PasswordService.cs" Link="Services\PasswordService.cs" />
     <Compile Include="..\NewLife.CubeNC\Services\UserService.cs" Link="Services\UserService.cs" />
@@ -70,6 +81,7 @@
     <Compile Include="..\NewLife.CubeNC\ViewModels\ErrorModel.cs" Link="ViewModels\ErrorModel.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\FieldCollection.cs" Link="ViewModels\FieldCollection.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\FormField.cs" Link="ViewModels\FormField.cs" />
+    <Compile Include="..\NewLife.CubeNC\ViewModels\ILinkExtend.cs" Link="ViewModels\ILinkExtend.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\ItemModel.cs" Link="ViewModels\ItemModel.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\IUrlExtend.cs" Link="ViewModels\IUrlExtend.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\ListBoxModel.cs" Link="ViewModels\ListBoxModel.cs" />
@@ -77,14 +89,17 @@
     <Compile Include="..\NewLife.CubeNC\ViewModels\LoginConfigModel.cs" Link="ViewModels\LoginConfigModel.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\MenuTree.cs" Link="ViewModels\MenuTree.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\SearchField.cs" Link="ViewModels\SearchField.cs" />
+    <Compile Include="..\NewLife.CubeNC\ViewModels\TextAligns.cs" Link="ViewModels\TextAligns.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\ViewKinds.cs" Link="ViewModels\ViewKinds.cs" />
+    <Compile Include="..\NewLife.CubeNC\WebMiddleware\MiddlewareHelper.cs" Link="WebMiddleware\MiddlewareHelper.cs" />
     <Compile Include="..\NewLife.CubeNC\WebMiddleware\TenantMiddleware.cs" Link="WebMiddleware\TenantMiddleware.cs" />
+    <Compile Include="..\NewLife.CubeNC\WebMiddleware\TracerMiddleware.cs" Link="WebMiddleware\TracerMiddleware.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NewLife.Core" Version="10.3.2023.527-beta0038" />
-    <PackageReference Include="NewLife.IP" Version="2.0.2023.401" />
-    <PackageReference Include="NewLife.Stardust" Version="2.8.2023.528-beta1513" />
-    <PackageReference Include="NewLife.XCode" Version="11.8.2023.528-beta1511" />
+    <PackageReference Include="NewLife.Core" Version="10.10.2024.507" />
+    <PackageReference Include="NewLife.IP" Version="2.1.2024.407" />
+    <PackageReference Include="NewLife.Stardust" Version="2.9.2024.417-beta1339" />
+    <PackageReference Include="NewLife.XCode" Version="11.12.2024.515" />
   </ItemGroup>
 
   <ItemGroup>
@@ -98,9 +113,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Session\" />
-    <Folder Include="Services\" />
     <Folder Include="Modules\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Jobs\" />
   </ItemGroup>
 
 </Project>
