@@ -25,7 +25,7 @@ namespace NewLife.Cube.Admin.Controllers;
 [DisplayName("用户")]
 [Description("系统基于角色授权，每个角色对不同的功能模块具备添删改查以及自定义权限等多种权限设定。")]
 [AdminArea]
-[Menu(100, true, Icon = "fa-user")]
+[Menu(100, true, Icon = "fa-user", HelpUrl = "https://newlifex.com/cube/cube_security")]
 public class UserController : EntityController<User, UserModel>
 {
     /// <summary>用于防爆破登录。即使内存缓存，也有一定用处，最糟糕就是每分钟重试次数等于集群节点数的倍数</summary>
@@ -62,13 +62,24 @@ public class UserController : EntityController<User, UserModel>
         }
 
         {
+            var df = AddFormFields.AddDataField("RoleId", "RoleName");
+            df.DataSource = entity => Role.FindAllWithCache().Where(x => x.Enable).OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
+            AddFormFields.RemoveField("RoleName");
+        }
+        {
+            var df = EditFormFields.AddDataField("RoleId", "RoleName");
+            df.DataSource = entity => Role.FindAllWithCache().Where(x => x.Enable).OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
+            EditFormFields.RemoveField("RoleName");
+        }
+
+        {
             var df = AddFormFields.AddDataField("RoleIds", "RoleNames");
-            df.DataSource = entity => Role.FindAllWithCache().OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
+            df.DataSource = entity => Role.FindAllWithCache().Where(x => x.Enable).OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
             AddFormFields.RemoveField("RoleNames");
         }
         {
             var df = EditFormFields.AddDataField("RoleIds", "RoleNames");
-            df.DataSource = entity => Role.FindAllWithCache().OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
+            df.DataSource = entity => Role.FindAllWithCache().Where(x => x.Enable).OrderByDescending(e => e.Sort).ToDictionary(e => e.ID, e => e.Name);
             EditFormFields.RemoveField("RoleNames");
         }
         {
@@ -271,7 +282,7 @@ public class UserController : EntityController<User, UserModel>
         // 部分提供支持应用内免登录，直接跳转
         if (ms != null && ms.Count > 0 && logId == 0 && GetRequest("autologin") != "0")
         {
-            var agent = Request.Headers["User-Agent"] + "";
+            var agent = Request.Headers.UserAgent + "";
             if (!agent.IsNullOrEmpty())
             {
                 foreach (var item in ms)

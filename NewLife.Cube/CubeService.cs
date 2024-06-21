@@ -2,11 +2,10 @@
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.WebEncoders;
 using Microsoft.Net.Http.Headers;
-using NewLife.Caching.Services;
 using NewLife.Caching;
 using NewLife.Common;
 using NewLife.Cube.Modules;
@@ -18,9 +17,8 @@ using NewLife.Serialization;
 using NewLife.Web;
 using Stardust;
 using Stardust.Registry;
-using XCode.DataAccessLayer;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using XCode;
+using XCode.DataAccessLayer;
 
 namespace NewLife.Cube;
 
@@ -65,7 +63,7 @@ public static class CubeService
         }
 
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        IpResolver.Register();
+        //IpResolver.Register();
 
         var set = CubeSetting.Current;
         services.AddSingleton(set);
@@ -124,9 +122,10 @@ public static class CubeService
         //默认注入缓存实现
         services.TryAddSingleton<ICacheProvider, CacheProvider>();
 
-        // UI服务
+        // 服务
         services.AddSingleton<PasswordService>();
         services.AddSingleton<UserService>();
+        services.AddSingleton<AccessService>();
 
         //services.AddHostedService<JobService>();
         services.AddHostedService<DataRetentionService>();

@@ -83,10 +83,10 @@ public class CubeSetting : Config<CubeSetting>
     [Category("通用")]
     public Int32 RobotError { get; set; }
 
-    /// <summary>数据保留时间。审计日期与OAuth日志，默认30天</summary>
-    [Description("数据保留时间。审计日期与OAuth日志，默认30天")]
+    /// <summary>强制跳转。指定目标schema和host，在GET访问发现不一致时强制跳转，host支持*。常用于强制跳转https，如https://*:8081</summary>
+    [Description("强制跳转。指定目标schema和host，在GET访问发现不一致时强制跳转，host支持*。常用于强制跳转https，如https://*:8081")]
     [Category("通用")]
-    public Int32 DataRetention { get; set; } = 30;
+    public String ForceRedirect { get; set; }
     #endregion
 
     #region 用户登录
@@ -288,6 +288,31 @@ public class CubeSetting : Config<CubeSetting>
     [Description("用户统计。是否统计用户访问，默认true")]
     [Category("系统功能")]
     public Boolean EnableUserStat { get; set; } = true;
+
+    /// <summary>数据保留时间。审计日志与OAuth日志，默认30天</summary>
+    [Description("数据保留时间。审计日志与OAuth日志，默认30天")]
+    [Category("系统功能")]
+    public Int32 DataRetention { get; set; } = 30;
+
+    /// <summary>文件保留时间。备份文件保留时间，默认15天</summary>
+    [Description("文件保留时间。备份文件保留时间，默认15天")]
+    [Category("系统功能")]
+    public Int32 FileRetention { get; set; } = 15;
+
+    /// <summary>保留文件大小。小于该大小的文件将不会被删除，即使超过保留时间，单位K字节，默认1024K</summary>
+    [Description("保留文件大小。小于该大小的文件将不会被删除，即使超过保留时间，单位K字节，默认1024K")]
+    [Category("系统功能")]
+    public Int32 FileRetentionSize { get; set; } = 1024;
+
+    /// <summary>最大导出行数。页面允许导出的最大行数，默认10_000_000</summary>
+    [Description("最大导出行数。页面允许导出的最大行数，默认10_000_000")]
+    [Category("系统功能")]
+    public Int32 MaxExport { get; set; } = 10_000_000;
+
+    /// <summary>最大备份行数。页面允许备份的最大行数，默认10_000_000</summary>
+    [Description("最大备份行数。页面允许备份的最大行数，默认10_000_000")]
+    [Category("系统功能")]
+    public Int32 MaxBackup { get; set; } = 10_000_000;
     #endregion
 
     #region 方法

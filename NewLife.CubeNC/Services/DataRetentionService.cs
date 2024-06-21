@@ -4,6 +4,7 @@ using NewLife.Security;
 using NewLife.Threading;
 using XCode;
 using XCode.Exceptions;
+using XCode.Membership;
 using XLog = XCode.Membership.Log;
 
 namespace NewLife.Cube.Services;
@@ -53,6 +54,12 @@ public class DataRetentionService : IHostedService
 
     private void DoWork(Object state)
     {
+        TrimData();
+        TrimFile();
+    }
+
+    private void TrimData()
+    {
         var set = _setting;
         if (set.DataRetention <= 0) return;
 
@@ -97,6 +104,60 @@ public class DataRetentionService : IHostedService
                 rs += list.Delete();
             }
             return rs;
+        }
+    }
+
+    private void TrimFile()
+    {
+        var set = _setting;
+        if (set.FileRetention <= 0) return;
+
+        var di = NewLife.Setting.Current.BackupPath.AsDirectory();
+        if (!di.Exists) return;
+
+        // 小于该大小的文件将不会被删除，即使超过保留时间
+        var minSize = set.FileRetentionSize * 1024;
+
+        // 保留数据的起点
+        var time = DateTime.Now.AddDays(-set.FileRetention);
+
+        using var span = _tracer?.NewSpan("FileRetention", new { time });
+        try
+        {
+            foreach (var fi in di.GetAllFiles("*.*", false))
+            {
+                if (minSize > 0 && fi.Length < minSize) continue;
+
+                var name = fi.Name;
+                var p = name.LastIndexOf('_');
+                if (p > 0)
+                {
+                    var p2 = name.LastIndexOf('.');
+                    if (p2 > 0)
+                    {
+                        var dt = name.Substring(p + 1, p2 - p - 1).ToDateTime();
+                        if (dt.Year > 2000 && dt < time)
+                        {
+                            var msg = $"删除[{time.ToFullString()}]之前的备份文件：{fi.Name}";
+                            XTrace.WriteLine(msg);
+                            LogProvider.Provider?.WriteLog("FileRetention", "Delete", true, msg);
+
+                            try
+                            {
+                                fi.Delete();
+                            }
+                            catch (Exception ex)
+                            {
+                                XTrace.WriteLine(ex.Message);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            span?.SetError(ex, null);
         }
     }
 }

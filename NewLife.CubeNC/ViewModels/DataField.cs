@@ -122,6 +122,13 @@ public class DataField
     #endregion
 
     #region 构造
+    /// <summary>实例化数据字段</summary>
+    public DataField() { }
+
+    /// <summary>实例化数据字段</summary>
+    /// <param name="field"></param>
+    public DataField(FieldItem field) => Fill(field);
+
     /// <summary>已重载</summary>
     /// <returns></returns>
     public override String ToString() => $"{Name} {DisplayName} {Type.Name}";
@@ -258,6 +265,10 @@ public class DataField
 
     #region 服务
     private readonly List<Object> _services = [];
+    /// <summary>扩展服务</summary>
+    [XmlIgnore, IgnoreDataMember]
+    public IList<Object> Services => _services;
+
     /// <summary>添加服务</summary>
     /// <typeparam name="TService"></typeparam>
     /// <param name="service"></param>

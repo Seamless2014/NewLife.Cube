@@ -7,7 +7,7 @@
     <Description>Web快速开发平台，搭建管理后台，灵活可扩展！内部集成了用户权限管理、模板继承、SSO登录、OAuth服务端、数据导出与分享等多个功能模块，在真实项目中经历过单表100亿数据添删改查的考验。</Description>
     <Company>新生命开发团队</Company>
     <Copyright>©2002-2024 NewLife</Copyright>
-    <VersionPrefix>6.0</VersionPrefix>
+    <VersionPrefix>6.1</VersionPrefix>
     <VersionSuffix>$([System.DateTime]::Now.ToString(`yyyy.MMdd`))</VersionSuffix>
     <Version>$(VersionPrefix).$(VersionSuffix)</Version>
     <FileVersion>$(Version)</FileVersion>
@@ -69,6 +69,7 @@
     <Compile Include="..\NewLife.CubeNC\Modules\IModule.cs" Link="Modules\IModule.cs" />
     <Compile Include="..\NewLife.CubeNC\Modules\ModuleAttribute.cs" Link="Modules\ModuleAttribute.cs" />
     <Compile Include="..\NewLife.CubeNC\Modules\ModuleManager.cs" Link="Modules\ModuleManager.cs" />
+    <Compile Include="..\NewLife.CubeNC\Services\AccessService.cs" Link="Services\AccessService.cs" />
     <Compile Include="..\NewLife.CubeNC\Services\DataRetentionService.cs" Link="Services\DataRetentionService.cs" />
     <Compile Include="..\NewLife.CubeNC\Services\DbDataProtectionBuilderExtensions.cs" Link="Services\DbDataProtectionBuilderExtensions.cs" />
     <Compile Include="..\NewLife.CubeNC\Services\DbXmlRepository.cs" Link="Services\DbXmlRepository.cs" />
@@ -90,14 +91,15 @@
     <Compile Include="..\NewLife.CubeNC\ViewModels\SearchField.cs" Link="ViewModels\SearchField.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\TextAligns.cs" Link="ViewModels\TextAligns.cs" />
     <Compile Include="..\NewLife.CubeNC\ViewModels\ViewKinds.cs" Link="ViewModels\ViewKinds.cs" />
+    <Compile Include="..\NewLife.CubeNC\WebMiddleware\MiddlewareHelper.cs" Link="WebMiddleware\MiddlewareHelper.cs" />
     <Compile Include="..\NewLife.CubeNC\WebMiddleware\TenantMiddleware.cs" Link="WebMiddleware\TenantMiddleware.cs" />
+    <Compile Include="..\NewLife.CubeNC\WebMiddleware\TracerMiddleware.cs" Link="WebMiddleware\TracerMiddleware.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NewLife.Core" Version="10.8.2024.303" />
-    <PackageReference Include="NewLife.IP" Version="2.1.2024.101" />
-    <PackageReference Include="NewLife.Redis.Extensions" Version="5.5.2024.304" />
-    <PackageReference Include="NewLife.Stardust" Version="2.9.2024.218" />
-    <PackageReference Include="NewLife.XCode" Version="11.11.2024.303" />
+    <PackageReference Include="NewLife.Core" Version="10.10.2024.507" />
+    <PackageReference Include="NewLife.IP" Version="2.1.2024.407" />
+    <PackageReference Include="NewLife.Stardust" Version="2.9.2024.417-beta1339" />
+    <PackageReference Include="NewLife.XCode" Version="11.12.2024.515" />
   </ItemGroup>
 
   <ItemGroup>
@@ -111,7 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Session\" />
-    <Folder Include="Services\" />
     <Folder Include="Modules\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Jobs\" />

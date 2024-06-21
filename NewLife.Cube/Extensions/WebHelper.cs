@@ -2,7 +2,11 @@
 using System.Web;
 using Microsoft.AspNetCore.Http.Extensions;
 using NewLife.Collections;
+using NewLife.Cube;
 using NewLife.Cube.Extensions;
+using NewLife.Cube.Web;
+using NewLife.Log;
+using NewLife.Security;
 
 namespace NewLife.Web;
 
@@ -118,21 +122,17 @@ public static class WebHelper
     /// <returns></returns>
     public static Uri GetRawUrl(this HttpRequest request)
     {
-        Uri uri = null;
-
-        //// 配置
-        //var ms = OAuthConfig.GetValids();
-        //var mi = ms.FirstOrDefault(e => !e.AppUrl.IsNullOrEmpty());
-        //if (mi != null) uri = new Uri(mi.AppUrl);
+        // 加速，避免重复计算
+        if (request.HttpContext.Items["_RawUrl"] is Uri uri) return uri;
 
         // 取请求头
-        if (uri == null)
-        {
-            var url = request.GetEncodedUrl();
-            uri = new Uri(url);
-        }
+        var url = request.GetEncodedUrl();
+        uri = new Uri(url);
 
-        return GetRawUrl(uri, k => request.Headers[k]);
+        uri = GetRawUrl(uri, k => request.Headers[k]);
+        request.HttpContext.Items["_RawUrl"] = uri;
+
+        return uri;
     }
 
     /// <summary>保存上传文件</summary>
@@ -306,6 +306,79 @@ public static class WebHelper
         url += returnKey + "=" + HttpUtility.UrlEncode(returnUrl);
 
         return url;
+    }
+    #endregion
+
+    #region 辅助
+
+    internal static Boolean ValidRobot(Microsoft.AspNetCore.Http.HttpContext ctx, UserAgentParser ua)
+    {
+        if (ua.Compatible.IsNullOrEmpty()) return true;
+
+        // 判断爬虫
+        var code = CubeSetting.Current.RobotError;
+        if (code > 0 && ua.IsRobot && !ua.Brower.IsNullOrEmpty())
+        {
+            var name = ua.Brower;
+            var p = name.IndexOf('/');
+            if (p > 0) name = name[..p];
+
+            // 埋点
+            using var span = DefaultTracer.Instance?.NewSpan($"bot:{name}", ua.UserAgent);
+
+            ctx.Response.StatusCode = code;
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>获取魔方设备Id。该Id代表一台设备，尽可能在多个应用中共用</summary>
+    /// <param name="ctx"></param>
+    /// <returns></returns>
+    internal static String FillDeviceId(Microsoft.AspNetCore.Http.HttpContext ctx)
+    {
+        // http/https分开使用不同的Cookie名，避免站点同时支持http和https时，Cookie冲突
+        var id = ctx.Request.Cookies["CubeDeviceId"];
+        if (id.IsNullOrEmpty()) id = ctx.Request.Cookies["CubeDeviceId0"];
+        if (id.IsNullOrEmpty()) id = ctx.Session?.GetString("CubeDeviceId");
+        if (id.IsNullOrEmpty())
+        {
+            id = Rand.NextString(16);
+
+            var option = new CookieOptions
+            {
+                HttpOnly = true,
+                //Domain = domain,
+                Expires = DateTimeOffset.Now.AddYears(10),
+                SameSite = SameSiteMode.Unspecified,
+                //Secure = true,
+            };
+
+            // https时，SameSite使用None，此时可以让cookie写入有最好的兼容性，跨域也可以读取
+            if (ctx.Request.GetRawUrl().Scheme.EqualIgnoreCase("https"))
+            {
+                //var domain = CubeSetting.Current.CookieDomain;
+                //if (!domain.IsNullOrEmpty())
+                //{
+                //    option.Domain = domain;
+                //    option.SameSite = SameSiteMode.None;
+                //    option.Secure = true;
+                //}
+
+                //option.HttpOnly = true;
+                option.SameSite = SameSiteMode.None;
+                option.Secure = true;
+
+                ctx.Response.Cookies.Append("CubeDeviceId", id, option);
+            }
+            else
+                ctx.Response.Cookies.Append("CubeDeviceId0", id, option);
+
+            ctx.Session?.SetString("CubeDeviceId", id);
+        }
+
+        return id;
     }
     #endregion
 }

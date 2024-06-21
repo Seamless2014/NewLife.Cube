@@ -105,7 +105,14 @@ public class FieldCollection : List<DataField>
                     Clear();
                     foreach (var elm in fs)
                     {
-                        AddField(elm.Name);
+                        var sf = Create(elm) as SearchField;
+                        // Flags枚举，支持多选
+                        if (elm.Type != null && elm.Type.IsEnum && elm.Type.GetCustomAttributes<FlagsAttribute>().Any())
+                        {
+                            sf.Multiple = true;
+                        }
+
+                        Add(sf);
                     }
                     break;
                 default:
@@ -369,6 +376,10 @@ public class FieldCollection : List<DataField>
     #endregion
 
     #region 扩展参数
+    /// <summary>当前字段集合加入目标对象作为扩展字段，用于动态表单</summary>
+    /// <param name="entity"></param>
+    /// <param name="parameter"></param>
+    /// <param name="prefix"></param>
     public void Expand(IEntity entity, Object parameter, String prefix)
     {
         var fields = this;
@@ -394,6 +405,11 @@ public class FieldCollection : List<DataField>
         }
     }
 
+    /// <summary>从表单读取数据到扩展字段的目标对象，稍候序列化并写入扩展字段</summary>
+    /// <param name="parameter"></param>
+    /// <param name="form"></param>
+    /// <param name="prefix"></param>
+    /// <returns></returns>
     public static Boolean ReadForm(Object parameter, IFormCollection form, String prefix)
     {
         var flag = false;

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using NewLife.Caching;
+using NewLife.Common;
 using NewLife.Cube.Entity;
 using NewLife.Cube.Jobs;
 using NewLife.Log;
@@ -41,7 +42,7 @@ public class JobService : IHostedService
 {
     #region 核心控制
 
-    private static readonly IList<MyJob> _jobs = new List<MyJob>();
+    private static readonly IList<MyJob> _jobs = [];
     private readonly IServiceProvider _serviceProvider;
     private readonly ITracer _tracer;
 
@@ -204,12 +205,15 @@ internal class MyJob : IDisposable
         var cmd = job.Method;
         if (cmd.IsNullOrEmpty()) throw new ArgumentNullException(nameof(job.Method));
 
-        // 标识相同，不要处理
-        var id = $"{expession}@{cmd}";
+        // 标识相同，不要处理。可能在运行过程中用户修改了作业参数
+        var id = $"{expession}@{cmd}@{job.Argument}";
         if (id == _id && _timer != null) return;
 
-        var cron = new Cron();
-        if (!cron.Parse(expession)) throw new InvalidOperationException($"无效表达式 {expession}");
+        foreach (var item in expession.Split(";"))
+        {
+            var cron = new Cron();
+            if (!cron.Parse(item)) throw new InvalidOperationException($"无效表达式 {item}");
+        }
 
         // 找到类和方法
         _type = cmd.GetTypeEx();
@@ -265,7 +269,7 @@ internal class MyJob : IDisposable
     private Boolean CheckRunning(CronJob job)
     {
         // 检查分布式锁，避免多节点重复执行
-        var key = $"Job:{job.Id}";
+        var key = $"Job:{SysConfig.Current.Name}:{job.Id}";
         if (CacheProvider != null && !CacheProvider.Cache.Add(key, job.Name, 5)) return false;
 
         // 有时候可能并没有配置Redis，借助数据库事务实现去重，需要20230804版本的XCode
@@ -322,7 +326,7 @@ internal class MyJob : IDisposable
                 }
                 else
                 {
-                    _method?.Invoke(instance, new Object[] { job.Argument });
+                    _method?.Invoke(instance, [job.Argument]);
                 }
             }
         }
@@ -339,7 +343,17 @@ internal class MyJob : IDisposable
 
         job.WriteLog(job.Name, success, message);
 
-        job.NextTime = _timer.Cron.GetNext(_timer.NextTime);
+        //job.NextTime = _timer.Cron.GetNext(_timer.NextTime);
+        // 本次任务未完成，timer.NextTime不变
+        //job.NextTime = _timer.NextTime;
+        var next = DateTime.MinValue;
+        foreach (var cron in _timer.Crons)
+        {
+            var dt = cron.GetNext(_timer.NextTime);
+            if (next == DateTime.MinValue || dt < next) next = dt;
+        }
+        job.NextTime = next;
+
         job.Update();
     }
 }

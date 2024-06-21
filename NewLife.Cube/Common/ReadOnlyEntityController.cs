@@ -47,48 +47,29 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
         SysConfig = SysConfig.Current;
     }
 
-    ///// <summary>动作执行前</summary>
-    ///// <param name="filterContext"></param>
-    //public override void OnActionExecuting(Remoting.ControllerContext filterContext)
-    //{
-    //    var title = GetType().GetDisplayName() ?? typeof(TEntity).GetDisplayName() ?? Entity<TEntity>.Meta.Table.DataTable.DisplayName;
-    //    ViewBag.Title = title;
+    /// <summary>动作执行前</summary>
+    /// <param name="filterContext"></param>
+    public override void OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext filterContext)
+    {
+        // 多选框强制使用Form提交数据，未选中时不会提交数据，但也要强行覆盖Url参数
+        if (Request.HasFormContentType)
+        {
+            if (filterContext.ActionArguments.TryGetValue("p", out var aa) && aa is Pager p)
+            {
+                foreach (var item in OnGetFields(ViewKinds.Search, null))
+                {
+                    if (item is SearchField sf && sf.Multiple)
+                    {
+                        p[sf.Name] = Request.Form.TryGetValue(sf.Name, out var vs) ? (String)vs : null;
+                        //// 以下写法，Form没有数据时，也会返回空字符串，而不是null
+                        //p[sf.Name] = Request.Form[sf.Name];
+                    }
+                }
+            }
+        }
 
-    //    // Ajax请求不需要设置ViewBag
-    //    if (!Request.IsAjaxRequest())
-    //    {
-    //        // 默认加上实体工厂
-    //        ViewBag.Factory = Factory;
-
-    //        // 默认加上分页给前台
-    //        var ps = filterContext.ActionArguments.ToNullable();
-    //        var p = ps["p"] as Pager ?? new Pager();
-    //        ViewBag.Page = p;
-
-    //        // 用于显示的列
-    //        if (!ps.ContainsKey("entity")) ViewBag.Fields = ListFields;
-
-    //        var txt = (String)ViewBag.HeaderContent;
-    //        if (txt.IsNullOrEmpty()) txt = Menu?.Remark;
-    //        if (txt.IsNullOrEmpty()) txt = GetType().GetDescription();
-    //        if (txt.IsNullOrEmpty()) txt = Entity<TEntity>.Meta.Table.Description;
-    //        //if (txt.IsNullOrEmpty() && SysConfig.Current.Develop)
-    //        //    txt = "这里是页头内容，来自于菜单备注，或者给控制器增加Description特性";
-    //        ViewBag.HeaderContent = txt;
-    //    }
-
-    //    base.OnActionExecuting(filterContext);
-    //}
-
-    ///// <summary>执行后</summary>
-    ///// <param name="filterContext"></param>
-    //public override void OnActionExecuted(Remoting.ControllerContext filterContext)
-    //{
-    //    base.OnActionExecuted(filterContext);
-
-    //    var title = ViewBag.Title + "";
-    //    HttpContext.Items["Title"] = title;
-    //}
+        base.OnActionExecuting(filterContext);
+    }
     #endregion
 
     #region 数据获取
@@ -231,18 +212,32 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
         }
 
         // 多租户
-        var ctxTenant = TenantContext.Current;
-        if (ctxTenant != null && IsTenantSource)
+        var set = CubeSetting.Current;
+        if (set.EnableTenant)
         {
-            var tenant = Tenant.FindById(ctxTenant.TenantId);
-            if (tenant != null)
+            var ctxTenant = TenantContext.Current;
+            if (ctxTenant != null && IsTenantSource)
             {
-                HttpContext.Items["TenantId"] = tenant.Id;
+                var tenant = Tenant.FindById(ctxTenant.TenantId);
+                if (tenant != null)
+                {
+                    HttpContext.Items["TenantId"] = tenant.Id;
 
-                if (!exp.IsNullOrEmpty())
-                    exp = "TenantId={#TenantId} and " + exp;
-                else
-                    exp = "TenantId={#TenantId}";
+                    if (typeof(TEntity) == typeof(Tenant))
+                    {
+                        if (!exp.IsNullOrEmpty())
+                            exp = "Id={#TenantId} and " + exp;
+                        else
+                            exp = "Id={#TenantId}";
+                    }
+                    else
+                    {
+                        if (!exp.IsNullOrEmpty())
+                            exp = "TenantId={#TenantId} and " + exp;
+                        else
+                            exp = "TenantId={#TenantId}";
+                    }
+                }
             }
         }
 
@@ -270,8 +265,11 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
 
     /// <summary>多次导出数据</summary>
     /// <returns></returns>
-    protected virtual IEnumerable<TEntity> ExportData(Int32 max = 10_000_000)
+    protected virtual IEnumerable<TEntity> ExportData(Int32 max = 0)
     {
+        var set = CubeSetting.Current;
+        if (max <= 0) max = set.MaxExport;
+
         // 计算目标数据量
         var p = Session[CacheKey] as Pager;
         p = new Pager(p)
@@ -311,7 +309,7 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
 
     /// <summary>分页导出数据</summary>
     /// <param name="pageSize">页大小。默认10_000</param>
-    /// <param name="max">最大行数。默认10_000_000</param>
+    /// <param name="max">最大行数</param>
     /// <returns></returns>
     protected virtual IEnumerable<TEntity> ExportDataByPage(Int32 pageSize, Int32 max)
     {
@@ -352,7 +350,7 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
 
     /// <summary>时间分片导出数据</summary>
     /// <param name="step">分片不仅。默认60</param>
-    /// <param name="max">最大行数。默认10_000_000</param>
+    /// <param name="max">最大行数</param>
     /// <returns></returns>
     protected virtual IEnumerable<TEntity> ExportDataByDatetime(Int32 step, Int32 max)
     {

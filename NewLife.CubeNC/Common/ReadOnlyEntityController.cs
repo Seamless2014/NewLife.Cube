@@ -5,15 +5,14 @@ using System.Text;
 using System.Web;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Net.Http.Headers;
 using NewLife.Common;
 using NewLife.Cube.Entity;
 using NewLife.Cube.Extensions;
+using NewLife.Cube.Results;
 using NewLife.Cube.ViewModels;
-using NewLife.IO;
+using NewLife.Data;
 using NewLife.Log;
 using NewLife.Reflection;
 using NewLife.Security;
@@ -66,6 +65,23 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     /// <param name="filterContext"></param>
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
+        var ps = filterContext.ActionArguments.ToNullable();
+        var p = ps["p"] as Pager ?? new Pager(WebHelper.Params);
+
+        // 多选框强制使用Form提交数据，未选中时不会提交数据，但也要强行覆盖Url参数
+        if (Request.HasFormContentType)
+        {
+            foreach (var item in OnGetFields(ViewKinds.Search, null))
+            {
+                if (item is SearchField sf && sf.Multiple)
+                {
+                    p[sf.Name] = Request.Form.TryGetValue(sf.Name, out var vs) ? (String)vs : null;
+                    //// 以下写法，Form没有数据时，也会返回空字符串，而不是null
+                    //p[sf.Name] = Request.Form[sf.Name];
+                }
+            }
+        }
+
         var title = GetType().GetDisplayName() ?? typeof(TEntity).GetDisplayName() ?? Entity<TEntity>.Meta.Table.DataTable.DisplayName;
         ViewBag.Title = title;
 
@@ -76,12 +92,11 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
             ViewBag.Factory = Factory;
 
             // 默认加上分页给前台
-            var ps = filterContext.ActionArguments.ToNullable();
-            var p = ps["p"] as Pager ?? new Pager(WebHelper.Params);
             ViewBag.Page = p;
 
-            //// 用于显示的列
-            if (!ps.ContainsKey("entity")) ViewBag.Fields = OnGetFields(ViewKinds.List, null);//注释掉后会导致分享的页面报错。2023-09-15 取消注释
+            // 用于显示的列
+            // 注释掉后会导致分享的页面报错。2023-09-15 取消注释
+            if (!ps.ContainsKey("entity")) ViewBag.Fields = OnGetFields(ViewKinds.List, null);
 
             var txt = (String)ViewBag.HeaderContent;
             if (txt.IsNullOrEmpty()) txt = Menu?.Remark;
@@ -246,27 +261,31 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
         }
 
         // 多租户
-        var ctxTenant = TenantContext.Current;
-        if (ctxTenant != null && IsTenantSource)
+        var set = CubeSetting.Current;
+        if (set.EnableTenant)
         {
-            var tenant = Tenant.FindById(ctxTenant.TenantId);
-            if (tenant != null)
+            var ctxTenant = TenantContext.Current;
+            if (ctxTenant != null && IsTenantSource)
             {
-                HttpContext.Items["TenantId"] = tenant.Id;
+                var tenant = Tenant.FindById(ctxTenant.TenantId);
+                if (tenant != null)
+                {
+                    HttpContext.Items["TenantId"] = tenant.Id;
 
-                if (typeof(TEntity) == typeof(Tenant))
-                {
-                    if (!exp.IsNullOrEmpty())
-                        exp = "Id={#TenantId} and " + exp;
+                    if (typeof(TEntity) == typeof(Tenant))
+                    {
+                        if (!exp.IsNullOrEmpty())
+                            exp = "Id={#TenantId} and " + exp;
+                        else
+                            exp = "Id={#TenantId}";
+                    }
                     else
-                        exp = "Id={#TenantId}";
-                }
-                else
-                {
-                    if (!exp.IsNullOrEmpty())
-                        exp = "TenantId={#TenantId} and " + exp;
-                    else
-                        exp = "TenantId={#TenantId}";
+                    {
+                        if (!exp.IsNullOrEmpty())
+                            exp = "TenantId={#TenantId} and " + exp;
+                        else
+                            exp = "TenantId={#TenantId}";
+                    }
                 }
             }
         }
@@ -295,8 +314,11 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
 
     /// <summary>多次导出数据</summary>
     /// <returns></returns>
-    protected virtual IEnumerable<TEntity> ExportData(Int32 max = 10_000_000)
+    protected virtual IEnumerable<TEntity> ExportData(Int32 max = 0)
     {
+        var set = CubeSetting.Current;
+        if (max <= 0) max = set.MaxExport;
+
         // 计算目标数据量
         var p = Session[CacheKey] as Pager;
         p = new Pager(p)
@@ -542,7 +564,7 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
         }
         catch (Exception ex)
         {
-            return Content(ex.Message);
+            return new ExceptionResult { Exception = ex };
         }
     }
 
@@ -614,6 +636,27 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
         }
     }
 
+    /// <summary>尝试验证令牌</summary>
+    /// <param name="token"></param>
+    /// <param name="result"></param>
+    /// <returns></returns>
+    protected Boolean TryValidToken(String token, out ActionResult result)
+    {
+        result = null;
+        try
+        {
+            ValidToken(token);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            result = new ExceptionResult { Exception = ex };
+
+            return false;
+        }
+    }
+
     /// <summary>Xml接口</summary>
     /// <param name="token">令牌</param>
     /// <param name="p">分页</param>
@@ -659,26 +702,20 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     /// <returns></returns>
     [AllowAnonymous]
     [DisplayName("Excel接口")]
-    public virtual async Task<ActionResult> Csv(String token, Pager p)
+    public virtual IActionResult Csv(String token, Pager p)
     {
-        var issuer = ValidToken(token);
+        try
+        {
+            var issuer = ValidToken(token);
 
-        //// 需要总记录数来分页
-        //p.RetrieveTotalCount = true;
+            var list = SearchData(p);
 
-        var list = SearchData(p);
-
-        // 准备需要输出的列
-        var fs = Factory.Fields.ToList();
-
-        var rs = Response;
-        var headers = rs.Headers;
-        headers[HeaderNames.ContentEncoding] = "UTF8";
-        //headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
-
-        await OnExportCsv(fs, list, rs.Body);
-
-        return new EmptyResult();
+            return new CsvResult { Fields = GetFields(Factory.Fields, list), Data = list, ContentType = null };
+        }
+        catch (Exception ex)
+        {
+            return new ExceptionResult { Exception = ex };
+        }
     }
 
     /// <summary>Csv接口</summary>
@@ -687,49 +724,49 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     /// <returns></returns>
     [AllowAnonymous]
     [DisplayName("Excel接口")]
-    public virtual async Task<ActionResult> Excel(String token, Pager p)
+    public virtual IActionResult Excel(String token, Pager p)
     {
-        var issuer = ValidToken(token);
-
-        var list = SearchData(p);
-
-        // 准备需要输出的列
-        var fs = new List<FieldItem>();
-        foreach (var fi in Factory.AllFields)
+        try
         {
-            if (Type.GetTypeCode(fi.Type) == TypeCode.Object) continue;
-            if (!fi.IsDataObjectField)
+            var issuer = ValidToken(token);
+
+            var list = SearchData(p);
+
+            // 准备需要输出的列
+            var fs = new List<FieldItem>();
+            foreach (var fi in Factory.AllFields)
             {
-                var pi = Factory.EntityType.GetProperty(fi.Name);
-                if (pi != null && pi.GetCustomAttribute<XmlIgnoreAttribute>() != null) continue;
+                if (Type.GetTypeCode(fi.Type) == TypeCode.Object) continue;
+                if (!fi.IsDataObjectField)
+                {
+                    var pi = Factory.EntityType.GetProperty(fi.Name);
+                    if (pi != null && pi.GetCustomAttribute<XmlIgnoreAttribute>() != null) continue;
+                }
+
+                fs.Add(fi);
             }
 
-            fs.Add(fi);
-        }
-
-        // 基本属性与扩展属性对调顺序
-        for (var i = 0; i < fs.Count; i++)
-        {
-            var fi = fs[i];
-            if (fi.OriField != null)
+            // 基本属性与扩展属性对调顺序
+            for (var i = 0; i < fs.Count; i++)
             {
-                var k = fs.IndexOf(fi.OriField);
-                if (k >= 0)
+                var fi = fs[i];
+                if (fi.OriField != null)
                 {
-                    fs[i] = fs[k];
-                    fs[k] = fi;
+                    var k = fs.IndexOf(fi.OriField);
+                    if (k >= 0)
+                    {
+                        fs[i] = fs[k];
+                        fs[k] = fi;
+                    }
                 }
             }
+
+            return new ExcelResult { Fields = GetFields(fs, list), Data = list };
         }
-
-        var rs = Response;
-        var headers = rs.Headers;
-        headers[HeaderNames.ContentEncoding] = "UTF8";
-        //headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
-
-        await OnExportExcel(fs, list, rs.Body);
-
-        return new EmptyResult();
+        catch (Exception ex)
+        {
+            return new ExceptionResult { Exception = ex };
+        }
     }
     #endregion
 
@@ -764,6 +801,18 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     /// <param name="includeTime">包含时间戳</param>
     protected virtual void SetAttachment(String name, String ext, Boolean includeTime)
     {
+        name = GetAttachment(name, ext, includeTime);
+        name = HttpUtility.UrlEncode(name, Encoding.UTF8);
+
+        Response.Headers.Add("Content-Disposition", "Attachment;filename=" + name);
+    }
+
+    /// <summary>获取附件响应方式</summary>
+    /// <param name="name"></param>
+    /// <param name="ext"></param>
+    /// <param name="includeTime">包含时间戳</param>
+    protected virtual String GetAttachment(String name, String ext, Boolean includeTime)
+    {
         if (name.IsNullOrEmpty()) name = GetType().GetDisplayName();
         if (name.IsNullOrEmpty()) name = Factory.EntityType.GetDisplayName();
         if (name.IsNullOrEmpty()) name = Factory.Table.DataTable.DisplayName;
@@ -773,9 +822,8 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
         if (includeTime) name += $"_{DateTime.Now:yyyyMMddHHmmss}";
 
         name += ext;
-        name = HttpUtility.UrlEncode(name, Encoding.UTF8);
 
-        Response.Headers.Add("Content-Disposition", "Attachment;filename=" + name);
+        return name;
     }
 
     /// <summary>导出Json</summary>
@@ -799,7 +847,7 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     /// <returns></returns>
     [EntityAuthorize(PermissionFlags.Detail)]
     [DisplayName("导出")]
-    public virtual async Task<ActionResult> ExportExcel()
+    public virtual IActionResult ExportExcel()
     {
         // 准备需要输出的列
         var fs = new List<FieldItem>();
@@ -830,36 +878,18 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
             }
         }
 
-        // 要导出的数据超大时，启用流式输出
-        if (Factory.Session.Count > 100_000)
-        {
-            var p = Session[CacheKey] as Pager;
-            p = new Pager(p)
-            {
-                PageSize = 1,
-                RetrieveTotalCount = true
-            };
-            SearchData(p);
-        }
+        var name = GetAttachment(null, ".xls", true);
 
-        SetAttachment(null, ".xls", true);
+        var list = ExportData();
 
-        var rs = Response;
-        var headers = rs.Headers;
-        headers[HeaderNames.ContentEncoding] = "UTF8";
-        headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
-
-        var data = ExportData();
-        await OnExportExcel(fs, data, rs.Body);
-
-        return new EmptyResult();
+        return new ExcelResult { Fields = GetFields(fs, list), Data = list, AttachmentName = name };
     }
 
     /// <summary>导出Excel模板</summary>
     /// <returns></returns>
     [EntityAuthorize(PermissionFlags.Detail)]
     [DisplayName("导出模板")]
-    public virtual async Task<ActionResult> ExportExcelTemplate()
+    public virtual IActionResult ExportExcelTemplate()
     {
         // 准备需要输出的列
         var fs = new List<FieldItem>();
@@ -897,116 +927,46 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
             }
         }
 
-        // 要导出的数据超大时，启用流式输出
-        if (Factory.Session.Count > 100_000)
-        {
-            var p = Session[CacheKey] as Pager;
-            p = new Pager(p)
-            {
-                PageSize = 1,
-                RetrieveTotalCount = true
-            };
-            SearchData(p);
-        }
+        var name = GetAttachment(null, ".xls", true);
 
-        SetAttachment(null, ".xls", true);
+        var list = ExportData(1);
 
-        var rs = Response;
-        var headers = rs.Headers;
-        headers[HeaderNames.ContentEncoding] = "UTF8";
-        headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
-
-        var data = ExportData(1);
-        await OnExportExcel(fs, data, rs.Body);
-
-        return new EmptyResult();
-    }
-
-    /// <summary>导出Excel，可重载修改要输出的列</summary>
-    /// <param name="fs">字段列表</param>
-    /// <param name="list">数据集</param>
-    /// <param name="output">输出流</param>
-    protected virtual async ValueTask OnExportExcel(List<FieldItem> fs, IEnumerable<TEntity> list, Stream output)
-    {
-        await using var csv = new CsvFile(output, true);
-
-        // 列头
-        var headers = new List<String>();
-        foreach (var fi in fs)
-        {
-            var name = fi.DisplayName;
-            if (name.IsNullOrEmpty()) name = fi.Description;
-            if (name.IsNullOrEmpty()) name = fi.Name;
-
-            // 第一行以ID开头的csv文件，容易被识别为SYLK文件
-            if (name == "ID" && fi == fs[0]) name = "Id";
-            headers.Add(name);
-        }
-        await csv.WriteLineAsync(headers);
-
-        // 内容
-        foreach (var entity in list)
-        {
-            await csv.WriteLineAsync(fs.Select(e => entity[e.Name]));
-        }
+        return new ExcelResult { Fields = GetFields(fs, list), Data = list, AttachmentName = name };
     }
 
     /// <summary>导出Csv</summary>
     /// <returns></returns>
     [EntityAuthorize(PermissionFlags.Detail)]
     [DisplayName("导出")]
-    public virtual async Task<ActionResult> ExportCsv()
+    public virtual IActionResult ExportCsv()
     {
-        // 准备需要输出的列
-        var fs = Factory.Fields.ToList();
-
-        if (Factory.Session.Count > 100_000)
-        {
-            var p = Session[CacheKey] as Pager;
-            p = new Pager(p)
-            {
-                PageSize = 1,
-                RetrieveTotalCount = true
-            };
-            SearchData(p);
-        }
-
         var name = GetType().Name.TrimEnd("Controller");
-        SetAttachment(name, ".csv", true);
+        name = GetAttachment(name, ".csv", true);
 
-        var rs = Response;
-        var headers = rs.Headers;
-        headers[HeaderNames.ContentEncoding] = "UTF8";
-        headers[HeaderNames.ContentType] = "application/vnd.ms-excel";
+        var list = ExportData();
 
-        //// 允许同步IO，便于CsvFile刷数据Flush
-        //var ft = HttpContext.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpBodyControlFeature>();
-        //if (ft != null) ft.AllowSynchronousIO = true;
-
-        var data = ExportData();
-        await OnExportCsv(fs, data, rs.Body);
-
-        return new EmptyResult();
+        return new CsvResult { Fields = GetFields(Factory.Fields, list), Data = list, AttachmentName = name };
     }
 
-    /// <summary>导出Csv，可重载修改要输出的列</summary>
-    /// <param name="fs">字段列表</param>
-    /// <param name="list">数据集</param>
-    /// <param name="output">输出流</param>
-    protected virtual async ValueTask OnExportCsv(List<FieldItem> fs, IEnumerable<TEntity> list, Stream output)
+    /// <summary>准备需要输出的列，包括IExtend属性</summary>
+    /// <param name="fs"></param>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    private IList<DataField> GetFields(IList<FieldItem> fs, IEnumerable<IModel> list)
     {
-        await using var csv = new CsvFile(output, true);
-
-        // 列头
-        var headers = fs.Select(e => e.Name).ToArray();
-        if (headers[0] == "ID") headers[0] = "Id";
-        await csv.WriteLineAsync(headers);
-
-        // 内容
-        foreach (var entity in list)
+        var fields = fs.Select(e => new DataField(e)).ToList();
+        if (list.FirstOrDefault() is IExtend ext)
         {
-            await csv.WriteLineAsync(fs.Select(e => entity[e.Name]));
+            foreach (var item in ext.Items)
+            {
+                if (!fields.Any(e => e.Name.EqualIgnoreCase(item.Key)))
+                {
+                    fields.Add(new DataField { Name = item.Key, Type = item.Value?.GetType(), });
+                }
+            }
         }
+
+        return fields;
     }
     #endregion
 
@@ -1019,8 +979,11 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     {
         try
         {
+            var set = CubeSetting.Current;
+
             var fact = Factory;
-            if (fact.Session.Count > 10_000_000) throw new XException($"数据量[{fact.Session.Count:n0}>10_000_000]，禁止备份！");
+            if (fact.Session.Count > set.MaxBackup)
+                throw new XException($"数据量[{fact.Session.Count:n0}>{set.MaxBackup:n0}]，禁止备份！");
 
             var dal = fact.Session.Dal;
 
@@ -1052,8 +1015,11 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
     [DisplayName("导出")]
     public virtual async Task<ActionResult> BackupAndExport()
     {
+        var set = CubeSetting.Current;
+
         var fact = Factory;
-        if (fact.Session.Count > 10_000_000) throw new XException($"数据量[{fact.Session.Count:n0}>10_000_000]，禁止备份！");
+        if (fact.Session.Count > set.MaxBackup)
+            throw new XException($"数据量[{fact.Session.Count:n0}>{set.MaxBackup:n0}]，禁止备份！");
 
         var dal = fact.Session.Dal;
 
@@ -1107,7 +1073,7 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
 
             WriteLog("恢复", true, $"恢复[{fileName}]（{rs:n0}行）成功！");
 
-            return Json(0, $"恢复[{fileName}]（{rs:n0}行）成功！");
+            return JsonRefresh($"恢复[{fileName}]（{rs:n0}行）成功！", 2);
         }
         catch (Exception ex)
         {
@@ -1279,9 +1245,14 @@ public class ReadOnlyEntityController<TEntity> : ControllerBaseX where TEntity :
         if (post && LogOnChange)
         {
             // 必须提前写修改日志，否则修改后脏数据失效，保存的日志为空
-            if (type == DataObjectMethodType.Delete ||
-                (type == DataObjectMethodType.Update && (entity as IEntity).HasDirty))
-                LogProvider.Provider.WriteLog(type + "", entity);
+            switch (type)
+            {
+                case DataObjectMethodType.Insert:
+                case DataObjectMethodType.Delete:
+                case DataObjectMethodType.Update when (entity as IEntity).HasDirty:
+                    LogProvider.Provider.WriteLog(type + "", entity);
+                    break;
+            }
         }
 
         return true;
