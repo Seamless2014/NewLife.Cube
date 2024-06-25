@@ -17,6 +17,8 @@ using NewLife.Model;
 using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
+using VehicleVedioManage.ReportStatistics.Entity;
+using VehicleVedioManage.Utility.MapService;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -96,7 +98,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
         //    entity.Status = "abc";
         //    entity.CenterLat = 0.0;
         //    entity.CenterLng = 0.0;
-        //    entity.keyPoint = 0;
+        //    entity.KeyPoint = 0;
         //    entity.MapType = "abc";
         //    entity.DepId = 0;
         //    entity.Icon = "abc";
@@ -195,6 +197,43 @@ namespace VehicleVedioManage.FenceManagement.Entity
         #endregion
 
         #region 业务操作
+        /// <summary>
+        /// 获取符合条件得所有数据
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public static MapArea FindByWhereExpress(WhereExpression where)
+        {
+            return Find(where);
+        }
+        /// <summary>
+        /// 获取节点(经纬度坐标)
+        /// </summary>
+        /// <returns></returns>
+        public List<PointLatLng> GetNodes()
+        {
+            List<PointLatLng> nodes = new List<PointLatLng>();
+
+            string[] strPts = Points.Split(';');
+            foreach (string strPt in strPts)
+            {
+                if (string.IsNullOrEmpty(strPt) == false)
+                {
+                    string[] strPoint = strPt.Split(',');
+                    if (strPoint.Length == 2)
+                    {
+                        double lng = Double.Parse(strPoint[0]);
+                        double lat = Double.Parse(strPoint[1]);
+                        PointLatLng pl = new PointLatLng(lat, lng);
+                        MapFix mapFix = new MapFix();
+                        PointLatLng pt = mapFix.Reverse(pl.Lng,pl.Lat, this.MapType);
+                        nodes.Add(pt);
+                    }
+                }
+            }
+            return nodes;
+        }
+
         #endregion
     }
 }

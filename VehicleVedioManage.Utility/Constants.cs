@@ -29,6 +29,9 @@
         /// acc
         /// </summary>
         public static String STATE_TYPE_ACC = "acc";
-
+        public const string COORDINATE_WGS84 = "0";
+        public const string COORDINATE_MARS = "2";
+        public const string COORDINATE_BAIDU = "bd09ll";
+        public const string ak = "GT3YSZNuqHkwbGyAY4maPaVw";
     }
 }

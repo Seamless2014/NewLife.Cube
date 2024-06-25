@@ -17,6 +17,7 @@ using NewLife.Model;
 using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
+using VehicleVedioManage.FenceManagement.Entity;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -201,6 +202,15 @@ namespace VehicleVedioManage.BasicData.Entity
         #endregion
 
         #region 业务操作
+        /// <summary>
+        /// 获取符合条件得所有数据
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public static IList<BasicInfo> FindAllByWhereExpress(WhereExpression where)
+        {
+            return FindAll(where);
+        }
         #endregion
     }
 }

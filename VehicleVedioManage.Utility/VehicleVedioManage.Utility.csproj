@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="NewLife.Core">
+      <HintPath>E:\.nuget\Package\newlife.core\10.10.2024.507\lib\net7.0\NewLife.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -18,6 +18,8 @@ using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
 using VehicleVedioManage.BasicData.Entity;
+using VehicleVedioManage.Utility.Extends;
+using VehicleVedioManage.Web.Models;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -39,7 +41,6 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             // 过滤器 UserModule、TimeModule、IPModule
             Meta.Modules.Add<TimeModule>();
         }
-
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
         /// <param name="isNew">是否插入</param>
         public override void Valid(Boolean isNew)
@@ -193,6 +194,24 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         #endregion
 
         #region 业务操作
+        public static IList<AlarmRecord> FindAllByStatus(String status)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Status.EqualIgnoreCase(status));
+
+            return FindAll(_.Status == status);
+        }
+        /// <summary>
+        /// 获取符合条件得所有数据
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public static AlarmRecord FindAllByWhereExpress(WhereExpression where)
+        {
+            return Find(where);
+        }
+
+        public static explicit operator AlarmRecord(AlarmRecordVM v) => throw new NotImplementedException();
         #endregion
     }
 }

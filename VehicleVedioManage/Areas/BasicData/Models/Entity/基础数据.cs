@@ -67,14 +67,6 @@ namespace VehicleVedioManage.BasicData.Entity
         [BindColumn("Enable", "启用", "")]
         public Boolean Enable { get => _Enable; set { if (OnPropertyChanging("Enable", value)) { _Enable = value; OnPropertyChanged("Enable"); } } }
 
-        private DateTime _CreateTime;
-        /// <summary>创建时间</summary>
-        [DisplayName("创建时间")]
-        [Description("创建时间")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
-        public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
-
         private Int32 _TenantId;
         /// <summary>租户编码</summary>
         [DisplayName("租户编码")]
@@ -106,6 +98,76 @@ namespace VehicleVedioManage.BasicData.Entity
         [DataObjectField(false, false, true, 255)]
         [BindColumn("Remark", "备注", "")]
         public String Remark { get => _Remark; set { if (OnPropertyChanging("Remark", value)) { _Remark = value; OnPropertyChanged("Remark"); } } }
+        private String _CreateUser;
+        /// <summary>创建者</summary>
+        [Category("扩展信息")]
+        [DisplayName("创建者")]
+        [Description("创建者")]
+        [DataObjectField(false, false, true, 50)]
+        [BindColumn("CreateUser", "创建者", "")]
+        public String CreateUser { get => _CreateUser; set { if (OnPropertyChanging("CreateUser", value)) { _CreateUser = value; OnPropertyChanged("CreateUser"); } } }
+
+        private Int32 _CreateUserID;
+        /// <summary>创建人</summary>
+        [Category("扩展信息")]
+        [DisplayName("创建人")]
+        [Description("创建人")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateUserID", "创建人", "")]
+        public Int32 CreateUserID { get => _CreateUserID; set { if (OnPropertyChanging("CreateUserID", value)) { _CreateUserID = value; OnPropertyChanged("CreateUserID"); } } }
+
+        private String _CreateIP;
+        /// <summary>创建地址</summary>
+        [Category("扩展信息")]
+        [DisplayName("创建地址")]
+        [Description("创建地址")]
+        [DataObjectField(false, false, true, 50)]
+        [BindColumn("CreateIP", "创建地址", "")]
+        public String CreateIP { get => _CreateIP; set { if (OnPropertyChanging("CreateIP", value)) { _CreateIP = value; OnPropertyChanged("CreateIP"); } } }
+
+        private DateTime _CreateTime;
+        /// <summary>创建时间</summary>
+        [Category("扩展信息")]
+        [DisplayName("创建时间")]
+        [Description("创建时间")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("CreateTime", "创建时间", "", Precision = 0, Scale = 3)]
+        public DateTime CreateTime { get => _CreateTime; set { if (OnPropertyChanging("CreateTime", value)) { _CreateTime = value; OnPropertyChanged("CreateTime"); } } }
+
+        private String _UpdateUser;
+        /// <summary>更新者</summary>
+        [Category("扩展信息")]
+        [DisplayName("更新者")]
+        [Description("更新者")]
+        [DataObjectField(false, false, true, 50)]
+        [BindColumn("UpdateUser", "更新者", "")]
+        public String UpdateUser { get => _UpdateUser; set { if (OnPropertyChanging("UpdateUser", value)) { _UpdateUser = value; OnPropertyChanged("UpdateUser"); } } }
+
+        private Int32 _UpdateUserID;
+        /// <summary>更新人</summary>
+        [Category("扩展信息")]
+        [DisplayName("更新人")]
+        [Description("更新人")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("UpdateUserID", "更新人", "")]
+        public Int32 UpdateUserID { get => _UpdateUserID; set { if (OnPropertyChanging("UpdateUserID", value)) { _UpdateUserID = value; OnPropertyChanged("UpdateUserID"); } } }
+
+        private String _UpdateIP;
+        /// <summary>更新地址</summary>
+        [Category("扩展信息")]
+        [DisplayName("更新地址")]
+        [Description("更新地址")]
+        [DataObjectField(false, false, true, 50)]
+        [BindColumn("UpdateIP", "更新地址", "")]
+        public String UpdateIP { get => _UpdateIP; set { if (OnPropertyChanging("UpdateIP", value)) { _UpdateIP = value; OnPropertyChanged("UpdateIP"); } } }
+
+        private DateTime _UpdateTime;
+        /// <summary>更新时间</summary>
+        [DisplayName("更新时间")]
+        [Description("更新时间")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("UpdateTime", "更新时间", "", Precision = 0, Scale = 3)]
+        public DateTime UpdateTime { get => _UpdateTime; set { if (OnPropertyChanging("UpdateTime", value)) { _UpdateTime = value; OnPropertyChanged("UpdateTime"); } } }
 
         #endregion
 
@@ -125,11 +187,18 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "ParentID": return _ParentID;
                     case "MetaData": return _MetaData;
                     case "Enable": return _Enable;
-                    case "CreateTime": return _CreateTime;
                     case "TenantId": return _TenantId;
                     case "Remark": return _Remark;
                     case "Owner": return _Owner;
                     case "SN": return _SN;
+                    case "CreateUser": return _CreateUser;
+                    case "CreateUserID": return _CreateUserID;
+                    case "CreateIP": return _CreateIP;
+                    case "CreateTime": return _CreateTime;
+                    case "UpdateUser": return _UpdateUser;
+                    case "UpdateUserID": return _UpdateUserID;
+                    case "UpdateIP": return _UpdateIP;
+                    case "UpdateTime": return _UpdateTime;
                     default: return base[name];
                 }
             }
@@ -143,11 +212,18 @@ namespace VehicleVedioManage.BasicData.Entity
                     case "ParentID": _ParentID = value.ToInt(); break;
                     case "MetaData": _MetaData = Convert.ToString(value); break;
                     case "Enable": _Enable = value.ToBoolean(); break;
-                    case "CreateTime": _CreateTime = value.ToDateTime(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "Remark": _Remark = Convert.ToString(value); break;
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "SN": _SN = value.ToInt(); break;
+                    case "CreateUser": _CreateUser = Convert.ToString(value); break;
+                    case "CreateUserID": _CreateUserID = value.ToInt(); break;
+                    case "CreateIP": _CreateIP = Convert.ToString(value); break;
+                    case "CreateTime": _CreateTime = value.ToDateTime(); break;
+                    case "UpdateUser": _UpdateUser = Convert.ToString(value); break;
+                    case "UpdateUserID": _UpdateUserID = value.ToInt(); break;
+                    case "UpdateIP": _UpdateIP = Convert.ToString(value); break;
+                    case "UpdateTime": _UpdateTime = value.ToDateTime(); break;
                     default: base[name] = value; break;
                 }
             }
@@ -176,9 +252,6 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>启用</summary>
             public static readonly Field Enable = FindByName("Enable");
 
-            /// <summary>创建时间</summary>
-            public static readonly Field CreateTime = FindByName("CreateTime");
-
             /// <summary>租户编码</summary>
             public static readonly Field TenantId = FindByName("TenantId");
 
@@ -190,6 +263,31 @@ namespace VehicleVedioManage.BasicData.Entity
 
             /// <summary>序号</summary>
             public static readonly Field SN = FindByName("SN");
+
+            /// <summary>创建者</summary>
+            public static readonly Field CreateUser = FindByName("CreateUser");
+
+            /// <summary>创建人</summary>
+            public static readonly Field CreateUserID = FindByName("CreateUserID");
+
+            /// <summary>创建地址</summary>
+            public static readonly Field CreateIP = FindByName("CreateIP");
+
+            /// <summary>创建时间</summary>
+            public static readonly Field CreateTime = FindByName("CreateTime");
+
+            /// <summary>更新者</summary>
+            public static readonly Field UpdateUser = FindByName("UpdateUser");
+
+            /// <summary>更新人</summary>
+            public static readonly Field UpdateUserID = FindByName("UpdateUserID");
+
+            /// <summary>更新地址</summary>
+            public static readonly Field UpdateIP = FindByName("UpdateIP");
+
+            /// <summary>更新时间</summary>
+            public static readonly Field UpdateTime = FindByName("UpdateTime");
+
 
             static Field FindByName(String name) => Meta.Table.FindByName(name);
         }
@@ -215,9 +313,6 @@ namespace VehicleVedioManage.BasicData.Entity
             /// <summary>启用</summary>
             public const String Enable = "Enable";
 
-            /// <summary>创建时间</summary>
-            public const String CreateTime = "CreateTime";
-
             /// <summary>租户编码</summary>
             public const String TenantId = "TenantId";
 
@@ -229,6 +324,30 @@ namespace VehicleVedioManage.BasicData.Entity
 
             /// <summary>序号</summary>
             public const String SN = "SN";
+
+            /// <summary>创建者</summary>
+            public const String CreateUser = "CreateUser";
+
+            /// <summary>创建人</summary>
+            public const String CreateUserID = "CreateUserID";
+
+            /// <summary>创建地址</summary>
+            public const String CreateIP = "CreateIP";
+
+            /// <summary>创建时间</summary>
+            public const String CreateTime = "CreateTime";
+
+            /// <summary>更新者</summary>
+            public const String UpdateUser = "UpdateUser";
+
+            /// <summary>更新人</summary>
+            public const String UpdateUserID = "UpdateUserID";
+
+            /// <summary>更新地址</summary>
+            public const String UpdateIP = "UpdateIP";
+
+            /// <summary>更新时间</summary>
+            public const String UpdateTime = "UpdateTime";
         }
         #endregion
     }

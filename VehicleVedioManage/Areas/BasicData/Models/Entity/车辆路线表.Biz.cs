@@ -1,43 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Script.Serialization;
-using System.Xml.Serialization;
-using NewLife;
-using NewLife.Data;
-using NewLife.Log;
-using NewLife.Model;
-using NewLife.Reflection;
-using NewLife.Threading;
-using NewLife.Web;
-using VehicleVedioManage.BasicData.Entity;
-using XCode;
-using XCode.Cache;
-using XCode.Configuration;
-using XCode.DataAccessLayer;
-using XCode.Membership;
-using XCode.Shards;
+﻿using XCode;
 
-namespace VehicleVedioManage.ReportStatistics.Entity
+namespace VehicleVedioManage.BasicData.Entity
 {
-    public partial class PlatformState : Entity<PlatformState>
+    /// <summary>车辆路线表</summary>
+    public partial class VehicleRoute : Entity<VehicleRoute>
     {
         #region 对象操作
-        static PlatformState()
+        static VehicleRoute()
         {
             // 累加字段，生成 Update xx Set Count=Count+1234 Where xxx
             //var df = Meta.Factory.AdditionalFields;
-            //df.Add(nameof(TenantId));
+            //df.Add(nameof(VehicleID));
 
             // 过滤器 UserModule、TimeModule、IPModule
+            Meta.Modules.Add<UserModule>();
             Meta.Modules.Add<TimeModule>();
+            Meta.Modules.Add<IPModule>();
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -51,7 +29,20 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             base.Valid(isNew);
 
             // 在新插入数据或者修改了指定字段时进行修正
+            // 处理当前已登录用户信息，可以由UserModule过滤器代劳
+            /*var user = ManageProvider.User;
+            if (user != null)
+            {
+                if (isNew && !Dirtys[nameof(CreateUserID)]) CreateUserID = user.ID;
+                if (!Dirtys[nameof(UpdateUserID)]) UpdateUserID = user.ID;
+            }*/
             //if (isNew && !Dirtys[nameof(CreateTime)]) CreateTime = DateTime.Now;
+            //if (!Dirtys[nameof(UpdateTime)]) UpdateTime = DateTime.Now;
+            //if (isNew && !Dirtys[nameof(CreateIP)]) CreateIP = ManageProvider.UserHost;
+            //if (!Dirtys[nameof(UpdateIP)]) UpdateIP = ManageProvider.UserHost;
+
+            // 检查唯一索引
+            // CheckExist(isNew, nameof(Id));
         }
 
         ///// <summary>首次连接数据库时初始化数据，仅用于实体类重载，用户不应该调用该方法</summary>
@@ -61,23 +52,24 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         //    // InitData一般用于当数据表没有数据时添加一些默认数据，该实体类的任何第一次数据库操作都会触发该方法，默认异步调用
         //    if (Meta.Session.Count > 0) return;
 
-        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化PlatformState[平台状态]数据……");
+        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化VehicleRoute[车辆路线表]数据……");
 
-        //    var entity = new PlatformState();
-        //    entity.MainLinkState = "abc";
-        //    entity.MainLinkDate = DateTime.Now;
-        //    entity.SubLinkState = "abc";
-        //    entity.SubLinkDate = DateTime.Now;
-        //    entity.GPSServerState = "abc";
-        //    entity.GPSServerDate = DateTime.Now;
-        //    entity.TenantId = 0;
+        //    var entity = new VehicleRoute();
+        //    entity.Id = 0;
+        //    entity.PlateNo = "abc";
+        //    entity.VehicleID = 0;
+        //    entity.Routes = "abc";
+        //    entity.CreateUser = "abc";
+        //    entity.CreateUserID = 0;
+        //    entity.CreateIP = "abc";
         //    entity.CreateTime = DateTime.Now;
-        //    entity.Remark = "abc";
-        //    entity.Deleted = true;
-        //    entity.Owner = "abc";
+        //    entity.UpdateUser = "abc";
+        //    entity.UpdateUserID = 0;
+        //    entity.UpdateIP = "abc";
+        //    entity.UpdateTime = DateTime.Now;
         //    entity.Insert();
 
-        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化PlatformState[平台状态]数据！");
+        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化VehicleRoute[车辆路线表]数据！");
         //}
 
         ///// <summary>已重载。基类先调用Valid(true)验证数据，然后在事务保护内调用OnInsert</summary>
@@ -99,27 +91,27 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         #endregion
 
         #region 扩展查询
-        /// <summary>根据平台状态编码查找</summary>
-        /// <param name="stateId">平台状态编码</param>
+        /// <summary>根据Id查找</summary>
+        /// <param name="id">Id</param>
         /// <returns>实体对象</returns>
-        public static PlatformState FindByStateId(Int32 stateId)
+        public static VehicleRoute FindById(Int32 id)
         {
-            if (stateId <= 0) return null;
+            if (id <= 0) return null;
 
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.StateId == stateId);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Id == id);
 
             // 单对象缓存
-            return Meta.SingleCache[stateId];
+            return Meta.SingleCache[id];
 
-            //return Find(_.StateId == stateId);
+            //return Find(_.Id == id);
         }
         #endregion
 
         #region 高级查询
 
-        // Select Count(StateId) as StateId,Category From PlatformState Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By StateId Desc limit 20
-        //static readonly FieldCache<PlatformState> _CategoryCache = new FieldCache<PlatformState>(nameof(Category))
+        // Select Count(Id) as Id,Category From VehicleRoute Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By Id Desc limit 20
+        //static readonly FieldCache<VehicleRoute> _CategoryCache = new FieldCache<VehicleRoute>(nameof(Category))
         //{
         //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
         //};
@@ -135,7 +127,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         /// </summary>
         /// <param name="where"></param>
         /// <returns></returns>
-        public static PlatformState FindByWhereExpress(WhereExpression where)
+        public static VehicleRoute FindByWhereExpress(WhereExpression where)
         {
             return Find(where);
         }

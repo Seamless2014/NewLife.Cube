@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -265,13 +265,13 @@ namespace VehicleVedioManage.FenceManagement.Entity
         [BindColumn("CenterLng", "中心经度", "")]
         public Double CenterLng { get => _CenterLng; set { if (OnPropertyChanging("CenterLng", value)) { _CenterLng = value; OnPropertyChanged("CenterLng"); } } }
 
-        private Int32 _keyPoint;
+        private Int32 _KeyPoint;
         /// <summary>关键点</summary>
         [DisplayName("关键点")]
         [Description("关键点")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("keyPoint", "关键点", "")]
-        public Int32 keyPoint { get => _keyPoint; set { if (OnPropertyChanging("keyPoint", value)) { _keyPoint = value; OnPropertyChanged("keyPoint"); } } }
+        [BindColumn("KeyPoint", "关键点", "")]
+        public Int32 KeyPoint { get => _KeyPoint; set { if (OnPropertyChanging("KeyPoint", value)) { _KeyPoint = value; OnPropertyChanged("KeyPoint"); } } }
 
         private String _MapType;
         /// <summary>地图类型</summary>
@@ -346,7 +346,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
                     case "Status": return _Status;
                     case "CenterLat": return _CenterLat;
                     case "CenterLng": return _CenterLng;
-                    case "keyPoint": return _keyPoint;
+                    case "KeyPoint": return _KeyPoint;
                     case "MapType": return _MapType;
                     case "DepId": return _DepId;
                     case "Icon": return _Icon;
@@ -388,7 +388,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
                     case "Status": _Status = Convert.ToString(value); break;
                     case "CenterLat": _CenterLat = value.ToDouble(); break;
                     case "CenterLng": _CenterLng = value.ToDouble(); break;
-                    case "keyPoint": _keyPoint = value.ToInt(); break;
+                    case "KeyPoint": _KeyPoint = value.ToInt(); break;
                     case "MapType": _MapType = Convert.ToString(value); break;
                     case "DepId": _DepId = value.ToInt(); break;
                     case "Icon": _Icon = Convert.ToString(value); break;
@@ -494,7 +494,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
             public static readonly Field CenterLng = FindByName("CenterLng");
 
             /// <summary>关键点</summary>
-            public static readonly Field keyPoint = FindByName("keyPoint");
+            public static readonly Field KeyPoint = FindByName("KeyPoint");
 
             /// <summary>地图类型</summary>
             public static readonly Field MapType = FindByName("MapType");
@@ -605,7 +605,7 @@ namespace VehicleVedioManage.FenceManagement.Entity
             public const String CenterLng = "CenterLng";
 
             /// <summary>关键点</summary>
-            public const String keyPoint = "keyPoint";
+            public const String KeyPoint = "KeyPoint";
 
             /// <summary>地图类型</summary>
             public const String MapType = "MapType";

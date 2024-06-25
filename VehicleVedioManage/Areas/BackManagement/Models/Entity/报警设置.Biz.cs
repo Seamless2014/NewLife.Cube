@@ -165,6 +165,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         #endregion
 
         #region 业务操作
+        /// <summary>
+        /// 加载所有的
+        /// </summary>
+        /// <returns></returns>
+        public static IList<AlarmConfig> LoadAll()
+        {
+           return FindAll(null);
+        }
         #endregion
     }
 }

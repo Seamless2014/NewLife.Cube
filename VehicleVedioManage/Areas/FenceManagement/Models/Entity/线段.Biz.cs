@@ -181,6 +181,19 @@ namespace VehicleVedioManage.FenceManagement.Entity
         #endregion
 
         #region 业务操作
+        /// <summary>
+        /// 获取符合条件得所有数据
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public static LineSegment FindByWhereExpress(WhereExpression where)
+        {
+            return Find(where);
+        }
+        public static IList<LineSegment> FindAllByWhereExpress(WhereExpression where)
+        {
+            return FindAll(where);
+        }
         #endregion
     }
 }

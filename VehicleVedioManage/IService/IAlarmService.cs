@@ -10,7 +10,7 @@ namespace VehicleVedioManage.Web.IService
         /// <summary>
         /// 开始服务
         /// </summary>
-         void Start();
+         Task StartAsync();
         /// <summary>
         /// 结束服务
         /// </summary>

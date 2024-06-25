@@ -8,6 +8,7 @@ namespace VehicleVedioManage.Web.Enums
         STATUS_NEW,
         [Description("终端状态")]
         STATE_FROM_TERM,
-
+        [Description("停车")]
+        TYPE_PARKING,
     }
 }
