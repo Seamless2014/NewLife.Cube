@@ -211,6 +211,15 @@ namespace VehicleVedioManage.BasicData.Entity
         {
             return FindAll(where);
         }
+        /// <summary>
+        /// 获取符合条件得所有数据
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public static BasicInfo FindByWhereExpress(WhereExpression where)
+        {
+            return Find(where);
+        }
         #endregion
     }
 }

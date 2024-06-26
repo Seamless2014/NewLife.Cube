@@ -14,7 +14,7 @@ namespace VehicleVedioManage.Web.IService
         /// 保存报警配置
         /// </summary>
         /// <param name="alarmConfigs"></param>
-        void saveAlarmConfig(IList alarmConfigs);
+        void saveAlarmConfig(IList<AlarmConfig> alarmConfigs);
         /// <summary>
         /// 获取报警配置
         /// </summary>

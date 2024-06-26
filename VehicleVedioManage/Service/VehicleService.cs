@@ -13,10 +13,6 @@ namespace VehicleVedioManage.Web.Service
     /// </summary>
     public class VehicleService /*: GpsNET.Service.IVehicleService*/
     {
-        /// <summary>
-        /// ORM
-        /// </summary>
-        public IBaseDao BaseDao { get; set; }
         private readonly ITracer _tracer;
 
         /// <summary>

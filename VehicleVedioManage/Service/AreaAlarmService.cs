@@ -49,10 +49,6 @@ namespace VehicleVedioManage.Web.Service
         /// </summary>
         public Hashtable alarmMap = new Hashtable();
         /// <summary>
-        /// ORM
-        /// </summary>
-        public IBaseDao BaseDao { get; set; }
-        /// <summary>
         /// 终端报警服务
         /// </summary>
         public INewAlarmService NewAlarmService { get; set; }

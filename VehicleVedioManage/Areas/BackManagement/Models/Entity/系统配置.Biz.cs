@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -142,6 +142,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         #endregion
 
         #region 业务操作
+        /// <summary>
+        /// 获取符合条件得所有数据
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public static SystemConfig FindByWhereExpress(WhereExpression where)
+        {
+            return Find(where);
+        }
         #endregion
     }
 }

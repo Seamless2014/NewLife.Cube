@@ -20,14 +20,14 @@ namespace VehicleVedioManage.Web.Service
         /// 保存报警配置
         /// </summary>
         /// <param name="alarmConfigs"></param>
-        public void saveAlarmConfig(IList alarmConfigs)
+        public void saveAlarmConfig(IList<AlarmConfig> alarmConfigs)
         {
             foreach (AlarmConfig a in alarmConfigs)
             {
                 String key = a.alarmType + "_" + a.alarmSource;
                 alarmConfigMap[key] = a;
             }
-            //AlarmConfig.Insert(alarmConfigs);
+            alarmConfigs.Insert();
         }
         /// <summary>
         /// 获取报警配置

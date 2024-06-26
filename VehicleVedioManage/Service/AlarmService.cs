@@ -24,10 +24,6 @@ namespace VehicleVedioManage.Web.Service
     public class AlarmService : IAlarmService
     {
         /// <summary>
-        /// ORM
-        /// </summary>
-        public IBaseDao BaseDao { get; set; }
-        /// <summary>
         /// 电子围栏
         /// </summary>
         public List<MapArea> Enclosures = new List<MapArea>();

@@ -171,6 +171,10 @@ namespace VehicleVedioManage.FenceManagement.Entity
         {
             return Find(where);
         }
+        public static IList<RouteSegment> FindAllByWhereExpress(WhereExpression where)
+        {
+            return FindAll(where);
+        }
         #endregion
     }
 }
