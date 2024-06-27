@@ -249,7 +249,23 @@ namespace VehicleVedioManage.BasicData.Entity
             // 实体缓存
             if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Enable == false);
 
-            return FindAll();
+            return FindAll(_.Enable==false);
+        }
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="plateNo"></param>
+       /// <param name="enable"></param>
+       /// <returns></returns>
+        public static Vehicle FindByPlateNoAndEnable(String plateNo,bool enable)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo)&e.Enable==enable);
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(plateNo) as Vehicle;
+
+            return Find(_.PlateNo == plateNo&_.Enable==enable);
         }
         #endregion
 

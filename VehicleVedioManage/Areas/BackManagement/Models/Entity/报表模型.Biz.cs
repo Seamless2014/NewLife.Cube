@@ -127,6 +127,37 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             return Find(_.Name == name);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="enabled"></param>
+        /// <returns></returns>
+        public static ReportModel FindByNameAndEnable(String name,bool enabled)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Name.EqualIgnoreCase(name)&e.Enable== enabled);
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(name) as ReportModel;
+
+            return Find(_.Name == name &_.Enable==enabled);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enabled"></param>
+        /// <returns></returns>
+        public static IList<ReportModel> FindAllByEnable(bool enabled)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Enable == enabled);
+
+            // 单对象缓存
+            //return Meta.SingleCache.GetItemWithSlaveKey(name) as ReportModel;
+
+            return FindAll(_.Enable == enabled);
+        }
         #endregion
 
         #region 高级查询

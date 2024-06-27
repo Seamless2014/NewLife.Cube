@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Xml.Serialization;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using NewLife;
 using NewLife.Data;
 using NewLife.Log;
@@ -38,6 +39,25 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             // 过滤器 UserModule、TimeModule、IPModule
             Meta.Modules.Add<TimeModule>();
+        }
+        public OnlineRecord()
+        {
+
+        }
+        public OnlineRecord(GPSRealData rd,string alarmType,string alarmSource,string status)
+        {
+            Latitude = rd.Latitude;
+            Longitude = rd.Longitude;
+            Location = rd.Location;
+            PlateNo = rd.PlateNo;
+            StartTime = rd.SendTime;
+            AlarmType = alarmType;
+            AlarmSource = alarmSource;
+            Velocity = rd.Velocity;
+            Status = status;
+            VehicleId = rd.VehicleId;
+            EndTime = this.StartTime;
+            CreateTime = DateTime.Now;//
         }
 
         /// <summary>验证并修补数据，通过抛出异常的方式提示验证失败。</summary>
@@ -155,6 +175,14 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             return Find(_.PlateNo == plateNo);
         }
+        public static OnlineRecord FindByPlateNoStatusAlarmType(string  plateNo,string status,string alarmType)
+        {
+            if (plateNo.IsNullOrEmpty()) return null;
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo)&e.Status==status & e.AlarmType==alarmType);
+
+            return Find(_.PlateNo == plateNo & _.Status == status & _.AlarmType == alarmType);
+        }
         #endregion
 
         #region 高级查询
@@ -175,6 +203,16 @@ namespace VehicleVedioManage.ReportStatistics.Entity
             if (!key.IsNullOrEmpty()) exp &= _.PlateNo.Contains(key) | _.Status.Contains(key) | _.Driver.Contains(key) | _.Location.Contains(key) | _.Location1.Contains(key) | _.Type.Contains(key) | _.ChildType.Contains(key) | _.VideoFileName.Contains(key) | _.Flag.Contains(key) | _.Remark.Contains(key) | _.Owner.Contains(key) | _.ProcessedUserName.Contains(key) | _.AlarmSource.Contains(key) | _.AlarmType.Contains(key);
 
             return FindAll(exp, page);
+        }
+
+        public static OnlineRecord SearchOne(string plateNo, String status,string alarmType, PageParameter page)
+        {
+            var exp = new WhereExpression();
+
+            if (!plateNo.IsNullOrEmpty()) exp &= _.PlateNo == plateNo;
+            if (!status.IsNullOrEmpty()) exp &= _.Status == status;
+            if(!alarmType.IsNullOrEmpty()) exp &= _.AlarmType == alarmType;
+            return Find(exp, page);
         }
 
         // Select Count(AlarmId) as AlarmId,PlateNo From OnlineRecord Where EndTime>'2020-01-24 00:00:00' Group By PlateNo Order By AlarmId Desc limit 20

@@ -149,6 +149,15 @@ namespace VehicleVedioManage.FenceManagement.Entity
 
             return Find(_.Name == name);
         }
+        public static IList<LineSegment> FindAllByRouteId(Int32 routeid)
+        {
+            if (routeid <= 0) return null;
+
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.RouteId == routeid);
+
+            return FindAll(_.RouteId == routeid);
+        }
         #endregion
 
         #region 高级查询

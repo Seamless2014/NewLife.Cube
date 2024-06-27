@@ -158,6 +158,20 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             return Find(_.PlateNo == plateNo);
         }
+        public static IList<GPSRealData> FindAllBy(WhereExpression where)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.VehicleId>0);
+
+            return FindAll(where);
+        }
+        public static IList<GPSRealData> FindAllBySendTime(DateTime sendTime)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.SendTime > sendTime);
+
+            return FindAll(_.SendTime>sendTime);
+        }
         #endregion
 
         #region 高级查询

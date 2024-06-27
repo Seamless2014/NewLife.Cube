@@ -137,6 +137,22 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             return Find(_.DepName == depName);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="depID"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public static IList<OnlineStatic> FindAllByDepIdStartAndEnd(Int32 depID,DateTime start,DateTime end)
+        {
+            if (depID <= 0) return null;
+
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.DepId == depID& e.StatisticDate>start&e.StatisticDate<end);
+
+            return FindAll(_.DepId == depID & _.StatisticDate > start & _.StatisticDate < end);
+        }
         #endregion
 
         #region 高级查询

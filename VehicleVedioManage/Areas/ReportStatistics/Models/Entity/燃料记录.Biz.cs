@@ -17,6 +17,7 @@ using NewLife.Model;
 using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
+using VehicleVedioManage.BasicData.Entity;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -105,6 +106,12 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         #endregion
 
         #region 扩展属性
+        public Vehicle _Vehicle => Extends.Get(nameof(Vehicle), k => Vehicle.FindByID(VehicleId));
+
+        /// <summary>车牌号</summary>
+        [Map(nameof(VehicleId), typeof(Vehicle), "ID")]
+        [BindColumn("PlateNo", "车牌号", "nvarchar(50)")]
+        public String PlateNo => _Vehicle?.PlateNo;
         #endregion
 
         #region 扩展查询
@@ -129,9 +136,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         public static FuelRecord FindByPlateNo(String plateNo)
         {
             // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.VehicleId.EqualIgnoreCase(plateNo));
-
-            return Find(_.VehicleId == plateNo);
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.PlateNo.EqualIgnoreCase(plateNo));
+            return Find("PlateNo",plateNo);
         }
         #endregion
 

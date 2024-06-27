@@ -130,6 +130,23 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             return Find(_.PlateNo == plateNo);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cmdId"></param>
+        /// <returns></returns>
+        public static TerminalCommand FindByCommandId(string cmdId)
+        {
+            if (cmdId.IsNullOrEmpty()) return null;
+
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.Cmd == cmdId);
+
+            // 单对象缓存
+            return Meta.SingleCache[cmdId];
+
+            //return Find(_.CmdId == cmdId);
+        }
         #endregion
 
         #region 高级查询

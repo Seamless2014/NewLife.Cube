@@ -27,13 +27,13 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("ID", "编码", "")]
         public Int32 ID { get => _ID; set { if (OnPropertyChanging("ID", value)) { _ID = value; OnPropertyChanged("ID"); } } }
 
-        private String _VehicleId;
+        private Int32 _VehicleId;
         /// <summary>车辆编码</summary>
         [DisplayName("车辆编码")]
         [Description("车辆编码")]
         [DataObjectField(false, false, true, 30)]
         [BindColumn("VehicleId", "车辆编码", "")]
-        public String VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
+        public Int32 VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
 
         private Int32 _CommandId;
         /// <summary>指令编码</summary>
@@ -91,13 +91,13 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [BindColumn("Direction", "方向", "")]
         public Int32 Direction { get => _Direction; set { if (OnPropertyChanging("Direction", value)) { _Direction = value; OnPropertyChanged("Direction"); } } }
 
-        private Int32 _Status;
+        private string _Status;
         /// <summary>状态</summary>
         [DisplayName("状态")]
         [Description("状态")]
         [DataObjectField(false, false, true, 0)]
         [BindColumn("Status", "状态", "")]
-        public Int32 Status { get => _Status; set { if (OnPropertyChanging("Status", value)) { _Status = value; OnPropertyChanged("Status"); } } }
+        public string Status { get => _Status; set { if (OnPropertyChanging("Status", value)) { _Status = value; OnPropertyChanged("Status"); } } }
 
         private Double _Mileage;
         /// <summary>里程</summary>
@@ -219,7 +219,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                 switch (name)
                 {
                     case "ID": _ID = value.ToInt(); break;
-                    case "VehicleId": _VehicleId = Convert.ToString(value); break;
+                    case "VehicleId": _VehicleId = value.ToInt(); break;
                     case "CommandId": _CommandId = value.ToInt(); break;
                     case "OrderId": _OrderId = Convert.ToString(value); break;
                     case "SendTime": _SendTime = value.ToDateTime(); break;
@@ -227,7 +227,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "Latitude": _Latitude = value.ToDouble(); break;
                     case "Velocity": _Velocity = value.ToDouble(); break;
                     case "Direction": _Direction = value.ToInt(); break;
-                    case "Status": _Status = value.ToInt(); break;
+                    case "Status": _Status =Convert.ToString(value); break;
                     case "Mileage": _Mileage = value.ToDouble(); break;
                     case "Oil": _Oil = value.ToDouble(); break;
                     case "RecordVelocity": _RecordVelocity = value.ToDouble(); break;

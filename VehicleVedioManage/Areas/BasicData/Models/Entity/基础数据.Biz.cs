@@ -169,6 +169,12 @@ namespace VehicleVedioManage.BasicData.Entity
 
             return Find(_.Name == name);
         }
+        public static IList<BasicInfo> FindAllByEnable(bool enable)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.Enable==enable);
+            return FindAll(_.Enable == enable);
+        }
         #endregion
 
         #region 高级查询
