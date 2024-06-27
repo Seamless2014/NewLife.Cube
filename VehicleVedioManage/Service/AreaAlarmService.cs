@@ -160,7 +160,7 @@ namespace VehicleVedioManage.Web.Service
             DateTime d = DateTime.Now.AddMinutes(-5);
             param.Add("onlineDate", d);
             String queryId = "selectAllBindAreas";
-            IList bindings = this.QueryService.QueryForList(queryId, param);
+            IList bindings = QueryService.QueryForList(queryId, param);
             Dictionary<int, MapArea> areaMap = new Dictionary<int, MapArea>();
             foreach (Hashtable eb in bindings)
             {
@@ -169,7 +169,7 @@ namespace VehicleVedioManage.Web.Service
                 String simNo = "" + eb["simNo"];
                 String key = bindId + "_" + simNo;
 
-                GPSRealData rd = this.RealDataService.Get(simNo);
+                GPSRealData rd = RealDataService.Get(simNo);
                 if (rd != null)
                 {
                     GPSRealData oldRd = null;

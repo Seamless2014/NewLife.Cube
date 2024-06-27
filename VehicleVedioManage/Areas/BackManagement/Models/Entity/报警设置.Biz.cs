@@ -18,6 +18,7 @@ using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
 using VehicleVedioManage.BasicData.Entity;
+using VehicleVedioManage.FenceManagement.Entity;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -172,6 +173,15 @@ namespace VehicleVedioManage.BackManagement.Entity
         public static IList<AlarmConfig> LoadAll()
         {
            return FindAll(null);
+        }
+        /// <summary>
+        /// 获取符合条件得所有数据
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public static AlarmConfig FindByWhereExpress(WhereExpression where)
+        {
+            return Find(where);
         }
         #endregion
     }

@@ -1,4 +1,6 @@
 ﻿//using System.Collections;
+//using NewLife.Log;
+//using VehicleVedioManage.Web.IService;
 
 //namespace VehicleVedioManage.Web.Service
 //{
@@ -11,7 +13,12 @@
 
 //        public string SqlMapPath { get; set; }
 
-//        private static ISqlMapper SqlMapper;
+//        private readonly ITracer _tracer;
+//        public QueryService(ITracer tracer)
+//        {
+//            _tracer = tracer;
+//        }
+
 //        /// <summary>
 //        /// 查询列表
 //        /// </summary>
@@ -41,7 +48,7 @@
 //        /// <param name="objMap"></param>
 //        public void update(String stateId, Object objMap)
 //        {
-//            this.Mapper().Update(stateId, objMap);
+//            Mapper().Update(stateId, objMap);
 //        }
 
 //        /// <summary>
@@ -102,37 +109,6 @@
 //                update("createTableForNewAlarm", param);
 //            }
 //        }
-
-
-
-
 //        #endregion
-//        /// <summary>
-//        /// 配置
-//        /// </summary>
-//        /// <param name="obj"></param>
-//        protected static void Configure(object obj)
-//        {
-//            SqlMapper = null;
-//        }
-//        /// <summary>
-//        /// sqlmap 配置
-//        /// </summary>
-//        /// <returns></returns>
-//        protected IBatisNet.DataMapper.ISqlMapper Mapper()
-//        {
-//            if (SqlMapper != null)
-//                return SqlMapper;
-
-//            DomSqlMapBuilder d = new DomSqlMapBuilder();//初始化一个DomSqlMapBuilder
-//            ConfigureHandler handler = new ConfigureHandler(Configure);
-
-//            SqlMapper = d.ConfigureAndWatch("sqlmap.config", handler);
-
-//            return SqlMapper;
-
-
-//        }
-
 //    }
 //}
