@@ -140,6 +140,14 @@ namespace VehicleVedioManage.BackManagement.Entity
         [BindColumn("Appointment", "预约时间", "", Precision = 0, Scale = 3)]
         public DateTime Appointment { get => _Appointment; set { if (OnPropertyChanging("Appointment", value)) { _Appointment = value; OnPropertyChanged("Appointment"); } } }
 
+        private Int32 _VehicleId;
+        /// <summary>车辆编码</summary>
+        [DisplayName("车辆编码")]
+        [Description("车辆编码")]
+        [DataObjectField(false, false, true, 10)]
+        [BindColumn("VehicleId", "车辆编码", "int")]
+        public Int32 VehicleId { get => _VehicleId; set { if (OnPropertyChanging("VehicleId", value)) { _VehicleId = value; OnPropertyChanged("VehicleId"); } } }
+
         private Single _RoyaltiesScale;
         /// <summary>使用规模</summary>
         [Category("扩展信息")]
@@ -364,6 +372,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Owner": return _Owner;
                     case "JobCard": return _JobCard;
                     case "Enable": return _Enable;
+                    case "VehicleId": return _VehicleId;
                     case "CreateTime": return _CreateTime;
                     case "TenantId": return _TenantId;
                     case "MainDriver": return _MainDriver;
@@ -407,6 +416,7 @@ namespace VehicleVedioManage.BackManagement.Entity
                     case "Owner": _Owner = Convert.ToString(value); break;
                     case "JobCard": _JobCard = Convert.ToString(value); break;
                     case "Enable": _Enable = value.ToBoolean(); break;
+                    case "VehicleId": _VehicleId = value.ToInt(); break;
                     case "CreateTime": _CreateTime = value.ToDateTime(); break;
                     case "TenantId": _TenantId = value.ToInt(); break;
                     case "MainDriver": _MainDriver = Convert.ToByte(value); break;
@@ -521,6 +531,9 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             /// <summary>启用</summary>
             public static readonly Field Enable = FindByName("Enable");
+
+            /// <summary>车辆编码</summary>
+            public static readonly Field VehicleId = FindByName("VehicleId");
 
             /// <summary>创建时间</summary>
             public static readonly Field CreateTime = FindByName("CreateTime");
@@ -641,6 +654,9 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             /// <summary>启用</summary>
             public const String Enable = "Enable";
+
+            /// <summary>车辆编码</summary>
+            public const String VehicleId = "VehicleId";
 
             /// <summary>创建时间</summary>
             public const String CreateTime = "CreateTime";

@@ -3,6 +3,7 @@
 //using System.Text;
 //using NewLife;
 //using NewLife.Cube.Areas.Admin.Models;
+//using NewLife.Data;
 //using NewLife.Log;
 //using VehicleVedioManage.BackManagement.Entity;
 //using VehicleVedioManage.BasicData.Entity;
@@ -75,7 +76,7 @@
 //            }
 //            catch (Exception ex)
 //            {
-//                tracer.NewError(ex.Message+System.Environment.NewLine+ex.StackTrace, ex);
+//                tracer.NewError(ex.Message + System.Environment.NewLine + ex.StackTrace, ex);
 //                throw new FaultException(ex.Message);
 //            }
 //        }
@@ -96,29 +97,6 @@
 //                tracer.NewError(ex.StackTrace, ex);
 //                throw new FaultException(ex.Message);
 //            }
-//        }
-
-//        /// <summary>
-//        /// 设置用户密码
-//        /// </summary>
-//        /// <param name="UserId"></param>
-//        /// <param name="Password"></param>
-//        public void UpdateUserPassword(int UserId, string Password)
-//        {
-//            if (this.onlineUser == null || this.onlineUser.ID!= UserId || UserId == 0)
-//            {
-//                throw new FaultException("你没有权限修改用户的密码");
-//            }
-//            User u = GetUser(UserId);
-//            if (u != null)
-//            {
-//                string strPass = FormsAuthentication.HashPasswordForStoringInConfigFile(Password, "SHA1");
-//                u.Password = strPass;
-//                u.Update();
-//            }
-//            else
-//                throw new FaultException("没有此用户");
-
 //        }
 
 //        /// <summary>
@@ -149,73 +127,6 @@
 //            }
 
 //        }
-//        /// <summary>
-//        /// 用户登录
-//        /// </summary>
-//        /// <param name="UserName"></param>
-//        /// <param name="Password"></param>
-//        /// <returns></returns>
-//        public ClientUser Login(String UserName, String Password)
-//        {
-//            try
-//            {
-//                string hsql = "from UserInfo where LoginName = ? and Deleted = ? ";
-
-//                User u = (UserInfo)BaseDao.find(hsql, new Object[] { UserName, false });
-
-
-//                if (u == null)
-//                    return null;
-//                string strPass = u.Password;// 
-
-//                String encrypt = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(u.Password, "SHA1");
-
-//                if (strPass != Password && encrypt != Password)
-//                    return null;
-
-//                this.onlineUser = u;
-
-//                ClientUser onlineUser = new ClientUser();
-//                onlineUser.LoginName = u.Name;
-//                onlineUser.Password = u.Password;
-//                onlineUser.TenantId = u.TenantId;
-//                onlineUser.Name = u.Name;
-//                onlineUser.UserType = u.UserType;
-//                onlineUser.UserId = u.EntityId;
-//                onlineUser.DepId = u.RegionId;
-//                SystemConfig sc = (SystemConfig)this.BaseDao.load(
-//                       typeof(SystemConfig), 1);
-//                if (u.MapCenterLat == 0 || u.MapCenterLng == 0)
-//                {
-//                    onlineUser.MapCenterLat = (sc.InitLat);
-//                    onlineUser.MapCenterLng = (sc.InitLng);
-//                    onlineUser.MapLevel = (sc.InitZoomLevel);
-//                }
-//                else
-//                {
-//                    onlineUser.MapCenterLat = u.MapCenterLat;
-//                    onlineUser.MapCenterLng = u.MapCenterLng;
-//                    onlineUser.MapLevel = u.MapLevel;
-//                }
-
-//                if (u.IsAdmin())
-//                {
-//                    //如果是超级用户，就加载所有的权限;
-//                    IList il = BaseDao.loadAll(typeof(FuncModel));
-//                    foreach (FuncModel f in il)
-//                        onlineUser.Permissions.Add(f);
-//                }
-//                else
-//                    onlineUser.Permissions = u.GetPermissions();
-
-//                return onlineUser;
-//            }
-//            catch (Exception ex)
-//            {
-//                tracer.NewError(ex.Message + System.Environment.NewLine + ex.StackTrace, ex);
-//                throw new FaultException(ex.Message);
-//            }
-//        }
 
 //        public List<AlarmConfig> GetAlarmConfig()
 //        {
@@ -240,7 +151,7 @@
 //        {
 //            try
 //            {
-//                ReportModel rm = ReportModel.FindByNameAndEnable(Name,true);
+//                ReportModel rm = ReportModel.FindByNameAndEnable(Name, true);
 //                return rm;
 //            }
 //            catch (Exception ex)
@@ -286,7 +197,7 @@
 //            {
 //                var nodes = LineSegment.FindAllByRouteId(RouteId);
 //                List<LineSegment> result = new List<LineSegment>();
-//                foreach (var bd in nodes.OrderBy(e=>e.PointId))
+//                foreach (var bd in nodes.OrderBy(e => e.PointId))
 //                {
 //                    result.Add(bd);
 //                }
@@ -306,7 +217,7 @@
 //        {
 //            string hsql = "from OnlineStatic where StatisticDate >= ? and StatisticDate <= ? and DepId = ? ";
 
-//            var results = OnlineStatic.FindAllByDepIdStartAndEnd(DepId,start,end);
+//            var results = OnlineStatic.FindAllByDepIdStartAndEnd(DepId, start, end);
 
 //            List<OnlineStatic> ls = new List<OnlineStatic>();
 //            foreach (OnlineStatic vx in results)
@@ -315,10 +226,6 @@
 //            }
 //            return ls;
 //        }
-
-
-
-
 
 //        //查询历史轨迹
 //        public List<GpsInfo> GetGpsInfoList(QueryParam param)
@@ -426,7 +333,7 @@
 //                }
 
 //                int skipRows = (param.StartPageNo - 1) * param.Limit;
-//                Pagination ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
+//                Page ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
 
 //                foreach (Hashtable item in ls.results)
 //                {
@@ -513,7 +420,7 @@
 //        //分页查询报警时长统计记录
 //        private PageData<AlarmRecord> GetAlarmRecord(string queryId, Hashtable parameters, int skipRows, int rowNum)
 //        {
-//            Pagination il = QueryService.QueryForList(queryId, parameters, skipRows, rowNum);
+//            PageParameter il = QueryService.QueryForList(queryId, parameters, skipRows, rowNum);
 
 //            List<AlarmRecord> vds = new List<AlarmRecord>();
 //            PageData<AlarmRecord> pd = new PageData<AlarmRecord>();
@@ -562,7 +469,7 @@
 //                vds.Add(se);
 //            }
 
-//            pd.TotalRecord = il.totalCount;
+//            pd.TotalRecord = il.TotalCount;
 //            return pd;
 //        }
 
@@ -591,7 +498,7 @@
 //                int skipRows = (qp.StartPageNo - 1) * qp.Limit;
 //                int rowNum = qp.Limit;
 
-//                Pagination il = QueryService.QueryForList(queryId, param, skipRows, rowNum);
+//                PageParameter il = QueryService.QueryForList(queryId, param, skipRows, rowNum);
 //                List<OnlineRecord> vds = new List<OnlineRecord>();
 //                PageData<OnlineRecord> pd = new PageData<OnlineRecord>();
 //                pd.Data = vds;
@@ -627,7 +534,7 @@
 //                    vds.Add(se);
 //                }
 
-//                pd.TotalRecord = il.totalCount;
+//                pd.TotalRecord = il.TotalCount;
 //                return pd;
 //            }
 //            catch (Exception ex)
@@ -677,7 +584,7 @@
 
 //            int rowNum = qp.Limit;
 
-//            Pagination il = QueryService.QueryForList(queryId, param, skipRows, rowNum);
+//            PageParameter il = QueryService.QueryForList(queryId, param, skipRows, rowNum);
 
 
 //            List<AlarmRecord> vds = new List<AlarmRecord>();
@@ -725,7 +632,7 @@
 //                vds.Add(se);
 //            }
 
-//            pd.TotalRecord = il.totalCount;
+//            pd.TotalRecord = il.TotalCount;
 //            return pd;
 //        }
 
@@ -975,27 +882,26 @@
 //                parameters["userId"] = onlineUser.ID;
 //                String queryId = "selectDeps";
 //                int skipRows = (qp.StartPageNo - 1) * qp.Limit;
-//                Pagination ls = QueryService.QueryForList(queryId, parameters, skipRows, qp.Limit);
+//                PageParameter ls = QueryService.QueryForList(queryId, parameters, skipRows, qp.Limit);
 
 //                foreach (Hashtable item in ls.results)
 //                {
 //                    Department cu = new Department();
 //                    cu.Name = "" + item["name"];
-//                    cu.EntityId = (int)item["depId"];
-//                    cu.ParentId = (int)item["parentId"];
-//                    cu.ParentDepName = "" + item["parentDepName"];
-//                    cu.Type = "" + item["type"];
+//                    cu.ID = (int)item["depId"];
+//                    cu.ParentID = (int)item["parentId"];
+//                    //cu.Level = "" + item["type"];
 //                    cu.AssoMan = "" + item["assoMan"];
 //                    cu.AssoTel = "" + item["assoTel"];
 //                    cu.Address = "" + item["address"];
-//                    cu.CreateDate = (DateTime)item["createDate"];
+//                    cu.CreateTime = (DateTime)item["createDate"];
 //                    pd.Data.Add(cu);
 
 //                }
 
 //                int startRows = (qp.StartPageNo - 1) * qp.Limit;
 
-//                pd.TotalRecord = ls.totalCount;
+//                pd.TotalRecord = (int)ls.TotalCount;
 //                pd.Start = startRows;
 //                pd.Limit = qp.Limit;
 //                //pd.TotalPage = 1 + pd.TotolRecord / pd.Limit;
@@ -1028,7 +934,7 @@
 //                    IList il = BaseDao.loadAll(typeof(Department));
 //                    foreach (Department dep in il)
 //                    {
-//                        if (dep.Deleted == false)
+//                        if (dep.Enable == true)
 //                            results.Add(dep);
 //                    }
 //                    return results;
@@ -1089,7 +995,7 @@
 //            {
 //                ClientRole cu = new ClientRole();
 //                cu.Name = s.Name;
-//                cu.RoleId = s.EntityId;
+//                cu.RoleId = s.ID;
 
 //                foreach (FuncModel fm in s.Funcs)
 //                {
@@ -1114,7 +1020,7 @@
 
 //                int skipRows = qp.SkipRows;
 //                String queryId = "selectUsers";
-//                Pagination ls = QueryService.QueryForList(queryId, parameters, skipRows, qp.Limit);
+//                PageParameter ls = QueryService.QueryForList(queryId, parameters, skipRows, qp.Limit);
 
 //                foreach (CustomHashtable item in ls.results)
 //                {
@@ -1131,7 +1037,7 @@
 //                }
 //                int startRows = (qp.StartPageNo - 1) * qp.Limit;
 
-//                pd.TotalRecord = ls.totalCount;
+//                pd.TotalRecord = (int)ls.TotalCount;
 //                pd.Start = startRows;
 //                pd.Limit = qp.Limit;
 //                //pd.TotalPage = 1 + pd.TotolRecord / pd.Limit;
@@ -1179,13 +1085,13 @@
 
 //                if (layer.Deleted == false)
 //                {
-//                    if (c != null && layer.EntityId == 0)
+//                    if (c != null && layer.LayerId == 0)
 //                    {
 //                        throw new FaultException("该图层名称已经存在，不能重复！");
 //                    }
 
-//                    if (layer.EntityId > 0)
-//                        c = (MapLayer)BaseDao.load(typeof(MapLayer), layer.EntityId);
+//                    if (layer.LayerId > 0)
+//                        c = (MapLayer)BaseDao.load(typeof(MapLayer), layer.LayerId);
 
 //                    if (c == null)
 //                        c = new MapLayer();
@@ -1203,7 +1109,7 @@
 //                c.Icon = layer.Icon;
 //                c.Visible = layer.Visible;
 
-//                BaseDao.saveOrUpdate(c);
+//                c.Insert();
 //                return c;
 //            }
 //            catch (Exception ex)
@@ -1213,11 +1119,11 @@
 //            }
 //        }
 
-//        public void SaveUser(UserInfo u)
+//        public void SaveUser(User u)
 //        {
 //            try
 //            {
-//                BaseDao.saveOrUpdate(u);
+//                u.Upsert();
 
 //            }
 //            catch (Exception ex)
@@ -1236,43 +1142,42 @@
 //        {
 //            try
 //            {
-//                Boolean isNewDep = dep.EntityId == 0;//是否是新增部门
-//                BaseDao.saveOrUpdate(dep);
+//                Boolean isNewDep = dep.ID == 0;//是否是新增部门
+//                dep.Upsert();
 
 //                User user = this.onlineUser;
 //                if (isNewDep)
 //                {
-//                    if (dep.ParentId > 0)
+//                    if (dep.ParentID > 0)
 //                    {
 //                        //拥有上级部门权限的用户，也自然拥有上级部门下所有的用户
 //                        String hql = "select u from UserInfo u inner join u.Departments f where u.Deleted=? and f.EntityId=? and f.EntityId <> ?";
 
 //                        IList result = this.BaseDao.query(hql, new Object[] {
-//                            false, dep.ParentId, dep.EntityId });
-//                        foreach (UserInfo u in result)
+//                            false, dep.ParentID, dep.ID });
+//                        foreach (User u in result)
 //                        {
-//                            u.Departments.Add(dep);
-//                            this.BaseDao.saveOrUpdate(u);
+//                            //u.Department.Add(dep);
+//                            u.Upsert();
 //                        }
 //                    }
 //                    else
 //                    {
-//                        User u = this.onlineUser;
-//                        u = (User)this.BaseDao.load(typeof(User),
-//                                u.EntityId);
-//                        u.Departments.Add(dep);
-//                        this.BaseDao.saveOrUpdate(u);
-//                        this.onlineUser = u;
+//                        User u = onlineUser;
+//                        u = GetUser(u.ID);
+//                       // u.Departments.Add(dep);
+//                        u.Upsert();
+//                        onlineUser = u;
 //                    }
 //                }
-//                else if (dep.Deleted)
+//                else if (dep.Enable)
 //                {
 //                    //如果是删除部门
 //                    String hql = "select u from UserInfo u inner join u.Departments f where u.Deleted=? and f.EntityId=?";
 
 //                    IList result = this.BaseDao.query(hql, new Object[] {
-//                            false,  dep.EntityId });
-//                    foreach (UserInfo u in result)
+//                            false,  dep.ID });
+//                    foreach (User u in result)
 //                    {
 //                        //需要从用户权限中删除部门
 //                        u.Departments.Remove(dep);
@@ -1384,7 +1289,6 @@
 //        {
 //            try
 //            {
-//                this.BaseDao.saveOrUpdate(te.Entity);
 //                return te;
 //            }
 //            catch (Exception ex)
@@ -1424,17 +1328,17 @@
 //                user.LoginName = cu.LoginName;
 //                user.Password = cu.Password;
 //                //user.dep = cu.DepId;
-//                user.Deleted = cu.Deleted;
+//                user.Enable = cu.Deleted;
 //                //user. = cu.Job;
 //                //user.Mail = cu.Mail;
 //                user.Remark = cu.Remark;
 //                user.Roles.Clear();
-//                if (user.Deleted == false)
+//                if (user.Enable == false)
 //                {
 //                    foreach (ClientRole r in cu.Roles)
 //                    {
 //                        Role ro = GetRole(r.RoleId);
-//                        user.Roles.Add(ro);
+//                        user.Roles.ToList().Add(ro);
 //                    }
 //                }
 
@@ -1457,9 +1361,9 @@
 //                else
 //                    role = new Role();
 //                role.Name = cr.Name;
-//                role.Deleted = cr.Deleted;
+//                role.Enable = cr.Deleted;
 //                role.Funcs.Clear();
-//                if (role.Deleted == false)
+//                if (role.Enable == false)
 //                {
 //                    foreach (FuncModel f in cr.FunctionList)
 //                    {
@@ -1487,27 +1391,27 @@
 //        {
 //            try
 //            {
-//                if (vd.Deleted == false)
+//                if (vd.Enable == false)
 //                {
 //                    //判断车牌号和GPSId是否唯一，已经删除的不考虑
 //                    string hsql = "from Vehicle where EntityId != ? and (SimNo = ? or PlateNo = ? ) and Deleted = ? ";
-//                    Vehicle obj = (Vehicle)BaseDao.find(hsql, new object[] { vd.EntityId, vd.SimNo
+//                    Vehicle obj = (Vehicle)BaseDao.find(hsql, new object[] { vd.ID, vd.SimNo
 //                    , vd.PlateNo, false });
 //                    if (obj != null)
 //                        throw new FaultException(obj.PlateNo + "已存在，车牌号和终端卡号必须要保证唯一");
 
 //                }
 
-//                if (vd.EntityId > 0)
+//                if (vd.ID > 0)
 //                {
 
-//                    Vehicle oldVd = (Vehicle)BaseDao.load(typeof(Vehicle), vd.EntityId);
+//                    Vehicle oldVd = (Vehicle)BaseDao.load(typeof(Vehicle), vd.ID);
 //                    List<VehicleInfoModifyRecord> mrList = new List<VehicleInfoModifyRecord>();
 
-//                    if (vd.Deleted)
+//                    if (vd.Enable)
 //                    {
 //                        VehicleInfoModifyRecord mr = new VehicleInfoModifyRecord();
-//                        mr.VehicleId = oldVd.EntityId;
+//                        mr.VehicleId = oldVd.ID;
 //                        mr.UserName = this.onlineUser.Name;
 //                        mr.Type = VehicleInfoModifyRecord.MODIFY_DELETE;
 //                        mr.Detail = "删除车辆";
@@ -1547,8 +1451,8 @@
 //                            mr.UserName = this.onlineUser.Name;
 //                            mr.Type = VehicleInfoModifyRecord.MODIFY_SIMNO;
 //                            StringBuilder detail = new StringBuilder();
-//                            Department oldDep = (Department)this.BaseDao.load(typeof(Department), oldVd.DepId);
-//                            Department dep = (Department)this.BaseDao.load(typeof(Department), vd.DepId);
+//                            Department oldDep = (Department)this.BaseDao.load(typeof(Department), oldVd.DepartmentID);
+//                            Department dep = (Department)this.BaseDao.load(typeof(Department), vd.DepartmentID);
 //                            detail.Append("过户由[").Append(oldDep.Name).Append("]变更为[")
 //                            .Append(dep.Name).Append("]");
 //                            mr.Detail = detail.ToString();
@@ -1562,7 +1466,7 @@
 //                        mrList.Insert();
 //                    }
 //                }
-//                if (vd.Deleted == false)
+//                if (vd.Enable == false)
 //                {
 //                    /**
 //                    TerminalInfo t = null;
@@ -1601,14 +1505,14 @@
 //                    if (rd != null)
 //                    {
 //                        rd.PlateNo = vd.PlateNo;
-//                       rd.Update();
+//                        rd.Update();
 //                    }
 
 
 //                }
 //                else
 //                {
-//                    vd.TerminalId = 0;
+//                    vd.TerminalId = "";
 //                    string hsql1 = "from GPSRealData where  SimNo = ?";
 //                    BaseDao.Delete(hsql1, new object[] { vd.SimNo });
 
@@ -1617,18 +1521,18 @@
 //                if (vd.Driver != null || vd.Monitor != null || vd.DriverMobile != null)
 //                {
 //                    DriverInfo d = this.GetMainDriverByVehicleId(vd.EntityId);
-//                    if (vd.Deleted == false)
+//                    if (vd.Enable == false)
 //                    {
 //                        if (d == null)
 //                        {
 //                            d = new DriverInfo();
-//                            d.MainDriver = true;
-//                            d.VehicleId = vd.EntityId;
+//                            d.MainDriver =Convert.ToByte(true);
+//                            d.VehicleId = vd.ID;
 //                            d.TenantId = this.onlineUser.RegionId;
 //                        }
 //                        d.DriverName = vd.Driver;
 //                        d.Monitor = vd.Monitor;
-//                        d.Telephone = vd.DriverMobile;
+//                        d.Telephone = int.Parse(vd.DriverMobile);
 
 
 //                    }
@@ -1701,7 +1605,7 @@
 //                }*/
 
 //                int skipRows = (param.StartPageNo - 1) * param.Limit;
-//                Pagination ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
+//                PageParameter ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
 
 //                foreach (Hashtable item in ls.results)
 //                {
@@ -1731,7 +1635,7 @@
 
 //                    vds.Add(vd);
 //                }
-//                pd.TotalRecord = ls.totalCount;
+//                pd.TotalRecord = (int)ls.TotalCount;
 //                pd.PageNo = param.StartPageNo;
 //                pd.Limit = param.Limit;
 //                int startRows = (param.StartPageNo - 1) * param.Limit;
@@ -1755,7 +1659,7 @@
 //                String hql = "from MediaItem where CommandId = ?";
 
 //                var mi = MediaItem.FindByCommandId(commandId);
-//                if (mi != null&&mi.Count>0)
+//                if (mi != null && mi.Count > 0)
 //                {
 //                    //得到照片、录像等多媒体数据
 //                    mi.MediaData = getImageBytesFromFile(mi[0]);
@@ -1800,7 +1704,7 @@
 
 //                string queryId = "selectMediaItems";
 //                int skipRows = (param.StartPageNo - 1) * param.Limit;
-//                Pagination ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
+//                PageParameter ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
 
 //                foreach (Hashtable item in ls.results)
 //                {
@@ -1825,7 +1729,7 @@
 
 //                    vds.Add(mi);
 //                }
-//                pd.TotalRecord = ls.totalCount;
+//                pd.TotalRecord = (int)ls.TotalCount;
 //                pd.PageNo = param.StartPageNo;
 //                pd.Limit = param.Limit;
 //                int startRows = (param.StartPageNo - 1) * param.Limit;
@@ -1913,9 +1817,9 @@
 //                Hashtable ht = qp.getParams();
 //                ht["userId"] = onlineUser.ID;
 
-//                if (onlineUser.RegionId > 0 && this.onlineUser.IsAdmin() == false)
+//                if (onlineUser.RoleID > 0 && onlineUser.IsAdmin() == false)
 //                {
-//                    List<int> tenantIdList = this.DepartmentService.getDepIdList(this.onlineUser.RegionId);
+//                    List<int> tenantIdList = this.DepartmentService.getDepIdList(onlineUser.RoleID);
 //                    ht["tenantIdList"] = tenantIdList;
 //                }
 
@@ -1961,7 +1865,7 @@
 //                    return pd;
 //                ht["depList"] = depList;
 //                */
-//                Pagination ls = QueryService.QueryForList(qp.QueryId, ht, qp.SkipRows, qp.Limit);
+//                PageParameter ls = QueryService.QueryForList(qp.QueryId, ht, qp.SkipRows, qp.Limit);
 //                foreach (CustomHashtable rowData in ls.results)
 //                {
 //                    Dictionary<String, Object> d = new Dictionary<string, object>();
@@ -1973,7 +1877,7 @@
 //                    vds.Add(d);
 
 //                }
-//                pd.TotalRecord = ls.totalCount;
+//                pd.TotalRecord = (int)ls.TotalCount;
 //                pd.PageNo = qp.StartPageNo;
 //                pd.Limit = qp.Limit;
 //                pd.Start = qp.SkipRows;
@@ -2002,7 +1906,7 @@
 //                List<TerminalCommand> vds = new List<TerminalCommand>();
 //                pd.Data = vds;
 //                Hashtable ht = new Hashtable();
-//                ht["UserId"] = this.onlineUser.EntityId;
+//                ht["UserId"] = onlineUser.ID;
 //                //设置查询参数
 //                foreach (string key in param.Param.Keys)
 //                {
@@ -2011,7 +1915,7 @@
 
 //                string queryId = "selectTerminalCommand";
 //                int skipRows = (param.StartPageNo - 1) * param.Limit;
-//                Pagination ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
+//                PageParameter ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
 
 //                foreach (Hashtable item in ls.results)
 //                {
@@ -2029,7 +1933,7 @@
 
 //                    vds.Add(vd);
 //                }
-//                pd.TotalRecord = ls.totalCount;
+//                pd.TotalRecord = (int)ls.TotalCount;
 //                pd.PageNo = param.StartPageNo;
 //                pd.Limit = param.Limit;
 //                int startRows = (param.StartPageNo - 1) * param.Limit;
@@ -2071,12 +1975,12 @@
 //                    depId = int.Parse("" + ht["depId"]);
 //                if (depId > 0)
 //                {
-//                    List<int> depIdList = Department.FindAll().Select(e=>e.ID).ToList();
+//                    List<int> depIdList = Department.FindAll().Select(e => e.ID).ToList();
 //                    ht["depIdList"] = depIdList;
 //                }
 //                string queryId = "selectOnlineVehicles";
 //                //int skipRows = (param.StartPageNo - 1) * param.Limit;
-//                Pagination ls = QueryService.QueryForList(queryId, ht, param.SkipRows, param.Limit);
+//                PageParameter ls = QueryService.QueryForList(queryId, ht, param.SkipRows, param.Limit);
 //                foreach (CustomHashtable item in ls.results)
 //                {
 //                    Vehicle vd = new Vehicle();
@@ -2091,12 +1995,12 @@
 //                    vd.Status = "" + item["online"];
 //                    vd.RunStatusID = int.Parse(item["runStatus"].ToString());
 //                    vd.PlateColorCode = item.IntValue("plateColor");
-//                    vd.GpsTerminalType = "" + item["termType"];
+//                    vd.TerminalModel = "" + item["termType"];
 //                    vd.SimNo = "" + item["simNo"];
 //                    vd.CreateTime = (DateTime)item["CreateDate"];
 //                    vds.Add(vd);
 //                }
-//                pd.TotalRecord = ls.totalCount;
+//                pd.TotalRecord = (int)ls.TotalCount;
 //                pd.PageNo = param.StartPageNo;
 //                pd.Limit = param.Limit;
 //                pd.Start = param.SkipRows;
@@ -2251,7 +2155,7 @@
 
 //                string queryId = "selectBindVehicles";
 //                int skipRows = (param.StartPageNo - 1) * param.Limit;
-//                Pagination ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
+//                PageParameter ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
 
 //                foreach (Hashtable item in ls.results)
 //                {
@@ -2275,7 +2179,7 @@
 
 //                    vds.Add(vd);
 //                }
-//                pd.TotalRecord = ls.totalCount;
+//                pd.TotalRecord = (int)ls.TotalCount;
 //                pd.PageNo = param.StartPageNo;
 //                pd.Limit = param.Limit;
 //                int startRows = (param.StartPageNo - 1) * param.Limit;
@@ -2320,7 +2224,7 @@
 
 //                string queryId = "selectMapAreas";
 //                int skipRows = (param.StartPageNo - 1) * param.Limit;
-//                Pagination ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
+//                PageParameter ls = QueryService.QueryForList(queryId, ht, skipRows, param.Limit);
 
 //                foreach (Hashtable item in ls.results)
 //                {
@@ -2338,7 +2242,7 @@
 
 //                    vds.Add(vd);
 //                }
-//                pd.TotalRecord = ls.totalCount;
+//                pd.TotalRecord = (int)ls.TotalCount;
 //                pd.PageNo = param.StartPageNo;
 //                pd.Limit = param.Limit;
 //                int startRows = (param.StartPageNo - 1) * param.Limit;
@@ -2405,22 +2309,21 @@
 //        {
 //            try
 //            {
-//                string hsql = "from Vehicle where PlateNo = ? and Deleted = ?";
-//                Vehicle vd = Vehicle.FindByPlateNoAndEnable(PlateNo,true);
+//                Vehicle vd = Vehicle.FindByPlateNoAndEnable(PlateNo, true);
 //                if (vd != null)
 //                {
 //                    try
 //                    {
 //                        if (!vd.TerminalId.IsNullOrEmpty())
 //                        {
-//                            TerminalInfo t = TerminalInfo.FindByID((int)vd.TerminalId);
+//                            TerminalInfo t = TerminalInfo.FindByID(int.Parse(vd.TerminalId));
 //                            vd.TerminalId = t.ID.ToString();
-//                            vd.GpsTerminalType = t.TermType;
+//                            vd.TerminalModel = t.TermType;
 //                        }
 //                        else
 //                        {
-//                            vd.TerminalId = null ;
-//                            vd.GpsTerminalType = null;
+//                            vd.TerminalId = null;
+//                            vd.TerminalModel = null;
 //                        }
 //                    }
 //                    catch (Exception ex)
@@ -2450,8 +2353,7 @@
 //        {
 //            try
 //            {
-//                String hql = "from DriverInfo where VehicleId = ? and Deleted = ? and MainDriver = ?";
-//                DriverInfo d = (DriverInfo)BaseDao.find(hql, new Object[] { vehicleId, false, true });
+//                var d = DriverInfo.FindByVehicleAndMain(vehicleId,true,Convert.ToByte(false));
 //                return d;
 //            }
 //            catch (Exception ex)
@@ -2528,7 +2430,7 @@
 
 //        private void isValidUser()
 //        {
-//            if (this.onlineUser == null)
+//            if (onlineUser == null)
 //                throw new FaultException("用户没有登录");
 //        }
 
@@ -2546,7 +2448,7 @@
 //                List<VehicleTreeNode> vds = new List<VehicleTreeNode>();
 
 //                Hashtable ht = new Hashtable();
-//                UserInfo user = this.onlineUser;
+//                User user = onlineUser;
 //                ht["userId"] = user.ID;
 //                string queryId = "selectVehicleTree";
 //                IList ls = QueryService.QueryForList(queryId, ht);
@@ -2715,8 +2617,7 @@
 //        {
 //            try
 //            {
-//                Type t = System.Type.GetType(type);
-//                BaseDao.removeByFake(t, entityId);
+//                Type t = Type.GetType(type);
 //            }
 //            catch (Exception ex)
 //            {
@@ -2734,14 +2635,13 @@
 //        {
 //            try
 //            {
-//                Type t = System.Type.GetType(type);
-//                Object obj = BaseDao.load(t, entityId);
-//                RequestEntity re = new RequestEntity(obj);
+//                Type t = Type.GetType(type);
+//                RequestEntity re = new RequestEntity(type);
 //                return re;
 //            }
 //            catch (Exception ex)
 //            {
-//                tracer.NewError(ex.Message + System.Environment.NewLine + ex.StackTrace, ex);
+//                tracer.NewError(ex.Message + Environment.NewLine + ex.StackTrace, ex);
 //                throw new FaultException(ex.Message);
 //            }
 //        }
@@ -2851,7 +2751,6 @@
 //        User IGpsWebService.GetUser(Int32 userId) => throw new NotImplementedException();
 //        public Vehicle SaveVehicleData(Vehicle vd) => throw new NotImplementedException();
 //        public void SaveUser(User u) => throw new NotImplementedException();
-//        public void SaveBasicData(List<BasicInfo> basicDatas) => throw new NotImplementedException();
 //        List<BasicInfo> IGpsWebService.GetBasicData() => throw new NotImplementedException();
 //    }
 //}

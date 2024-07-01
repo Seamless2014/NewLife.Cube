@@ -17,6 +17,7 @@ using NewLife.Model;
 using NewLife.Reflection;
 using NewLife.Threading;
 using NewLife.Web;
+using VehicleVedioManage.Web.ViewModels;
 using XCode;
 using XCode.Cache;
 using XCode.Configuration;
@@ -87,6 +88,7 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         #endregion
 
         #region 扩展属性
+        public List<AlarmStaticItem> StaticItem { get; set; }
         #endregion
 
         #region 扩展查询

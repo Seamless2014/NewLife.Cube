@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
@@ -66,6 +66,22 @@ namespace VehicleVedioManage.ReportStatistics.Entity
         [DataObjectField(false, false, true, 0)]
         [BindColumn("StatisticsType", "统计类型", "")]
         public Int32 StatisticsType { get => _StatisticsType; set { if (OnPropertyChanging("StatisticsType", value)) { _StatisticsType = value; OnPropertyChanged("StatisticsType"); } } }
+
+        private Int32 _DepID;
+        /// <summary>部门ID</summary>
+        [DisplayName("部门ID")]
+        [Description("部门ID")]
+        [DataObjectField(false, false, true, 10)]
+        [BindColumn("DepID", "部门ID", "int")]
+        public Int32 DepID { get => _DepID; set { if (OnPropertyChanging("DepID", value)) { _DepID = value; OnPropertyChanged("DepID"); } } }
+
+        private String _DepName;
+        /// <summary>部门名称</summary>
+        [DisplayName("部门名称")]
+        [Description("部门名称")]
+        [DataObjectField(false, false, true, 30)]
+        [BindColumn("DepName", "部门名称", "nvarchar(30)")]
+        public String DepName { get => _DepName; set { if (OnPropertyChanging("DepName", value)) { _DepName = value; OnPropertyChanged("DepName"); } } }
         #endregion
 
         #region 获取/设置 字段值
@@ -84,6 +100,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "AlarmNum": return _AlarmNum;
                     case "StatisticsDate": return _StatisticsDate;
                     case "StatisticsType": return _StatisticsType;
+                    case "DepID": return _DepID;
+                    case "DepName": return _DepName;
                     default: return base[name];
                 }
             }
@@ -97,6 +115,8 @@ namespace VehicleVedioManage.ReportStatistics.Entity
                     case "AlarmNum": _AlarmNum = value.ToInt(); break;
                     case "StatisticsDate": _StatisticsDate = Convert.ToString(value); break;
                     case "StatisticsType": _StatisticsType = value.ToInt(); break;
+                    case "DepID": _DepID = value.ToInt(); break;
+                    case "DepName": _DepName = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
             }
@@ -124,7 +144,11 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>统计类型</summary>
             public static readonly Field StatisticsType = FindByName("StatisticsType");
+            /// <summary>部门ID</summary>
+            public static readonly Field DepID = FindByName("DepID");
 
+            /// <summary>部门名称</summary>
+            public static readonly Field DepName = FindByName("DepName");
             static Field FindByName(String name) => Meta.Table.FindByName(name);
         }
 
@@ -148,6 +172,12 @@ namespace VehicleVedioManage.ReportStatistics.Entity
 
             /// <summary>统计类型</summary>
             public const String StatisticsType = "StatisticsType";
+
+            /// <summary>部门ID</summary>
+            public const String DepID = "DepID";
+
+            /// <summary>部门名称</summary>
+            public const String DepName = "DepName";
         }
         #endregion
     }

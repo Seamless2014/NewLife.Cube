@@ -19,21 +19,7 @@ namespace VehicleVedioManage.IService
         /// <param name="userId"></param>
         
         void HeartBeatTest(int userId);
-        /// <summary>
-        /// 登录
-        /// </summary>
-        /// <param name="UserName"></param>
-        /// <param name="Password"></param>
-        /// <returns></returns>
-        
-        ClientUser Login(String UserName, String Password);
-        /// <summary>
-        /// 修改密码
-        /// </summary>
-        /// <param name="UserId"></param>
-        /// <param name="Password"></param>
-        
-        void UpdateUserPassword(int UserId, string Password);
+        /// 
         /// <summary>
         /// 设置地图中心
         /// </summary>

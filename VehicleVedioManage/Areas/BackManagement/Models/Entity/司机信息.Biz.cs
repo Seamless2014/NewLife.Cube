@@ -175,6 +175,20 @@ namespace VehicleVedioManage.BackManagement.Entity
 
             return FindAll(_.DepartmentName == departmentName);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vehicleID"></param>
+        /// <param name="enable"></param>
+        /// <param name="mainDriver"></param>
+        /// <returns></returns>
+        public static DriverInfo FindByVehicleAndMain(Int32 vehicleID,bool enable,byte mainDriver)
+        {
+            // 实体缓存
+            if (Meta.Session.Count < 1000) return Meta.Cache.Find(e => e.VehicleId==vehicleID&e.Enable==enable&e.MainDriver==mainDriver);
+
+            return Find(_.VehicleId == vehicleID & _.Enable == enable & _.MainDriver == mainDriver);
+        }
         #endregion
 
         #region 高级查询

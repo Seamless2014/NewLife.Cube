@@ -162,6 +162,18 @@ namespace VehicleVedioManage.BasicData.Entity
         /// <summary>使用性质名称</summary>
         [Map(nameof(UseTypeCode), typeof(UseType), "ID")]
         public String UseTypeName => _UserTypeCode?.Name;
+        /// <summary>
+        /// 车辆路线
+        /// </summary>
+        public string Routes { get; set; }
+        /// <summary>
+        /// 在线时间
+        /// </summary>
+        public DateTime? OnlineTime { get; set; }
+        /// <summary>
+        /// 状态
+        /// </summary>
+        public string Status { get; set; }
         #endregion
 
         #region 扩展查询
