@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube;
 using NewLife.Log;
 using NewLife.Web;
-using VehicleVedioManage.BasicData.Entity;
-using VehicleVedioManage.Web.Service;
+using VehicleVedioManage.Data.Entity;
+using VehicleVedioManage.Data.Service;
 
 namespace VehicleVedioManage.Areas.BasicData.Controllers
 {

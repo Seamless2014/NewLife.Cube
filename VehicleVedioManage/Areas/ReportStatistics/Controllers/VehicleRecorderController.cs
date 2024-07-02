@@ -1,11 +1,9 @@
-﻿using VehicleVedioManage.Areas.ReportStatistics;
-using System.ComponentModel;
-using VehicleVedioManage.BasicData.Entity;
-using VehicleVedioManage.ReportStatistics.Entity;
+﻿using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube;
 using NewLife.Web;
-using VehicleVedioManage.Areas.BasicData;
+using VehicleVedioManage.Areas.ReportStatistics;
+using VehicleVedioManage.Data.Entity;
 
 namespace VehicleVedioManage.Web.Areas.ReportStatistics.Controllers
 {

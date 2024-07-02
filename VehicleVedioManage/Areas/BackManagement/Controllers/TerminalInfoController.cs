@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel;
-using VehicleVedioManage.BasicData.Entity;
 using Microsoft.AspNetCore.Mvc;
 using NewLife;
 using NewLife.Cube;
 using NewLife.Cube.Extensions;
-using NewLife.Log;
 using NewLife.Web;
-using VehicleVedioManage.BackManagement.Entity;
 using VehicleVedioManage.Areas.BackManagement;
+using VehicleVedioManage.Data.Entity;
 
 namespace VehicleVedioManage.BackManagement.Controllers
 {

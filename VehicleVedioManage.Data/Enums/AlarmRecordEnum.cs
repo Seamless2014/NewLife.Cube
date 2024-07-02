@@ -1,0 +1,14 @@
+﻿using System.ComponentModel;
+
+namespace VehicleVedioManage.Data.Enums
+{
+    public enum AlarmRecordEnum
+    {
+        [Description("新报警")]
+        STATUS_NEW,
+        [Description("终端状态")]
+        STATE_FROM_TERM,
+        [Description("停车")]
+        TYPE_PARKING,
+    }
+}

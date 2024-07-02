@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
-using VehicleVedioManage.BackManagement.Entity;
 using Microsoft.AspNetCore.Mvc;
-using NewLife.Cube;
-using NewLife.Web;
 using NewLife;
+using NewLife.Cube;
+using VehicleVedioManage.Data.Entity;
 using XCode.Membership;
 
 namespace VehicleVedioManage.Areas.BackManagement.Controllers

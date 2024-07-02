@@ -1,10 +1,8 @@
-﻿using VehicleVedioManage.Areas.FenceManagement;
-using System.ComponentModel;
-using VehicleVedioManage.FenceManagement.Entity;
-using VehicleVedioManage.ReportStatistics.Entity;
+﻿using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube;
 using NewLife.Web;
+using VehicleVedioManage.Data.Entity;
 
 namespace VehicleVedioManage.Areas.ReportStatistics.Controllers
 {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube;
 using NewLife.Web;
-using VehicleVedioManage.BackManagement.Entity;
+using VehicleVedioManage.Data.Entity;
 
 namespace VehicleVedioManage.Areas.BackManagement.Controllers
 {

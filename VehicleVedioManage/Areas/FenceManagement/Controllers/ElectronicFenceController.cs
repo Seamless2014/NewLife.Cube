@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using VehicleVedioManage.FenceManagement.Entity;
+using VehicleVedioManage.Data.Entity;
 using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube;
 using NewLife.Web;

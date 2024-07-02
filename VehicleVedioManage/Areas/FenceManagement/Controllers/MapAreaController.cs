@@ -1,9 +1,8 @@
-﻿using VehicleVedioManage.Areas.BackManagement;
-using System.ComponentModel;
-using VehicleVedioManage.FenceManagement.Entity;
+﻿using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using NewLife.Cube;
 using NewLife.Web;
+using VehicleVedioManage.Data.Entity;
 
 namespace VehicleVedioManage.Areas.FenceManagement.Controllers
 {

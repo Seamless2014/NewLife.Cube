@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Tables xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="https://newlifex.com https://newlifex.com/Model2022.xsd" NameSpace="VehicleVedioManage.Data.Entity" ConnName="VehicleGPSVideo" Output="" BaseClass="Entity" Version="11.1.2022.0523" Document="https://newlifex.com/xcode/model" xmlns="https://newlifex.com/Model2022.xsd">
+  <Table Name="AlarmRecord" Description="报警记录">
+    <Columns>
+      <Column Name="AlarmId" DataType="Int32" Identity="True" PrimaryKey="True" Description="报警编码" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="StartTime" DataType="DateTime" Description="起始时间" />
+      <Column Name="EndTime" DataType="DateTime" Description="结束时间" />
+      <Column Name="TimeSpan" DataType="Double" Description="时间跨度" />
+      <Column Name="Velocity" DataType="Double" Description="速度" />
+      <Column Name="Status" DataType="String" Description="状态" />
+      <Column Name="Latitude" DataType="Double" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Description="经度" />
+      <Column Name="Location" DataType="String" Description="位置" />
+      <Column Name="Latitude1" DataType="Double" Description="纬度" />
+      <Column Name="Longitude1" DataType="Double" Description="经度" />
+      <Column Name="Location1" DataType="String" Description="位置" />
+      <Column Name="Processed" DataType="Int32" Description="处理" />
+      <Column Name="ProcessedTime" DataType="DateTime" Description="处理时间" />
+      <Column Name="Type" DataType="String" Description="类型" />
+      <Column Name="ChildType" DataType="String" Description="子类型" />
+      <Column Name="Station" DataType="Int32" Description="站点" />
+      <Column Name="ValveState" DataType="String" Description="阀门状态" />
+      <Column Name="ValveState1" DataType="String" Description="阀门状态1" />
+      <Column Name="Gas1" DataType="Double" Description="油气1" />
+      <Column Name="Gas2" DataType="Double" Description="油气2" />
+      <Column Name="Mileage1" DataType="Double" Description="里程1" />
+      <Column Name="Mileage2" DataType="Double" Description="里程2" />
+      <Column Name="VideoFileName" DataType="String" Description="视频文件名称" />
+      <Column Name="Flag" DataType="String" Description="标识" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
+      <Column Name="ResponseSN" DataType="Int32" Description="响应序号" />
+      <Column Name="ProcessedUserId" DataType="Int32" Description="处理用户编码" />
+      <Column Name="ProcessedUserName" DataType="String" Description="处理用户名称" />
+      <Column Name="AlarmSource" DataType="String" Description="报警源" />
+      <Column Name="AlarmType" DataType="String" Description="报警类型" />
+      <Column Name="Remark" DataType="String" Description="备注" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo,StartTime,EndTime,AlarmType" Unique="True" />
+      <Index Columns="PlateNo,StartTime,EndTime" />
+      <Index Columns="PlateNo" />
+      <Index Columns="StartTime,EndTime" />
+    </Indexes>
+  </Table>
+  
+  <Table Name="AlarmStatic" Description="报警统计">
+    <Columns>
+      <Column Name="StatisticsId" DataType="Int32" Identity="True" PrimaryKey="True" Description="统计编码" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="AlarmType" DataType="String" Description="报警类型" />
+      <Column Name="AlarmNum" DataType="Int32" Description="报警数" />
+      <Column Name="StatisticsDate" DataType="String" Description="统计日期" />
+      <Column Name="StatisticsType" DataType="Int32" Description="统计类型" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+    </Indexes>
+  </Table>
+  
+  <Table Name="CheckRecord" Description="检查记录">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="Answer" DataType="String" Description="应答" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="InfoId" DataType="Int32" Description="信息编码" />
+      <Column Name="Message" DataType="String" Description="信息" />
+      <Column Name="ObjId" DataType="String" Description="对象编码" />
+      <Column Name="ObjType" DataType="Int32" Description="对象类型" />
+      <Column Name="PlatformId" DataType="Int32" Description="平台编码" />
+      <Column Name="Status" DataType="Int32" Description="状态" />
+      <Column Name="UpdateTime" DataType="DateTime" Description="更新时间" />
+    </Columns>
+  </Table>
+  
+  <Table Name="DriverRecord" Description="驾驶记录">
+    <Columns>
+      <Column Name="DriverId" DataType="Int32" Identity="True" PrimaryKey="True" Description="驾驶员编码" />
+      <Column Name="CardState" DataType="Int32" Description="卡片状态" />
+      <Column Name="OperTime" DataType="DateTime" Description="运营时间" />
+      <Column Name="ReadResult" DataType="Int32" Description="读取结果" />
+      <Column Name="DriverName" DataType="String" Description="驾驶员姓名" />
+      <Column Name="CertificationCode" DataType="String" Description="认证代码" />
+      <Column Name="AgencyName" DataType="String" Description="机构名称" />
+      <Column Name="ValidateDate" DataType="String" Description="验证日期" />
+      <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="Remark" DataType="String" Description="备注" />
+    </Columns>
+    <Indexes>
+      <Index Columns="DriverName" Unique="True" />
+      <Index Columns="PlateNo" />
+    </Indexes>
+  </Table>
+  
+  <Table Name="EWayBill" Description="电子运单">
+    <Columns>
+      <Column Name="BillId" DataType="Int32" Identity="True" PrimaryKey="True" Description="电子运单编码" />
+      <!--<Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="PlateColor" DataType="Int32" Description="车牌颜色" />-->
+      <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
+      <Column Name="EBContent" DataType="String" Length="500" Description="电子运单内容" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+    </Indexes>
+  </Table>
+  
+  <Table Name="FuelChangeRecord" Description="燃料变化">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="PlateNo" DataType="String" Length="30" Description="车牌号" />
+      <Column Name="Fuel" DataType="Double" Description="燃料" />
+      <Column Name="Type" DataType="String" Description="燃料类型" />
+      <Column Name="HappenTime" DataType="DateTime" Description="发生时间" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="Manual" DataType="String" Description="手动" />
+      <Column Name="Location" DataType="String" Length="100" Description="位置" />
+      <Column Name="Latitude" DataType="Double" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Description="经度" />
+      <Column Name="Mileage" DataType="Double" Description="里程" />
+      <Column Name="Owner" DataType="String" Length="30" Description="物主" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="EnclosureId" DataType="Int32" Description="围栏编码" />
+    </Columns>
+    <Indexes>
+      <Index Name="UQ__FuelChan__4A63C54DE23234F0" Columns="EnclosureId" Unique="True" />
+      <Index Columns="PlateNo" />
+    </Indexes>
+  </Table>
+  <Table Name="FuelConsumption" Description="燃料消费">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="燃料消耗量编码" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="IntervalDescr" DataType="String" Description="间隔描述" />
+      <Column Name="Hour" DataType="Double" Description="小时" />
+      <Column Name="StatisticsDate" DataType="DateTime" Description="统计日期" />
+      <Column Name="Fuel" DataType="Decimal" Scale="2" Description="燃料" />
+      <Column Name="IntervalType" DataType="Int32" Description="间隔类型" />
+      <Column Name="Mileage" DataType="Decimal" Scale="2" Description="里程" />
+      <Column Name="Gas1" DataType="Decimal" Scale="2" Description="油气1" />
+      <Column Name="Mileage1" DataType="Decimal" Scale="2" Description="里程1" />
+      <Column Name="Gas2" DataType="Decimal" Scale="2" Description="油气2" />
+      <Column Name="Mileage2" DataType="Decimal" Scale="2" Description="里程2" />
+      <Column Name="Gas" DataType="Decimal" Scale="2" Description="油气" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="Remark" DataType="String" Description="备注" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="Oil" DataType="Decimal" Scale="2" Description="油" />
+      <Column Name="Oil1" DataType="Decimal" Scale="2" Description="油1" />
+      <Column Name="Oil2" DataType="Decimal" Scale="2" Description="油2" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+    </Indexes>
+  </Table>
+  <Table Name="FuelRecord" Description="燃料记录">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编码" />
+      <Column Name="VehicleId" DataType="String" Length="30" Description="车辆编码" />
+      <Column Name="CommandId" DataType="Int32" Description="指令编码" />
+      <Column Name="OrderId" DataType="String" Description="命令编码" />
+      <Column Name="SendTime" DataType="DateTime" Description="发送时间" />
+      <Column Name="Longitude" DataType="Double" Description="经度" />
+      <Column Name="Latitude" DataType="Double" Description="纬度" />
+      <Column Name="Velocity" DataType="Double" Description="速度" />
+      <Column Name="Direction" DataType="Int32" Description="方向" />
+      <Column Name="Status" DataType="Int32" Description="状态" />
+      <Column Name="Mileage" DataType="Double" Description="里程" />
+      <Column Name="Oil" DataType="Double" Description="油气" />
+      <Column Name="RecordVelocity" DataType="Double" Description="记录仪速度" />
+      <Column Name="Location" DataType="String" Length="100" Description="位置" />
+      <Column Name="AlarmState" DataType="String" Description="报警状态" />
+      <Column Name="Gas" DataType="Double" Description="气体" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+      <Column Name="Owner" DataType="String" Length="30" Description="物主" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+    </Indexes>
+  </Table>
+  
+  <Table Name="GpsMileage" Description="GPS里程">
+    <Columns>
+      <Column Name="Id" DataType="Int32" Identity="True" PrimaryKey="True" Description="编码" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="Owner" DataType="String" Length="30" Description="物主" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="GasLastComp" DataType="Double" Description="油气最后比较" />
+      <Column Name="GasLastDay" DataType="Double" Description="油气最后天数" />
+      <Column Name="GasLastHour" DataType="Double" Description="油气最后小时数" />
+      <Column Name="GasLastMonth" DataType="Double" Description="油气最后月数" />
+      <Column Name="LastCompTime" DataType="DateTime" Description="最后比较时间" />
+      <Column Name="MileageLastComp" DataType="Double" Description="最后比较里程" />
+      <Column Name="MileageLastDay" DataType="Double" Description="里程最后天数" />
+      <Column Name="MileageLastHour" DataType="Double" Description="里程最后小时数" />
+      <Column Name="MileageLastMonth" DataType="Double" Description="里程最后月数" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+    </Indexes>
+  </Table>
+  <Table Name="GPSRealData" Description="实时数据">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="SimNo" DataType="String" Description="Sim卡" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="Location" DataType="String" Length="100" Description="位置" />
+      <Column Name="SendTime" DataType="DateTime" Description="发送时间" />
+      <Column Name="Longitude" DataType="Decimal" Scale="6" Description="经度" />
+      <Column Name="Latitude" DataType="Decimal" Scale="6" Description="纬度" />
+      <Column Name="Velocity" DataType="Decimal" Scale="1" Description="速度" />
+      <Column Name="Direction" DataType="Int32" Description="方向" />
+      <Column Name="Status" DataType="String" Description="状态" />
+      <Column Name="Gas" DataType="Decimal" Scale="1" Description="油气" />
+      <Column Name="Mileage" DataType="Decimal" Scale="1" Description="里程" />
+      <Column Name="RecordVelocity" DataType="Decimal" Scale="1" Description="行车记录仪速度" />
+      <Column Name="Remain" DataType="Double" Description="剩余" />
+      <Column Name="Online" DataType="Boolean" Description="在线" />
+      <Column Name="Signal" DataType="Int32" Description="信号" />
+      <Column Name="AlarmState" DataType="String" Description="报警状态" />
+      <Column Name="DVRStatus" DataType="String" Description="DVR状态" />
+      <Column Name="Altitude" DataType="Double" Description="海拔高度" />
+      <Column Name="IsValid" DataType="Boolean" Description="有效" />
+      <Column Name="DepId" DataType="Int32" Description="部门" />
+      <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
+      <Column Name="UpdateTime" DataType="DateTime" Description="更新时间" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="EnclosureId" DataType="Int32" Description="围栏编码" />
+      <Column Name="EnclosureType" DataType="Int32" Description="围栏类型" />
+      <Column Name="EnclosureAlarm" DataType="Int32" Description="围栏报警" />
+      <Column Name="OverSpeedAreaType" DataType="Int32" Description="超速区域类型" />
+      <Column Name="OverSpeedAreaId" DataType="Int32" Description="超速区域编码" />
+      <Column Name="RouteSegmentId" DataType="Int32" Description="路线段编码" />
+      <Column Name="RunTimeOnRoute" DataType="Int32" Description="在路线上运行时间" />
+      <Column Name="RouteAlarmType" DataType="Int32" Description="路线报警类型" />
+      <Column Name="OnlineDate" DataType="DateTime" Description="上线时间" />
+      <Column Name="FuelLevelData" DataType="String" Description="燃料等级数据" />
+      <Column Name="FuelData" DataType="String" Description="燃料数据" />
+      <Column Name="AreaId" DataType="Int32" Description="区域编码" />
+      <Column Name="AreaAlarm" DataType="Int32" Description="区域报警" />
+      <Column Name="AreaType" DataType="Int32" Description="区域类型" />
+      <Column Name="PlatformId" DataType="Int32" Description="平台编码" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+      <Index Columns="PlateNo,SendTime" />
+    </Indexes>
+  </Table>
+  <Table Name="HisAlarmRecord" Description="历史报警">
+    <Columns>
+      <Column Name="AlarmId" DataType="Int32" Identity="True" PrimaryKey="True" Description="编码" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="StartTime" DataType="DateTime" Description="起始时间" />
+      <Column Name="EndTime" DataType="DateTime" Description="结束时间" />
+      <Column Name="TimeSpan" DataType="Double" Description="时间跨度" />
+      <Column Name="Velocity" DataType="Double" Description="速度" />
+      <Column Name="Status" DataType="String" Description="状态" />
+      <Column Name="Driver" DataType="String" Description="驾驶员" />
+      <Column Name="Latitude" DataType="Double" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Description="经度" />
+      <Column Name="Location" DataType="String" Description="位置" />
+      <Column Name="Latitude1" DataType="Double" Description="纬度" />
+      <Column Name="Longitude1" DataType="Double" Description="经度" />
+      <Column Name="Location1" DataType="String" Description="位置" />
+      <Column Name="Processed" DataType="Int32" Description="处理" />
+      <Column Name="ProcessedTime" DataType="DateTime" Description="处理时间" Category="扩展信息" />
+      <Column Name="Type" DataType="String" Description="类型" />
+      <Column Name="ChildType" DataType="String" Description="子类型" />
+      <Column Name="Station" DataType="Int32" Description="站点" />
+      <Column Name="ValveState" DataType="String" Description="阀门状态" />
+      <Column Name="ValveState1" DataType="String" Description="阀门状态1" />
+      <Column Name="Gas1" DataType="Double" Description="油气1" />
+      <Column Name="Gas2" DataType="Double" Description="油气2" />
+      <Column Name="Mileage1" DataType="Double" Description="里程1" />
+      <Column Name="Mileage2" DataType="Double" Description="里程2" />
+      <Column Name="VideoFileName" DataType="String" Description="视频文件名称" />
+      <Column Name="Flag" DataType="String" Description="标识" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" Category="扩展信息" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" Category="扩展信息" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" Category="扩展信息" />
+      <Column Name="Owner" DataType="String" Description="物主" Category="扩展信息" />
+      <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
+      <Column Name="ResponseSN" DataType="Int32" Description="响应序号" Category="扩展信息" />
+      <Column Name="ProcessedUserId" DataType="Int32" Description="处理用户编码" Category="扩展信息" />
+      <Column Name="ProcessedUserName" DataType="String" Description="处理用户名称" Category="扩展信息" />
+      <Column Name="AlarmSource" DataType="String" Description="报警源" />
+      <Column Name="AlarmType" DataType="String" Description="报警类型" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+      <Index Columns="PlateNo,StartTime,EndTime" />
+    </Indexes>
+  </Table>
+  
+  <Table Name="MileageStatistic" Description="里程统计">
+    <Columns>
+      <Column Name="FunctionId" DataType="Int32" Identity="True" PrimaryKey="True" Description="编码" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="IntervalDescr" DataType="String" Description="间隔描述" />
+      <Column Name="Hour" DataType="Double" Description="小时" />
+      <Column Name="StaticDate" DataType="DateTime" Description="统计日期" />
+      <Column Name="IntervalType" DataType="Int32" Description="间隔类型" />
+      <Column Name="Mileage" DataType="Double" Description="里程" />
+      <Column Name="Oil" DataType="Double" Description="油气" />
+      <Column Name="Oil1" DataType="Double" Description="油气1" />
+      <Column Name="Oil2" DataType="Double" Description="油气2" />
+      <Column Name="Mileage1" DataType="Double" Description="里程1" />
+      <Column Name="Mileage2" DataType="Double" Description="里程2" />
+      <Column Name="DepName" DataType="String" Description="部门名称" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码"/>
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间"  />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+      <Column Name="Owner" DataType="String" Description="物主" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+      <Index Columns="DepName,PlateNo" />
+    </Indexes>
+  </Table>
+  <Table Name="OnlineRecord" Description="上线记录">
+    <Columns>
+      <Column Name="AlarmId" DataType="Int32" Identity="True" PrimaryKey="True" Description="报警编码" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="StartTime" DataType="DateTime" Description="起始时间" />
+      <Column Name="EndTime" DataType="DateTime" Description="结束时间" />
+      <Column Name="TimeSpan" DataType="Double" Description="时间跨度" />
+      <Column Name="Velocity" DataType="Double" Description="速度" />
+      <Column Name="Status" DataType="String" Description="状态" />
+      <Column Name="Driver" DataType="String" Description="驾驶员" />
+      <Column Name="Latitude" DataType="Double" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Description="经度" />
+      <Column Name="Location" DataType="String" Length="100" Description="位置" />
+      <Column Name="Latitude1" DataType="Double" Description="纬度1" />
+      <Column Name="Longitude1" DataType="Double" Description="经度1" />
+      <Column Name="Location1" DataType="String" Length="100" Description="位置1" />
+      <Column Name="Processed" DataType="Int32" Description="处理" />
+      <Column Name="ProcessedTime" DataType="DateTime" Description="处理时间" />
+      <Column Name="Type" DataType="String" Description="类型" />
+      <Column Name="ChildType" DataType="String" Description="子类型" />
+      <Column Name="Station" DataType="Int32" Description="站点" />
+      <Column Name="Gas1" DataType="Double" Description="油气1" />
+      <Column Name="Gas2" DataType="Double" Description="油气2" />
+      <Column Name="Mileage1" DataType="Double" Description="里程1" />
+      <Column Name="Mileage2" DataType="Double" Description="里程2" />
+      <Column Name="VideoFileName" DataType="String" Description="视频文件名称" />
+      <Column Name="Flag" DataType="String" Description="标识" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+      <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
+      <Column Name="ResponseSN" DataType="Int32" Description="响应序号" />
+      <Column Name="ProcessedUserId" DataType="Int32" Description="处理用户编码" />
+      <Column Name="ProcessedUserName" DataType="String" Description="处理用户名称" />
+      <Column Name="AlarmSource" DataType="String" Description="报警源" />
+      <Column Name="AlarmType" DataType="String" Description="报警类型" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+      <Index Columns="PlateNo,StartTime,EndTime" />
+    </Indexes>
+  </Table>
+  <Table Name="OnlineStatic" Description="上线统计。统计企业在线车辆数、在线率等信息">
+    <Columns>
+      <Column Name="Id" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="DepId" DataType="Int32" Description="部门编码" />
+      <Column Name="DepName" DataType="String" Description="部门名称" />
+      <Column Name="OnlineNum" DataType="Int32" Description="在线数" />
+      <Column Name="VehicleNum" DataType="Int32" Description="车辆数" />
+      <Column Name="OnlineRate" DataType="Decimal" Scale="2" Description="在线率" />
+      <Column Name="StatisticDate" DataType="DateTime" Description="统计日期" />
+      <Column Name="IntervalType" DataType="Int32" Description="间隔类型" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="ParentDepId" DataType="Int32" Description="上级部门编码" />
+      <Column Name="StatisticTime" DataType="DateTime" Description="统计时间" />
+      <Column Name="Interval" DataType="Int32" Description="间隔" />
+    </Columns>
+    <Indexes>
+      <Index Columns="DepName" Unique="True" />
+    </Indexes>
+  </Table>
+
+  <Table Name="PlatformState" Description="平台状态。主要是涉及到809主从链路状态">
+    <Columns>
+      <Column Name="StateId" DataType="Int32" Identity="True" PrimaryKey="True" Description="编码" />
+      <Column Name="MainLinkState" DataType="String" Description="主链路状态" />
+      <Column Name="MainLinkDate" DataType="DateTime" Description="主链路连接日期" />
+      <Column Name="SubLinkState" DataType="String" Description="从链路连接状态" />
+      <Column Name="SubLinkDate" DataType="DateTime" Description="从链路连接日期" />
+      <Column Name="GPSServerState" DataType="String" Description="GPS服务状态" />
+      <Column Name="GPSServerDate" DataType="DateTime" Description="GPS服务日期" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建日期" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+    </Columns>
+  </Table>
+  
+  <Table Name="SpeedRecorder" Description="速度记录仪">
+    <Columns>
+      <Column Name="Id" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="RecorderId" DataType="Int32" Description="记录仪编码" />
+      <Column Name="Speed" DataType="Double" Description="速度" />
+      <Column Name="Signal" DataType="Int32" Description="信号" />
+      <Column Name="SN" DataType="Int32" Description="序号" />
+      <Column Name="RecorderDate" DataType="DateTime" Description="记录日期" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+    </Columns>
+  </Table>
+  
+  <Table Name="UserGpsRealData" Description="实时用户">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="UserId" DataType="Int32" Description="用户编码" />
+      <Column Name="UserName" DataType="String" Description="用户名" />
+      <Column Name="Accuracy" DataType="Double" Description="精确程度" />
+      <Column Name="Location" DataType="String" Length="100" Description="位置" />
+      <Column Name="Direction" DataType="Int32" Description="方向" />
+      <Column Name="SendTime" DataType="DateTime" Description="发送时间" />
+      <Column Name="Longitude" DataType="Double" Description="经度" />
+      <Column Name="Latitude" DataType="Double" Description="纬度" />
+      <Column Name="CreateDate" DataType="DateTime" Description="创建时间" />
+      <Column Name="Velocity" DataType="Double" Description="速度" />
+    </Columns>
+    <Indexes>
+      <Index Columns="UserName" Unique="True" />
+    </Indexes>
+  </Table>
+  <Table Name="VehicleOnlineRate" Description="车辆上线率">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="IntervalDescr" DataType="String" Length="200" Description="间隔描述" />
+      <Column Name="Hour" DataType="Double" Description="小时" />
+      <Column Name="StaticDate" DataType="DateTime" Description="统计时间" />
+      <Column Name="OnlineTime" DataType="Decimal" Scale="2" Description="上线时间" />
+      <Column Name="IntervalType" DataType="Int32" Description="间隔类型" />
+      <Column Name="OfflineTime" DataType="Decimal" Scale="2" Description="离线时间" />
+      <Column Name="TotalTime" DataType="Double" Description="总计时间" />
+      <Column Name="Owner" DataType="String" Description="拥有者" />
+      <Column Name="TenantId" DataType="Int32" Description="租户编码" />
+      <Column Name="OnlineRate" DataType="Decimal" Scale="2" Description="上线日期" />
+      <Column Name="Remark" DataType="String" Length="500" Description="备注" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+    </Indexes>
+  </Table>
+  <Table Name="VehicleRecorder" Description="行车记录仪">
+    <Columns>
+      <Column Name="RecorderID" DataType="Int32" Identity="True" PrimaryKey="True" Description="记录仪编码" />
+      <Column Name="CommandID" DataType="Int32" Description="命令编码" />
+      <Column Name="Cmd" DataType="Int32" Description="指令" />
+      <Column Name="CmdData" DataType="String" Description="指令数据" />
+      <Column Name="DriverCode" DataType="String" Description="驱动程序代码" Category="扩展信息"/>
+      <Column Name="DriverLicense" DataType="String" Description="驱动许可证" Category="扩展信息"/>
+      <Column Name="VinNo" DataType="String" Description="VIN编号" Category="扩展信息"/>
+      <Column Name="PlateNo" DataType="String" Description="车牌号" />
+      <Column Name="PlateType" DataType="String" Description="车辆类型" />
+      <Column Name="FeatureFactor" DataType="String" Description="特征因数" />
+      <Column Name="Enable" DataType="Boolean" Description="删除" Category="扩展信息"/>
+      <Column Name="TenantID" DataType="Int32" Description="租户编码" Category="扩展信息"/>
+      <Column Name="PlateColor" DataType="Byte" Description="车牌颜色" />
+      <Column Name="StartTime" DataType="DateTime" Description="开始时间" />
+      <Column Name="Owner" DataType="String" Description="拥有者" Category="扩展信息"/>
+      <Column Name="Speed" DataType="Double" Description="速度" />
+      <Column Name="Signal" DataType="Int32" Description="信号" />
+      <Column Name="SortID" DataType="Int32" Description="排序" Category="扩展信息"/>
+      <Column Name="EndTime" DataType="DateTime" Description="结束时间" />
+      <Column Name="VehicleId" DataType="Int32" Description="车辆编码" />
+      <Column Name="Altitude" DataType="Double" Description="海拔高度" />
+      <Column Name="Latitude" DataType="Double" Description="纬度" />
+      <Column Name="Longitude" DataType="Double" Description="经度" />
+      <!--<Column Name="Command" DataType="Int32" Description="指令" />-->
+      <Column Name="RecorderData" DataType="String" Description="记录仪数据" />
+      <Column Name="RecorderDate" DataType="DateTime" Description="记录仪日期" />
+      <Column Name="SpeedList" DataType="Int32" Description="速度列表" />
+    </Columns>
+    <Indexes>
+      <Index Columns="PlateNo" Unique="True" />
+      <Index Columns="StartTime,EndTime" />
+    </Indexes>
+  </Table>
+</Tables>
