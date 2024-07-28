@@ -7,7 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NAudio.Core" Version="2.2.1" />
     <PackageReference Include="NewLife.Core" Version="10.10.2024.701" />
+    <PackageReference Include="NewLife.XCode" Version="11.12.2024.515" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VehicleVedioManage.Data\VehicleVedioManage.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SIPSorcery.28181">
+      <HintPath>Dll\SIPSorcery.28181.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

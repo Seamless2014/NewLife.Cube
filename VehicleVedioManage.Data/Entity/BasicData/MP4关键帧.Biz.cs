@@ -1,16 +1,39 @@
-﻿using XCode;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Script.Serialization;
+using System.Xml.Serialization;
+using NewLife;
+using NewLife.Data;
+using NewLife.Log;
+using NewLife.Model;
+using NewLife.Reflection;
+using NewLife.Threading;
+using NewLife.Web;
+using XCode;
+using XCode.Cache;
+using XCode.Configuration;
+using XCode.DataAccessLayer;
+using XCode.Membership;
 
 namespace VehicleVedioManage.Data.Entity
 {
-    /// <summary>视频文件项</summary>
-    public partial class VideoFileItem : Entity<VideoFileItem>
+    /// <summary>MP4关键帧</summary>
+    public partial class VideoMp4KeyFrame : Entity<VideoMp4KeyFrame>
     {
         #region 对象操作
-        static VideoFileItem()
+        static VideoMp4KeyFrame()
         {
             // 累加字段，生成 Update xx Set Count=Count+1234 Where xxx
             //var df = Meta.Factory.AdditionalFields;
-            //df.Add(nameof(CommandId));
+            //df.Add(nameof(CreateUserID));
 
             // 过滤器 UserModule、TimeModule、IPModule
             Meta.Modules.Add<UserModule>();
@@ -52,30 +75,13 @@ namespace VehicleVedioManage.Data.Entity
         //    // InitData一般用于当数据表没有数据时添加一些默认数据，该实体类的任何第一次数据库操作都会触发该方法，默认异步调用
         //    if (Meta.Session.Count > 0) return;
 
-        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化VideoFileItem[视频文件项]数据……");
+        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化VideoMp4KeyFrame[MP4关键帧]数据……");
 
-        //    var entity = new VideoFileItem();
+        //    var entity = new VideoMp4KeyFrame();
         //    entity.ID = 0;
-        //    entity.CommandId = 0;
-        //    entity.VehicleId = 0;
-        //    entity.PlateNo = "abc";
-        //    entity.SimNo = "abc";
-        //    entity.ChannelId = 0;
-        //    entity.StartDate = DateTime.Now;
-        //    entity.EndDate = DateTime.Now;
-        //    entity.Longitude2 = 0.0;
-        //    entity.Latitude2 = 0.0;
-        //    entity.Longitude1 = 0.0;
-        //    entity.Latitude1 = 0.0;
-        //    entity.UploadDate = DateTime.Now;
-        //    entity.AlarmStatus = 0.0;
+        //    entity.Mp4FilePath = "abc";
         //    entity.Status = 0;
-        //    entity.FileSource = "abc";
-        //    entity.FilePath = "abc";
-        //    entity.DataType = 0;
-        //    entity.StreamType = 0;
-        //    entity.StoreType = 0;
-        //    entity.FileLength = 0;
+        //    entity.KeyFrames = "abc";
         //    entity.CreateUser = "abc";
         //    entity.CreateUserID = 0;
         //    entity.CreateIP = "abc";
@@ -88,7 +94,7 @@ namespace VehicleVedioManage.Data.Entity
         //    entity.Enable = true;
         //    entity.Insert();
 
-        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化VideoFileItem[视频文件项]数据！");
+        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化VideoMp4KeyFrame[MP4关键帧]数据！");
         //}
 
         ///// <summary>已重载。基类先调用Valid(true)验证数据，然后在事务保护内调用OnInsert</summary>
@@ -113,7 +119,7 @@ namespace VehicleVedioManage.Data.Entity
         /// <summary>根据ID查找</summary>
         /// <param name="id">ID</param>
         /// <returns>实体对象</returns>
-        public static VideoFileItem FindByID(Int32 id)
+        public static VideoMp4KeyFrame FindByID(Int32 id)
         {
             if (id <= 0) return null;
 
@@ -125,26 +131,12 @@ namespace VehicleVedioManage.Data.Entity
 
             //return Find(_.ID == id);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dateTime"></param>
-        /// <param name="status"></param>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static IList<VideoFileItem> FindAllByCreateDateStatusAndSource(DateTime dateTime,int status,int one,string source)
-        {
-            // 实体缓存
-            if (Meta.Session.Count < 1000) return Meta.Cache.FindAll(e => e.CreateTime == dateTime & (e.Status==status |e.Status==one) & e.FileSource==source);
-
-            return FindAll(_.CreateTime == dateTime & (_.Status == status| _.Status==one) & _.FileSource == source);
-        }
         #endregion
 
         #region 高级查询
 
-        // Select Count(Id) as Id,Category From VideoFileItem Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By Id Desc limit 20
-        //static readonly FieldCache<VideoFileItem> _CategoryCache = new FieldCache<VideoFileItem>(nameof(Category))
+        // Select Count(Id) as Id,Category From VideoMp4KeyFrame Where CreateTime>'2020-01-24 00:00:00' Group By Category Order By Id Desc limit 20
+        //static readonly FieldCache<VideoMp4KeyFrame> _CategoryCache = new FieldCache<VideoMp4KeyFrame>(nameof(Category))
         //{
         //Where = _.CreateTime > DateTime.Today.AddDays(-30) & Expression.Empty
         //};
